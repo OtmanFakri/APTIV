@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {PaginationComponent} from "../Components/pagination/pagination.component";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-list-employee',
@@ -10,6 +11,9 @@ import {PaginationComponent} from "../Components/pagination/pagination.component
     NgForOf,
     FormsModule,
     PaginationComponent,
+    NgOptimizedImage,
+    RouterLink,
+    NgIf,
   ],
   templateUrl: './list-employee.component.html'
 })
@@ -68,8 +72,7 @@ export class ListEmployeeComponent {
       status: 'Active',
       role: 'Member'
     },
-
-
     ]
   searchTerm: string = '';
+  isFilterOpen: boolean = false;
 }

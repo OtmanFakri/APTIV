@@ -1,51 +1,40 @@
-<div class="flex  flex-col gap-2.5 items-start   justify-start relative">
-  <div
-    class="rounded-xl border-solid border-gray-gray-20percent border shrink-0 h-screen w-full  relative"
-  ></div>
-  <div
-    class="flex flex-col gap-4 items-end justify-start shrink-0 absolute left-5  top-5"
-  >
-    <div class="shrink-0  h-14 static">
-      <div
-        class="flex w-full flex-row gap-5 items-start justify-start absolute left-0 top-0"
-      >
-        <nz-steps
-          class="flex items-start justify-between w-full "
-          [nzCurrent]="current" nzSize="small">
-          <nz-step nzTitle="Finished"></nz-step>
-          <nz-step nzTitle="In Progress"></nz-step>
-          <nz-step nzTitle="Waiting"></nz-step>
+<div class="flex flex-col gap-2.5 items-start justify-start relative">
+  <div class="flex flex-col w-full gap-4 items-start justify-start shrink-0 absolute left-5 top-5">
+    <div class="shrink-0 h-14 static">
+      <div class="flex w-full flex-row gap-5 items-start justify-start absolute left-0 top-0">
+        <nz-steps class="flex items-start justify-between w-full" [nzCurrent]="current" nzSize="small">
+          <nz-step nzTitle="Données personnelles"></nz-step>
+          <nz-step nzTitle="Données professionnelles"></nz-step>
+          <nz-step nzTitle="Permissions"></nz-step>
         </nz-steps>
-
       </div>
-      <div
-        class="bg-gray-gray-20percent w-full h-px absolute left-0 top-[33px]"
-      ></div>
-      <div class="bg-primary-500 w-[207px] h-[3px] absolute left-0 top-8"></div>
     </div>
 
-      <app-persone-information
-        *ngIf="current === 0"
-      />
+    <form [formGroup]="multipleForm" (ngSubmit)="next()">
 
+      <app-persone-information *ngIf="current === 0" [parentForm]="personeInformation"></app-persone-information>
 
+      <div *ngIf="current === 1">
+        <p>hello world</p>
+      </div>
 
-    <div class="flex flex-row gap-5 items-start justify-start shrink-0 relative">
+      <div *ngIf="current === 2">
+        <p>hello world 2</p>
+      </div>
 
-        <button
-          nz-button nzType="default" (click)="pre()" *ngIf="current > 0"
-          class=" rounded-xl border-solid border-gray-gray-20percent border p-5 flex flex-row gap-2.5 items-center justify-center shrink-0 h-[50px] relative text-white-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative">
+      <div class="flex flex-row items-start space-x-1.5 justify-end shrink-0 relative">
+        <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0"
+                class="rounded-xl border-solid border-gray-gray-20percent border p-5 flex flex-row gap-2.5 items-center justify-center shrink-0 h-[50px] relative">
           Previous
         </button>
-
-
-        <button
-          nz-button nzType="default" (click)="next()"
-          class="bg-primary-500 rounded-xl p-5 flex flex-row gap-2.5 items-center justify-center shrink-0 w-[91px] h-[50px] relative">
+        <button nz-button nzType="default" type="submit"
+                class="bg-primary-500 rounded-xl p-5 flex flex-row gap-2.5 items-center justify-center shrink-0 w-[91px] h-[50px] relative">
           {{ (current < 2) ? 'Next' : 'Save' }}
         </button>
+      </div>
 
-    </div>
+      <pre>{{ multipleForm.value | json }}</pre>
+    </form>
 
   </div>
 </div>

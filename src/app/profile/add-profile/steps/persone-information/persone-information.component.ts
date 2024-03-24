@@ -1,13 +1,21 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {FormGroup, FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
+import {JsonPipe} from "@angular/common";
 
 @Component({
   selector: 'app-persone-information',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule,
+    JsonPipe,
+    ReactiveFormsModule
+  ],
   templateUrl: './persone-information.component.html',
-  styleUrl: './persone-information.component.css'
 })
 export class PersoneInformationComponent {
 
+  @Input() parentForm!: FormGroup;
+
+  constructor() {}
 
 }

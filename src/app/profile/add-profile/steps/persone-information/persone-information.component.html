@@ -1,47 +1,60 @@
-<div
+<div  [formGroup]="parentForm"
   class="flex flex-col w-full  gap-5 items-start justify-start shrink-0 relative"
 >
-  <div
-    class="flex flex-col gap-5 items-start justify-start shrink-0 relative"
-  >
-    <div class="flex flex-col lg:flex-row gap-5 items-start justify-start w-full relative">
-      <div class="rounded-xl border border-gray-300 pt-2.5 pr-5 pb-2.5 pl-5 flex-1 h-14 relative">
-        <input type="text" placeholder="First Name"
-               class="appearance-none outline-none w-full h-full bg-transparent text-gray-800 placeholder-gray-500">
-      </div>
-      <div class="rounded-xl border border-gray-300 pt-2.5 pr-5 pb-2.5 pl-5 flex-1 h-14 relative">
-        <input type="text" placeholder="Last Name"
-               class="appearance-none outline-none w-full h-full bg-transparent text-gray-800 placeholder-gray-500">
-      </div>
-    </div>
-    <div class="flex flex-col lg:flex-row gap-5 items-start justify-start w-full relative">
-      <div class="rounded-xl border border-gray-300 pt-2.5 pr-5 pb-2.5 pl-5 flex-1 h-14 relative">
-        <input type="text" placeholder="First Name"
-               class="appearance-none outline-none w-full h-full bg-transparent text-gray-800 placeholder-gray-500">
-      </div>
-      <div class="rounded-xl border border-gray-300 pt-2.5 pr-5 pb-2.5 pl-5 flex-1 h-14 relative">
-        <input type="text" placeholder="Last Name"
-               class="appearance-none outline-none w-full h-full bg-transparent text-gray-800 placeholder-gray-500">
-      </div>
-    </div>
-    <div class="flex flex-row gap-5 items-start justify-start shrink-0  w-full relative">
-      <div class="rounded-xl border-solid border-gray-gray-20percent border p-4 flex flex-col gap-2.5 items-start justify-start flex-1 relative">
-        <div class="flex flex-row gap-2.5 items-center justify-start self-stretch shrink-0 relative">
-          <input type="text" placeholder="City" class="text-gray-gray-80percent text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative flex-1 outline-none">
+  <div  class="flex flex-col w-full gap-5 items-start justify-start shrink-0 relative">
+      <div class="flex flex-col lg:flex-row gap-5 items-start justify-start w-full relative">
+        <div class="rounded-xl border border-gray-300 pt-2.5 pr-5 pb-2.5 pl-5 flex-1 h-14 relative">
+          <input type="text" placeholder="Last Name" formControlName="last_name"
+                 class="focus:ring-0 appearance-none outline-none w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none">
+        </div>
+        <div class="rounded-xl border border-gray-300 pt-2.5 pr-5 pb-2.5 pl-5 flex-1 h-14 relative">
+          <input type="text" placeholder="First Name" formControlName="first_name"
+                 class="focus:ring-0 appearance-none outline-none w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none">
+        </div>
+        <div class="rounded-xl border border-gray-300 pt-2.5 pr-5 pb-2.5 pl-5 flex-1 h-14 relative">
+          <input type="text" placeholder="CIN" formControlName="cin"
+                 class="focus:ring-0 appearance-none outline-none w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none">
         </div>
       </div>
-      <div class="rounded-xl border-solid border-gray-gray-20percent border p-4 flex flex-col gap-2.5 items-start justify-start flex-1 relative">
-        <div class="flex flex-row gap-2.5 items-center justify-start self-stretch shrink-0 relative">
-          <input type="text" placeholder="State" class="text-gray-gray-80percent text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative flex-1 outline-none">
+      <div class="flex flex-col lg:flex-row gap-5 items-start justify-start w-full relative">
+        <div class="rounded-xl border border-gray-300 pt-2.5 pr-5 pb-2.5 pl-5 flex-1 h-14 relative">
+          <input type="tel" placeholder="Phone Number" formControlName="phone"
+                 class="focus:ring-0 appearance-none outline-none w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none">
         </div>
-      </div>
-      <div class="rounded-xl border-solid border-gray-gray-20percent border p-4 flex flex-col gap-2.5 items-start justify-start flex-1 relative">
-        <div class="flex flex-row gap-2.5 items-center justify-start self-stretch shrink-0 relative">
-          <input type="text" placeholder="ZIP Code" class="text-gray-gray-80percent text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative flex-1 outline-none">
-        </div>
-      </div>
-    </div>
+        <div class="rounded-xl border border-gray-300 pt-2.5 pr-5 pb-2.5 pl-5 flex-1 h-14 relative">
+          <select
 
+            class="focus:ring-0 appearance-none outline-none w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none">
+            <option  value="" disabled selected hidden>Sex</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div class="rounded-xl border border-gray-300 pt-2.5 pr-5 pb-2.5 pl-5 flex-1 h-14 relative">
+          <input type="date"
+                 formControlName="date_birth"
+                 class="focus:ring-0 appearance-none outline-none w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none">
+        </div>
+      </div>
+      <div class="flex flex-col lg:flex-row gap-5 items-start justify-start w-full relative">
+        <div class="rounded-xl border border-gray-300 pt-2.5 pr-5 pb-2.5 pl-5 flex-1 h-14 relative">
+          <input type="text" placeholder="CNSS"
+                 formControlName="cnss"
+                 class="focus:ring-0 appearance-none outline-none w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none">
+        </div>
+        <div class="rounded-xl border border-gray-300 pt-2.5 pr-5 pb-2.5 pl-5 flex-1 h-14 relative">
+          <input type="text" placeholder="City"
+                 formControlName="city"
+                 class="focus:ring-0 appearance-none outline-none w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none">
+        </div>
+        <div class="rounded-xl border border-gray-300 pt-2.5 pr-5 pb-2.5 pl-5 flex-1 h-14 relative">
+          <input type="text" placeholder="Region"
+                 formControlName="region"
+                 class="focus:ring-0 appearance-none outline-none w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none">
+        </div>
+      </div>
   </div>
+
+
 </div>
 

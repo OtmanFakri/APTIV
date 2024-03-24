@@ -10,19 +10,23 @@
       </div>
     </div>
 
-    <form [formGroup]="multipleForm" (ngSubmit)="next()">
+    <form
+      class="w-full"
+      [formGroup]="multipleForm" (ngSubmit)="next()">
 
-      <app-persone-information *ngIf="current === 0" [parentForm]="personeInformation"></app-persone-information>
+      <app-persone-information
+        *ngIf="current === 0"
+        [parentForm]="personeInformation"></app-persone-information>
 
-      <div *ngIf="current === 1">
-        <p>hello world</p>
-      </div>
+      <app-professional-information
+        *ngIf="current === 1"
+        [parentForm]="professionalInformation"/>
 
       <div *ngIf="current === 2">
         <p>hello world 2</p>
       </div>
 
-      <div class="flex flex-row items-start space-x-1.5 justify-end shrink-0 relative">
+      <div class="flex flex-row items-start mt-10 space-x-1.5 justify-end shrink-0 relative">
         <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0"
                 class="rounded-xl border-solid border-gray-gray-20percent border p-5 flex flex-row gap-2.5 items-center justify-center shrink-0 h-[50px] relative">
           Previous

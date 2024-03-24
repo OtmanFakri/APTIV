@@ -4,6 +4,7 @@ import {PersoneInformationComponent} from "./steps/persone-information/persone-i
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {JsonPipe, NgIf} from "@angular/common";
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {ProfessionalInformationComponent} from "./steps/professional-information/professional-information.component";
 
 @Component({
   selector: 'app-add-profile',
@@ -15,7 +16,8 @@ import {AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModul
     NzButtonComponent,
     NgIf,
     JsonPipe,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ProfessionalInformationComponent
   ],
   templateUrl: './add-profile.component.html'
 })
@@ -37,10 +39,22 @@ export class AddProfileComponent {
       city: new FormControl('', Validators.required),
       region: new FormControl('', Validators.required),
     }),
+    professionalInformation: new FormGroup({
+      mtc: new FormControl('', Validators.required),
+      category: new FormControl('', Validators.required),
+      department: new FormControl('', Validators.required),
+      job: new FormControl('', Validators.required),
+      date_hiring: new FormControl('', Validators.required),
+      date_start: new FormControl('', Validators.required),
+      date_visit: new FormControl('', Validators.required),
+    }),
   });
 
   get personeInformation(): FormGroup {
     return this.multipleForm.get('personeInformation') as FormGroup;
+  }
+  get professionalInformation(): FormGroup {
+    return this.multipleForm.get('professionalInformation') as FormGroup;
   }
 
   pre(): void {

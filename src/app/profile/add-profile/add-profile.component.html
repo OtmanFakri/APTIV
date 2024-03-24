@@ -2,11 +2,31 @@
   <div class="flex flex-col w-full gap-4 items-start justify-start shrink-0 absolute left-5 top-5">
     <div class="shrink-0 h-14 static">
       <div class="flex w-full flex-row gap-5 items-start justify-start absolute left-0 top-0">
-        <nz-steps class="flex items-start justify-between w-full" [nzCurrent]="current" nzSize="small">
-          <nz-step nzTitle="Données personnelles"></nz-step>
-          <nz-step nzTitle="Données professionnelles"></nz-step>
-          <nz-step nzTitle="Permissions"></nz-step>
+        <nz-steps
+          (nzIndexChange)="onIndexChange($event)"
+          class="flex items-start justify-between w-full"
+          [nzCurrent]="current" nzSize="small">
+          <!-- Step 1: Données personnelles -->
+          <nz-step
+            [nzStatus]="current === 0 ? 'process' : (personeInformation.valid ? 'finish' : 'error')"
+            [nzIcon]="current === 0 ? 'loading' : ''"
+            nzTitle="Données personnelles">
+          </nz-step>
+
+          <!-- Step 2: Données professionnelles -->
+          <nz-step
+            [nzStatus]="current === 0 ? 'wait' : (current === 1 ? 'process' : (professionalInformation.valid ? 'finish' : 'error'))"
+            [nzIcon]="current === 1 ? 'loading' : ''"
+            nzTitle="Données personnelles">
+          </nz-step>
+
+          <!-- Step 3: Permissions -->
+          <nz-step
+            [nzStatus]="current === 2 ? 'process' : (current > 2 ? 'finish' : '')"
+            nzTitle="Permissions">
+          </nz-step>
         </nz-steps>
+
       </div>
     </div>
 
@@ -23,7 +43,7 @@
         [parentForm]="professionalInformation"/>
 
       <div *ngIf="current === 2">
-        <p>hello world 2</p>
+        <app-roles-information />
       </div>
 
       <div class="flex flex-row items-start mt-10 space-x-1.5 justify-end shrink-0 relative">

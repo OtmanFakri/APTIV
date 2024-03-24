@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup, FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
-import {JsonPipe} from "@angular/common";
+import {JsonPipe, NgClass, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-persone-information',
@@ -8,7 +8,9 @@ import {JsonPipe} from "@angular/common";
   imports: [
     FormsModule,
     JsonPipe,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIf,
+    NgClass
   ],
   templateUrl: './persone-information.component.html',
 })

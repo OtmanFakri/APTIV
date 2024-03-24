@@ -5,6 +5,8 @@ import {NzButtonComponent} from "ng-zorro-antd/button";
 import {JsonPipe, NgIf} from "@angular/common";
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ProfessionalInformationComponent} from "./steps/professional-information/professional-information.component";
+import {RolesInformationComponent} from "./steps/roles-information/roles-information.component";
+import {NzNotificationService} from "ng-zorro-antd/notification";
 
 @Component({
   selector: 'app-add-profile',
@@ -17,13 +19,14 @@ import {ProfessionalInformationComponent} from "./steps/professional-information
     NgIf,
     JsonPipe,
     ReactiveFormsModule,
-    ProfessionalInformationComponent
+    ProfessionalInformationComponent,
+    RolesInformationComponent
   ],
   templateUrl: './add-profile.component.html'
 })
 export class AddProfileComponent {
 
-  constructor( private cdr: ChangeDetectorRef) {}
+  constructor( private notification: NzNotificationService) {}
 
   current = 0;
 
@@ -68,11 +71,26 @@ export class AddProfileComponent {
       this.onSubmit();
     }
   }
+  onIndexChange(index: number): void {
+    this.current = index;
+  }
 
   onSubmit(): void {
-    console.log('Form submitted:', this.multipleForm.value);
-    // Handle the form submission logic here
+    if (this.multipleForm.valid) {
+      this.notification
+        .blank(
+          'Notification Title',
+          'Form is valid. Form submitted'
+        )
+        .onClick.subscribe(() => {
+        console.log('Form is valid. Form submitted:', this.multipleForm.value);
+      });
+    } else {
+      console.log('Form is invalid.');
+    }
   }
+
+
 
 
 }

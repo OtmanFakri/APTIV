@@ -15,6 +15,7 @@ export interface ProfessionalInformation {
   category: string;
   department: string;
   job: string;
+  manager: string;
   date_hiring: Date;
   date_start: Date;
   date_visit: Date;

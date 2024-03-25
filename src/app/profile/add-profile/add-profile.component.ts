@@ -89,10 +89,8 @@ export class AddProfileComponent {
         .blank(
           '🎉 Well done!',
           'Formulaire soumis.'
-        ).onClick.subscribe(() => {
-          console.log('asasdfgvhjklö')
-        this.router.navigate(['/']);
-        });
+        );
+      //this.router.navigate(['/']);
     } else {
       console.log('Form is invalid.');
     }

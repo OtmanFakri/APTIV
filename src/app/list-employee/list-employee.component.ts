@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {PaginationComponent} from "../Components/pagination/pagination.component";
 import {RouterLink} from "@angular/router";
+import {ProfileService} from "../profile/profile.service";
+import {FormData, PersonInformation, ProfessionalInformation} from "../profile/profile.module";
 
 @Component({
   selector: 'app-list-employee',
@@ -17,62 +19,36 @@ import {RouterLink} from "@angular/router";
   ],
   templateUrl: './list-employee.component.html'
 })
-export class ListEmployeeComponent {
-  users : {
-    role: string;
-    imageUrl: string;
-    name: string;
-    title: string;
-    department: string;
-    email: string;
-    status: string
-  }[] = [
-    {
-      name: 'Lindsay Walton',
-      imageUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      email: 'lindsay.walton@example.com',
-      title: 'Front-end Developer',
-      department: 'Optimization',
-      status: 'Active',
-      role: 'Member'
-    },
-    {
-      name: 'Lindsay Walton',
-      imageUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      email: 'lindsay.walton@example.com',
-      title: 'Front-end Developer',
-      department: 'Optimization',
-      status: 'Active',
-      role: 'Member'
-    },
-    {
-      name: 'Lindsay Walton',
-      imageUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      email: 'lindsay.walton@example.com',
-      title: 'Front-end Developer',
-      department: 'Optimization',
-      status: 'Active',
-      role: 'Member'
-    },
-    {
-      name: 'Lindsay Walton',
-      imageUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      email: 'lindsay.walton@example.com',
-      title: 'Front-end Developer',
-      department: 'Optimization',
-      status: 'Active',
-      role: 'Member'
-    },
-    {
-      name: 'Lindsay Walton',
-      imageUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      email: 'lindsay.walton@example.com',
-      title: 'Front-end Developer',
-      department: 'Optimization',
-      status: 'Active',
-      role: 'Member'
-    },
-    ]
+export class ListEmployeeComponent implements OnInit {
+
+  users: FormData[] = [
+
+  ]
+
+  constructor(private profileService: ProfileService) {
+  }
+
+  ngOnInit(): void {
+    this.profileService.getProfile().forEach((profile) => {
+      this.users.push(profile);
+      console.log(profile);
+    });
+  }
+
+
+  getRandomColor(name: string | undefined): string {
+    const colors = ['#FF4500', '#FFD700', '#32CD32', '#008080', '#800080', '#0000FF', '#FF1493'];
+    if (!name) {
+      name = 'default'; // or any default string
+    }
+    const charCodeSum = name.charCodeAt(0) + (name.length > 1 ? name.charCodeAt(1) : 0);
+    const index = charCodeSum % colors.length;
+    return colors[index];
+  }
+
   searchTerm: string = '';
   isFilterOpen: boolean = false;
+
+
+
 }

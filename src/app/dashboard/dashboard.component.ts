@@ -8,7 +8,6 @@ import {NzDrawerComponent, NzDrawerContentDirective} from "ng-zorro-antd/drawer"
   standalone: true,
   imports: [RouterOutlet, NgIf, DashboardComponent, RouterLink, RouterLinkActive, NzDrawerComponent, NzDrawerContentDirective],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
 

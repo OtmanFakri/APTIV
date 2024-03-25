@@ -8,12 +8,14 @@ import {InfoProfileComponent} from "./profile/me/info-profile/info-profile.compo
 import {InfoCertificationComponent} from "./profile/me/info-certification/info-certification.component";
 import {InfoConsultationComponent} from "./profile/me/info-consultation/info-consultation.component";
 import {InfoAccidentsComponent} from "./profile/me/info-accidents/info-accidents.component";
+import {HomeComponent} from "./home/home.component";
 
 export const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
     children: [
+      { path: '', component: HomeComponent },
       { path: 'Employee', component: ListEmployeeComponent },
       { path: 'Employee/new', component: AddProfileComponent },
       { path: 'Employee/:id',

@@ -8,8 +8,8 @@ import {
 } from "ng-zorro-antd/auto-complete";
 import {NzInputDirective} from "ng-zorro-antd/input";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
-import {async, map, startWith} from "rxjs";
 import {NzDividerComponent} from "ng-zorro-antd/divider";
+import {NzIconDirective} from "ng-zorro-antd/icon";
 
 
 interface Option {
@@ -31,7 +31,8 @@ interface Option {
     NgForOf,
     NzAutocompleteOptionComponent,
     JsonPipe,
-    NzDividerComponent
+    NzDividerComponent,
+    NzIconDirective
   ],
   templateUrl: './professional-information.component.html',
 })
@@ -59,30 +60,16 @@ export class ProfessionalInformationComponent {
   constructor() {
     this.filteredOptions = this.options;
   }
+  listOfItem = ['jack', 'lucy'];
 
-  onChange(value: string): void {
-    this.filteredOptions = this.options.filter(option =>
-      option.toLowerCase().indexOf(value.toLowerCase()) !== -1 && option.toLowerCase() !== value.toLowerCase()
-    );
-    const isValidOption = this.options.some(option => option.toLowerCase() === value.toLowerCase());
-
-
-    if (!isValidOption) {
-      this.parentForm.get('department')!.setValue(' ');
-      this.filteredOptions = this.options;
-      return;
-    }
-
-  }
 
   get department() {
     return this.parentForm.get('department') as FormArray;
   }
   addItem(input: HTMLInputElement): void {
-
     const value = input.value;
-    if (this.options.indexOf(value) === -1) {
-      this.options = [...this.options, input.value || `New item ${this.index++}`];
+    if (this.listOfItem.indexOf(value) === -1) {
+      this.listOfItem = [...this.listOfItem, input.value || `New item ${this.index++}`];
     }
   }
 

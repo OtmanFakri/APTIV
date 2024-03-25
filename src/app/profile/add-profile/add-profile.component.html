@@ -53,6 +53,7 @@
           Previous
         </button>
         <button nz-button nzType="default" type="submit"
+                (click)="onSubmit()"
                 [disabled]="(current === 0 && !personeInformation.valid) ||
                             (current === 1 && !professionalInformation.valid)"
                 class="text-white bg-primary-500 rounded-xl p-5 flex flex-row gap-2.5 items-center justify-center shrink-0 w-[91px] h-[50px] relative">

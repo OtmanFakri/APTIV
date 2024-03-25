@@ -7,6 +7,8 @@ import {AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModul
 import {ProfessionalInformationComponent} from "./steps/professional-information/professional-information.component";
 import {RolesInformationComponent} from "./steps/roles-information/roles-information.component";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {ProfileService} from "../profile.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-profile',
@@ -26,7 +28,10 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
 })
 export class AddProfileComponent {
 
-  constructor( private notification: NzNotificationService) {}
+  constructor(
+    private router: Router,
+  private profileService : ProfileService,
+    private notification: NzNotificationService) {}
 
   current = 0;
 
@@ -47,6 +52,7 @@ export class AddProfileComponent {
       category: new FormControl('', Validators.required),
       department: new FormControl('', Validators.required),
       job: new FormControl('', Validators.required),
+      manger: new FormControl('', Validators.required),
       date_hiring: new FormControl('', Validators.required),
       date_start: new FormControl('', Validators.required),
       date_visit: new FormControl('', Validators.required),
@@ -78,14 +84,15 @@ export class AddProfileComponent {
 
   onSubmit(): void {
     if (this.multipleForm.valid) {
+      this.profileService.addProfile(this.multipleForm.value);
       this.notification
         .blank(
-          'Notification Title',
-          'Form is valid. Form submitted'
-        )
-        .onClick.subscribe(() => {
-        console.log('Form is valid. Form submitted:', this.multipleForm.value);
-      });
+          '🎉 Well done!',
+          'Formulaire soumis.'
+        ).onClick.subscribe(() => {
+          console.log('asasdfgvhjklö')
+        this.router.navigate(['/']);
+        });
     } else {
       console.log('Form is invalid.');
     }

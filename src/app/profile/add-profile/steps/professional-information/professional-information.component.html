@@ -1,57 +1,93 @@
 <div [formGroup]="parentForm" class="flex flex-col lg:flex-row  gap-5 items-start justify-start w-full relative mt-5">
-  <div [ngClass]="{'border-red-500': parentForm.get('mtc')?.touched && parentForm.get('mtc')?.invalid}" class="flex-1 h-14 relative rounded-xl border border-gray-300 focus-within:bg-blue-100">
-    <input type="text" placeholder="MTC" formControlName="mtc" class="w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none focus:ring-0 outline-none pl-5 pr-12">
-    <div *ngIf="parentForm.get('mtc')?.touched && parentForm.get('mtc')?.invalid" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-      <span *ngIf="parentForm.get('mtc')?.hasError('required')" class="text-red-500 text-sm">Le MTC est obligatoire</span>
+  <div [ngClass]="{'border-red-500': parentForm.get('mtc')?.touched && parentForm.get('mtc')?.invalid}"
+       class="flex-1 h-14 relative rounded-xl border border-gray-300 focus-within:bg-blue-100">
+    <input type="text" placeholder="MTC" formControlName="mtc"
+           class="w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none focus:ring-0 outline-none pl-5 pr-12">
+    <div *ngIf="parentForm.get('mtc')?.touched && parentForm.get('mtc')?.invalid"
+         class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+      <span *ngIf="parentForm.get('mtc')?.hasError('required')"
+            class="text-red-500 text-sm">Le MTC est obligatoire</span>
     </div>
   </div>
-  <div [ngClass]="{'border-red-500': parentForm.get('category')?.touched && parentForm.get('category')?.invalid}" class="flex-1 h-14 relative rounded-xl border border-gray-300 focus-within:bg-blue-100">
-    <input type="text" placeholder="Catégorie" formControlName="category" class="w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none focus:ring-0 outline-none pl-5 pr-12">
-    <div *ngIf="parentForm.get('category')?.touched && parentForm.get('category')?.invalid" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+  <div [ngClass]="{'border-red-500': parentForm.get('category')?.touched && parentForm.get('category')?.invalid}"
+       class="flex-1 h-14 relative rounded-xl border border-gray-300 focus-within:bg-blue-100">
+    <input type="text" placeholder="Catégorie" formControlName="category"
+           class="w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none focus:ring-0 outline-none pl-5 pr-12">
+    <div *ngIf="parentForm.get('category')?.touched && parentForm.get('category')?.invalid"
+         class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
       <span *ngIf="parentForm.get('category')?.hasError('required')" class="text-red-500 text-sm">La catégorie est obligatoire</span>
     </div>
   </div>
 
-  <div [ngClass]="{'border-red-500': parentForm.get('department')?.touched && parentForm.get('department')?.invalid}" class="flex-1 h-14 relative rounded-xl border border-gray-300 focus-within:bg-blue-100">
-    <input type="text" placeholder="Département" formControlName="department" class="w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none focus:ring-0 outline-none pl-5 pr-12">
-    <div *ngIf="parentForm.get('department')?.touched && parentForm.get('department')?.invalid" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+  <div [ngClass]="{'border-red-500': parentForm.get('department')?.touched && parentForm.get('department')?.invalid}"
+       class="flex-1 h-14 relative rounded-xl border border-gray-300 focus-within:bg-blue-100">
+
+    <nz-select
+      nzBorderless
+      class="flex h-full items-center justify-center focus:ring-0"
+      formControlName="department"
+      nzSize="large"
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Select a person" >
+      <nz-option *ngFor="let option of options" [nzLabel]="option" [nzValue]="option"></nz-option>
+    </nz-select>
+
+
+
+    <div *ngIf="parentForm.get('department')?.touched && parentForm.get('department')?.invalid"
+         class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
       <span *ngIf="parentForm.get('department')?.hasError('required')" class="text-red-500 text-sm">Le département est obligatoire</span>
     </div>
   </div>
 
 </div>
 <div [formGroup]="parentForm" class="flex flex-col lg:flex-row mt-5 gap-5 items-start justify-start w-full relative">
-  <div [ngClass]="{'border-red-500': parentForm.get('job')?.touched && parentForm.get('job')?.invalid}" class="flex-1 h-14 relative rounded-xl border border-gray-300 focus-within:bg-blue-100">
-    <input type="text" placeholder="Emploi" formControlName="job" class="w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none focus:ring-0 outline-none pl-5 pr-12">
-    <div *ngIf="parentForm.get('job')?.touched && parentForm.get('job')?.invalid" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-      <span *ngIf="parentForm.get('job')?.hasError('required')" class="text-red-500 text-sm">L'emploi est obligatoire</span>
+  <div [ngClass]="{'border-red-500': parentForm.get('job')?.touched && parentForm.get('job')?.invalid}"
+       class="flex-1 h-14 relative rounded-xl border border-gray-300 focus-within:bg-blue-100">
+    <input type="text" placeholder="Emploi" formControlName="job"
+           class="w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none focus:ring-0 outline-none pl-5 pr-12">
+    <div *ngIf="parentForm.get('job')?.touched && parentForm.get('job')?.invalid"
+         class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+      <span *ngIf="parentForm.get('job')?.hasError('required')"
+            class="text-red-500 text-sm">L'emploi est obligatoire</span>
     </div>
   </div>
 
-  <div [ngClass]="{'border-red-500': parentForm.get('date_hiring')?.touched && parentForm.get('date_hiring')?.invalid}" class="flex-1 h-14 relative rounded-xl border border-gray-300 focus-within:bg-blue-100">
+  <div [ngClass]="{'border-red-500': parentForm.get('date_hiring')?.touched && parentForm.get('date_hiring')?.invalid}"
+       class="flex-1 h-14 relative rounded-xl border border-gray-300 focus-within:bg-blue-100">
     <input
       onfocus="(this.type='date')"
-      type="text" placeholder="Date d'embauche" formControlName="date_hiring" class="w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none focus:ring-0 outline-none pl-5 pr-12">
-    <div *ngIf="parentForm.get('date_hiring')?.touched && parentForm.get('date_hiring')?.invalid" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+      type="text" placeholder="Date d'embauche" formControlName="date_hiring"
+      class="w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none focus:ring-0 outline-none pl-5 pr-12">
+    <div *ngIf="parentForm.get('date_hiring')?.touched && parentForm.get('date_hiring')?.invalid"
+         class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
       <span *ngIf="parentForm.get('date_hiring')?.hasError('required')" class="text-red-500 text-sm">La date d'embauche est obligatoire</span>
     </div>
   </div>
 
-  <div [ngClass]="{'border-red-500': parentForm.get('date_start')?.touched && parentForm.get('date_start')?.invalid}" class="flex-1 h-14 relative rounded-xl border border-gray-300 focus-within:bg-blue-100">
+  <div [ngClass]="{'border-red-500': parentForm.get('date_start')?.touched && parentForm.get('date_start')?.invalid}"
+       class="flex-1 h-14 relative rounded-xl border border-gray-300 focus-within:bg-blue-100">
     <input
       onfocus="(this.type='date')"
-      type="text" placeholder="Date de début" formControlName="date_start" class="w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none focus:ring-0 outline-none pl-5 pr-12">
-    <div *ngIf="parentForm.get('date_start')?.touched && parentForm.get('date_start')?.invalid" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+      type="text" placeholder="Date de début" formControlName="date_start"
+      class="w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none focus:ring-0 outline-none pl-5 pr-12">
+    <div *ngIf="parentForm.get('date_start')?.touched && parentForm.get('date_start')?.invalid"
+         class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
       <span *ngIf="parentForm.get('date_start')?.hasError('required')" class="text-red-500 text-sm">La date de début est obligatoire</span>
     </div>
   </div>
 
-  <div [ngClass]="{'border-red-500': parentForm.get('date_visit')?.touched && parentForm.get('date_visit')?.invalid}" class="flex-1 h-14 relative rounded-xl border border-gray-300 focus-within:bg-blue-100">
+  <div [ngClass]="{'border-red-500': parentForm.get('date_visit')?.touched && parentForm.get('date_visit')?.invalid}"
+       class="flex-1 h-14 relative rounded-xl border border-gray-300 focus-within:bg-blue-100">
     <input
       onfocus="(this.type='date')"
-      type="text" placeholder="Date de visite" formControlName="date_visit" class="w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none focus:ring-0 outline-none pl-5 pr-12">
-    <div *ngIf="parentForm.get('date_visit')?.touched && parentForm.get('date_visit')?.invalid" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+      type="text" placeholder="Date de visite" formControlName="date_visit"
+      class="w-full h-full bg-transparent text-gray-800 placeholder-gray-500 border-none focus:ring-0 outline-none pl-5 pr-12">
+    <div *ngIf="parentForm.get('date_visit')?.touched && parentForm.get('date_visit')?.invalid"
+         class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
       <span *ngIf="parentForm.get('date_visit')?.hasError('required')" class="text-red-500 text-sm">La date de visite est obligatoire</span>
     </div>
   </div>
+
 </div>

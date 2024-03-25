@@ -60,6 +60,7 @@ export class AddProfileComponent {
     return this.multipleForm.get('professionalInformation') as FormGroup;
   }
 
+
   pre(): void {
     this.current -= 1;
   }

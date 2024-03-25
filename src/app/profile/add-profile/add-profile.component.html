@@ -40,10 +40,11 @@
 
       <app-professional-information
         *ngIf="current === 1"
-        [parentForm]="professionalInformation"/>
+        [parentForm]="professionalInformation"
+       />
 
       <div *ngIf="current === 2">
-        <app-roles-information />
+        <app-roles-information/>
       </div>
 
       <div class="flex flex-row items-start mt-10 space-x-1.5 justify-end shrink-0 relative">
@@ -52,7 +53,9 @@
           Previous
         </button>
         <button nz-button nzType="default" type="submit"
-                class="bg-primary-500 rounded-xl p-5 flex flex-row gap-2.5 items-center justify-center shrink-0 w-[91px] h-[50px] relative">
+                [disabled]="(current === 0 && !personeInformation.valid) ||
+                            (current === 1 && !professionalInformation.valid)"
+                class="text-white bg-primary-500 rounded-xl p-5 flex flex-row gap-2.5 items-center justify-center shrink-0 w-[91px] h-[50px] relative">
           {{ (current < 2) ? 'Next' : 'Save' }}
         </button>
       </div>

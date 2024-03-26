@@ -21,23 +21,22 @@ export class ContresVisitesPieComponent implements AfterViewInit{
   initChart() {
     Chart.register(...registerables);
 
-    const DATA_COUNT = 5;
-    const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 100};
+    const labels = ['Sans', 'Contres visites'];
 
-    const labels = ['Red', 'Orange', 'Yellow', 'Green', 'Blue'];
+    // Sample data for March (you can replace this with dynamic data)
+    const dataValues = [1, 2];
+
     const data = {
       labels: labels,
       datasets: [
         {
-          label: 'Dataset 1',
-          data: Utils.numbers(NUMBER_CFG),
+          label: 'Contres visites',
+          data: dataValues,
           backgroundColor: [
             Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
-            Utils.transparentize(Utils.CHART_COLORS.orange, 0.5),
-            Utils.transparentize(Utils.CHART_COLORS.yellow, 0.5),
-            Utils.transparentize(Utils.CHART_COLORS.green, 0.5),
             Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
-          ]
+          ],
+          hoverOffset: 4,
         }
       ]
     };
@@ -53,7 +52,20 @@ export class ContresVisitesPieComponent implements AfterViewInit{
           },
           title: {
             display: true,
-            text: 'Chart.js Polar Area Chart'
+            text: 'Nombre des contres visites'
+          }
+        },
+        scales: {
+          r: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        },
+        elements: {
+          arc: {
+            borderColor: "#ffffff"
           }
         }
       },
@@ -62,7 +74,7 @@ export class ContresVisitesPieComponent implements AfterViewInit{
           name: 'Randomize',
           handler: (chart: any) => {
             chart.data.datasets.forEach((dataset: any) => {
-              dataset.data = Utils.numbers({count: chart.data.labels.length, min: 0, max: 100});
+              dataset.data = Utils.numbers({count: dataset.data.length, min: 0, max: 100});
             });
             chart.update();
           }

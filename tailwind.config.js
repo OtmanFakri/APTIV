@@ -8,10 +8,10 @@ module.exports = {
       fontFamily: {
         "body-1-bold-font-family": "Lexend, sans-serif",
         "body-1-regular-font-family": "Lexend, sans-serif",
-        "header-4-bold-font-family": "Lexend-SemiBold, sans-serif",
-        "body-2-regular-font-family": "Lexend-Light, sans-serif",
-        "caption-regular-font-family": "Lexend-Light, sans-serif",
-        "label-regular-font-family": "Lexend-Light, sans-serif",
+        "header-4-bold-font-family": "Lexend, sans-serif",
+        "body-2-regular-font-family": "Lexend, sans-serif",
+        "caption-regular-font-family": "Lexend, sans-serif",
+        "label-regular-font-family": "Lexend, sans-serif",
 
       },
       fontSize: {

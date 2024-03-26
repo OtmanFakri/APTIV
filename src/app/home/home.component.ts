@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {NgStyle} from "@angular/common";
 import {NzCalendarComponent} from "ng-zorro-antd/calendar";
 import {LbarLineChartComponent} from "./lbar-line-chart/lbar-line-chart.component";
+import {ContresVisitesPieComponent} from "./contres-visites-pie/contres-visites-pie.component";
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,8 @@ import {LbarLineChartComponent} from "./lbar-line-chart/lbar-line-chart.componen
   imports: [
     NgStyle,
     NzCalendarComponent,
-    LbarLineChartComponent
+    LbarLineChartComponent,
+    ContresVisitesPieComponent
   ],
   templateUrl: './home.component.html',
 })

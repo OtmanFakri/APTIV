@@ -8,28 +8,29 @@ import * as Utils from './utils';
   templateUrl: './lbar-line-chart.component.html',
 })
 export class LbarLineChartComponent {
+
   public chart: any;
 
-  createChart(): void {
+  createChart(data: any[]): void {
     if (Chart) {
-      const DATA_COUNT = 12; // 12 months
-      const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 10 };
+      const labels = data.map(item => item.Month);
+      const certificateRates = data.map(item => item['Nb Certificats']);
+      const averageIllnessDays = data.map(item => item.Nbrjour);
 
-      const labels = Utils.months({ count: DATA_COUNT });
-      const data = {
+      const chartData = {
         labels: labels,
         datasets: [
           {
             label: 'Certificate Rate',
-            data: Utils.data(NUMBER_CFG),
+            data: certificateRates,
             borderColor: Utils.CHART_COLORS.red,
             backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
             yAxisID: 'y1',
             type: 'bar'
           },
           {
-            label: 'Average illness days',
-            data: Utils.data(NUMBER_CFG),
+            label: 'Average Illness Days',
+            data: averageIllnessDays,
             borderColor: Utils.CHART_COLORS.blue,
             backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
             yAxisID: 'y2',
@@ -41,7 +42,7 @@ export class LbarLineChartComponent {
       // @ts-ignore
       const config: Chart.ChartConfiguration = {
         type: 'bar',
-        data: data,
+        data: chartData,
         options: {
           responsive: true,
           plugins: {
@@ -92,7 +93,72 @@ export class LbarLineChartComponent {
 
       this.chart = new Chart("MyChart", config);
     }
-  }  ngOnInit(): void {
-    this.createChart();
+  }
+
+  ngOnInit(): void {
+    const data = [
+      {
+        "Date certificats": "2024-03-26",
+        "Month": "Mar",
+        "Matricule": 12345,
+        "Catégorie": "DH",
+        "Nb Certificats": 2,
+        "Département": "ASSEMBLY-1-",
+        "Date début": "2024-01-10",
+        "Nbr prevu": 5,
+        "Date fin": "2024-01-20",
+        "Contre visite": true,
+        "Validation(ITT DE 44 JRS,VALIDE)": "ITT DE 44 JRS",
+        "Nbrjour": 44,
+        "Ecart": 0,
+        "Date entree": "2023-12-01",
+        "Medcintraitant": "Dr. Smith",
+        "Spécialité": "Orthopedics",
+        "Contre maitre": "John Doe",
+        "Shift(M,N,HC,S)": "M"
+      },
+      {
+        "Date certificats": "2024-03-26",
+        "Month": "Mar",
+        "Matricule": 12346,
+        "Catégorie": "IH",
+        "Nb Certificats": 1,
+        "Département": "CUTTING-1-",
+        "Date début": "2024-02-15",
+        "Nbr prevu": 3,
+        "Date fin": "2024-02-18",
+        "Contre visite": false,
+        "Validation(ITT DE 44 JRS,VALIDE)": "VALIDE",
+        "Nbrjour": 0,
+        "Ecart": 0,
+        "Date entree": "2023-11-15",
+        "Medcintraitant": "Dr. Johnson",
+        "Spécialité": "Cardiology",
+        "Contre maitre": "Jane Doe",
+        "Shift(M,N,HC,S)": "N"
+      },
+      {
+        "Date certificats": "2024-03-26",
+        "Month": "Mar",
+        "Matricule": 12347,
+        "Catégorie": "IS",
+        "Nb Certificats": 3,
+        "Département": "MAINTENANCE-1-",
+        "Date début": "2024-03-01",
+        "Nbr prevu": 4,
+        "Date fin": "2024-03-05",
+        "Contre visite": true,
+        "Validation(ITT DE 44 JRS,VALIDE)": "ITT DE 44 JRS",
+        "Nbrjour": 44,
+        "Ecart": 0,
+        "Date entree": "2023-10-20",
+        "Medcintraitant": "Dr. Williams",
+        "Spécialité": "Neurology",
+        "Contre maitre": "Jim Doe",
+        "Shift(M,N,HC,S)": "HC"
+      }
+    ];
+
+    this.createChart(data);
   }
 }

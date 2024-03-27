@@ -10,62 +10,46 @@ import { Utils } from './utils'; // Import Utils from the utils.ts file
   templateUrl: './contres-visites-pie.component.html',
 })
 export class ContresVisitesPieComponent implements AfterViewInit{
-
-
-  @ViewChild('polarAreaChart') polarAreaChart: ElementRef | undefined;
+  @ViewChild('radarChart') radarChart: any;
   chart: any;
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.initChart();
   }
+
   initChart() {
-    Chart.register(...registerables);
+    const DATA_COUNT = 7;
+    const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
 
-    const labels = ['Sans', 'Contres visites'];
-
-    // Sample data for March (you can replace this with dynamic data)
-    const dataValues = [1, 2];
+    const labels = Utils.months({ count: 7 });
 
     const data = {
       labels: labels,
       datasets: [
         {
-          label: 'Contres visites',
-          data: dataValues,
-          backgroundColor: [
-            Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
-            Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
-          ],
-          hoverOffset: 4,
+          label: 'Dataset 1',
+          data: Utils.numbers(NUMBER_CFG),
+          borderColor: Utils.CHART_COLORS.red,
+          backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
+        },
+        {
+          label: 'Dataset 2',
+          data: Utils.numbers(NUMBER_CFG),
+          borderColor: Utils.CHART_COLORS.blue,
+          backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
         }
       ]
     };
 
     const config = {
-      type: 'polarArea',
+      type: 'radar',
       data: data,
       options: {
         responsive: true,
         plugins: {
-          legend: {
-            position: 'top',
-          },
           title: {
             display: true,
             text: 'Nombre des contres visites'
-          }
-        },
-        scales: {
-          r: {
-            beginAtZero: true,
-            ticks: {
-              stepSize: 1
-            }
-          }
-        },
-        elements: {
-          arc: {
-            borderColor: "#ffffff"
           }
         }
       },
@@ -74,8 +58,23 @@ export class ContresVisitesPieComponent implements AfterViewInit{
           name: 'Randomize',
           handler: (chart: any) => {
             chart.data.datasets.forEach((dataset: any) => {
-              dataset.data = Utils.numbers({count: dataset.data.length, min: 0, max: 100});
+              dataset.data = Utils.numbers({ count: chart.data.labels.length, min: 0, max: 100 });
             });
+            chart.update();
+          }
+        },
+        {
+          name: 'Add Dataset',
+          handler: (chart: any) => {
+            const data = chart.data;
+            const dsColor = Utils.namedColor(chart.data.datasets.length);
+            const newDataset = {
+              label: 'Dataset ' + (data.datasets.length + 1),
+              backgroundColor: Utils.transparentize(dsColor, 0.5),
+              borderColor: dsColor,
+              data: Utils.numbers({ count: data.labels.length, min: 0, max: 100 }),
+            };
+            chart.data.datasets.push(newDataset);
             chart.update();
           }
         },
@@ -84,7 +83,7 @@ export class ContresVisitesPieComponent implements AfterViewInit{
           handler: (chart: any) => {
             const data = chart.data;
             if (data.datasets.length > 0) {
-              data.labels.push('data #' + (data.labels.length + 1));
+              data.labels = Utils.months({ count: data.labels.length + 1 });
 
               for (let index = 0; index < data.datasets.length; ++index) {
                 data.datasets[index].data.push(Utils.rand(0, 100));
@@ -92,6 +91,13 @@ export class ContresVisitesPieComponent implements AfterViewInit{
 
               chart.update();
             }
+          }
+        },
+        {
+          name: 'Remove Dataset',
+          handler: (chart: any) => {
+            chart.data.datasets.pop();
+            chart.update();
           }
         },
         {
@@ -110,8 +116,9 @@ export class ContresVisitesPieComponent implements AfterViewInit{
     };
 
     // @ts-ignore
-    const ctx = this.polarAreaChart.nativeElement.getContext('2d');
+    const ctx = this.radarChart.nativeElement.getContext('2d');
     // @ts-ignore
     this.chart = new Chart(ctx, config);
   }
+
 }

@@ -1,1 +1,16 @@
-  <canvas  id="MyChart" >{{ chart }}</canvas>
+<div class="flex fex-row items-center justify-between">
+  <p
+    class="text-dark-500 text-left body-1-regular-line-height text-header-6-bold-font-size leading-header-6-bold-line-height font-header-6-bold-font-weight relative flex-shrink-0">
+    Medical Certificates</p>
+  <div>
+    <nz-segmented
+      [nzOptions]="options" (nzValueChange)="handleIndexChange($event)"></nz-segmented>
+  </div>
+</div>
+
+<div *ngIf="getoption === 0">
+  <app-department></app-department>
+</div>
+<div *ngIf="getoption === 1">
+  <app-months></app-months>
+</div>

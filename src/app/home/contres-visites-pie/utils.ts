@@ -1,7 +1,5 @@
-// utils.ts
-
 export const Utils = {
-  numbers(cfg: any) {
+  numbers(cfg: any): number[] {
     const { count, min, max } = cfg;
     const numbers = [];
     for (let i = 0; i < count; ++i) {
@@ -10,8 +8,14 @@ export const Utils = {
     return numbers;
   },
 
-  rand(min: number, max: number) {
+  rand(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  },
+
+  months(cfg: any): string[] {
+    const { count } = cfg;
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return months.slice(0, count);
   },
 
   transparentize(color: string, opacity: number): string {
@@ -25,5 +29,11 @@ export const Utils = {
     yellow: 'rgb(255, 205, 86)',
     green: 'rgb(75, 192, 192)',
     blue: 'rgb(54, 162, 235)'
+  },
+
+  namedColor(index: number): string {
+    const keys = Object.keys(this.CHART_COLORS);
+    // @ts-ignore
+    return this.CHART_COLORS[keys[index % keys.length]];
   }
 };

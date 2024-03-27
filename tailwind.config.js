@@ -38,19 +38,27 @@ module.exports = {
         "body-1-bold-line-height": "24px",
         "body-1-regular-line-height": "24px",
       },
-      borderRadius: {},
       colors: {
         "primary-500": "#7152f3",
         "dark-500": "#16151c",
         "gray-gray-20percent": "rgba(162, 161, 168, 0.20)",
       },
-      spacing: {},
-      width: {},
-      minWidth: {},
-      maxWidth: {},
-      height: {},
-      minHeight: {},
-      maxHeight: {},
+
+    },
+    animation: {
+      moving: 'moving 1s ease-in-out infinite',
+    },
+    keyframes: {
+      moving: {
+        '50%': {
+          width: '100%',
+        },
+        '100%': {
+          width: 0,
+          right: 0,
+          left: 'unset',
+        },
+      },
     },
   },
   plugins: [

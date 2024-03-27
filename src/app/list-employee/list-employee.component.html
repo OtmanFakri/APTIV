@@ -2,7 +2,7 @@
   <div class="sm:flex sm:items-center justify-between">
     <div
       class="rounded-xl border-solid border-gray-gray-10percent border pt-[13px] pr-4 pb-[13px] pl-4 flex flex-col gap-2.5 items-start justify-center relative">
-      <div class="flex flex-row gap-2.5 items-start justify-start self-stretch shrink-0 relative">
+      <div class="flex flex-row gap-2.5 items-center justify-start self-stretch shrink-0 relative ">
         <svg class="shrink-0 w-6 h-6 relative overflow-visible" style="" width="24" height="24" viewBox="0 0 24 24"
              fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd"
@@ -10,8 +10,8 @@
                 fill="#16151C"/>
         </svg>
         <input
-          class="focus:ring-0 text-dark-dark-20percent text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative flex-1  bg-transparent focus:outline-none"
-          placeholder="Search"
+          class="focus:ring-0 text-dark-dark-20percent text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative flex-1 bg-transparent focus:outline-none border-none"
+          placeholder="Search By Matricule"
           [(ngModel)]="searchTerm"
         />
       </div>
@@ -110,17 +110,6 @@
         <div class="flex flex-row gap-2.5 items-start justify-start self-stretch shrink-0 relative">
           <input
             type="text"
-            class="
-            focus:ring-0 text-gray-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative flex-1 bg-transparent border-none outline-none"
-            placeholder="Matricule"
-          />
-        </div>
-      </div>
-      <div
-        class="rounded-[10px] border-solid border-gray-gray-10percent border pt-[13px] pr-4 pb-[13px] pl-4 flex flex-col gap-2.5 items-start justify-center shrink-0  relative">
-        <div class="flex flex-row gap-2.5 items-start justify-start self-stretch shrink-0 relative">
-          <input
-            type="text"
             class="focus:ring-0  text-gray-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative flex-1 bg-transparent border-none outline-none"
             placeholder="Département"
           />
@@ -196,7 +185,6 @@
           </tbody>
         </table>
       </div>
-
       <app-pagination/>
     </div>
   </div>

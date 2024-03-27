@@ -5,30 +5,53 @@
         <table class="min-w-full divide-y divide-gray-300">
           <thead>
           <tr>
-            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Name</th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Title</th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Role</th>
-            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
-              <span class="sr-only">Edit</span>
-            </th>
+            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Date</th>
+            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date début</th>
+            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date fin</th>
+            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Nb jour</th>
+            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date Entre</th>
+            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Validation</th>
           </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200">
-          <tr>
-            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">Lindsay Walton</td>
-            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Front-end Developer</td>
-            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">lindsay.waltonexample.com</td>
-            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Member</td>
-            <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-              <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, Lindsay Walton</span></a>
-            </td>
+          <tbody
+            class="divide-y divide-gray-200">
+          <tr
+            (click)="showModal()"
+          >
+            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">27/03/2024</td>
+            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">01/04/2024</td>
+            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">10/04/2024</td>
+            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">10</td>
+            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">25/03/2024</td>
+            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">ITT DE 2 JRS</td>
           </tr>
+          <nz-modal
+            [(nzVisible)]="isVisible"
+            class="w-full"
+            nzTitle="certification Title"
+            nzWidth="80%"
+            [nzOkLoading]="isOkLoading"
+            [nzFooter]="modalFooterTemplate"
+            (nzOnCancel)="handleCancel()"
+          >
+            <div class="w-full" *nzModalContent>
+              <app-show-certification></app-show-certification>
+            </div>
+          </nz-modal>
 
-          <!-- More people... -->
+          <ng-template #modalFooterTemplate>
+              <button nz-button nzType="default" (click)="handleCancel()">Custom Cancel</button>
+              <button nz-button nzType="primary" [nzLoading]="isOkLoading" (click)="handleOk()">Custom OK</button>
+          </ng-template>
+
           </tbody>
         </table>
       </div>
     </div>
   </div>
 </div>
+
+
+
+
+

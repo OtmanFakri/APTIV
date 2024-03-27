@@ -5,6 +5,8 @@ import {NzSegmentedComponent} from "ng-zorro-antd/segmented";
 import {DepartmentComponent} from "./department/department.component";
 import {NgIf} from "@angular/common";
 import {MonthsComponent} from "./months/months.component";
+import {SexeComponent} from "./sexe/sexe.component";
+import {CategoryComponent} from "./category/category.component";
 @Component({
   selector: 'app-lbar-line-chart',
   standalone: true,
@@ -12,7 +14,9 @@ import {MonthsComponent} from "./months/months.component";
     NzSegmentedComponent,
     DepartmentComponent,
     NgIf,
-    MonthsComponent
+    MonthsComponent,
+    SexeComponent,
+    CategoryComponent
   ],
   templateUrl: './lbar-line-chart.component.html',
 })

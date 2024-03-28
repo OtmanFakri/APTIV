@@ -6,6 +6,7 @@ import {RouterLink} from "@angular/router";
 import {ProfileService} from "../profile/profile.service";
 import {FormData, PersonInformation, ProfessionalInformation} from "../profile/profile.module";
 
+
 @Component({
   selector: 'app-list-employee',
   standalone: true,

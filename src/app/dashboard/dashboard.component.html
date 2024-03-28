@@ -3,7 +3,7 @@
     <!-- Static sidebar for desktop -->
     <div
             [ngClass]="{'lg:w-72': close_side_bar === true, 'lg:w-20': close_side_bar === false}"
-            class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:flex-col">
+            class="hidden lg:fixed lg:inset-y-0  lg:flex lg:flex-col">
         <!-- Sidebar component, swap this element with another sidebar if you like -->
         <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
             <div class="flex h-16 shrink-0 items-center">
@@ -19,7 +19,7 @@
                                 <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
                                 <a routerLink="/" routerLinkActive="bg-gray-50 text-indigo-600"
                                    [routerLinkActiveOptions]="{ exact: true }"
-                                   class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                   class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                                    [class.text-gray-700]="!close_side_bar"
                                    [class.hover:text-indigo-600]="!close_side_bar"
                                    [class.hover:bg-gray-50]="!close_side_bar">
@@ -45,7 +45,7 @@
                                 <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
                                 <a routerLink="/Employee" routerLinkActive="bg-gray-50 text-indigo-600"
                                    [routerLinkActiveOptions]="{ exact: true }"
-                                   class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                   class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                                    [class.text-gray-700]="!close_side_bar"
                                    [class.hover:text-indigo-600]="!close_side_bar"
                                    [class.hover:bg-gray-50]="!close_side_bar">
@@ -65,7 +65,33 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <ul role="list" class="-mx-2 space-y-6">
+                            <li>
+                                <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
+                                <a routerLink="/certifications" routerLinkActive="bg-gray-50 text-indigo-600"
+                                   [routerLinkActiveOptions]="{ exact: true }"
+                                   class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                   [class.text-gray-700]="!close_side_bar"
+                                   [class.hover:text-indigo-600]="!close_side_bar"
+                                   [class.hover:bg-gray-50]="!close_side_bar">
+                                    <!-- SVG Icon -->
+                                    <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none"
+                                         [class.text-indigo-600]="isActive('/certifications')"
+                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor">
 
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                                    </svg>
+                                    <!-- Title -->
+                                    <span *ngIf="close_side_bar" class="truncate">
+                                        All certifications
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
 
@@ -156,7 +182,7 @@
         </div>
 
         <main class="py-10">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <router-outlet></router-outlet>
             </div>
         </main>

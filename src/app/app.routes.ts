@@ -9,6 +9,7 @@ import {InfoCertificationComponent} from "./profile/me/info-certification/info-c
 import {InfoConsultationComponent} from "./profile/me/info-consultation/info-consultation.component";
 import {InfoAccidentsComponent} from "./profile/me/info-accidents/info-accidents.component";
 import {HomeComponent} from "./home/home.component";
+import {ListCertificationComponent} from "./list-certification/list-certification.component";
 
 export const routes: Routes = [
   {
@@ -27,6 +28,8 @@ export const routes: Routes = [
           { path: 'accidents', component: InfoAccidentsComponent },
         ],
       },
+      { path: 'certifications', component: ListCertificationComponent },
+
     ]
   },
   {path:'login', component:LoginComponent}

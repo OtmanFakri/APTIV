@@ -1,12 +1,12 @@
 import {Component, HostListener} from '@angular/core';
-import {NgIf} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 import {Router, RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {NzDrawerComponent, NzDrawerContentDirective} from "ng-zorro-antd/drawer";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterOutlet, NgIf, DashboardComponent, RouterLink, RouterLinkActive, NzDrawerComponent, NzDrawerContentDirective],
+  imports: [RouterOutlet, NgIf, DashboardComponent, RouterLink, RouterLinkActive, NzDrawerComponent, NzDrawerContentDirective, NgClass],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent {
@@ -44,4 +44,9 @@ export class DashboardComponent {
     }
   }
 
+  showMenu = false;
+
+  toggleMenu() {
+    this.showMenu = !this.showMenu;
+  }
 }

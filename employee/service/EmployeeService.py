@@ -19,3 +19,5 @@ class EmployeeService:
         employee = self.employeeRepo.create(employee_info)
         return employee
 
+    def get(self, employee_id: int,):
+        return self.employeeRepo.get(Employee(id=employee_id))

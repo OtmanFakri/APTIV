@@ -1,5 +1,5 @@
 from fastapi import Depends
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, lazyload
 
 from configs.Database import get_db_connection
 from employee.models.Employee import Employee
@@ -23,7 +23,7 @@ class EmployeeRepo:
             id=employee_info.id,
             category=employee_info.category.value,
             department_id=employee_info.department_id,
-            #certificate_id=employee_info.certificate_id,
+            # certificate_id=employee_info.certificate_id,
             first_name=employee_info.first_name,
             last_name=employee_info.last_name,
             cin=employee_info.cin,
@@ -44,7 +44,13 @@ class EmployeeRepo:
         self.db.refresh(employee)
 
         return employee
-    def get(self):
-        pass
+
+    def get(self, employee: Employee):
+        return self.db.get(
+            Employee,
+            employee.id,
+            options=[lazyload(Employee.department), lazyload(Employee.city)],
+        )
+
     def list(self):
         pass

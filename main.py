@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi_pagination import add_pagination
 from sqlalchemy import event
 
 from Department.models.Department import Department
@@ -29,3 +30,6 @@ app.include_router(AddressRouter)
 @app.on_event("startup")
 def configure():
     init()
+
+
+add_pagination(app)  # important! add pagination to your app

@@ -1,7 +1,6 @@
 
 from fastapi import Depends
 from sqlalchemy.orm import Session
-
 from configs.Database import get_db_connection
 from employee.models.Region import Region
 
@@ -13,8 +12,6 @@ class RegionRepo:
     ) -> None:
         self.db = db
 
-    def index(self,
-              limit: int,
-              start: int):
+    def index(self):
         query = self.db.query(Region)
-        return query.offset(start).limit(limit).all()
+        return query

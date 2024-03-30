@@ -1,51 +1,35 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from sqlalchemy import event
 
-from configs.BaseModel import init
+from Department.Seeder_data import initialize_table
+from Department.models.Job import Job
+from Department.models.Department import Department
+from configs.BaseModel import init, EntityMeta
+from configs.Database import Engine
+
+
+# Listen to the 'after_create' event on the Department table
+try:
+    event.listen(Job.__table__, 'after_create', initialize_table)
+    event.listen(Department.__table__, 'after_create', initialize_table)
+except Exception as e:
+    print("An error occurred while attaching event listener:", e)
 
 app = FastAPI()
 
-class Region(BaseModel):
-    name: str
-
-class City(BaseModel):
-    name: str
-    region: Region
-
-class Job(BaseModel):
-    name: str
-
-class Department(BaseModel):
-    name: str
-    job: Job
-
-class EmployeeInfo(BaseModel):
-    city: City
-
-class Employee(BaseModel):
-    info: EmployeeInfo
-    department: Department
-
-
 @app.get("/")
 async def root():
-    region = Region(name="Test Region")
-    city = City(name="Test City", region=region)
-    job = Job(name="Test Job")
-    department = Department(name="Test Department", job=job)
-    employee_info = EmployeeInfo(city=city)
-    employee = Employee(info=employee_info, department=department)
-
-    print(employee.json())
-
-    return employee
-
+    return {"message": "Hello World"}
 
 @app.get("/hello/{name}")
 async def say_hello(name: str):
     return {"message": f"Hello {name}"}
 
-
+# This will create the DB schema and trigger the "after_create" event
+@app.on_event("startup")
+def configure():
+    EntityMeta.metadata.create_all(bind=Engine)
 
 # Initialise Data Model Attributes
 init()
+

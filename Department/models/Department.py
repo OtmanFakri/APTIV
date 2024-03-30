@@ -7,7 +7,7 @@ from configs.BaseModel import EntityMeta
 class Department(EntityMeta):
     __tablename__ = 'Departments'
     id = Column(BigInteger, primary_key=True)
-    job_id = Column(BigInteger, ForeignKey('Jobs.id'), nullable=False)
+    job_id = Column(BigInteger, ForeignKey('Jobs.id'), nullable=True)
     color = Column(String(255), nullable=False)
     name = Column(String(255), nullable=False)
 

@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  aptiv:
+    build: .
+    command: uvicorn main:app --host 0.0.0.0 --port 8011
+    volumes:
+      - .:/usr/src/personalised_nudges
+    ports:
+      - 8011:8011
+    depends_on:
+      - db
+
+  db:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    expose:
+      - 5432
+
+volumes:
+  postgres_data:

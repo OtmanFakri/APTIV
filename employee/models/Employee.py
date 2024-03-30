@@ -10,7 +10,7 @@ class Employee(EntityMeta):
     id = Column(BigInteger, primary_key=True)
     category = Column(String(255), nullable=False)
     department_id = Column(BigInteger, ForeignKey('Departments.id'), nullable=False)
-    certificate_id = Column(BigInteger, ForeignKey('certificates.id'), nullable=False)
+    #certificate_id = Column(BigInteger, ForeignKey('certificates.id'), nullable=False)
     first_name = Column(String(255), nullable=False)
     last_name = Column(String(255), nullable=False)
     cin = Column(String(255), nullable=False)
@@ -22,7 +22,7 @@ class Employee(EntityMeta):
     date_start = Column(Date, nullable=False)
     date_hiring = Column(Date, nullable=False)
     date_visit = Column(Date, nullable=False)
-    manager_id = Column(BigInteger, ForeignKey('Employees.id'))
+    manager_id = Column(BigInteger, ForeignKey('Employees.id'), nullable=True)
 
     manager = relationship('Employee', remote_side=[id])
     city = relationship('City')

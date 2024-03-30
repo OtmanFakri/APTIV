@@ -8,6 +8,7 @@ from configs.BaseModel import init
 from employee.models.City import City
 from employee.models.Region import Region
 from employee.routers.AddressRouter import AddressRouter
+from employee.routers.EmployeeRouter import EmployeeRouter
 
 app = FastAPI()
 # Listen to the 'after_create' event on the Department table
@@ -26,6 +27,7 @@ async def root():
 
 # Add Routers
 app.include_router(AddressRouter)
+app.include_router(EmployeeRouter)
 # Initialise Data Model Attributes
 @app.on_event("startup")
 def configure():

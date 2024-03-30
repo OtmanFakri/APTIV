@@ -1,7 +1,7 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
-
 from configs.Database import get_db_connection
+from employee.models.City import City
 
 
 class CityRepo:
@@ -12,5 +12,5 @@ class CityRepo:
     ) -> None:
         self.db = db
 
-    def get_City_by_Region(self, region: str):
-        return f"City by region {region}"
+    def get_City_by_Region(self, region_id: int):
+        return self.db.query(City).filter(City.region_id == region_id).all()

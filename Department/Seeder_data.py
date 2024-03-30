@@ -1,8 +1,26 @@
+import random
+
 from models.Department import Department
 from models.Job import Job
 from configs.Database import SessionLocal
 
 INITIAL_DATA = {
+    'departments': [
+        {"name": "ASSEMBLY", "color": "#FF0000"},  # red
+        {"name": "CUTTING", "color": "#0000FF"},  # blue
+        {"name": "MAINTENANCE", "color": "#008000"},  # green
+        {"name": "ENGINEERING", "color": "#FFFF00"},  # yellow
+        {"name": "PROCESS ENGI.", "color": "#800080"},  # purple
+        {"name": "PRODUCT ENGINEERING", "color": "#FFA500"},  # orange
+        {"name": "QUALITY", "color": "#00FFFF"},  # cyan
+        {"name": "LOGISTIC IMPO.EXPO.", "color": "#FF00FF"},  # magenta
+        {"name": "PURCHASING", "color": "#FFC0CB"},  # pink
+        {"name": "FINANCE-CONTROLLING", "color": "#A52A2A"},  # brown
+        {"name": "GENERAL MANAGEMENT", "color": "#808080"},  # grey
+        {"name": "HUMAN RESSOURCES", "color": "#00FF00"},  # lime
+        {"name": "SAFETY H.R", "color": "#008080"},  # teal
+        {"name": "IT", "color": "#4B0082"}  # indigo
+    ],
     'jobs': [
         {"name": "Graphic Designer"},
         {"name": "Pharmacist"},
@@ -105,23 +123,6 @@ INITIAL_DATA = {
         {"name": "Statistician II"},
         {"name": "Nurse Practicioner"}
     ],
-    'departments': [
-        {"name": "ASSEMBLY", "color": "#FF0000"},  # red
-        {"name": "CUTTING", "color": "#0000FF"},  # blue
-        {"name": "MAINTENANCE", "color": "#008000"},  # green
-        {"name": "ENGINEERING", "color": "#FFFF00"},  # yellow
-        {"name": "PROCESS ENGI.", "color": "#800080"},  # purple
-        {"name": "PRODUCT ENGINEERING", "color": "#FFA500"},  # orange
-        {"name": "QUALITY", "color": "#00FFFF"},  # cyan
-        {"name": "LOGISTIC IMPO.EXPO.", "color": "#FF00FF"},  # magenta
-        {"name": "PURCHASING", "color": "#FFC0CB"},  # pink
-        {"name": "FINANCE-CONTROLLING", "color": "#A52A2A"},  # brown
-        {"name": "GENERAL MANAGEMENT", "color": "#808080"},  # grey
-        {"name": "HUMAN RESSOURCES", "color": "#00FF00"},  # lime
-        {"name": "SAFETY H.R", "color": "#008080"},  # teal
-        {"name": "IT", "color": "#4B0082"}  # indigo
-    ],
-
 }
 
 
@@ -134,8 +135,16 @@ def seed_data():
             department = Department(**dept_data)
             session.add(department)
 
-        # Insert jobs
+        # Commit to get the department IDs
+        session.commit()
+
+        # Get all department IDs
+        department_ids = [dept.id for dept in session.query(Department).all()]
+
+        # Insert jobs with random department_id
         for job_data in INITIAL_DATA['jobs']:
+            random_dept_id = random.choice(department_ids)
+            job_data['department_id'] = random_dept_id
             job = Job(**job_data)
             session.add(job)
 

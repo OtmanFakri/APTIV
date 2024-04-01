@@ -43,7 +43,7 @@ class EmployeeService:
         return employee_data
 
     def delete(self, employee_id: int):
-        self.employeeRepo.delete(Employee(id=employee_id))
+        self.employeeRepo.delete(employee_id)
         return {"success": True}
 
     def update(self, employee_id: int, employee_info: EmployeeInfoRequest):

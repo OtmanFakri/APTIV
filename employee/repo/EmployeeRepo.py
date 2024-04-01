@@ -87,7 +87,10 @@ class EmployeeRepo:
     def list(self):
         pass
 
-    def delete(self, employee: Employee) :
+    def delete(self, employee_id: int):
+        employee = self.db.query(Employee).filter(Employee.id == employee_id).first()
+        if not employee:
+            raise Exception("Employee not found")
         self.db.delete(employee)
         self.db.commit()
         return employee
@@ -96,11 +99,10 @@ class EmployeeRepo:
         existing_employee = self.db.query(Employee).filter(Employee.id == employee.id).first()
 
         if existing_employee:
-            # Update existing_employee with the new employee data
-            for key, value in employee.__dict__.items():
-                setattr(existing_employee, key, value)
-
+            # Merge the existing_employee with the new employee data
+            self.db.merge(employee)
             self.db.commit()
+            self.db.refresh(existing_employee)
             return existing_employee
         else:
             raise ValueError("Employee not found")

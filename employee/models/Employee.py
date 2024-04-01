@@ -26,6 +26,9 @@ class Employee(EntityMeta):
 
     city = relationship('City')
     department = relationship('Department')
-    job = relationship('Job', back_populates='employees')
     manager = relationship('Employee', remote_side=[id])
+
+    def __int__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        job = relationship('Job', back_populates='employees')
 

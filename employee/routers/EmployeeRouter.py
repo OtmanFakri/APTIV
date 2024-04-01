@@ -47,3 +47,26 @@ def get_employee(
     except Exception as e:
         # Handle exceptions as per your application's error handling strategy
         return {"error": str(e)}
+
+@EmployeeRouter.delete("/{employee_id}")
+def delete_employee(
+        employee_id: int,
+        employeeService: EmployeeService = Depends()
+):
+    try:
+        employeeService.delete(employee_id)
+        return {"success": True}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@EmployeeRouter.put("/{employee_id}")
+def update_employee(
+        employee_id: int,
+        employee_info: EmployeeInfoRequest,
+        employeeService: EmployeeService = Depends()
+):
+    try:
+        employeeService.update(employee_id, employee_info)
+        return {"success": True}
+    except Exception as e:
+        return {"success": False, "error": str(e)}

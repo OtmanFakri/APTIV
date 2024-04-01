@@ -1,5 +1,4 @@
 import random
-
 from models.Department import Department
 from models.Job import Job
 from configs.Database import SessionLocal

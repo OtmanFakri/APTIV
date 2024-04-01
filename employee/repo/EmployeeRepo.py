@@ -86,3 +86,22 @@ class EmployeeRepo:
 
     def list(self):
         pass
+
+    def delete(self, employee: Employee) :
+        self.db.delete(employee)
+        self.db.commit()
+        return employee
+
+    def update(self, employee: Employee) -> Employee:
+        existing_employee = self.db.query(Employee).filter(Employee.id == employee.id).first()
+
+        if existing_employee:
+            # Update existing_employee with the new employee data
+            for key, value in employee.__dict__.items():
+                setattr(existing_employee, key, value)
+
+            self.db.commit()
+            return existing_employee
+        else:
+            raise ValueError("Employee not found")
+

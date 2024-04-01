@@ -41,3 +41,17 @@ class EmployeeService:
             "date_visit": query.Employee.date_visit.isoformat()
         }
         return employee_data
+
+    def delete(self, employee_id: int):
+        self.employeeRepo.delete(Employee(id=employee_id))
+        return {"success": True}
+
+    def update(self, employee_id: int, employee_info: EmployeeInfoRequest):
+        employee_info.convert_dates()  # Convert string dates to date objects
+
+        employee = Employee(**employee_info.dict())
+        employee.id = employee_id
+
+        updated_employee = self.employeeRepo.update(employee)
+
+        return {"success": True, "data": updated_employee}

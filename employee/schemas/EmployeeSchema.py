@@ -1,23 +1,24 @@
-from enum import Enum
-from datetime import date
 from typing import Optional
+from datetime import date
+from pydantic import BaseModel, Field
+from enum import Enum
 
-from pydantic import BaseModel
 from Department.schemas.DepartmentSchema import DepartmentSchema
 from employee.schemas.CitySchema import CitySchema
 
 
-# Define the category enum
 class CategoryEnum(str, Enum):
     DH = "DH"
     IH = "IH"
     IS = "IS"
 
-class EmployeeInfo(BaseModel):
+
+class EmployeeInfoRequest(BaseModel):
     id: int
     category: CategoryEnum
     department_id: int
-    #certificate_id: int
+    job_id: int
+    manager_id: Optional[int]
     first_name: str
     last_name: str
     cin: str
@@ -29,7 +30,6 @@ class EmployeeInfo(BaseModel):
     date_start: str  # This should be converted to Date in the application logic
     date_hiring: str  # This should be converted to Date in the application logic
     date_visit: str  # This should be converted to Date in the application logic
-    manager_id: Optional[int]
     def convert_dates(self):
         # Convert string dates to date objects
         self.birth_date = date.fromisoformat(self.birth_date)
@@ -38,7 +38,41 @@ class EmployeeInfo(BaseModel):
         self.date_visit = date.fromisoformat(self.date_visit)
 
 
-class EmployeeSchema(BaseModel):
-    info: EmployeeInfo
+class EmployeeInfoResponse(BaseModel):
+    id: int
+    category: CategoryEnum
+    department_name: str
+    job_name: str
+    manager_name: Optional[str]
+    first_name: str
+    last_name: str
+    cin: str
+    cnss: str
+    phone_number: int
+    birth_date: str
+    Sexe: str
+    city_name: str
+    region_name: str
+    date_start: str
+    date_hiring: str
+    date_visit: str
+
+    def convert_dates(self):
+        # Convert string dates to date objects
+        self.birth_date = date.fromisoformat(self.birth_date)
+        self.date_start = date.fromisoformat(self.date_start)
+        self.date_hiring = date.fromisoformat(self.date_hiring)
+        self.date_visit = date.fromisoformat(self.date_visit)
+
+
+
+class EmployeeSchemaRequest(BaseModel):
+    info: EmployeeInfoRequest
+    city: CitySchema
+    department: DepartmentSchema
+
+
+class EmployeeSchemaResponse(BaseModel):
+    info: EmployeeInfoResponse
     city: CitySchema
     department: DepartmentSchema

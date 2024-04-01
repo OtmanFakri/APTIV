@@ -23,7 +23,9 @@ class Employee(EntityMeta):
     date_hiring = Column(Date, nullable=False)
     date_visit = Column(Date, nullable=False)
     manager_id = Column(BigInteger, ForeignKey('Employees.id'), nullable=True)
+    job_id = Column(BigInteger, ForeignKey('Jobs.id'))
 
     manager = relationship('Employee', remote_side=[id])
     city = relationship('City')
     department = relationship('Department')
+    job = relationship('Job')

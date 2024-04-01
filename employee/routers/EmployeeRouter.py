@@ -3,7 +3,8 @@ from starlette import status
 
 from Department.schemas.DepartmentSchema import DepartmentSchema
 from employee.schemas.CitySchema import CitySchema
-from employee.schemas.EmployeeSchema import EmployeeInfo, EmployeeSchema
+from employee.schemas.EmployeeSchema import EmployeeInfoRequest, EmployeeInfoResponse, \
+    EmployeeSchemaResponse, CategoryEnum
 from employee.service.EmployeeService import EmployeeService
 
 EmployeeRouter = APIRouter(
@@ -14,7 +15,7 @@ EmployeeRouter = APIRouter(
 @EmployeeRouter.post("/create",
                      status_code=status.HTTP_200_OK)
 def create_employee(
-        employee_info: EmployeeInfo,
+        employee_info: EmployeeInfoRequest,
         employeeService: EmployeeService = Depends()
 ):
     try:
@@ -24,7 +25,7 @@ def create_employee(
         return {"success": False, "error": str(e)}
 
 
-@EmployeeRouter.get("/{employee_id}", response_model=EmployeeSchema)
+@EmployeeRouter.get("/{employee_id}")
 def get_employee(
         employee_id: int,
         employeeService: EmployeeService = Depends()
@@ -32,38 +33,17 @@ def get_employee(
     try:
         fetched_employee = employeeService.get(employee_id)
 
-        employee_info = EmployeeInfo(
-            id=fetched_employee.id,
-            category=fetched_employee.category,
-            department_id=fetched_employee.department_id,
-            first_name=fetched_employee.first_name,
-            last_name=fetched_employee.last_name,
-            cin=fetched_employee.cin,
-            cnss=fetched_employee.cnss,
-            phone_number=fetched_employee.phone_number,
-            birth_date=str(fetched_employee.birth_date),  # Convert date to string
-            Sexe=fetched_employee.Sexe,
-            city_id=fetched_employee.city_id,
-            date_start=str(fetched_employee.date_start),  # Convert date to string
-            date_hiring=str(fetched_employee.date_hiring),  # Convert date to string
-            date_visit=str(fetched_employee.date_visit),  # Convert date to string
-            manager_id=fetched_employee.manager_id if fetched_employee.manager_id else None
-        )
+        if fetched_employee:
+            # Convert fetched_employee dictionary to EmployeeInfoResponse
+            employee_response = EmployeeInfoResponse(**fetched_employee)
 
-        city = CitySchema(
-            name=fetched_employee.city.name) if fetched_employee.city else None  # Provide the city name if exists
-        department = DepartmentSchema(
-            name=fetched_employee.department.name if fetched_employee.department else None,
-            # Provide the department name if exists
-            jobs=[{"name": job.name, "department_id": job.department_id} for job in
-                  fetched_employee.department.jobs] if fetched_employee.department else []
-            # Provide the job name if exists
-        ) if fetched_employee.department else None
+            # Convert string dates to date objects
+            employee_response.convert_dates()
 
-        return {
-            "info": employee_info,
-            "city": city,
-            "department": department
-        }
+            return employee_response.dict()
+        else:
+            return {"error": "Employee not found"}
+
     except Exception as e:
-        return {"success": False, "error": str(e)}
+        # Handle exceptions as per your application's error handling strategy
+        return {"error": str(e)}

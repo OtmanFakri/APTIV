@@ -11,8 +11,8 @@ class Job(EntityMeta):
     name = Column(String(255), nullable=False, index=True)
     department_id = Column(BigInteger, ForeignKey('Departments.id'), index=True)
 
+    department = relationship('Department', back_populates='jobs')
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.employees = relationship('Employee', back_populates='job')
-
-    department = relationship('Department', back_populates='jobs')
+        employees = relationship('Employee', back_populates='job')

@@ -70,3 +70,11 @@ def update_employee(
         return {"success": True}
     except Exception as e:
         return {"success": False, "error": str(e)}
+
+@EmployeeRouter.get("/year/{datehire}")
+def list_BY_Hiring_Date(
+        datehire: int,
+        employeeService: EmployeeService = Depends()
+):
+    print("Rou" * 100)
+    return employeeService.list_BY_Hiring_Date(datehire)

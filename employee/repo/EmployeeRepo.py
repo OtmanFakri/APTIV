@@ -1,5 +1,6 @@
-from fastapi import Depends
-from sqlalchemy import func
+from fastapi import Depends, HTTPException
+from pydantic import json
+from sqlalchemy import func, extract, case
 from sqlalchemy.orm import Session, lazyload, aliased
 
 from Department.models.Department import Department
@@ -71,7 +72,7 @@ class EmployeeRepo:
         ).join(
             region_alias, city_alias.region_id == region_alias.id
         )
-        .outerjoin(
+                 .outerjoin(
             manager_alias, Employee.manager_id == manager_alias.id
         ).filter(
             Employee.id == employee_id
@@ -83,9 +84,46 @@ class EmployeeRepo:
         else:
             return None
 
+    def list_BY_Hiring(self, year_hiring: int):
+        try:
+            manager_alias = aliased(Employee)
+            results = (
+                self.db.query(
+                    Employee.first_name.label("First Name"),
+                    Employee.last_name.label("Last Name"),
+                    func.concat(manager_alias.first_name, ' ', manager_alias.last_name).label("Manager Name"),
+                    Employee.category.label("Category"),
+                    Department.name.label("Department Name")
+                )
+                .join(Department, Employee.department_id == Department.id)
+                .join(manager_alias, Employee.manager_id == manager_alias.id, isouter=True)
+                .with_entities(
+                    Employee.first_name,
+                    Employee.last_name,
+                    manager_alias.first_name,
+                    manager_alias.last_name,
+                    Employee.category,
+                    Department.name
+                )
+                .filter(func.extract('year', Employee.date_hiring) == year_hiring)
+                .all()
+            )
 
-    def list(self):
-        pass
+            formatted_results = [
+                {
+                    "First Name": result[0],
+                    "Last Name": result[1],
+                    "Manager Name": (result[2] or '') + ' ' + (result[3] or ''),
+                    # Concatenate first_name and last_name of manager
+                    "Category": result[4],
+                    "Department Name": result[5]
+                }
+                for result in results
+            ]
+
+            return formatted_results
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
 
     def delete(self, employee_id: int):
         employee = self.db.query(Employee).filter(Employee.id == employee_id).first()
@@ -106,4 +144,3 @@ class EmployeeRepo:
             return existing_employee
         else:
             raise ValueError("Employee not found")
-

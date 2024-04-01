@@ -55,3 +55,8 @@ class EmployeeService:
         updated_employee = self.employeeRepo.update(employee)
 
         return {"success": True, "data": updated_employee}
+
+    def list_BY_Hiring_Date(self,datehire:int):
+        print("Se" * 100)
+        query = self.employeeRepo.list_BY_Hiring(datehire)
+        return query

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import Depends, HTTPException
 from pydantic import json
 from sqlalchemy import func, extract, case
@@ -9,7 +11,7 @@ from configs.Database import get_db_connection
 from employee.models.City import City
 from employee.models.Employee import Employee
 from employee.models.Region import Region
-from employee.schemas.EmployeeSchema import EmployeeSchemaRequest, EmployeeInfoRequest
+from employee.schemas.EmployeeSchema import EmployeeSchemaRequest, EmployeeInfoRequest, EmployeeInfoResponse
 
 
 class EmployeeRepo:
@@ -53,9 +55,6 @@ class EmployeeRepo:
         return employee
 
     def get(self, employee_id: int):
-        manager_alias = aliased(Employee)
-        city_alias = aliased(City)
-        region_alias = aliased(Region)
         query = self.db.query(Employee).filter_by(id=employee_id).first()
 
         if query:
@@ -118,6 +117,7 @@ class EmployeeRepo:
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
 
+
     def delete(self, employee_id: int):
         employee = self.db.query(Employee).filter(Employee.id == employee_id).first()
         if not employee:
@@ -137,3 +137,48 @@ class EmployeeRepo:
             return existing_employee
         else:
             raise ValueError("Employee not found")
+
+    def Filter_Employee(self, year: Optional[int] = None,
+                        category: Optional[str] = None,
+                        department_name: Optional[str] = None,
+                        manager_id: Optional[int] = None):
+        query = self.db.query(Employee)
+
+        if year:
+            query = query.filter(extract('year', Employee.date_hiring) == year)
+
+        if category:
+            query = query.filter_by(category=category)
+
+        if department_name:
+            query = query.join(Department).filter(Department.name == department_name)
+
+        if manager_id:
+            query = query.filter_by(manager_id=manager_id)
+
+        employees = query.all()
+
+        return [self._employee_to_dict(emp) for emp in employees]
+
+    def _employee_to_dict(self, query):
+        employee_data = {
+            "id": query.id,
+            "category": query.category,
+            "department_name": query.department.name if query.department else None,
+            "job_name": query.job.name if query.job else None,
+            "manager_name": query.manager.first_name + " " + query.manager.last_name if query.manager else None,
+            "first_name": query.first_name,
+            "last_name": query.last_name,
+            "cin": query.cin,
+            "cnss": query.cnss,
+            "phone_number": query.phone_number,
+            "birth_date": query.birth_date.isoformat(),
+            "Sexe": query.Sexe,
+            "city_name": query.city.name if query.city else None,
+            "region_name": query.city.region.name if query.city and query.city.region else None,
+            "date_start": query.date_start.isoformat(),
+            "date_hiring": query.date_hiring.isoformat(),
+            "date_visit": query.date_visit.isoformat()
+        }
+
+        return EmployeeInfoResponse(**employee_data)

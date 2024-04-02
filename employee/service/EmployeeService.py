@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import Depends
 
 from employee.models.Employee import Employee
@@ -53,3 +55,13 @@ class EmployeeService:
             for result in query
         ]
         return formatted_results
+
+
+    def Filter_Employee(self, year: Optional[int] = None,
+                        category: Optional[str] = None,
+                        department_name: Optional[str] = None,
+                        manager_id: Optional[int] = None):
+        query = self.employeeRepo.Filter_Employee(year, category, department_name, manager_id)
+
+
+        return query

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import APIRouter, Depends
 from starlette import status
 from fastapi_pagination import Page, paginate
@@ -75,3 +77,19 @@ def list_BY_Hiring_Date(
 ) -> Page[EmployeeInfoResponse]:
 
     return paginate(employeeService.list_BY_Hiring_Date(datehire))
+
+
+
+
+@EmployeeRouter.post("/filter")
+def Filter_Employee(year: int,
+                    category: Optional[str] = None,
+                    department_name: Optional[str] = None,
+                    manager_id: Optional[int] = None,
+                    employeeService: EmployeeService = Depends()) -> Page[EmployeeInfoResponse] :
+    return paginate(employeeService.Filter_Employee(year, category, department_name, manager_id))
+
+
+@EmployeeRouter.post("/test")
+def test():
+    return {"message": "Hello, World!"}

@@ -29,3 +29,7 @@ def getCityByRegion(
     citys = cityService.get_City_by_Region(region_id)
     return [{"name": city.name} for city in citys]
 
+
+@AddressRouter.get("/test")
+def test():
+    return {"message": "Hello, World!"}

@@ -22,26 +22,8 @@ class EmployeeService:
 
     def get(self, employee_id: int,):
         query= self.employeeRepo.get(employee_id)
-        employee_data = {
-            "id": query.Employee.id,
-            "category": query.Employee.category,  # This assumes 'category' is an attribute of Employee
-            "department_name": query.DepartmentName,
-            "job_name": query.JobName,
-            "manager_name": query.ManagerName,
-            "first_name": query.Employee.first_name,
-            "last_name": query.Employee.last_name,
-            "cin": query.Employee.cin,
-            "cnss": query.Employee.cnss,
-            "phone_number": query.Employee.phone_number,
-            "birth_date": query.Employee.birth_date.isoformat(),
-            "Sexe": query.Employee.Sexe,
-            "city_name": query.CityName,
-            "region_name": query.RegionName,
-            "date_start": query.Employee.date_start.isoformat(),
-            "date_hiring": query.Employee.date_hiring.isoformat(),
-            "date_visit": query.Employee.date_visit.isoformat()
-        }
-        return employee_data
+
+        return query
 
     def delete(self, employee_id: int):
         self.employeeRepo.delete(employee_id)

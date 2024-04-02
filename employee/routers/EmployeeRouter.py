@@ -34,12 +34,10 @@ def get_employee(
 
         if fetched_employee:
             # Convert fetched_employee dictionary to EmployeeInfoResponse
-            employee_response = EmployeeInfoResponse(**fetched_employee)
+            #employee_response = EmployeeInfoResponse(**fetched_employee)
 
-            # Convert string dates to date objects
-            employee_response.convert_dates()
-
-            return employee_response.dict()
+            #
+            return fetched_employee
         else:
             return {"error": "Employee not found"}
 

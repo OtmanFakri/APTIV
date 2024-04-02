@@ -56,31 +56,31 @@ class EmployeeRepo:
         manager_alias = aliased(Employee)
         city_alias = aliased(City)
         region_alias = aliased(Region)
-        query = (self.db.query(
-            Employee,
-            Department.name.label('DepartmentName'),
-            Job.name.label('JobName'),
-            city_alias.name.label('CityName'),
-            region_alias.name.label('RegionName'),
-            func.concat(manager_alias.first_name, ' ', manager_alias.last_name).label('ManagerName')
-        ).join(
-            Job, Employee.job_id == Job.id
-        ).join(
-            Department, Job.department_id == Department.id
-        ).join(
-            city_alias, Employee.city_id == city_alias.id
-        ).join(
-            region_alias, city_alias.region_id == region_alias.id
-        )
-                 .outerjoin(
-            manager_alias, Employee.manager_id == manager_alias.id
-        ).filter(
-            Employee.id == employee_id
-        ).first())
+        query = self.db.query(Employee).filter_by(id=employee_id).first()
 
         if query:
-            # Convert query result to a dictionary
-            return query
+            employee_data = {
+                "id": query.id,
+                "category": query.category,
+                "department_name": query.department.name,  # Assuming Department has a 'name' attribute
+                "job_name": query.job.name,  # Assuming Job has a 'name' attribute
+                "manager_name": query.manager.first_name + " " + query.manager.last_name if query.manager else None,
+                "first_name": query.first_name,
+                "last_name": query.last_name,
+                "cin": query.cin,
+                "cnss": query.cnss,
+                "phone_number": query.phone_number,
+                "birth_date": query.birth_date.isoformat(),
+                "Sexe": query.Sexe,
+                "city_name": query.city.name,  # Assuming City has a 'name' attribute
+                "region_name": query.city.region.name if query.city and query.city.region else None,
+                # Assuming City has a 'region' relationship and Region has a 'name' attribute
+                "date_start": query.date_start.isoformat(),
+                "date_hiring": query.date_hiring.isoformat(),
+                "date_visit": query.date_visit.isoformat()
+            }
+            print(employee_data)
+            return employee_data
         else:
             return None
 

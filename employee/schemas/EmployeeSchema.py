@@ -63,3 +63,5 @@ class EmployeeSchemaResponse(BaseModel):
     info: EmployeeInfoResponse
     city: CitySchema
     department: DepartmentSchema
+
+

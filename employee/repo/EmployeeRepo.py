@@ -89,6 +89,7 @@ class EmployeeRepo:
             manager_alias = aliased(Employee)
             results = (
                 self.db.query(
+                    Employee.id.label("Employee ID"),
                     Employee.first_name.label("First Name"),
                     Employee.last_name.label("Last Name"),
                     func.concat(manager_alias.first_name, ' ', manager_alias.last_name).label("Manager Name"),
@@ -98,6 +99,7 @@ class EmployeeRepo:
                 .join(Department, Employee.department_id == Department.id)
                 .join(manager_alias, Employee.manager_id == manager_alias.id, isouter=True)
                 .with_entities(
+                    Employee.id,
                     Employee.first_name,
                     Employee.last_name,
                     manager_alias.first_name,
@@ -109,19 +111,10 @@ class EmployeeRepo:
                 .all()
             )
 
-            formatted_results = [
-                {
-                    "First Name": result[0],
-                    "Last Name": result[1],
-                    "Manager Name": (result[2] or '') + ' ' + (result[3] or ''),
-                    # Concatenate first_name and last_name of manager
-                    "Category": result[4],
-                    "Department Name": result[5]
-                }
-                for result in results
-            ]
 
-            return formatted_results
+
+
+            return results
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
 

@@ -3,7 +3,8 @@ from fastapi import Depends
 from employee.models.Employee import Employee
 from employee.repo.CityRepo import CityRepo
 from employee.repo.EmployeeRepo import EmployeeRepo
-from employee.schemas.EmployeeSchema import EmployeeSchemaRequest, EmployeeInfoRequest
+from employee.schemas.EmployeeSchema import EmployeeSchemaRequest, EmployeeInfoRequest, EmployeeInfoResponse, \
+    CategoryEnum
 
 
 class EmployeeService:
@@ -57,6 +58,16 @@ class EmployeeService:
         return {"success": True, "data": updated_employee}
 
     def list_BY_Hiring_Date(self,datehire:int):
-        print("Se" * 100)
         query = self.employeeRepo.list_BY_Hiring(datehire)
-        return query
+        formatted_results = [
+            EmployeeInfoResponse(
+                id=result[0],
+                first_name=result[1],
+                last_name=result[2],
+                manager_name=(result[3] or '') + ' ' + (result[4] or ''),
+                category=CategoryEnum(result[5]),
+                department_name=result[6],
+            ).dict()
+            for result in query
+        ]
+        return formatted_results

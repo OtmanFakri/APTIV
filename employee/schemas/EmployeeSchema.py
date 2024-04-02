@@ -14,7 +14,7 @@ class CategoryEnum(str, Enum):
 
 
 class EmployeeInfoRequest(BaseModel):
-    id: int
+    id: Optional[int]
     category: CategoryEnum
     department_id: int
     job_id: int
@@ -36,34 +36,21 @@ class EmployeeInfoRequest(BaseModel):
         self.date_start = date.fromisoformat(self.date_start)
         self.date_hiring = date.fromisoformat(self.date_hiring)
         self.date_visit = date.fromisoformat(self.date_visit)
-
+    class Config:
+        orm_mode = True
+        from_attributes = True
 
 class EmployeeInfoResponse(BaseModel):
     id: int
-    category: CategoryEnum
-    department_name: str
-    job_name: str
-    manager_name: Optional[str]
     first_name: str
     last_name: str
-    cin: str
-    cnss: str
-    phone_number: int
-    birth_date: str
-    Sexe: str
-    city_name: str
-    region_name: str
-    date_start: str
-    date_hiring: str
-    date_visit: str
+    manager_name: Optional[str]
+    category: CategoryEnum
+    department_name: str
 
-    def convert_dates(self):
-        # Convert string dates to date objects
-        self.birth_date = date.fromisoformat(self.birth_date)
-        self.date_start = date.fromisoformat(self.date_start)
-        self.date_hiring = date.fromisoformat(self.date_hiring)
-        self.date_visit = date.fromisoformat(self.date_visit)
-
+    class Config:
+        orm_mode = True
+        from_attributes = True
 
 
 class EmployeeSchemaRequest(BaseModel):

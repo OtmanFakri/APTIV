@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends
 from starlette import status
+from fastapi_pagination import Page, paginate
 
-from Department.schemas.DepartmentSchema import DepartmentSchema
-from employee.schemas.CitySchema import CitySchema
 from employee.schemas.EmployeeSchema import EmployeeInfoRequest, EmployeeInfoResponse, \
     EmployeeSchemaResponse, CategoryEnum
 from employee.service.EmployeeService import EmployeeService
@@ -75,6 +74,6 @@ def update_employee(
 def list_BY_Hiring_Date(
         datehire: int,
         employeeService: EmployeeService = Depends()
-):
-    print("Rou" * 100)
-    return employeeService.list_BY_Hiring_Date(datehire)
+) -> Page[EmployeeInfoResponse]:
+
+    return paginate(employeeService.list_BY_Hiring_Date(datehire))

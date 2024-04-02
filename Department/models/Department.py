@@ -11,3 +11,4 @@ class Department(EntityMeta):
     name = Column(String(255), nullable=False,index=True)
 
     jobs = relationship('Job', back_populates='department')
+    employees = relationship('Employee', back_populates='department')

@@ -10,4 +10,5 @@ class City(EntityMeta):
     name = Column(String(255), nullable=False)
     region_id = Column(BigInteger, ForeignKey('region.id'), nullable=False)
 
-    region = relationship('Region')
+    region = relationship('Region', back_populates='cities')
+    employees = relationship('Employee', back_populates='city')

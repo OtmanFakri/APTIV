@@ -1,4 +1,7 @@
+import datetime
 import random
+
+from employee.models.Employee import Employee
 from models.Department import Department
 from models.Job import Job
 from configs.Database import SessionLocal
@@ -128,33 +131,18 @@ INITIAL_DATA = {
 def seed_data():
     session = SessionLocal()
 
-    try:
-        # Insert departments
-        for dept_data in INITIAL_DATA['departments']:
-            department = Department(**dept_data)
-            session.add(department)
+    # Inserting Departments
+    departments = [Department(name=dept['name'], color=dept['color']) for dept in INITIAL_DATA['departments']]
+    session.add_all(departments)
+    session.commit()
 
-        # Commit to get the department IDs
-        session.commit()
+    # Inserting Jobs
+    jobs = [Job(name=job['name']) for job in INITIAL_DATA['jobs']]
+    session.add_all(jobs)
+    session.commit()
 
-        # Get all department IDs
-        department_ids = [dept.id for dept in session.query(Department).all()]
-
-        # Insert jobs with random department_id
-        for job_data in INITIAL_DATA['jobs']:
-            random_dept_id = random.choice(department_ids)
-            job_data['department_id'] = random_dept_id
-            job = Job(**job_data)
-            session.add(job)
-
-        session.commit()
-        print("Data seeding successful.")
-    except Exception as e:
-        session.rollback()
-        print("Error occurred during data seeding:", e)
-    finally:
-        session.close()
-
+    session.close()
 
 if __name__ == "__main__":
     seed_data()
+

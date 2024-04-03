@@ -12,4 +12,4 @@ class Job(EntityMeta):
     department_id = Column(BigInteger, ForeignKey('Departments.id'), index=True)
 
     department = relationship('Department', back_populates='jobs')
-    employees = relationship('Employee', back_populates='job')
+    employees = relationship('Employee', back_populates='job',)

@@ -5,6 +5,7 @@ from sqlalchemy import event
 from Department.models.Department import Department
 from Department.models.Job import Job
 from Department.routers.DepartmentRouter import DepartmentRouter
+from Department.routers.JobRouter import JobRouter
 from configs.BaseModel import init
 from employee.models.City import City
 from employee.models.Region import Region
@@ -30,8 +31,8 @@ async def root():
 # Add Routers
 app.include_router(AddressRouter)
 app.include_router(EmployeeRouter)
-
 app.include_router(DepartmentRouter)
+app.include_router(JobRouter)
 
 
 # Initialise Data Model Attributes

@@ -11,10 +11,12 @@ from employee.service.EmployeeService import EmployeeService
 fake = Faker()
 
 
-def get_random_manager_id(session: Session):
-    # Retrieve all existing employee IDs
-    all_employee_ids = [employee.id for employee in session.query(Employee.id).all()]
-    # Return a random employee ID
+def get_random_manager_id(session):
+    all_employee_ids = [employee.id for employee in session.query(Employee).all()]
+
+    if not all_employee_ids:
+        return None
+
     return choice(all_employee_ids)
 
 def generate_unique_id(session: Session):
@@ -29,8 +31,8 @@ def create_employee(session: Session):
     employee_data = {
         "id": generate_unique_id(session),  # Random ID between 1 and 10000
         "category": choice(list(CategoryEnum)),
-        "department_id": randint(3, 16),
-        "job_id": randint(3, 102),
+        "department_id": randint(1, 14),
+        "job_id": randint(1, 100),
         "manager_id": None if randint(0, 1) == 0 else get_random_manager_id(session),  # Randomly select a valid manager_id
         "first_name": fake.first_name(),
         "last_name": fake.last_name(),

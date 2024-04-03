@@ -1,6 +1,8 @@
 import datetime
 import random
+import string
 
+from Department.schemas.DepartmentSchema import DepartmentBase
 from employee.models.Employee import Employee
 from models.Department import Department
 from models.Job import Job
@@ -127,19 +129,25 @@ INITIAL_DATA = {
     ],
 }
 
+# Insert data
+def create_department(db_session, department: DepartmentBase):
+    db_department = Department(**department.dict())
+    db_session.add(db_department)
+    db_session.commit()
+    db_session.refresh(db_department)
+    return db_department
+# Function to generate a random id
+def generate_random_id():
+    return int(''.join(random.choices(string.digits, k=9)))
 
 def seed_data():
     session = SessionLocal()
 
-    # Inserting Departments
-    departments = [Department(name=dept['name'], color=dept['color']) for dept in INITIAL_DATA['departments']]
-    session.add_all(departments)
-    session.commit()
+    department1 = DepartmentBase(color="Blue", name="Sales")
+    department2 = DepartmentBase(color="Red", name="Marketing")
 
-    # Inserting Jobs
-    jobs = [Job(name=job['name']) for job in INITIAL_DATA['jobs']]
-    session.add_all(jobs)
-    session.commit()
+    create_department(session, department1)
+    create_department(session, department2)
 
     session.close()
 

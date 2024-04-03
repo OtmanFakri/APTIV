@@ -6,7 +6,7 @@ from configs.BaseModel import EntityMeta
 
 class Department(EntityMeta):
     __tablename__ = 'Departments'
-    id = Column(BigInteger, primary_key=True,index=True)
+    id = Column(BigInteger, primary_key=True,index=True ,autoincrement=True)
     color = Column(String(255), nullable=False)
     name = Column(String(255), nullable=False,index=True)
 

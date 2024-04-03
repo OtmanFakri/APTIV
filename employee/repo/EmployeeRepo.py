@@ -83,40 +83,6 @@ class EmployeeRepo:
         else:
             return None
 
-    def list_BY_Hiring(self, year_hiring: int):
-        try:
-            manager_alias = aliased(Employee)
-            results = (
-                self.db.query(
-                    Employee.id.label("Employee ID"),
-                    Employee.first_name.label("First Name"),
-                    Employee.last_name.label("Last Name"),
-                    func.concat(manager_alias.first_name, ' ', manager_alias.last_name).label("Manager Name"),
-                    Employee.category.label("Category"),
-                    Department.name.label("Department Name")
-                )
-                .join(Department, Employee.department_id == Department.id)
-                .join(manager_alias, Employee.manager_id == manager_alias.id, isouter=True)
-                .with_entities(
-                    Employee.id,
-                    Employee.first_name,
-                    Employee.last_name,
-                    manager_alias.first_name,
-                    manager_alias.last_name,
-                    Employee.category,
-                    Department.name
-                )
-                .filter(func.extract('year', Employee.date_hiring) == year_hiring)
-                .all()
-            )
-
-
-
-
-            return results
-        except Exception as e:
-            raise HTTPException(status_code=400, detail=str(e))
-
 
     def delete(self, employee_id: int):
         employee = self.db.query(Employee).filter(Employee.id == employee_id).first()
@@ -140,7 +106,7 @@ class EmployeeRepo:
 
     def Filter_Employee(self, year: Optional[int] = None,
                         category: Optional[str] = None,
-                        department_name: Optional[str] = None,
+                        department_id: Optional[str] = None,
                         manager_id: Optional[int] = None):
         query = self.db.query(Employee)
 
@@ -150,8 +116,8 @@ class EmployeeRepo:
         if category:
             query = query.filter_by(category=category)
 
-        if department_name:
-            query = query.join(Department).filter(Department.name == department_name)
+        if department_id:
+            query = query.join(Department).filter(Department.id == department_id)
 
         if manager_id:
             query = query.filter_by(manager_id=manager_id)

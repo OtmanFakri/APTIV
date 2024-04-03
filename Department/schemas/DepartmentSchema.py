@@ -20,3 +20,13 @@ class PostDepartmentSchema(BaseModel):
         orm_mode = True
         from_attributes = True
 
+
+class DepartmentBase(BaseModel):
+    color: str
+    name: str
+
+class DepartmentCreate(DepartmentBase):
+    pass
+
+class DepartmentUpdate(DepartmentBase):
+    pass

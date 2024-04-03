@@ -41,20 +41,7 @@ class EmployeeService:
 
         return {"success": True, "data": updated_employee}
 
-    def list_BY_Hiring_Date(self,datehire:int):
-        query = self.employeeRepo.list_BY_Hiring(datehire)
-        formatted_results = [
-            EmployeeInfoResponse(
-                id=result[0],
-                first_name=result[1],
-                last_name=result[2],
-                manager_name=(result[3] or '') + ' ' + (result[4] or ''),
-                category=CategoryEnum(result[5]),
-                department_name=result[6],
-            ).dict()
-            for result in query
-        ]
-        return formatted_results
+
 
 
     def Filter_Employee(self, year: Optional[int] = None,

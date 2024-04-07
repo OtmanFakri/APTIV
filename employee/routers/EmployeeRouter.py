@@ -1,12 +1,11 @@
-from typing import Optional, List
+from typing import Optional
 
 from fastapi import APIRouter, Depends
-from starlette import status
 from fastapi_pagination import Page, paginate
+from starlette import status
 
 from certificate.schemas.CertificateSchema import CertificateSchema
-from employee.schemas.EmployeeSchema import EmployeeInfoRequest, EmployeeInfoResponse, \
-    EmployeeSchemaResponse, CategoryEnum
+from employee.schemas.EmployeeSchema import EmployeeInfoRequest, EmployeeInfoResponse
 from employee.service.EmployeeService import EmployeeService
 
 EmployeeRouter = APIRouter(

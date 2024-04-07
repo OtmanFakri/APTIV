@@ -1,9 +1,10 @@
-from typing import Optional
+from typing import Optional, List
 
 from fastapi import APIRouter, Depends
 from starlette import status
 from fastapi_pagination import Page, paginate
 
+from certificate.schemas.CertificateSchema import CertificateSchema
 from employee.schemas.EmployeeSchema import EmployeeInfoRequest, EmployeeInfoResponse, \
     EmployeeSchemaResponse, CategoryEnum
 from employee.service.EmployeeService import EmployeeService
@@ -71,10 +72,6 @@ def update_employee(
         return {"success": False, "error": str(e)}
 
 
-
-
-
-
 @EmployeeRouter.post("/filter")
 def Filter_Employee(year: int,
                     category: Optional[str] = None,
@@ -84,6 +81,49 @@ def Filter_Employee(year: int,
     return paginate(employeeService.Filter_Employee(year, category, department_name, manager_id))
 
 
-@EmployeeRouter.post("/test")
-def test():
-    return {"message": "Hello, World!"}
+@EmployeeRouter.post("/{employee_id}/certificate")
+def create_certificate(
+        employee_id: int,
+        certificate_info: CertificateSchema,
+        employeeService: EmployeeService = Depends()
+):
+    try:
+        employeeService.create_certificate(employee_id, certificate_info)
+        return {"success": True}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@EmployeeRouter.get("/{employee_id}/certificate")
+def get_certificate_employee(
+        employee_id: int,
+        employeeService: EmployeeService = Depends()
+):
+    try:
+        fetched_certificate = employeeService.get_certificate_employee(employee_id)
+        return fetched_certificate
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@EmployeeRouter.get("/{employee_id}/certificates")
+def get_certificates_employee(
+        employee_id: int,
+        employeeService: EmployeeService = Depends()
+) -> Page[CertificateSchema]:
+    try:
+        fetched_certificate = employeeService.get_certificates_employee(employee_id)
+        return paginate( [CertificateSchema(
+            id=certificate.id,
+            doctor_name=certificate.doctor.name,
+            date=certificate.date,
+            date_start=certificate.date_start,
+            date_end=certificate.date_end,
+            date_entry=certificate.date_entry,
+            validation=certificate.validation,
+            date_planned=certificate.date_planned,
+            nbr_expected=certificate.nbr_expected,
+            nbr_days=certificate.nbr_days,
+            nbr_gap=certificate.nbr_gap,
+        ) for certificate in fetched_certificate])
+    except Exception as e:
+        return {"success": False, "error": str(e)}

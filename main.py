@@ -6,6 +6,8 @@ from Department.models.Department import Department
 from Department.models.Job import Job
 from Department.routers.DepartmentRouter import DepartmentRouter
 from Department.routers.JobRouter import JobRouter
+from certificate.models.certificate import Certificate
+from certificate.models.doctor import Doctor
 from configs.BaseModel import init
 from employee.models.City import City
 from employee.models.Region import Region
@@ -20,6 +22,8 @@ try:
     event.listen(Department.__table__, 'after_create')
     event.listen(City.__table__, 'after_create')
     event.listen(Region.__table__, 'after_create')
+    event.listen(Doctor.__table__, 'after_create')
+    event.listen(Certificate.__table__, 'after_create')
 except Exception as e:
     print("An error occurred while attaching event listener:", e)
 @app.get("/")

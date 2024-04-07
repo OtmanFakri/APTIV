@@ -2,6 +2,7 @@ from typing import Optional
 
 from fastapi import Depends
 
+from certificate.schemas.CertificateSchema import CertificateSchema
 from employee.models.Employee import Employee
 from employee.repo.CityRepo import CityRepo
 from employee.repo.EmployeeRepo import EmployeeRepo
@@ -42,8 +43,6 @@ class EmployeeService:
         return {"success": True, "data": updated_employee}
 
 
-
-
     def Filter_Employee(self, year: Optional[int] = None,
                         category: Optional[str] = None,
                         department_name: Optional[str] = None,
@@ -51,4 +50,16 @@ class EmployeeService:
         query = self.employeeRepo.Filter_Employee(year, category, department_name, manager_id)
 
 
+        return query
+
+    def create_certificate(self, employee_id: int, certificate_info: CertificateSchema):
+        self.employeeRepo.create_certificate(employee_id, certificate_info)
+        return {"success": True}
+
+    def get_certificate_employee(self, employee_id: int):
+        query = self.employeeRepo.get_certificate_employee(employee_id)
+        return query
+
+    def get_certificates_employee(self, employee_id: int):
+        query = self.employeeRepo.get_certificates_employee(employee_id)
         return query

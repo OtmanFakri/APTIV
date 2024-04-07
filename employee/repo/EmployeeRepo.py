@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from fastapi import Depends, HTTPException
 from pydantic import json
@@ -7,6 +7,8 @@ from sqlalchemy.orm import Session, lazyload, aliased
 
 from Department.models.Department import Department
 from Department.models.Job import Job
+from certificate.models.certificate import Certificate
+from certificate.schemas.CertificateSchema import CertificateSchema
 from configs.Database import get_db_connection
 from employee.models.City import City
 from employee.models.Employee import Employee
@@ -126,6 +128,61 @@ class EmployeeRepo:
 
         return [self._employee_to_dict(emp) for emp in employees]
 
+    def create_certificate(self, employee_id: int, certificate_info: CertificateSchema):
+        employee = self.db.query(Employee).filter(Employee.id == employee_id).first()
+
+        if not employee:
+            raise HTTPException(status_code=404, detail="Employee not found")
+
+        certificate = Certificate(
+            doctor_id=certificate_info.doctor_id,
+            date=certificate_info.date,
+            date_start=certificate_info.date_start,
+            date_end=certificate_info.date_end,
+            date_entry=certificate_info.date_entry,
+            validation=certificate_info.validation,
+            date_planned=certificate_info.date_planned,
+            nbr_expected=certificate_info.nbr_expected,
+            nbr_days=certificate_info.nbr_days,
+            nbr_gap=certificate_info.nbr_gap,
+            employee_id=employee_id
+        )
+
+        self.db.add(certificate)
+        self.db.commit()
+        self.db.refresh(certificate)
+
+        return certificate
+
+    def get_certificate_employee(self, employee_id: int) -> List[dict]:
+        employee = self.db.query(Employee).filter(Employee.id == employee_id).first()
+
+        if not employee:
+            raise HTTPException(status_code=404, detail="Employee not found")
+
+        certificates = [
+            {
+                "id": cert.id,
+                "doctor_name": cert.doctor.name,
+                "date": cert.date,
+                "date_start": cert.date_start,
+                "date_end": cert.date_end,
+                "date_entry": cert.date_entry,
+                "validation": cert.validation,
+                "date_planned": cert.date_planned,
+                "nbr_expected": cert.nbr_expected,
+                "nbr_days": cert.nbr_days,
+                "nbr_gap": cert.nbr_gap
+            }
+            for cert in employee.certificates
+        ]
+
+        return certificates
+
+
+    def get_certificates_employee(self, employee_id: int) -> List[dict]:
+        certificates = self.db.query(Certificate).filter(Certificate.employee_id == employee_id).all()
+        return certificates
     def _employee_to_dict(self, query):
         employee_data = {
             "id": query.id,

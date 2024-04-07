@@ -23,8 +23,10 @@ class Employee(EntityMeta):
     date_visit = Column(Date, nullable=False,index=True)
     manager_id = Column(BigInteger, ForeignKey('Employees.id', ondelete='SET NULL'),index=True)
     job_id = Column(BigInteger, ForeignKey('Jobs.id', ondelete='SET NULL'), nullable=True,index=True)
+    #certificate_id = Column(BigInteger, ForeignKey('certificates.id'), nullable=True ,index=True)
 
     manager = relationship("Employee", remote_side=[id],)
     department = relationship("Department",back_populates="employees")
     job = relationship("Job", back_populates="employees")
     city = relationship("City", back_populates="employees")
+    certificates = relationship("Certificate", back_populates="employee")

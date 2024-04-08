@@ -11,6 +11,7 @@ class Employee(EntityMeta):
     category = Column(String(255), nullable=False, default='',index=True)
     department_id = Column(BigInteger, ForeignKey('Departments.id'), nullable=False,index=True)
     first_name = Column(String(255), nullable=False)
+
     last_name = Column(String(255), nullable=False)
     cin = Column(String(255), nullable=False)
     cnss = Column(String(255), nullable=False)

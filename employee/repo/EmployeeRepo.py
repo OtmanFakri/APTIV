@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session, lazyload, aliased
 from Department.models.Department import Department
 from Department.models.Job import Job
 from certificate.models.certificate import Certificate
-from certificate.schemas.CertificateSchema import CertificateSchema
+from certificate.schemas.CertificateSchema import  PostCertificateSchema
 from configs.Database import get_db_connection
 from employee.models.City import City
 from employee.models.Employee import Employee
@@ -128,7 +128,7 @@ class EmployeeRepo:
 
         return [self._employee_to_dict(emp) for emp in employees]
 
-    def create_certificate(self, employee_id: int, certificate_info: CertificateSchema):
+    def create_certificate(self, employee_id: int, certificate_info: PostCertificateSchema):
         employee = self.db.query(Employee).filter(Employee.id == employee_id).first()
 
         if not employee:

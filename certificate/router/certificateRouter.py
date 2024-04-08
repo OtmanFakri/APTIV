@@ -1,10 +1,12 @@
 from fastapi import APIRouter
 
+from certificate.schemas.CertificateSchema import testShcema
+
 CertificateRouter = APIRouter(
     prefix="/certificate", tags=["certificate"]
 )
 
 
-@CertificateRouter.get("/")
-def get_certificates():
-    return {"message": "Hello World"}
+@CertificateRouter.post("/")
+def get_certificates(test:testShcema):
+    return test

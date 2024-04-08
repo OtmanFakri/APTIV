@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from fastapi_pagination import Page, paginate
 from starlette import status
 
-from certificate.schemas.CertificateSchema import CertificateSchema
+from certificate.schemas.CertificateSchema import PostCertificateSchema, GetCertificateSchema
 from employee.schemas.EmployeeSchema import EmployeeInfoRequest, EmployeeInfoResponse
 from employee.service.EmployeeService import EmployeeService
 
@@ -83,7 +83,7 @@ def Filter_Employee(year: int,
 @EmployeeRouter.post("/{employee_id}/certificate")
 def create_certificate(
         employee_id: int,
-        certificate_info: CertificateSchema,
+        certificate_info: PostCertificateSchema,
         employeeService: EmployeeService = Depends()
 ):
     try:
@@ -108,10 +108,10 @@ def get_certificate_employee(
 def get_certificates_employee(
         employee_id: int,
         employeeService: EmployeeService = Depends()
-) -> Page[CertificateSchema]:
+) -> Page[GetCertificateSchema]:
     try:
         fetched_certificate = employeeService.get_certificates_employee(employee_id)
-        return paginate( [CertificateSchema(
+        return paginate( [GetCertificateSchema(
             id=certificate.id,
             doctor_name=certificate.doctor.name,
             date=certificate.date,

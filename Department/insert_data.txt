@@ -115,3 +115,17 @@ INSERT INTO "Jobs" (name, department_id) VALUES
     ('Community Outreach Specialist', 12),
     ('Statistician II', 7),
     ('Nurse Practicioner', 13);
+
+INSERT INTO Doctors (name, specialty) VALUES
+('Dr. Smith', 'Cardiology'),
+('Dr. Johnson', 'Dermatology'),
+('Dr. Williams', 'Neurology'),
+('Dr. Jones', 'Pediatrics'),
+('Dr. Brown', 'Orthopedics'),
+('Dr. Davis', 'Psychiatry'),
+('Dr. Miller', 'Ophthalmology'),
+('Dr. Wilson', 'Endocrinology'),
+('Dr. Moore', 'Gastroenterology'),
+('Dr. Taylor', 'Oncology');
+
+

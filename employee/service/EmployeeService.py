@@ -2,7 +2,7 @@ from typing import Optional
 
 from fastapi import Depends
 
-from certificate.schemas.CertificateSchema import CertificateSchema
+from certificate.schemas.CertificateSchema import  PostCertificateSchema
 from employee.models.Employee import Employee
 from employee.repo.CityRepo import CityRepo
 from employee.repo.EmployeeRepo import EmployeeRepo
@@ -52,7 +52,7 @@ class EmployeeService:
 
         return query
 
-    def create_certificate(self, employee_id: int, certificate_info: CertificateSchema):
+    def create_certificate(self, employee_id: int, certificate_info: PostCertificateSchema):
         self.employeeRepo.create_certificate(employee_id, certificate_info)
         return {"success": True}
 

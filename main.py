@@ -8,6 +8,7 @@ from Department.routers.DepartmentRouter import DepartmentRouter
 from Department.routers.JobRouter import JobRouter
 from certificate.models.certificate import Certificate
 from certificate.models.doctor import Doctor
+from certificate.router.certificateRouter import CertificateRouter
 from certificate.router.doctorRouter import DoctorRouter
 from configs.BaseModel import init
 from employee.models.City import City
@@ -39,6 +40,7 @@ app.include_router(EmployeeRouter)
 app.include_router(DepartmentRouter)
 app.include_router(JobRouter)
 app.include_router(DoctorRouter)
+app.include_router(CertificateRouter)
 
 # Initialise Data Model Attributes
 @app.on_event("startup")

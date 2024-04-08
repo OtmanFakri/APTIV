@@ -18,8 +18,8 @@ class Certificate(EntityMeta):
     nbr_expected = Column(BigInteger, nullable=False , index=True)
     nbr_days = Column(BigInteger, nullable=False)
     nbr_gap = Column(BigInteger, nullable=False)
-    doctor = relationship(Doctor, backref='certificates')
+    doctor = relationship(Doctor, back_populates='certificates')
+
 
     employee_id = Column(Integer, ForeignKey("Employees.id"))
-
     employee = relationship("Employee", back_populates="certificates")

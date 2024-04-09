@@ -1,45 +1,34 @@
 import { Injectable } from '@angular/core';
 import {FormData, PersonInformation, ProfessionalInformation} from "./profile.module";
+import {HttpClient} from "@angular/common/http";
+import {BehaviorSubject, Observable} from "rxjs";
+import {ProfileEmployee} from "../interfaces/profileEmployee";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService {
-  demoPersonInformation: PersonInformation = {
-    last_name: 'Doe',
-    first_name: 'John',
-    cin: 'AB123456',
-    phone: '+1234567890',
-    sexe: 'Male',
-    date_birth: new Date('1990-01-01'),
-    cnss: 'CNSS123456',
-    city: 'New York',
-    region: 'NY',
-  };
-  demoProfessionalInformation: ProfessionalInformation = {
-    mtc: '123',
-    category: 'Category1',
-    department: 'IT Department',
-    job: 'Software Engineer',
-    manager: 'Jane Smith',
-    date_hiring: new Date('2020-01-01'),
-    date_start: new Date('2020-02-01'),
-    date_visit: new Date('2022-01-01'),
-  };
-  ListProfile: FormData[] = [
-    {
-      personInformation: this.demoPersonInformation,
-      professionalInformation: this.demoProfessionalInformation,
-    },
-  ];
-  constructor() { }
 
+  private baseUrl = 'http://127.0.0.1:8011/employee';
 
-  getProfile() {
-    return this.ListProfile;
+  constructor(private http: HttpClient) { }
+
+  getEmployeeProfile(employeeId: number): Observable<ProfileEmployee> {
+    const url = `${this.baseUrl}/${employeeId}`;
+    return this.http.get<ProfileEmployee>(url);
   }
+
+  // Observable source
+  private employeeProfileSource = new BehaviorSubject<ProfileEmployee | null>(null);
+  // Observable stream
+  employeeProfile$ = this.employeeProfileSource.asObservable();
+
+  // Method to update employee profile
+  updateEmployeeProfile(profile: ProfileEmployee | null) {
+    this.employeeProfileSource.next(profile);
+  }
+
   addProfile(profile: any) {
-    this.ListProfile.push(profile);
     console.log(profile)
   }
 }

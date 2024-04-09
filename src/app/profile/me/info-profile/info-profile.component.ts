@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NzTabComponent, NzTabSetComponent} from "ng-zorro-antd/tabs";
+import {Subscription} from "rxjs";
+import {ProfileService} from "../../profile.service";
+import {ProfileEmployee} from "../../../interfaces/profileEmployee";
 
 @Component({
   selector: 'app-info-profile',
@@ -10,6 +13,23 @@ import {NzTabComponent, NzTabSetComponent} from "ng-zorro-antd/tabs";
   ],
   templateUrl: './info-profile.component.html',
 })
-export class InfoProfileComponent {
+export class InfoProfileComponent  implements  OnInit, OnDestroy{
 
+  private subscription: Subscription = new Subscription();
+  employeeProfile: ProfileEmployee | null = null;
+
+  constructor(private profileService: ProfileService) { }
+
+  ngOnInit(): void {
+    this.subscription.add(this.profileService.employeeProfile$.subscribe(profile => {
+      if (profile) {
+        this.employeeProfile = profile // Example action
+      }
+    }));
+  }
+
+  ngOnDestroy(): void {
+    // Unsubscribe to ensure no memory leaks
+    this.subscription.unsubscribe();
+  }
 }

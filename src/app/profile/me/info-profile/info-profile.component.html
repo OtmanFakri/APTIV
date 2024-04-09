@@ -16,7 +16,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              Brooklyn
+              {{employeeProfile?.first_name}}
             </div>
           </div>
           <div
@@ -37,7 +37,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              Simmons
+              {{employeeProfile?.last_name}}
             </div>
           </div>
           <div
@@ -60,7 +60,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              (702) 555-0122
+              {{employeeProfile?.phone_number}}
             </div>
           </div>
           <div
@@ -81,7 +81,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              brooklyn.s_example.com
+              null
             </div>
           </div>
           <div
@@ -104,7 +104,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              July 14, 1995
+              {{employeeProfile?.birth_date}}
             </div>
           </div>
           <div
@@ -148,7 +148,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              Female
+              {{employeeProfile?.Sexe}}
             </div>
           </div>
           <div
@@ -169,7 +169,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              America
+              Morrocan
             </div>
           </div>
           <div
@@ -192,7 +192,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              2464 Royal Ln. Mesa, New Jersey
+              {{employeeProfile?.region_name}}
             </div>
           </div>
           <div
@@ -213,7 +213,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              California
+              {{employeeProfile?.city_name}}
             </div>
           </div>
           <div
@@ -270,7 +270,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              879912390
+              {{employeeProfile?.id}}
             </div>
           </div>
           <div
@@ -291,7 +291,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              brooklyn_simmons
+              null
             </div>
           </div>
           <div
@@ -314,7 +314,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              HR
+              {{employeeProfile?.department_name}}
             </div>
           </div>
           <div
@@ -336,7 +336,7 @@
               class="text-dark-500 text-left font-['Lexend-Light',_sans-serif] text-base leading-6 font-light relative self-stretch"
               style="text-decoration: underline"
             >
-              Brooklyn.Simmons-aptiv.com
+              {{employeeProfile?.first_name}}.{{employeeProfile?.last_name}}&#64;aptiv.com
             </div>
           </div>
           <div
@@ -359,7 +359,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              Project Manager
+              {{employeeProfile?.category}}
             </div>
           </div>
           <div
@@ -380,7 +380,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              Project Manager
+              {{employeeProfile?.job_name}}
             </div>
           </div>
           <div
@@ -424,7 +424,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              10 Juillet 2022
+              {{employeeProfile?.date_start}}
             </div>
           </div>
           <div
@@ -447,7 +447,7 @@
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              10 Juillet 2022
+              {{employeeProfile?.date_hiring}}
             </div>
           </div>
           <div
@@ -463,12 +463,12 @@
             <div
               class="text-gray-500 text-left font-body-2-regular-font-family text-body-2-regular-font-size leading-body-2-regular-line-height font-body-2-regular-font-weight relative self-stretch"
             >
-              h
+              date visit
             </div>
             <div
               class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
             >
-              10 Juillet 2022
+              {{employeeProfile?.date_visit}}
             </div>
           </div>
         </div>

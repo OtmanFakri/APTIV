@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {Item} from "../../../../interfaces/CertificateEmployee";
 
 @Component({
   selector: 'app-show-certification',
@@ -7,5 +8,7 @@ import { Component } from '@angular/core';
   templateUrl: './show-certification.component.html',
 })
 export class ShowCertificationComponent {
+
+  @Input() item?: Item; // Use a specific type if possible
 
 }

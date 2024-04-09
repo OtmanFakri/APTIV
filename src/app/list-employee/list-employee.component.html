@@ -152,40 +152,39 @@
           <tbody class="divide-y divide-gray-200 bg-white">
           <tr
             class="cursor-pointer"
-            [routerLink]="['/Employee', user.professionalInformation.mtc]"
-            *ngFor="let user of users">
+            [routerLink]="['/Employee', user.id]"
+            *ngFor="let user of listEmployee?.items">
             <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
               <div class="flex items-center">
                 <div class="h-11 w-11 flex-shrink-0"
-                     style="background-color:{{ getRandomColor(user?.personInformation?.first_name) }}">
+                     style="background-color:{{ getRandomColor(user?.first_name) }}">
                   <div class="h-11 w-11 rounded-full flex items-center justify-center text-white">
-                    {{ user?.personInformation?.last_name?.substring(0, 2)?.toUpperCase() }}
+                    {{ user?.last_name?.substring(0, 2)?.toUpperCase() }}
                   </div>
                 </div>
 
                 <div class="ml-4">
                   <div
-                    class="font-medium text-gray-900">{{ user?.personInformation?.first_name }} {{ user?.personInformation?.last_name }}</div>
-                  <div class="mt-1 text-gray-500">{{ user?.professionalInformation?.mtc }}</div>
+                    class="font-medium text-gray-900">{{ user?.first_name }} {{ user?.last_name }}</div>
+                  <div class="mt-1 text-gray-500">{{ user?.id }}</div>
                 </div>
               </div>
             </td>
             <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-              <div class="text-gray-900">{{ user?.professionalInformation?.job }}</div>
-              <div class="mt-1 text-gray-500">{{ user?.professionalInformation?.department }}</div>
+              <div class="text-gray-900">job Title</div>
+              <div class="mt-1 text-gray-500">{{ user?.department_name }}</div>
             </td>
             <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
               <span
-                class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ user?.professionalInformation?.category }}</span>
+                class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ user?.category }}</span>
             </td>
             <td
-              class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ user?.professionalInformation?.manager }}</td>
+              class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ user?.manager_name }}</td>
           </tr>
-
           </tbody>
         </table>
       </div>
-      <app-pagination/>
+      <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-pagination>
     </div>
   </div>
 </div>

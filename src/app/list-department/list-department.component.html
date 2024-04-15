@@ -1,8 +1,10 @@
-<nz-table #categoryTable [nzData]="listOfCategoryData" [nzPageSize]="10">
+<nz-table #categoryTable [nzData]="filteredData" [nzPageSize]="10">
   <thead>
   <tr>
     <th></th>
-    <th>Category</th>
+    <th nzShowFilter [nzFilters]="listOfFilter" (nzFilterChange)="onFilterChange($event, 'category')">
+      Category
+    </th>
     <th>NbEmployees</th>
   </tr>
   </thead>
@@ -10,7 +12,6 @@
   <ng-template ngFor let-category [ngForOf]="categoryTable.data">
     <tr>
       <td [(nzExpand)]="category.expand">
-        <!-- Assuming there's a way to toggle expand/collapse with an icon for categories -->
         <i nz-icon [nzType]="category.expand ? 'minus-square' : 'plus-square'" class="expand-icon" (click)="category.expand = !category.expand"></i>
       </td>
       <td>{{ category.category }}</td>
@@ -30,14 +31,12 @@
           <ng-container *ngFor="let department of departmentTable.data">
             <tr>
               <td [(nzExpand)]="department.expand">
-                <!-- Similar expand/collapse icon for departments -->
                 <i nz-icon [nzType]="department.expand ? 'minus-square' : 'plus-square'" class="expand-icon" (click)="department.expand = !department.expand"></i>
               </td>
               <td>{{ department.department }}</td>
               <td>{{ department.nbEmployees }}</td>
               <td><!-- Placeholder for any additional actions --></td>
             </tr>
-            <!-- Ensure the nested table is within the scope of the *ngFor declaration for department -->
             <tr *ngIf="department.expand">
               <td colspan="4">
                 <nz-table #jobTable [nzData]="department.jobs" nzSize="small" [nzShowPagination]="false">

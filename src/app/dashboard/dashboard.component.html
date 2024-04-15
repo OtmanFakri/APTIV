@@ -1,190 +1,79 @@
-<div>
+<nz-layout>
+  <nz-sider
+    class="bg-white"
+    nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+    <div class="h-8 bg-white bg-opacity-20 m-4">
 
-    <!-- Static sidebar for desktop -->
-    <div
-            [ngClass]="{'lg:w-72': close_side_bar === true, 'lg:w-20': close_side_bar === false}"
-            class="hidden lg:fixed lg:inset-y-0  lg:flex lg:flex-col">
-        <!-- Sidebar component, swap this element with another sidebar if you like -->
-        <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
-            <div class="flex h-16 shrink-0 items-center">
-                <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                     alt="Your Company">
-            </div>
-            <nav class="mt-8">
-                <ul role="list" class="flex flex-col space-y-1" [class.items-center]="!close_side_bar"
-                    [class.items-start]="close_side_bar">
-                    <li>
-                        <ul role="list" class="-mx-2 space-y-6">
-                            <li>
-                                <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
-                                <a routerLink="/" routerLinkActive="bg-gray-50 text-indigo-600"
-                                   [routerLinkActiveOptions]="{ exact: true }"
-                                   class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                                   [class.text-gray-700]="!close_side_bar"
-                                   [class.hover:text-indigo-600]="!close_side_bar"
-                                   [class.hover:bg-gray-50]="!close_side_bar">
-                                    <!-- SVG Icon -->
-                                    <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
-                                         [class.text-indigo-600]="isActive('/')"
-                                         fill="none" viewBox="0 0 24 24"
-                                         stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
-                                    </svg>
-                                    <!-- Title -->
-                                    <span *ngIf="close_side_bar" class="truncate">
-                            Dashboard
-                        </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <ul role="list" class="-mx-2 space-y-6">
-                            <li>
-                                <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
-                                <a routerLink="/Employee" routerLinkActive="bg-gray-50 text-indigo-600"
-                                   [routerLinkActiveOptions]="{ exact: true }"
-                                   class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                                   [class.text-gray-700]="!close_side_bar"
-                                   [class.hover:text-indigo-600]="!close_side_bar"
-                                   [class.hover:bg-gray-50]="!close_side_bar">
-                                    <!-- SVG Icon -->
-                                    <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none"
-                                         [class.text-indigo-600]="isActive('/Employee')"
-                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                         aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
-                                    </svg>
-                                    <!-- Title -->
-                                    <span *ngIf="close_side_bar" class="truncate">
-                    All Employees
-                </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <ul role="list" class="-mx-2 space-y-6">
-                            <li>
-                                <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
-                                <a routerLink="/certifications" routerLinkActive="bg-gray-50 text-indigo-600"
-                                   [routerLinkActiveOptions]="{ exact: true }"
-                                   class="text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                                   [class.text-gray-700]="!close_side_bar"
-                                   [class.hover:text-indigo-600]="!close_side_bar"
-                                   [class.hover:bg-gray-50]="!close_side_bar">
-                                    <!-- SVG Icon -->
-                                    <svg class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" fill="none"
-                                         [class.text-indigo-600]="isActive('/certifications')"
-                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                         stroke-width="1.5" stroke="currentColor">
-
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
-                                    </svg>
-                                    <!-- Title -->
-                                    <span *ngIf="close_side_bar" class="truncate">
-                                        All certifications
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-
-
-        </div>
-    </div>
-
-    <div [class.lg:pl-10]="!close_side_bar" [class.lg:pl-72]="close_side_bar">
-        <div class="sticky top-0 z-40 lg:mx-auto lg:max-w-7xl lg:px-8">
-            <div
-                    class="flex h-16 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-0 ">
-                <button
-                        (click)="close_side_bar = !close_side_bar"
-                        type="button" class="-m-2.5 p-2.5 text-gray-700 ">
-                    <span class="sr-only">Open sidebar</span>
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                         aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
-                    </svg>
-                </button>
-
-                <!-- Separator -->
-                <div class="h-6 w-px bg-gray-200 " aria-hidden="true"></div>
-
-                <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-                    <form class="relative flex flex-1" action="#" method="GET">
-                        <label for="search-field" class="sr-only">Search</label>
-                        <svg class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
-                             viewBox="0 0 20 20"
-                             fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                  d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                        <input id="search-field"
-                               class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
-                               placeholder="Search..." type="search" name="search">
-                    </form>
-                    <div class="flex items-center gap-x-4 lg:gap-x-6">
-                        <button type="button" class="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
-                            <span class="sr-only">View notifications</span>
-                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                 stroke="currentColor"
-                                 aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
-                            </svg>
-                        </button>
-
-                        <!-- Separator -->
-                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true"></div>
-                        <!-- Profile dropdown -->
-                        <div class="relative">
-                            <button type="button" class="-m-1.5 flex items-center p-1.5" id="user-menu-button"
-                                    aria-expanded="false"
-                                    aria-haspopup="true" (click)="toggleProfile()">
-                                <span class="sr-only">Open user menu</span>
-                                <img class="h-8 w-8 rounded-full bg-gray-50"
-                                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                     alt="">
-                                <span class="hidden lg:flex lg:items-center">
-      <span class="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">Tom Cook</span>
-      <svg class="ml-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-        <path fill-rule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-              clip-rule="evenodd"/>
+    </div> <!-- Logo with Tailwind classes -->
+    <ul nz-menu nzTheme="light" nzMode="inline">
+      <li nz-menu-item routerLink="/">
+        <span nz-icon>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round"
+        d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
+</svg>
+        </span>
+        <span>Dashboard</span>
+      </li>
+      <li nz-menu-item routerLink="/Employee">
+        <span nz-icon>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/>
+          </svg>
+        </span>
+        <span>Employees</span>
+      </li>
+      <li nz-menu-item routerLink="/Departments">
+        <span nz-icon>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round"
+        d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75"/>
       </svg>
-    </span>
-                            </button>
-                            <div *ngIf="toggle_profile"
-                                 class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
-                                 role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
-                                 tabindex="-1">
-                                <!-- Active: "bg-gray-50", Not Active: "" -->
-                                <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900" role="menuitem"
-                                   tabindex="-1"
-                                   id="user-menu-item-0">Your profile</a>
-                                <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900" role="menuitem"
-                                   tabindex="-1"
-                                   id="user-menu-item-1">Sign out</a>
-                            </div>
-                        </div>
 
-                    </div>
-                </div>
-            </div>
-        </div>
+        </span>
+        <span>Departments</span>
+      </li>
+      <li nz-menu-item routerLink="/certifications">
+        <span nz-icon>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round"
+        d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>
+</svg>
 
-        <main class="py-10">
-            <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                <router-outlet></router-outlet>
-            </div>
-        </main>
-    </div>
-</div>
+        </span>
+        <span>Certifications</span>
+      </li>
+    </ul>
+
+  </nz-sider>
+  <nz-layout class="bg-white">
+    <nz-header class="bg-white p-0">
+      <span
+        class="trigger text-xl leading-[64px] px-6 cursor-pointer transition-colors duration-300 hover:text-blue-600"
+        nz-icon
+        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="isCollapsed = !isCollapsed"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"/>
+      </svg>
+
+      </span>
+    </nz-header>
+    <nz-content class="m-4">
+      <nz-breadcrumb class="m-4">
+        <nz-breadcrumb-item>User</nz-breadcrumb-item>
+        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <div class="inner-content p-6 bg-white min-h-[360px]">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

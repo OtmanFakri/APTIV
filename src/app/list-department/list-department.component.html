@@ -1,1 +1,66 @@
-<p>list-department works!</p>
+<nz-table #categoryTable [nzData]="listOfCategoryData" [nzPageSize]="10">
+  <thead>
+  <tr>
+    <th></th>
+    <th>Category</th>
+    <th>NbEmployees</th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-template ngFor let-category [ngForOf]="categoryTable.data">
+    <tr>
+      <td [(nzExpand)]="category.expand">
+        <!-- Assuming there's a way to toggle expand/collapse with an icon for categories -->
+        <i nz-icon [nzType]="category.expand ? 'minus-square' : 'plus-square'" class="expand-icon" (click)="category.expand = !category.expand"></i>
+      </td>
+      <td>{{ category.category }}</td>
+      <td>{{ category.nbEmployees }}</td>
+    </tr>
+    <tr *ngIf="category.expand">
+      <td colspan="3">
+        <nz-table #departmentTable [nzData]="category.departments" nzSize="middle" [nzShowPagination]="false">
+          <thead>
+          <tr>
+            <th></th>
+            <th>Department</th>
+            <th>NbEmployees</th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let department of departmentTable.data">
+            <tr>
+              <td [(nzExpand)]="department.expand">
+                <!-- Similar expand/collapse icon for departments -->
+                <i nz-icon [nzType]="department.expand ? 'minus-square' : 'plus-square'" class="expand-icon" (click)="department.expand = !department.expand"></i>
+              </td>
+              <td>{{ department.department }}</td>
+              <td>{{ department.nbEmployees }}</td>
+              <td><!-- Placeholder for any additional actions --></td>
+            </tr>
+            <!-- Ensure the nested table is within the scope of the *ngFor declaration for department -->
+            <tr *ngIf="department.expand">
+              <td colspan="4">
+                <nz-table #jobTable [nzData]="department.jobs" nzSize="small" [nzShowPagination]="false">
+                  <thead>
+                  <tr>
+                    <th>Jobs</th>
+                    <th>NbEmployees</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let job of jobTable.data">
+                    <td>{{ job.job }}</td>
+                    <td>{{ job.nbEmployees }}</td>
+                  </tr>
+                  </tbody>
+                </nz-table>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </nz-table>
+      </td>
+    </tr>
+  </ng-template>
+  </tbody>
+</nz-table>

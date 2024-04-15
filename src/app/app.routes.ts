@@ -10,6 +10,7 @@ import {InfoConsultationComponent} from "./profile/me/info-consultation/info-con
 import {InfoAccidentsComponent} from "./profile/me/info-accidents/info-accidents.component";
 import {HomeComponent} from "./home/home.component";
 import {ListCertificationComponent} from "./list-certification/list-certification.component";
+import {ListDepartmentComponent} from "./list-department/list-department.component";
 
 export const routes: Routes = [
   {
@@ -18,6 +19,7 @@ export const routes: Routes = [
     children: [
       { path: '', component: HomeComponent },
       { path: 'Employee', component: ListEmployeeComponent },
+      { path: 'Departments', component: ListDepartmentComponent },
       { path: 'Employee/new', component: AddProfileComponent },
       { path: 'Employee/:id',
         component: ProfileComponent,

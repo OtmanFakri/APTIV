@@ -2,11 +2,15 @@ import {Component, HostListener} from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
 import {Router, RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {NzDrawerComponent, NzDrawerContentDirective} from "ng-zorro-antd/drawer";
+import {NzBreadCrumbComponent, NzBreadCrumbItemComponent} from "ng-zorro-antd/breadcrumb";
+import {NzContentComponent, NzHeaderComponent, NzLayoutComponent, NzSiderComponent} from "ng-zorro-antd/layout";
+import {NzIconDirective} from "ng-zorro-antd/icon";
+import {NzMenuDirective, NzMenuItemComponent, NzSubMenuComponent} from "ng-zorro-antd/menu";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterOutlet, NgIf, DashboardComponent, RouterLink, RouterLinkActive, NzDrawerComponent, NzDrawerContentDirective, NgClass],
+  imports: [RouterOutlet, NgIf, DashboardComponent, RouterLink, RouterLinkActive, NzDrawerComponent, NzDrawerContentDirective, NgClass, NzBreadCrumbComponent, NzBreadCrumbItemComponent, NzHeaderComponent, NzLayoutComponent, NzIconDirective, NzMenuItemComponent, NzSiderComponent, NzMenuDirective, NzSubMenuComponent, NzContentComponent],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent {
@@ -14,6 +18,8 @@ export class DashboardComponent {
   title = 'APTIV-Front';
   toggle_profile:boolean = false;
   close_side_bar:boolean = false;
+  isCollapsed = false;
+
 
   constructor(private router: Router) { }
 

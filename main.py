@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi_pagination import add_pagination
 from sqlalchemy import event
+from starlette.middleware.cors import CORSMiddleware
 
 from Department.models.Department import Department
 from Department.models.Job import Job
@@ -17,6 +18,20 @@ from employee.routers.AddressRouter import AddressRouter
 from employee.routers.EmployeeRouter import EmployeeRouter
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:4200",  # Adjust the port if necessary
+    "http://127.0.0.1:4200",  # You can add more origins as needed
+]
+
+# Add CORSMiddleware to the application instance
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Allows the origins listed in the origins list
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods (GET, POST, DELETE, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
 
 # Listen to the 'after_create' event on the Department table
 try:

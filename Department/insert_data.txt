@@ -1,18 +1,19 @@
-INSERT INTO "Departments" (name, color) VALUES
-    ('ASSEMBLY', '#FF0000'),
-    ('CUTTING', '#0000FF'),
-    ('MAINTENANCE', '#008000'),
-    ('ENGINEERING', '#FFFF00'),
-    ('PROCESS ENGI.', '#800080'),
-    ('PRODUCT ENGINEERING', '#FFA500'),
-    ('QUALITY', '#00FFFF'),
-    ('LOGISTIC IMPO.EXPO.', '#FF00FF'),
-    ('PURCHASING', '#FFC0CB'),
-    ('FINANCE-CONTROLLING', '#A52A2A'),
-    ('GENERAL MANAGEMENT', '#808080'),
-    ('HUMAN RESSOURCES', '#00FF00'),
-    ('SAFETY H.R', '#008080'),
-    ('IT', '#4B0082');
+INSERT INTO "Departments" (name, color, category) VALUES
+    ('ASSEMBLY', '#FF0000', 'DH'),
+    ('CUTTING', '#0000FF', 'IH'),
+    ('MAINTENANCE', '#008000', 'IS'),
+    ('ENGINEERING', '#FFFF00', 'DH'),
+    ('PROCESS ENGI.', '#800080', 'IH'),
+    ('PRODUCT ENGINEERING', '#FFA500', 'IS'),
+    ('QUALITY', '#00FFFF', 'DH'),
+    ('LOGISTIC IMPO.EXPO.', '#FF00FF', 'IH'),
+    ('PURCHASING', '#FFC0CB', 'IS'),
+    ('FINANCE-CONTROLLING', '#A52A2A', 'DH'),
+    ('GENERAL MANAGEMENT', '#808080', 'IH'),
+    ('HUMAN RESSOURCES', '#00FF00', 'IS'),
+    ('SAFETY H.R', '#008080', 'DH'),
+    ('IT', '#4B0082', 'IH');
+
 
 INSERT INTO "Jobs" (name, department_id) VALUES
     ('Graphic Designer', 13),

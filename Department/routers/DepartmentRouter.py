@@ -1,11 +1,12 @@
-from typing import List
+from typing import List, Dict
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
 
 from Department.models.Department import Department
 from Department.models.Job import Job
-from Department.schemas.DepartmentSchema import DepartmentCreate, DepartmentUpdate, DepartmentBase
+from Department.schemas.DepartmentSchema import DepartmentCreate, DepartmentUpdate, DepartmentBase, DepartmentItemData, \
+    JobItemData, CategoryItemData, CategoryEnum
 from configs.Database import get_db_connection
 
 DepartmentRouter = APIRouter(
@@ -14,9 +15,41 @@ DepartmentRouter = APIRouter(
 
 
 
-@DepartmentRouter.get("/", response_model=List[DepartmentBase] )
+@DepartmentRouter.get("/", response_model=List[CategoryItemData])
 def get_departments(db: Session = Depends(get_db_connection)):
-    return db.query(Department).all()
+    departments = db.query(Department).all()
+    categories: Dict[str, dict] = {}
+
+    for dept in departments:
+        cat = dept.category.value
+        if cat not in categories:
+            categories[cat] = {'nbEmployees': 0, 'departments': []}
+
+        job_items = [
+            JobItemData(job=job.name, nbEmployees=len(job.employees))
+            for job in dept.jobs
+        ]
+        nb_dept_employees = sum(job.nbEmployees for job in job_items)
+        dept_item = DepartmentItemData(
+            key=dept.id,
+            department=dept.name,
+            nbEmployees=nb_dept_employees,
+            expand=False,
+            jobs=job_items
+        )
+        categories[cat]['departments'].append(dept_item)
+        categories[cat]['nbEmployees'] += nb_dept_employees
+
+    return [
+        CategoryItemData(
+            key=index,
+            category=CategoryEnum(category),
+            nbEmployees=category_info['nbEmployees'],
+            expand=False,
+            departments=category_info['departments']
+        )
+        for index, (category, category_info) in enumerate(categories.items(), start=1)
+    ]
 
 
 @DepartmentRouter.get("/{department_id}", )

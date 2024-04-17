@@ -98,49 +98,40 @@
           Filtre
         </div>
       </div>
+      <nz-drawer
+        [nzClosable]="false"
+        [nzVisible]="isFilterOpen"
+        nzPlacement="right"
+        nzTitle="Filter Employees"
+        [nzFooter]="footerTpl"
+        (nzOnClose)="isFilterOpen = !isFilterOpen"
+      >
+        <ng-container class="h-screen" *nzDrawerContent>
+          <app-filter-employee />
+        </ng-container>
+        <ng-template #footerTpl>
+          <div style="float: right">
+            <button
+              type="button"
+              (click)="clearFilters()"
+              [disabled]="isLoading"
+              class="px-6 py-2 min-w-[120px] text-center text-violet-600 border border-violet-600 rounded hover:bg-violet-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring"
+            >
+              Clear Filters
+            </button>
 
+          </div>
+        </ng-template>
+      </nz-drawer>
     </div>
   </div>
   <div class="mt-8 flow-root">
-    <div
-      *ngIf="isFilterOpen"
-      class="flex flex-row gap-[15px] items-start justify-start relative">
-      <div
-        class="rounded-[10px] border-solid border-gray-gray-10percent border pt-[13px] pr-4 pb-[13px] pl-4 flex flex-col gap-2.5 items-start justify-center shrink-0  relative">
-        <div class="flex flex-row gap-2.5 items-start justify-start self-stretch shrink-0 relative">
-          <input
-            type="text"
-            class="focus:ring-0  text-gray-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative flex-1 bg-transparent border-none outline-none"
-            placeholder="Département"
-          />
-        </div>
-      </div>
-      <div
-        class="rounded-[10px] border-solid border-gray-gray-10percent border pt-[13px] pr-4 pb-[13px] pl-4 flex flex-col gap-2.5 items-start justify-center shrink-0  relative">
-        <div class="flex flex-row gap-2.5 items-start justify-start self-stretch shrink-0 relative">
-          <input
-            type="text"
-            class="focus:ring-0 text-gray-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative flex-1 bg-transparent border-none outline-none"
-            placeholder="Function"
-          />
-        </div>
-      </div>
-      <div
-        class="rounded-[10px] border-solid border-gray-gray-10percent border pt-[13px] pr-4 pb-[13px] pl-4 flex flex-col gap-2.5 items-start justify-center shrink-0  relative">
-        <div class="flex flex-row gap-2.5 items-start justify-start self-stretch shrink-0 relative">
-          <input
-            type="text"
-            class="focus:ring-0 text-gray-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative flex-1 bg-transparent
-            border-none outline-none focus:outline-none"
-            placeholder="Catégorie"
-          />
-        </div>
-      </div>
-    </div>
 
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-        <table class="min-w-full divide-y divide-gray-300">
+        <nz-table  #headerTable
+                   nzShowPagination="false"
+                   [nzData]="listEmployee?.items ?? []" [nzScroll]="{ y: '400px' }">
           <thead>
           <tr>
             <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Nom</th>
@@ -182,7 +173,7 @@
               class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ user?.manager_name }}</td>
           </tr>
           </tbody>
-        </table>
+        </nz-table>
       </div>
       <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-pagination>
     </div>

@@ -1,0 +1,66 @@
+<div class="space-y-6">
+
+  <!-- Filter by Shift -->
+  <div>
+    <h3 class="font-semibold text-lg pb-2">Filter by shift:</h3>
+  </div>
+
+  <!-- Filter by Category -->
+  <div>
+    <h3 class="font-semibold text-lg pb-2">Filter by Category:</h3>
+    <div>
+      <nz-tag
+        *ngFor="let tag of tagsFromCategories"
+        nzMode="checkable"
+        [nzChecked]="selectedCategoryTags.includes(tag)"
+        (nzCheckedChange)="handleChangeCategory($event, tag)"
+        class="m-1"
+      >
+        {{ tag }}
+      </nz-tag>
+    </div>
+  </div>
+
+  <!-- Filter by Department -->
+  <div>
+    <h3 class="font-semibold text-lg pb-2">Filter by Department:</h3>
+    <div>
+      <nz-tag
+        *ngFor="let tag of tagsFromDepartments"
+        nzMode="checkable"
+        [nzChecked]="selectedDepartmentTags.includes(tag.department)"
+        (nzCheckedChange)="handleChangeDepartment($event, tag.department, tag.key)"
+        class="m-1"
+      >
+        {{ tag.department }}
+      </nz-tag>
+    </div>
+  </div>
+
+  <!-- Filter by Jobs -->
+  <div>
+    <h3 class="font-semibold text-lg pb-2">Filter by Jobs:</h3>
+    <nz-select
+      [(ngModel)]="selectedJobTags"
+      class="w-full"
+      nzMode="tags"
+      [nzTokenSeparators]="[',']"
+      nzPlaceHolder="Select jobs from selected departments"
+    >
+      <nz-option *ngFor="let job of filteredJobs" [nzLabel]="job.job" [nzValue]="job.job"></nz-option>
+    </nz-select>
+  </div>
+
+  <!-- Visite -->
+  <div class="flex flex-row justify-between items-center py-2">
+    <p class="text-base">is Visite</p>
+    <nz-switch [(ngModel)]="isViste" [nzControl]="true" (click)="clickSwitch()" [nzLoading]="loadingViste" class="form-switch"></nz-switch>
+  </div>
+
+  <!-- Placeholder for is Visite Show input date -->
+  <div></div>
+
+  <!-- Placeholder for date_hiring -->
+  <div></div>
+
+</div>

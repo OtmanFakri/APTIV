@@ -1,0 +1,17 @@
+import { Injectable } from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {ListdoctorInterface} from "../interfaces/ListdoctorInterface";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DoctorService {
+
+  private apiUrl = 'http://127.0.0.1:8011/doctor/';
+  constructor(private http: HttpClient) {}
+
+
+  getDoctors(): Observable<{items: ListdoctorInterface[], total: number, page: number, size: number, pages: number}> {
+    return this.http.get<{items: ListdoctorInterface[], total: number, page: number, size: number, pages: number}>(this.apiUrl);
+  }}

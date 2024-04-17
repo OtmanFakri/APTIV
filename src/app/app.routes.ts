@@ -11,6 +11,7 @@ import {InfoAccidentsComponent} from "./profile/me/info-accidents/info-accidents
 import {HomeComponent} from "./home/home.component";
 import {ListCertificationComponent} from "./list-certification/list-certification.component";
 import {ListDepartmentComponent} from "./list-department/list-department.component";
+import {ListDoctorComponent} from "./list-doctor/list-doctor.component";
 
 export const routes: Routes = [
   {
@@ -30,6 +31,7 @@ export const routes: Routes = [
           { path: 'accidents', component: InfoAccidentsComponent },
         ],
       },
+      {path:'Doctors', component:ListDoctorComponent},
       { path: 'certifications', component: ListCertificationComponent },
 
     ]

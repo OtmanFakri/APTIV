@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {catchError, Observable, shareReplay, throwError} from "rxjs";
 import {CategoryItemData} from "../interfaces/ListDeprtemnt";
 
 @Injectable({
@@ -13,6 +13,14 @@ export class DepartmentService {
   constructor(private http: HttpClient) { }
 
   getDepartments(): Observable<CategoryItemData[]> {
-    return this.http.get<CategoryItemData[]>(this.apiUrl);
+    return this.http.get<CategoryItemData[]>(this.apiUrl).pipe(
+      shareReplay(1),
+      catchError((error) => {
+        // Log or handle the error as needed
+        console.error('Error fetching departments:', error);
+        return throwError(() => new Error('Error fetching departments'));
+      })
+    );
   }
+
 }

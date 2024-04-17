@@ -23,7 +23,11 @@
           <thead>
           <tr>
             <th></th>
-            <th>Department</th>
+            <th>Department
+              <nz-filter-trigger [(nzVisible)]="visibleDept" [nzActive]="departmentSearchValue.length > 0" [nzDropdownMenu]="menu">
+                <span nz-icon nzType="search"></span>
+              </nz-filter-trigger>
+            </th>
             <th>NbEmployees</th>
           </tr>
           </thead>
@@ -35,14 +39,19 @@
               </td>
               <td>{{ department.department }}</td>
               <td>{{ department.nbEmployees }}</td>
-              <td><!-- Placeholder for any additional actions --></td>
+              <!-- Example dropdown menu with Tailwind CSS -->
+
             </tr>
             <tr *ngIf="department.expand">
               <td colspan="4">
                 <nz-table #jobTable [nzData]="department.jobs" nzSize="small" [nzShowPagination]="false">
                   <thead>
                   <tr>
-                    <th>Jobs</th>
+                    <th>Jobs
+                      <nz-filter-trigger [(nzVisible)]="visibleJob" [nzActive]="jobSearchValue.length > 0" [nzDropdownMenu]="menujob">
+                        <span nz-icon nzType="search"></span>
+                      </nz-filter-trigger>
+                    </th>
                     <th>NbEmployees</th>
                   </tr>
                   </thead>
@@ -58,6 +67,25 @@
           </ng-container>
           </tbody>
         </nz-table>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <div class="ant-table-filter-dropdown">
+            <div class="search-box">
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="departmentSearchValue" (keyup.enter)="search('dept')" />
+              <button nz-button nzSize="small" nzType="primary" (click)="search('dept')">Search</button>
+              <button nz-button nzSize="small" (click)="reset('dept')">Reset</button>
+            </div>
+          </div>
+        </nz-dropdown-menu>
+
+        <nz-dropdown-menu #menujob="nzDropdownMenu">
+          <div class="ant-table-filter-dropdown">
+            <div class="search-box">
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="jobSearchValue" (keyup.enter)="search('job')" />
+              <button nz-button nzSize="small" nzType="primary" (click)="search('job')">Search</button>
+              <button nz-button nzSize="small" (click)="reset('dept')">Reset</button>
+            </div>
+          </div>
+        </nz-dropdown-menu>
       </td>
     </tr>
   </ng-template>

@@ -13,7 +13,7 @@ export class EmployeeService {
   constructor(private http: HttpClient) {
   }
 
-  filterEmployees(year: number, category: string | null, departmentName: string | null, managerId: number | null, page: number = 1, size: number = 50): Observable<ListEmployee> {
+  filterEmployees(year: number, category: string[], departmentName: string[], managerId: number | null, page: number = 1, size: number = 50): Observable<ListEmployee> {
     const requestBody = {
       year,
       category,
@@ -29,9 +29,11 @@ export class EmployeeService {
       .set('size', size.toString());
 
     if (category !== null) {
+      // @ts-ignore
       queryParams = queryParams.set('category', category);
     }
     if (departmentName !== null) {
+      // @ts-ignore
       queryParams = queryParams.set('department_name', departmentName);
     }
     if (managerId !== null) {

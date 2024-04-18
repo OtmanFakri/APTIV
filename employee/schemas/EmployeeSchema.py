@@ -15,7 +15,6 @@ class CategoryEnum(str, Enum):
 
 class EmployeeInfoRequest(BaseModel):
     id: Optional[int]
-    category: CategoryEnum
     department_id: int
     job_id: int
     manager_id: Optional[int]
@@ -47,6 +46,7 @@ class EmployeeInfoResponse(BaseModel):
     manager_name: Optional[str]
     category: CategoryEnum
     department_name: str
+    job_name: str
 
     class Config:
         orm_mode = True

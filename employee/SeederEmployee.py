@@ -52,7 +52,6 @@ def create_employee(session: Session):
 
     employee = Employee(
         id=employee_request.id,
-        category=employee_request.category.value,
         department_id=employee_request.department_id,
         first_name=employee_request.first_name,
         last_name=employee_request.last_name,

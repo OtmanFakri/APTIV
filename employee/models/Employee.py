@@ -3,12 +3,10 @@ from sqlalchemy import Column, BigInteger, String, ForeignKey, Date, Index, Inte
 from sqlalchemy.orm import relationship
 from configs.BaseModel import EntityMeta
 
-
 class Employee(EntityMeta):
     __tablename__ = 'Employees'
 
     id = Column(BigInteger, primary_key=True,index=True)
-    category = Column(String(255), nullable=False, default='',index=True)
     department_id = Column(BigInteger, ForeignKey('Departments.id'), nullable=False,index=True)
     first_name = Column(String(255), nullable=False)
 

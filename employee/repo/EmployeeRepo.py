@@ -31,7 +31,6 @@ class EmployeeRepo:
         # Create Employee object from EmployeeInfo
         employee = Employee(
             id=employee_info.id,
-            category=employee_info.category.value,
             department_id=employee_info.department_id,
             # certificate_id=employee_info.certificate_id,
             first_name=employee_info.first_name,
@@ -62,7 +61,7 @@ class EmployeeRepo:
         if query:
             employee_data = {
                 "id": query.id,
-                "category": query.category,
+                "category": query.department.category,
                 "department_name": query.department.name,  # Assuming Department has a 'name' attribute
                 "job_name": query.job.name,  # Assuming Job has a 'name' attribute
                 "manager_name": query.manager.first_name + " " + query.manager.last_name if query.manager else None,
@@ -117,10 +116,13 @@ class EmployeeRepo:
             query = query.filter(extract('year', Employee.date_hiring) == year)
 
         if categories:
-            query = query.filter(Employee.category.in_(categories))
+            query = query.join(Department).filter(Department.category.in_(categories))
 
         if department_ids:
-            query = query.join(Department).filter(Department.id.in_(department_ids))
+            # Ensure the department join is optimized to not duplicate if already joined above
+            if 'Department' not in [mapper.class_.__name__ for mapper in query._join_entities]:
+                query = query.join(Department)
+            query = query.filter(Department.id.in_(department_ids))
 
         if manager_ids:
             query = query.filter(Employee.manager_id.in_(manager_ids))
@@ -174,6 +176,7 @@ class EmployeeRepo:
             {
                 "id": cert.id,
                 "doctor_name": cert.doctor.name,
+                "specialty":cert.doctor.specialty,
                 "date": cert.date,
                 "date_start": cert.date_start,
                 "date_end": cert.date_end,
@@ -196,7 +199,7 @@ class EmployeeRepo:
     def _employee_to_dict(self, query):
         employee_data = {
             "id": query.id,
-            "category": query.category,
+            "category": query.department.category,
             "department_name": query.department.name if query.department else None,
             "job_name": query.job.name if query.job else None,
             "manager_name": query.manager.first_name + " " + query.manager.last_name if query.manager else None,
@@ -211,7 +214,7 @@ class EmployeeRepo:
             "region_name": query.city.region.name if query.city and query.city.region else None,
             "date_start": query.date_start.isoformat(),
             "date_hiring": query.date_hiring.isoformat(),
-            "date_visit": query.date_visit.isoformat()
+            "date_visit": query.date_visit.isoformat() if query.date_visit else None
         }
 
         return EmployeeInfoResponse(**employee_data)

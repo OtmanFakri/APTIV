@@ -80,7 +80,6 @@ class EmployeeRepo:
                 "date_hiring": query.date_hiring.isoformat(),
                 "date_visit": query.date_visit.isoformat()
             }
-            print(employee_data)
             return employee_data
         else:
             return None
@@ -107,22 +106,26 @@ class EmployeeRepo:
             raise ValueError("Employee not found")
 
     def Filter_Employee(self, year: Optional[int] = None,
-                        category: Optional[str] = None,
-                        department_id: Optional[str] = None,
-                        manager_id: Optional[int] = None):
+                        categories: Optional[List[str]] = None,
+                        department_ids: Optional[List[int]] = None,
+                        manager_ids: Optional[List[int]] = None,
+                        employee_ids: Optional[List[int]] = None,):
         query = self.db.query(Employee)
 
         if year:
             query = query.filter(extract('year', Employee.date_hiring) == year)
 
-        if category:
-            query = query.filter_by(category=category)
+        if categories:
+            query = query.filter(Employee.category.in_(categories))
 
-        if department_id:
-            query = query.join(Department).filter(Department.id == department_id)
+        if department_ids:
+            query = query.join(Department).filter(Department.id.in_(department_ids))
 
-        if manager_id:
-            query = query.filter_by(manager_id=manager_id)
+        if manager_ids:
+            query = query.filter(Employee.manager_id.in_(manager_ids))
+
+        if employee_ids:
+            query = query.filter(Employee.id.in_(employee_ids))
 
         employees = query.all()
 

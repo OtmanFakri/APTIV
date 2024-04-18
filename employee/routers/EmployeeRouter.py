@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from fastapi import APIRouter, Depends
 from fastapi_pagination import Page, paginate
@@ -36,7 +36,7 @@ def get_employee(
 
         if fetched_employee:
             # Convert fetched_employee dictionary to EmployeeInfoResponse
-            #employee_response = EmployeeInfoResponse(**fetched_employee)
+            # employee_response = EmployeeInfoResponse(**fetched_employee)
 
             #
             return fetched_employee
@@ -46,6 +46,7 @@ def get_employee(
     except Exception as e:
         # Handle exceptions as per your application's error handling strategy
         return {"error": str(e)}
+
 
 @EmployeeRouter.delete("/{employee_id}")
 def delete_employee(
@@ -57,6 +58,7 @@ def delete_employee(
         return {"success": True}
     except Exception as e:
         return {"success": False, "error": str(e)}
+
 
 @EmployeeRouter.put("/{employee_id}")
 def update_employee(
@@ -73,11 +75,12 @@ def update_employee(
 
 @EmployeeRouter.post("/filter")
 def Filter_Employee(year: int,
-                    category: Optional[str] = None,
-                    department_name: Optional[str] = None,
-                    manager_id: Optional[int] = None,
-                    employeeService: EmployeeService = Depends()) -> Page[EmployeeInfoResponse] :
-    return paginate(employeeService.Filter_Employee(year, category, department_name, manager_id))
+                    category: Optional[List[str]] = None,
+                    department_ids: Optional[List[int]] = None,
+                    manager_ids: Optional[List[int]] = None,
+                    employee_ids: Optional[List[int]] = None,
+                    employeeService: EmployeeService = Depends()) -> Page[EmployeeInfoResponse]:
+    return paginate(employeeService.Filter_Employee(year, category, department_ids, manager_ids, employee_ids))
 
 
 @EmployeeRouter.post("/{employee_id}/certificate")
@@ -91,6 +94,7 @@ def create_certificate(
         return {"success": True}
     except Exception as e:
         return {"success": False, "error": str(e)}
+
 
 @EmployeeRouter.get("/{employee_id}/certificate")
 def get_certificate_employee(
@@ -111,7 +115,7 @@ def get_certificates_employee(
 ) -> Page[GetCertificateSchema]:
     try:
         fetched_certificate = employeeService.get_certificates_employee(employee_id)
-        return paginate( [GetCertificateSchema(
+        return paginate([GetCertificateSchema(
             id=certificate.id,
             doctor_name=certificate.doctor.name,
             date=certificate.date,

@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from fastapi import Depends
 
@@ -44,10 +44,12 @@ class EmployeeService:
 
 
     def Filter_Employee(self, year: Optional[int] = None,
-                        category: Optional[str] = None,
-                        department_name: Optional[str] = None,
-                        manager_id: Optional[int] = None):
-        query = self.employeeRepo.Filter_Employee(year, category, department_name, manager_id)
+                        category: Optional[List[str]] = None,
+                        department_ids: Optional[List[int]] = None,
+                        manager_ids: Optional[List[int]] = None,
+                        employee_ids: Optional[List[int]] = None,
+                        ):
+        query = self.employeeRepo.Filter_Employee(year, category, department_ids, manager_ids, employee_ids)
 
 
         return query

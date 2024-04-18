@@ -109,7 +109,8 @@ class EmployeeRepo:
                         categories: Optional[List[str]] = None,
                         department_ids: Optional[List[int]] = None,
                         manager_ids: Optional[List[int]] = None,
-                        employee_ids: Optional[List[int]] = None,):
+                        employee_ids: Optional[List[int]] = None,
+                        is_visited: Optional[bool] = None):
         query = self.db.query(Employee)
 
         if year:
@@ -126,6 +127,12 @@ class EmployeeRepo:
 
         if employee_ids:
             query = query.filter(Employee.id.in_(employee_ids))
+
+        if is_visited is not None:
+            if is_visited:
+                query = query.filter(Employee.date_visit != None)
+            else:
+                query = query.filter(Employee.date_visit == None)
 
         employees = query.all()
 

@@ -48,8 +48,9 @@ class EmployeeService:
                         department_ids: Optional[List[int]] = None,
                         manager_ids: Optional[List[int]] = None,
                         employee_ids: Optional[List[int]] = None,
+                        is_visited: Optional[bool] = None
                         ):
-        query = self.employeeRepo.Filter_Employee(year, category, department_ids, manager_ids, employee_ids)
+        query = self.employeeRepo.Filter_Employee(year, category, department_ids, manager_ids, employee_ids,is_visited)
 
 
         return query

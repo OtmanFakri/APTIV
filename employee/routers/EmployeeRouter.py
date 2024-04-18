@@ -79,8 +79,9 @@ def Filter_Employee(year: int,
                     department_ids: Optional[List[int]] = None,
                     manager_ids: Optional[List[int]] = None,
                     employee_ids: Optional[List[int]] = None,
+                    is_visited: Optional[bool] = None,
                     employeeService: EmployeeService = Depends()) -> Page[EmployeeInfoResponse]:
-    return paginate(employeeService.Filter_Employee(year, category, department_ids, manager_ids, employee_ids))
+    return paginate(employeeService.Filter_Employee(year, category, department_ids, manager_ids, employee_ids, is_visited))
 
 
 @EmployeeRouter.post("/{employee_id}/certificate")

@@ -42,9 +42,13 @@ class PostCertificateSchema(BaseModel):
 
     class Config:
         allow_population_by_field_name = True
+
 class GetCertificateSchema(BaseModel):
     id: Optional[int]
     doctor_name: str
+    nameEmployee: str
+    department: str
+    job: str
     date: date
     date_start: date
     date_end: date
@@ -76,4 +80,11 @@ class CertificateByDoctorSchema(BaseModel):
         orm_mode = True
         from_attributes = True
 
+class FilterCertificatesRequest(BaseModel):
+    doctor_id: Optional[int] = Field(default=None, description="ID of the doctor to filter by")
+    manager_id: Optional[int] = Field(default=None, description="ID of the manager to filter by")
+    from_date: Optional[date] = Field(default=None, description="Start date for filtering certificates")
+    to_date: Optional[date] = Field(default=None, description="End date for filtering certificates")
+    nbr_days: Optional[int] = Field(default=None, description="Number of days to filter certificates")
+    validation: Optional[str] = Field(default=None, description="Validation status to filter certificates")
 

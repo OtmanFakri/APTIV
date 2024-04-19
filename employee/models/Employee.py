@@ -29,3 +29,9 @@ class Employee(EntityMeta):
     job = relationship("Job", back_populates="employees")
     city = relationship("City", back_populates="employees")
     certificates = relationship("Certificate", back_populates="employee")
+
+    def full_name(self) -> str:
+        """
+        Return the full name of the employee by combining first and last name.
+        """
+        return f"{self.first_name} {self.last_name}"

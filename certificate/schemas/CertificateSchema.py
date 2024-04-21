@@ -97,3 +97,28 @@ class DepartmentCertificates(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+
+class MonthCertificates(BaseModel):
+    month: str
+    year: int  # You may want to include the year along with the month
+    certificates_nbr: int
+    illness_days_nbr: int
+    headcount: int
+    certificate_rate: float
+    average_illness_days: float
+
+    class Config:
+        orm_mode = True
+
+class CategoryCertificates(BaseModel):
+    category: str
+    certificates_nbr: int
+    illness_days_nbr: int
+    headcount: int
+    certificate_rate: float
+    average_illness_days: float
+
+    class Config:
+        orm_mode = True

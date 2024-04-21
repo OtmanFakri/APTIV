@@ -86,3 +86,65 @@ class CertificateRepository:
 
         result = await self.db.execute(query)
         return result.fetchall()
+
+    async def get_certificates_by_month(self, year: int = None, month: int = None):
+        query = (
+            select(
+                extract('month', Certificate.date_start).label("month"),
+                extract('year', Certificate.date_start).label("year"),
+                func.count(Certificate.id).label("certificates_nbr"),
+                func.sum(Certificate.nbr_days).label("illness_days_nbr"),
+                (func.sum(Certificate.nbr_days) / func.count(Certificate.id)).label("average_illness_days"),
+                func.count(distinct(Employee.id)).label("headcount"),
+                (func.count(Certificate.id) / func.count(distinct(Employee.id))).label("certificate_rate")
+            )
+            .select_from(Certificate)
+            .join(Employee, Certificate.employee_id == Employee.id)  # Correctly applying join on the query object
+            .group_by(extract('year', Certificate.date_start), extract('month', Certificate.date_start))
+        )
+
+        # Filter by year and month if provided
+        if year and month:
+            query = query.filter(
+                extract('year', Certificate.date_start) == year,
+                extract('month', Certificate.date_start) == month
+            )
+        elif year:
+            query = query.filter(extract('year', Certificate.date_start) == year)
+        elif month:
+            query = query.filter(extract('month', Certificate.date_start) == month)
+
+        result = await self.db.execute(query)
+        return result.fetchall()
+
+    async def get_certificates_by_category(self, category_name: str = None, year: int = None, month: int = None):
+        # Construct the query
+        query = (
+            select(
+                Department.category.label("category"),
+                func.count(distinct(Employee.id)).label("headcount"),
+                func.count(Certificate.id).label("certificates_nbr"),
+                func.sum(Certificate.nbr_days).label("illness_days_nbr"),
+                (func.count(Certificate.id) / func.count(distinct(Employee.id))).label("certificate_rate"),
+                (func.sum(Certificate.nbr_days) / func.count(Certificate.id)).label("average_illness_days")
+            )
+            .select_from(Department)
+            .join(Employee, Department.id == Employee.department_id)  # Assuming a direct relationship
+            .join(Certificate,
+                  Employee.id == Certificate.employee_id)  # Assuming Certificate has a foreign key to Employee
+            .group_by(Department.category)
+        )
+
+        # Apply filter if category_name is provided
+        if category_name:
+            query = query.filter(Department.category == category_name)
+
+        # Apply filters for year and month if provided
+        if year:
+            query = query.filter(extract('year', Certificate.date_start) == year)
+        if month:
+            query = query.filter(extract('month', Certificate.date_start) == month)
+
+        # Execute the query
+        result = await self.db.execute(query)
+        return result.fetchall()

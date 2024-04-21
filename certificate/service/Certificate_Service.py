@@ -14,18 +14,18 @@ class CertificateService:
         self.certificationRepository = certificationRepository
 
     async def get_filtered_certificates(self, doctor_id: int = None,
-                                  manager_id: int = None,
-                                  from_date: str = None,
-                                  to_date: str = None,
-                                  nbr_days: int = None,
-                                  validation: str = None
-                                  ):
+                                        manager_id: int = None,
+                                        from_date: str = None,
+                                        to_date: str = None,
+                                        nbr_days: int = None,
+                                        validation: str = None
+                                        ):
         certificates = await self.certificationRepository.filter_certificates(doctor_id,
-                                                                        manager_id,
-                                                                        from_date,
-                                                                        to_date,
-                                                                        nbr_days,
-                                                                        validation)
+                                                                              manager_id,
+                                                                              from_date,
+                                                                              to_date,
+                                                                              nbr_days,
+                                                                              validation)
         return [
             {
                 "id": cert.id,
@@ -46,7 +46,15 @@ class CertificateService:
             for cert in certificates
         ]
 
-    async def get_department_data(self, department_id :int =None,year: int = None, month: int = None):
+    async def get_department_data(self, department_id: int = None, year: int = None, month: int = None):
         return await self.certificationRepository.get_certificates_by_department(department_id,
                                                                                  year,
                                                                                  month)
+
+    async def get_department_month(self, year: int = None, month: int = None):
+        return await self.certificationRepository.get_certificates_by_month(
+            year,
+            month)
+
+    async def get_certificates_by_category(self, category: str = None,year: int = None, month: int = None):
+        return await self.certificationRepository.get_certificates_by_category(category, year, month)

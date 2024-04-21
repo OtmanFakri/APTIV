@@ -9,7 +9,7 @@ from starlette.responses import JSONResponse
 
 from certificate.models.certificate import Certificate
 from certificate.schemas.CertificateSchema import GetCertificateSchema, FilterCertificatesRequest, \
-    DepartmentCertificates
+    DepartmentCertificates, MonthCertificates, CategoryCertificates
 from certificate.service.Certificate_Service import CertificateService
 from configs.Database import get_db_connection
 
@@ -73,6 +73,45 @@ async def certificates_per_department(
 ) -> List[DepartmentCertificates]:
     try:
         data = await service.get_department_data(department_id, year, month)
+        return data
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@CertificateRouter.get("/by_month")
+async def certificates_per_month(
+        year: int = None,
+        month: int = None,
+        service: CertificateService = Depends(CertificateService)
+) -> List[MonthCertificates]:
+    try:
+        data = await service.get_department_month(year, month)
+        formatted_data = [
+            MonthCertificates(
+                month=str(item.month),
+                year=item.year,
+                certificates_nbr=item.certificates_nbr,
+                illness_days_nbr=item.illness_days_nbr,
+                headcount=item.headcount,  # Ensure headcount is correctly retrieved and calculated
+                certificate_rate=item.certificate_rate,
+                average_illness_days=item.average_illness_days
+            )
+            for item in data
+        ]
+        return formatted_data
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@CertificateRouter.get("/by_category")
+async def certificates_per_category(
+        category: str = None,
+        year: int = None,
+        month: int = None,
+        service: CertificateService = Depends(CertificateService)
+) -> List[CategoryCertificates]:
+    try:
+        data = await service.get_certificates_by_category(category, year, month)
         return data
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

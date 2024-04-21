@@ -1,11 +1,15 @@
+from datetime import date
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.encoders import jsonable_encoder
 from fastapi_pagination import paginate, Page
 from sqlalchemy.orm import Session, joinedload
+from starlette.responses import JSONResponse
 
 from certificate.models.certificate import Certificate
-from certificate.schemas.CertificateSchema import GetCertificateSchema, FilterCertificatesRequest
+from certificate.schemas.CertificateSchema import GetCertificateSchema, FilterCertificatesRequest, \
+    DepartmentCertificates
 from certificate.service.Certificate_Service import CertificateService
 from configs.Database import get_db_connection
 
@@ -13,8 +17,9 @@ CertificateRouter = APIRouter(
     prefix="/certificate", tags=["certificate"]
 )
 
+
 @CertificateRouter.get("/")
-def get_certificates(db: Session = Depends(get_db_connection))-> Page[GetCertificateSchema]:
+def get_certificates(db: Session = Depends(get_db_connection)) -> Page[GetCertificateSchema]:
     certificates = db.query(Certificate).options(
         joinedload(Certificate.doctor),
         joinedload(Certificate.employee),
@@ -26,10 +31,10 @@ def get_certificates(db: Session = Depends(get_db_connection))-> Page[GetCertifi
     for cert in certificates:
         cert_data = {
             "id": cert.id,
-            "doctor_name": cert.doctor.name,# Assuming the doctor's name is stored in the 'name' attribute
+            "doctor_name": cert.doctor.name,  # Assuming the doctor's name is stored in the 'name' attribute
             "nameEmployee": cert.employee.full_name(),
-            "department":cert.employee.department.name,
-            "job": cert.employee.job.name, # Assuming the job's name is stored in the 'name' attribute
+            "department": cert.employee.department.name,
+            "job": cert.employee.job.name,  # Assuming the job's name is stored in the 'name' attribute
             "date": cert.date,
             "date_start": cert.date_start,
             "date_end": cert.date_end,
@@ -45,16 +50,29 @@ def get_certificates(db: Session = Depends(get_db_connection))-> Page[GetCertifi
 
 
 @CertificateRouter.post("/filter")
-def filter_certificates(
-    filter_params: FilterCertificatesRequest,
-    service: CertificateService = Depends(CertificateService)
-)-> Page[GetCertificateSchema]:
-
-    certificates = service.get_filtered_certificates(filter_params.doctor_id,
-                                                     filter_params.manager_id,
-                                                     filter_params.from_date,
-                                                     filter_params.to_date,
-                                                     filter_params.nbr_days,
-                                                     filter_params.validation)
+async def filter_certificates(
+        filter_params: FilterCertificatesRequest,
+        service: CertificateService = Depends(CertificateService)
+) -> Page[GetCertificateSchema]:
+    certificates = await service.get_filtered_certificates(filter_params.doctor_id,
+                                                           filter_params.manager_id,
+                                                           filter_params.from_date,
+                                                           filter_params.to_date,
+                                                           filter_params.nbr_days,
+                                                           filter_params.validation)
 
     return paginate(certificates)
+
+
+@CertificateRouter.get("/by_department")
+async def certificates_per_department(
+        department_id: int = None,
+        year: int = None,
+        month: int = None,
+        service: CertificateService = Depends(CertificateService)
+) -> List[DepartmentCertificates]:
+    try:
+        data = await service.get_department_data(department_id, year, month)
+        return data
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

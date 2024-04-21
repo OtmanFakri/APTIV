@@ -63,7 +63,6 @@ class GetCertificateSchema(BaseModel):
         orm_mode = True
         from_attributes = True
 
-
 class CertificateByDoctorSchema(BaseModel):
     id: Optional[int]
     date: date
@@ -88,3 +87,13 @@ class FilterCertificatesRequest(BaseModel):
     nbr_days: Optional[int] = Field(default=None, description="Number of days to filter certificates")
     validation: Optional[str] = Field(default=None, description="Validation status to filter certificates")
 
+class DepartmentCertificates(BaseModel):
+    department: str
+    certificates_nbr: int
+    illness_days_nbr: int
+    headcount: int
+    certificate_rate: float
+    average_illness_days: float
+
+    class Config:
+        orm_mode = True

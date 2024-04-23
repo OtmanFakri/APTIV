@@ -1,22 +1,85 @@
-<div class="flex fex-row items-center justify-between">
-  <p
-    class="text-dark-500 text-left body-1-regular-line-height text-header-6-bold-font-size leading-header-6-bold-line-height font-header-6-bold-font-weight relative flex-shrink-0">
-    Medical Certificates</p>
-  <div>
-    <nz-segmented
-      [nzOptions]="options" (nzValueChange)="handleIndexChange($event)"></nz-segmented>
-  </div>
+<div class="max-w-3xl mx-auto p-4 sm:px-6 h-full">
+    <!-- Chart widget -->
+    <div class="flex flex-col col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-gray-200">
+        <header class="flex flex-row justify-between px-5 py-4 border-b border-gray-100  items-center">
+            <h2 class="font-semibold text-gray-800">Analytics</h2>
+
+            <div class="flex flex-row space-x-2">
+                <nz-select nzShowSearch nzPlaceHolder="Select a person" [(ngModel)]="selectedValue">
+                    <nz-option *ngFor="let option of options" [nzLabel]="option" [nzValue]="option"></nz-option>
+                </nz-select>
+                <nz-date-picker
+                        nzMode="month"
+                        (ngModelChange)="onMonthChange($event)"
+                        [nzFormat]="monthFormat"
+                        [(ngModel)]="selectedMonth">
+                </nz-date-picker>
+                <br/>
+            </div>
+        </header>
+        <div class="px-5 py-1">
+            <div class="flex flex-wrap">
+                <!-- Unique Visitors -->
+                <div class="flex items-center py-2">
+                    <div class="mr-5">
+                        <div class="flex items-center">
+                            <div class="text-3xl font-bold text-gray-800 mr-2">{{certificateTotolData?.total_certificates_nbr}}</div>
+                        </div>
+                        <div class="text-sm text-gray-500">Total Certificates Nbr</div>
+                    </div>
+                    <div class="hidden md:block w-px h-8 bg-gray-200 mr-5" aria-hidden="true"></div>
+                </div>
+                <!-- Total Pageviews -->
+                <div class="flex items-center py-2">
+                    <div class="mr-5">
+                        <div class="flex items-center">
+                            <div class="text-3xl font-bold text-gray-800 mr-2">{{certificateTotolData?.total_average_illness_days}}</div>
+                        </div>
+                        <div class="text-sm text-gray-500">Total Average illness Nbr</div>
+                    </div>
+                    <div class="hidden md:block w-px h-8 bg-gray-200 mr-5" aria-hidden="true"></div>
+                </div>
+                <!-- Bounce Rate -->
+                <div class="flex items-center py-2">
+                    <div class="mr-5">
+                        <div class="flex items-center">
+                            <div class="text-3xl font-bold text-gray-800 mr-2">{{certificateTotolData?.total_certificate_rate}}
+                                %
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-500">Total Certificate Rate</div>
+                    </div>
+                    <div class="hidden md:block w-px h-8 bg-gray-200 mr-5" aria-hidden="true"></div>
+                </div>
+                <!-- Visit Duration-->
+                <div class="flex items-center">
+                    <div>
+                        <div class="flex items-center">
+                            <div class="text-3xl font-bold text-gray-800 mr-2">{{certificateTotolData?.total_illness_todays_nbr}}</div>
+                        </div>
+                        <div class="text-sm text-gray-500">Total illness days Nbr</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Chart built with Chart.js 3 -->
+        <div class="flex-grow">
+            <div *ngIf="getoption === 0">
+                <app-department
+                        [queryAnalyse]="queryAnalyse"
+                        (certificateTotolDataChange)="onCertificateTotolDataChange($event)"></app-department>
+            </div>
+            <div *ngIf="getoption === 1">
+                <app-months></app-months>
+            </div>
+            <div *ngIf="getoption === 2">
+                <app-category></app-category>
+            </div>
+            <div *ngIf="getoption === 3">
+                <app-sexe></app-sexe>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div *ngIf="getoption === 0">
-  <app-department></app-department>
-</div>
-<div *ngIf="getoption === 1">
-  <app-months></app-months>
-</div>
-<div *ngIf="getoption === 2">
-  <app-category></app-category>
-</div>
-<div *ngIf="getoption === 3">
-  <app-sexe></app-sexe>
-</div>
+

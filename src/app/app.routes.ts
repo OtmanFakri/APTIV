@@ -12,6 +12,7 @@ import {HomeComponent} from "./home/home.component";
 import {ListCertificationComponent} from "./list-certification/list-certification.component";
 import {ListDepartmentComponent} from "./list-department/list-department.component";
 import {ListDoctorComponent} from "./list-doctor/list-doctor.component";
+import {DoctorComponent} from "./list-doctor/doctor/doctor.component";
 
 export const routes: Routes = [
   {
@@ -32,6 +33,7 @@ export const routes: Routes = [
         ],
       },
       {path:'Doctors', component:ListDoctorComponent},
+      {path:'Doctors/:id', component:DoctorComponent},
       { path: 'certifications', component: ListCertificationComponent },
 
     ]

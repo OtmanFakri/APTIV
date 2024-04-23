@@ -1,0 +1,17 @@
+export interface CertificateAnalyseByDepertemt {
+    department:           string;
+    certificates_nbr:     number;
+    illness_days_nbr:     number;
+    headcount:            number;
+    certificate_rate:     number;
+    average_illness_days: number;
+}
+
+
+export interface CertificateAnalyseTotal {
+    total_certificates_nbr: number;
+    total_illness_todays_nbr: number;
+    total_headcount: number;
+    total_certificate_rate: number;
+    total_average_illness_days: number;
+}

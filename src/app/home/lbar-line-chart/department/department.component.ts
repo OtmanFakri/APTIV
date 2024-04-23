@@ -1,146 +1,128 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import Chart from "chart.js/auto";
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import Chart, {ChartConfiguration, ChartData} from "chart.js/auto";
 import * as Utils from "../utils";
+import {AnalyseCertitifcatesService} from "../analyse-certitifcates.service";
+import {
+    CertificateAnalyseByDepertemt,
+    CertificateAnalyseTotal
+} from "../../../interfaces/Analyse/CertificateAnalyseByDepertemt";
+import {QuierAnalyse} from "../../../interfaces/Analyse/QueryAnakyse";
+import {DateService} from "../../date-service";
 
 @Component({
-  selector: 'app-department',
-  standalone: true,
-  imports: [],
-  templateUrl: './department.component.html',
+    selector: 'app-department',
+    standalone: true,
+    imports: [],
+    templateUrl: './department.component.html',
 })
-export class DepartmentComponent {
-  @ViewChild('departmentCanvas') departmentCanvas!: ElementRef;
-  public chart: any;
+export class DepartmentComponent implements AfterViewInit {
+    @ViewChild('departmentCanvas') departmentCanvas!: ElementRef<HTMLCanvasElement>;
+    public chart!: Chart;
+    @Output() certificateTotolDataChange = new EventEmitter<CertificateAnalyseTotal>(); // Emit the certificateTotolData
+    dataList?: CertificateAnalyseByDepertemt[];
+    certificateTotolData?: CertificateAnalyseTotal;
+    @Input() queryAnalyse: QuierAnalyse | undefined;
+    selectedDate!: Date;
 
-  createChart(data: any[]): void {
-    const labels = data.map(item => item["Département"]);
-    const certificateRates = data.map(item => item['Nb Certificats']);
-    const averageIllnessDays = data.map(item => item.Nbrjour);
+    constructor(private analyseService: AnalyseCertitifcatesService,
+                private dateService: DateService) {
+        this.dateService.selectedDate.subscribe(date => {
+            this.selectedDate = date;
+            this.onDateChange(date);
+        });
+    }
 
-    const chartData = {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Certificate Rate',
-          data: certificateRates,
-          borderColor: Utils.CHART_COLORS.red,
-          backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
-          yAxisID: 'y1',
-          type: 'bar'
-        },
-        {
-          label: 'Average Illness Days',
-          data: averageIllnessDays,
-          borderColor: Utils.CHART_COLORS.blue,
-          backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
-          yAxisID: 'y2',
-          type: 'line'
+    onDateChange(date: Date) {
+        console.log('New Date Received in Department Component:', date);
+        if (this.selectedDate) {
+            this.fetchData(date.getFullYear(), date.getMonth());
+            console.log('Query Analyse:', this.queryAnalyse);
         }
-      ]
-    };
+    }
+  ngAfterViewInit() {
 
-    // @ts-ignore
-    const config: Chart.ChartConfiguration = {
-      type: 'bar',
-      data: chartData,
-      options: {
-        responsive: true,
-        scales: {
-          y1: {
-            type: 'linear',
-            display: true,
-            position: 'left',
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Certificate Rate'
-            },
-            grid: {
-              drawOnChartArea: false
+    if (this.selectedDate) {
+      console.log('Query Analyse:', this.queryAnalyse);
+        this.fetchData(this.selectedDate.getFullYear(), this.selectedDate.getMonth());
+    }
+  }
+
+    private createChart(data: CertificateAnalyseByDepertemt[]): void {
+        const chartData = this.formatChartData(data);
+        const config: ChartConfiguration = {
+            type: 'bar',
+            data: chartData as ChartData,
+            options: this.getChartOptions()
+        };
+        this.chart = new Chart(this.departmentCanvas.nativeElement, config);
+    }
+
+    private updateChart(data: CertificateAnalyseByDepertemt[]): void {
+        const chartData = this.formatChartData(data);
+        this.chart.data = chartData;
+        this.chart.update();
+    }
+    fetchData(year: number, month: number): void {
+        // @ts-ignore
+        this.analyseService.getCertificateAnalyseByDepertemt(1, year, month).subscribe((data: CertificateAnalyseByDepertemt[]) => {
+            this.dataList = data;
+            this.certificateTotolData = this.analyseService.calculateTotals(data);
+            this.certificateTotolDataChange.emit(this.certificateTotolData);
+            if (this.chart) {
+                this.updateChart(data);
+            } else {
+                this.createChart(data);
             }
-          },
-          y2: {
-            type: 'linear',
-            display: true,
-            position: 'right',
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Average Illness Days'
+        });
+    }
+    private formatChartData(data: CertificateAnalyseByDepertemt[]): ChartData {
+        return {
+            labels: data.map(d => d.department),
+            datasets: [
+                {
+                    label: 'Number of Illness Certificates',
+                    data: data.map(d => d.certificates_nbr),
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Total Illness Days',
+                    data: data.map(d => d.illness_days_nbr),
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Certificate Rate (%)',
+                    data: data.map(d => d.certificate_rate),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Average Illness Days',
+                    data: data.map(d => d.average_illness_days),
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }
+            ]
+        };
+    }
+    private getChartOptions() {
+        return {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             },
-            grid: {
-              drawOnChartArea: false
-            },
-            ticks: {
-              callback: function(value: any, index: any, values: any) {
-                return '';
-              }
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top' as const
+                }
             }
-          }
-        }
-      },
-    };
-
-    this.chart = new Chart(this.departmentCanvas.nativeElement, config);
-  }
-
-  ngAfterViewInit(): void {
-    this.createChart(this.generateData());
-  }
-
-  generateData(): any[] {
-    const baseData = [
-      {
-        "Date certificats": "2024-03-26",
-        "Month": "Mar",
-        "Matricule": 12345,
-        "Catégorie": "DH",
-        "Nb Certificats": Math.floor(Math.random() * 5) + 1,
-        "Département": "ASSEMBLY-1-",
-        "Date début": "2024-01-10",
-        "Nbr prevu": Math.floor(Math.random() * 5) + 1,
-        "Date fin": "2024-01-20",
-        "Contre visite": true,
-        "Validation(ITT DE 44 JRS,VALIDE)": "ITT DE 44 JRS",
-        "Nbrjour": Math.floor(Math.random() * 5) + 1,
-        "Ecart": 0,
-        "Date entree": "2023-12-01",
-        "Medcintraitant": "Dr. Smith",
-        "Spécialité": "Orthopedics",
-        "Contre maitre": "John Doe",
-        "Shift(M,N,HC,S)": "M"
-      }
-    ];
-
-    const options = [
-      'ASSEMBLY',
-      'CUTTING',
-      'MAINTENANCE',
-      'ENGINEERING',
-      'PROCESS ENGI',
-      'PRODUCT ENGINEERING',
-      'QUALITY',
-      'LOGISTIC IMPO.EXPO',
-      'PURCHASING',
-      'FINANCE-CONTROLLING',
-      'GENERAL MANAGEMENT',
-      'HUMAN RESSOURCES',
-      'SAFETY H.R',
-      'IT',
-    ];
-
-    let generatedData: any[] = [];
-
-    options.forEach(option => {
-      let newItem = { ...baseData[0] };
-      newItem["Département"] = option;
-      newItem["Nb Certificats"] = Math.floor(Math.random() * 5) + 1;
-      newItem["Nbr prevu"] = Math.floor(Math.random() * 5) + 1;
-      newItem["Nbrjour"] = Math.floor(Math.random() * 5) + 1;
-      generatedData.push(newItem);
-    });
-
-    return generatedData;
-  }
-
+        };
+    }
 }

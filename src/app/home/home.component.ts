@@ -3,6 +3,8 @@ import {NgStyle} from "@angular/common";
 import {NzCalendarComponent} from "ng-zorro-antd/calendar";
 import {LbarLineChartComponent} from "./lbar-line-chart/lbar-line-chart.component";
 import {ContresVisitesPieComponent} from "./contres-visites-pie/contres-visites-pie.component";
+import {DepartmentComponent} from "./lbar-line-chart/department/department.component";
+import {QuierAnalyse} from "../interfaces/Analyse/QueryAnakyse";
 
 @Component({
   selector: 'app-home',
@@ -11,18 +13,12 @@ import {ContresVisitesPieComponent} from "./contres-visites-pie/contres-visites-
     NgStyle,
     NzCalendarComponent,
     LbarLineChartComponent,
-    ContresVisitesPieComponent
+    ContresVisitesPieComponent,
+    DepartmentComponent
   ],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
 
-  onValueChange(value: Date): void {
-    console.log(`Current value: ${value}`);
-  }
 
-  onPanelChange(change: { date: Date; mode: string }): void {
-    console.log(`Current value: ${change.date}`);
-    console.log(`Current mode: ${change.mode}`);
-  }
 }

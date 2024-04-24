@@ -122,3 +122,10 @@ class CategoryCertificates(BaseModel):
 
     class Config:
         orm_mode = True
+
+from pydantic import BaseModel
+
+class EmployeeVisit(BaseModel):
+    month: str
+    count_visit_not_null: int
+    count_visit_null: int

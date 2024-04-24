@@ -43,7 +43,7 @@ class EmployeeRepo:
             city_id=employee_info.city_id,
             date_start=employee_info.date_start,
             date_hiring=employee_info.date_hiring,
-            date_visit=employee_info.date_visit,
+            #date_visit=employee_info.date_visit,
             manager_id=employee_info.manager_id,
             job_id=employee_info.job_id
         )
@@ -77,7 +77,7 @@ class EmployeeRepo:
                 # Assuming City has a 'region' relationship and Region has a 'name' attribute
                 "date_start": query.date_start.isoformat(),
                 "date_hiring": query.date_hiring.isoformat(),
-                "date_visit": query.date_visit.isoformat()
+                #"date_visit": query.date_visit.isoformat()
             }
             return employee_data
         else:
@@ -131,10 +131,7 @@ class EmployeeRepo:
             query = query.filter(Employee.id.in_(employee_ids))
 
         if is_visited is not None:
-            if is_visited:
-                query = query.filter(Employee.date_visit != None)
-            else:
-                query = query.filter(Employee.date_visit == None)
+            pass
 
         employees = query.all()
 
@@ -214,7 +211,10 @@ class EmployeeRepo:
             "region_name": query.city.region.name if query.city and query.city.region else None,
             "date_start": query.date_start.isoformat(),
             "date_hiring": query.date_hiring.isoformat(),
-            "date_visit": query.date_visit.isoformat() if query.date_visit else None
+            #"date_visit": query.date_visit.isoformat() if query.date_visit else None
         }
 
         return EmployeeInfoResponse(**employee_data)
+
+
+    ## jib smiyat ta3 employee li daro lavisite mn 2010 l 2020

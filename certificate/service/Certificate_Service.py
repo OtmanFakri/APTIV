@@ -58,3 +58,7 @@ class CertificateService:
 
     async def get_certificates_by_category(self, category: str = None,year: int = None, month: int = None):
         return await self.certificationRepository.get_certificates_by_category(category, year, month)
+
+
+    async def Nb_visites(self, start_year):
+        return await self.certificationRepository.fetch_employee_visits(start_year)

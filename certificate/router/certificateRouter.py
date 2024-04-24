@@ -9,7 +9,7 @@ from starlette.responses import JSONResponse
 
 from certificate.models.certificate import Certificate
 from certificate.schemas.CertificateSchema import GetCertificateSchema, FilterCertificatesRequest, \
-    DepartmentCertificates, MonthCertificates, CategoryCertificates
+    DepartmentCertificates, MonthCertificates, CategoryCertificates, EmployeeVisit
 from certificate.service.Certificate_Service import CertificateService
 from configs.Database import get_db_connection
 
@@ -115,3 +115,9 @@ async def certificates_per_category(
         return data
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@CertificateRouter.get("/by_nbvisit")
+async def Nb_visites(
+        year: int = None,
+        service: CertificateService = Depends(CertificateService))->List[EmployeeVisit]:
+    return await service.Nb_visites(year)

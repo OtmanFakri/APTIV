@@ -1,6 +1,7 @@
+import calendar
 from datetime import date
 
-from sqlalchemy import select, func, and_, extract, distinct
+from sqlalchemy import select, func, and_, extract, distinct, case, or_
 
 from fastapi import Depends
 from sqlalchemy.orm import Session, joinedload
@@ -8,7 +9,7 @@ import logging
 
 from Department.models.Department import Department
 from certificate.models.certificate import Certificate
-from certificate.models.doctor import Doctor
+from certificate.schemas.CertificateSchema import EmployeeVisit
 from configs.Database import get_db_connection, get_db_connection_async, AsyncSessionLocal
 from employee.models.Employee import Employee
 
@@ -148,3 +149,35 @@ class CertificateRepository:
         # Execute the query
         result = await self.db.execute(query)
         return result.fetchall()
+
+
+
+    async def fetch_employee_visits(self, year: int):
+        # SQL query to count visits per month, separating null and non-null visits
+        from sqlalchemy import func, case
+
+        # Inside the fetch_employee_visits method in Certificate_Repository:
+        stmt = select(
+            func.extract('month', Employee.date_visit).label('month'),
+            func.sum(case((Employee.date_visit != None, 1), else_=0)).label('count_visit_not_null'),
+            func.sum(case((Employee.date_visit == None, 1), else_=0)).label('count_visit_null')
+        ).where(
+            func.extract('year', Employee.date_visit) == year
+        ).group_by('month').order_by('month')
+
+        # Execute and process as before
+
+        result = await self.db.execute(stmt)
+        visits_data = result.all()
+
+        # Formulate the response based on the EmployeeVisit model
+        response = [
+            EmployeeVisit(
+                month=calendar.month_name[int(month)],
+                count_visit_not_null=visits_not_null,
+                count_visit_null=visits_null
+            )
+            for month, visits_not_null, visits_null in visits_data
+        ]
+        return response
+

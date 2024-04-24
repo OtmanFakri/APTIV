@@ -28,13 +28,16 @@ class EmployeeInfoRequest(BaseModel):
     city_id: int
     date_start: str  # This should be converted to Date in the application logic
     date_hiring: str  # This should be converted to Date in the application logic
-    date_visit: str  # This should be converted to Date in the application logic
+    #date_visit: Optional[str] = None  # This should be converted to Date in the application logic
+    date_end: Optional[str] = None
     def convert_dates(self):
         # Convert string dates to date objects
         self.birth_date = date.fromisoformat(self.birth_date)
         self.date_start = date.fromisoformat(self.date_start)
         self.date_hiring = date.fromisoformat(self.date_hiring)
-        self.date_visit = date.fromisoformat(self.date_visit)
+        #self.date_visit = date.fromisoformat(self.date_visit)
+        if self.date_end:
+            self.date_end = date.fromisoformat(self.date_end)
     class Config:
         orm_mode = True
         from_attributes = True
@@ -63,5 +66,3 @@ class EmployeeSchemaResponse(BaseModel):
     info: EmployeeInfoResponse
     city: CitySchema
     department: DepartmentSchema
-
-

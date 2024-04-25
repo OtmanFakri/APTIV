@@ -8,7 +8,7 @@ from employee.models.Employee import Employee
 from employee.repo.EmployeeRepo import EmployeeRepo
 from employee.schemas.EmployeeSchema import CategoryEnum, EmployeeInfoRequest
 from employee.service.EmployeeService import EmployeeService
-
+from Consultation.models.Consultations import Consultation
 fake = Faker()
 
 

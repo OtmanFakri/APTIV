@@ -3,7 +3,6 @@ from fastapi_pagination import add_pagination
 from sqlalchemy import event
 from starlette.middleware.cors import CORSMiddleware
 
-from Consultation.models.ConsultationAssociation import ConsultationAssociation
 from Consultation.models.Consultations import Consultation
 from Department.models.Department import Department
 from Department.models.Job import Job
@@ -44,8 +43,6 @@ try:
     event.listen(Doctor.__table__, 'after_create')
     event.listen(Certificate.__table__, 'after_create')
     event.listen(Consultation.__table__, 'after_create')
-    event.listen(ConsultationAssociation.__table__, 'after_create')
-
 except Exception as e:
     print("An error occurred while attaching event listener:", e)
 @app.get("/")

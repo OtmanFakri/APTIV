@@ -1,6 +1,8 @@
 
 from sqlalchemy import Column, BigInteger, String, ForeignKey, Date, Index, Integer
 from sqlalchemy.orm import relationship
+
+from Consultation.models.ConsultationAssociation import association_table
 from configs.BaseModel import EntityMeta
 
 
@@ -31,7 +33,8 @@ class Employee(EntityMeta):
     job = relationship("Job", back_populates="employees")
     city = relationship("City", back_populates="employees")
     certificates = relationship("Certificate", back_populates="employee")
-    consultations = relationship("ConsultationAssociation", back_populates="employee")
+    #consultations = relationship("ConsultationAssociation", back_populates="employee")
+    consultations = relationship("Consultation", secondary=association_table, back_populates="employees")
 
     def full_name(self) -> str:
         """

@@ -1,14 +1,12 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Table
 from sqlalchemy.orm import relationship
 
 from configs.BaseModel import EntityMeta
 
 
-class ConsultationAssociation(EntityMeta):
-    __tablename__ = 'consultation_association'
-    employee_id = Column(Integer, ForeignKey('Employees.id'), primary_key=True)
-    consultation_id = Column(Integer, ForeignKey('consultations.id'), primary_key=True)
-    is_do = Column(Boolean, default=False)
-    # Ensure correct bidirectional relationships
-    employee = relationship("Employee", back_populates="consultations")
-    consultation = relationship("Consultation", back_populates="employees")
+association_table = Table('employee_consultation_association', EntityMeta.metadata,
+    Column('employee_id', Integer, ForeignKey('Employees.id')),
+    Column('consultation_id', Integer, ForeignKey('consultations.id'))
+)
+
+

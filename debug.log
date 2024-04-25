@@ -54,3 +54,13 @@ FROM pg_catalog.pg_type JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.
 WHERE pg_catalog.pg_type.typname = %(typname_1)s AND pg_catalog.pg_type_is_visible(pg_catalog.pg_type.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
 2024-04-25 19:14:42,857 - INFO - [generated in 0.00044s] {'typname_1': 'categoryenum', 'nspname_1': 'pg_catalog'}
 2024-04-25 19:14:42,859 - INFO - COMMIT
+2024-04-25 19:19:41,985 - INFO - BEGIN (implicit)
+2024-04-25 19:19:41,990 - INFO - INSERT INTO "Employees" (id, department_id, first_name, last_name, cin, cnss, phone_number, birth_date, "Sexe", city_id, date_start, date_hiring, date_end, manager_id, job_id) VALUES (%(id)s, %(department_id)s, %(first_name)s, %(last_name)s, %(cin)s, %(cnss)s, %(phone_number)s, %(birth_date)s, %(Sexe)s, %(city_id)s, %(date_start)s, %(date_hiring)s, %(date_end)s, %(manager_id)s, %(job_id)s)
+2024-04-25 19:19:41,990 - INFO - [generated in 0.00053s] {'id': 5, 'department_id': 4, 'first_name': 'Otman', 'last_name': 'Fakri', 'cin': '12345678', 'cnss': '87654321', 'phone_number': 123456789, 'birth_date': datetime.date(1990, 1, 1), 'Sexe': 'Male', 'city_id': 1, 'date_start': datetime.date(2020, 1, 1), 'date_hiring': datetime.date(2001, 2, 1), 'date_end': None, 'manager_id': None, 'job_id': 50}
+2024-04-25 19:19:42,081 - INFO - COMMIT
+2024-04-25 19:19:42,111 - INFO - BEGIN (implicit)
+2024-04-25 19:19:42,120 - INFO - SELECT "Employees".id, "Employees".department_id, "Employees".first_name, "Employees".last_name, "Employees".cin, "Employees".cnss, "Employees".phone_number, "Employees".birth_date, "Employees"."Sexe", "Employees".city_id, "Employees".date_start, "Employees".date_hiring, "Employees".date_end, "Employees".manager_id, "Employees".job_id 
+FROM "Employees" 
+WHERE "Employees".id = %(pk_1)s
+2024-04-25 19:19:42,120 - INFO - [generated in 0.00045s] {'pk_1': 5}
+2024-04-25 19:19:42,123 - INFO - ROLLBACK

@@ -9,8 +9,8 @@ from employee.repo.EmployeeRepo import EmployeeRepo
 from employee.schemas.EmployeeSchema import CategoryEnum, EmployeeInfoRequest
 from employee.service.EmployeeService import EmployeeService
 from Consultation.models.Consultations import Consultation
-fake = Faker()
 
+fake = Faker()
 
 def get_random_manager_id(session):
     all_employee_ids = [employee.id for employee in session.query(Employee).all()]
@@ -26,10 +26,7 @@ def generate_unique_id(session: Session):
         if not session.query(Employee).filter(Employee.id == new_id).first():
             return new_id
 
-
-def create_employee_with_service(session: Session):
-    employee_service = EmployeeService(employeeRepo=EmployeeRepo())
-
+def create_employee_with_service(session: Session, employee_service: EmployeeService):
     all_city_ids = [city.id for city in session.query(City.id).all()]
 
     employee_data = {
@@ -52,7 +49,6 @@ def create_employee_with_service(session: Session):
     }
 
     employee_request = EmployeeInfoRequest(**employee_data)
-    employee_request.convert_dates()
 
     try:
         employee_service.create(employee_request)
@@ -60,16 +56,15 @@ def create_employee_with_service(session: Session):
     except Exception as e:
         print(f"Error creating employee: {e}")
 
-
 def seed_data():
     session = SessionLocal()
-    employee_service = EmployeeService(employeeRepo=EmployeeRepo())  # Create an instance of EmployeeService
+    employee_repo = EmployeeRepo()
+    employee_service = EmployeeService(employeeRepo=employee_repo)
 
-    for _ in range(1000):
-        create_employee_with_service(session)  # Pass only the session object
+    for _ in range(1):
+        create_employee_with_service(session, employee_service)
 
     print(f"Created 1000 employees.")
-
 
 if __name__ == "__main__":
     seed_data()

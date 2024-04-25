@@ -1,6 +1,7 @@
 from sqlalchemy import Column, BigInteger, String, ForeignKey
 from sqlalchemy.orm import relationship
 
+from Department.models.Association_Consultation import consultation_job
 from configs.BaseModel import EntityMeta
 
 
@@ -13,3 +14,4 @@ class Job(EntityMeta):
 
     department = relationship('Department', back_populates='jobs')
     employees = relationship('Employee', back_populates='job',)
+    consultations = relationship('Consultation', secondary=consultation_job, back_populates='jobs')

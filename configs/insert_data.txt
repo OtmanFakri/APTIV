@@ -130,3 +130,16 @@ INSERT INTO Doctors (name, specialty) VALUES
 ('Dr. Taylor', 'Oncology');
 
 
+INSERT INTO consultations (id, categories, seniority)
+VALUES
+    (1, 'DH', 5),
+    (2, 'IH', 2),
+    (3, 'IS', 7),
+    (4, 'DH', 6),
+
+
+
+INSERT INTO employee_consultation_association (employee_id, consultation_id, is_do, date_do)
+SELECT e.id, c.id, false, NULL
+FROM "Employees" e
+CROSS JOIN consultations c;

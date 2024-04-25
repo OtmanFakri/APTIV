@@ -4,6 +4,7 @@ from sqlalchemy import event
 from starlette.middleware.cors import CORSMiddleware
 
 from Consultation.models.Consultations import Consultation
+from Consultation.routes.consultationRoutes import ConsultationRouter
 from Department.models.Department import Department
 from Department.models.Job import Job
 from Department.routers.DepartmentRouter import DepartmentRouter
@@ -59,7 +60,7 @@ app.include_router(DepartmentRouter)
 app.include_router(JobRouter)
 app.include_router(DoctorRouter)
 app.include_router(CertificateRouter)
-
+app.include_router(ConsultationRouter)
 # Initialise Data Model Attributes
 @app.on_event("startup")
 def configure():

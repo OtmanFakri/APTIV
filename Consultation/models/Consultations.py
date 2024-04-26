@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 
 from Consultation.models.ConsultationAssociation import association_table
 from Department.models.Association_Consultation import consultation_department, consultation_job
-from Department.schemas.DepartmentSchema import CategoryEnum
+from employee.schemas.EmployeeSchema import CategoryEnum
 from configs.BaseModel import EntityMeta
 
 

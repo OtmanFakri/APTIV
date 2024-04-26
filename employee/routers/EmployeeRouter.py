@@ -1,11 +1,18 @@
-from typing import Optional, List
+from random import randint, choice
+from typing import List
 
+from faker.generator import random
+from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends
 from fastapi_pagination import Page, paginate
 from starlette import status
+from fastapi import BackgroundTasks
+from typing import Optional
 
 from certificate.schemas.CertificateSchema import PostCertificateSchema, GetCertificateSchema
-from employee.schemas.EmployeeSchema import EmployeeInfoRequest, EmployeeInfoResponse
+from employee.SeederEmployee import fake, generate_unique_id, get_random_manager_id
+from employee.models.City import City
+from employee.schemas.EmployeeSchema import EmployeeInfoRequest, EmployeeInfoResponse, CategoryEnum
 from employee.service.EmployeeService import EmployeeService
 
 EmployeeRouter = APIRouter(
@@ -81,7 +88,8 @@ def Filter_Employee(year: int,
                     employee_ids: Optional[List[int]] = None,
                     is_visited: Optional[bool] = None,
                     employeeService: EmployeeService = Depends()) -> Page[EmployeeInfoResponse]:
-    return paginate(employeeService.Filter_Employee(year, category, department_ids, manager_ids, employee_ids, is_visited))
+    return paginate(
+        employeeService.Filter_Employee(year, category, department_ids, manager_ids, employee_ids, is_visited))
 
 
 @EmployeeRouter.post("/{employee_id}/certificate")
@@ -131,3 +139,42 @@ def get_certificates_employee(
         ) for certificate in fetched_certificate])
     except Exception as e:
         return {"success": False, "error": str(e)}
+
+
+
+
+def generate_unique_id():
+    return random.randint(1000, 9999)
+
+
+def seed_employees(employee_service: EmployeeService):
+    for _ in range(1000):  # Generating 1000 fake employees
+        employee_data = EmployeeInfoRequest(
+            id=generate_unique_id(),
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
+            department_id=fake.random_int(min=1, max=10),
+            job_id=fake.random_int(min=1, max=5),
+            manager_id=None,
+            cin=fake.ssn(),  # Assuming this generates a valid format
+            cnss=fake.ssn(),  # Assuming this generates a valid format
+            phone_number=fake.random_number(digits=10),
+            birth_date=str(fake.date_of_birth()),  # Assuming conversion handled in `convert_dates`
+            Sexe=fake.random_element(elements=("Male", "Female")),
+            city_id=fake.random_int(min=1, max=20),
+            date_start=str(fake.date_this_decade()),  # Assuming conversion handled in `convert_dates`
+            date_hiring=str(fake.date_this_decade()),  # Assuming conversion handled in `convert_dates`
+            date_end=str(fake.date_this_decade()) if fake.boolean(chance_of_getting_true=25) else None
+        )
+        try:
+            employee_service.create(employee_data)
+        except Exception as e:
+            print(f"Failed to create employee: {str(e)}")  # Logging the error
+
+@EmployeeRouter.post("/seed_employees", status_code=status.HTTP_201_CREATED)
+def create_bulk_employees(
+        background_tasks: BackgroundTasks,
+        employee_service: EmployeeService = Depends(),
+        ):
+    background_tasks.add_task(seed_employees, employee_service)
+    return {"message": "Initiated seeding of 1000 employees"}

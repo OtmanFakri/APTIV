@@ -14,8 +14,10 @@ class ConsultationService:
     async def get_all_consultations(self):
         return await self.consultationRepo.get_all_consultations()
 
-    async def list_all_consultations(self):
-        return await self.consultationRepo.list_all_consultations()
 
-    async def count_participation(self, consultation_id: int):
+
+    async def get_employees_by_consultation_details(self, consultation_id: int):
         return await self.consultationRepo.get_employees_by_consultation_details(consultation_id)
+
+    async def count_employees_by_consultation(self, consultation_id: int):
+        return await self.consultationRepo.count_employees_participating(consultation_id)

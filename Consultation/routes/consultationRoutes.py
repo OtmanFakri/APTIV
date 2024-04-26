@@ -16,7 +16,6 @@ async def get_all_consultations(
     consultations_list = [
         {
             "consultation": consultation[0],
-            "employee_count": consultation[1]
         }
         for consultation in resulta
     ]
@@ -24,14 +23,18 @@ async def get_all_consultations(
 
 @ConsultationRouter.get("/participation")
 async def list_all_consultations(service: ConsultationService = Depends(ConsultationService)):
-    consultations = await service.list_all_consultations()
-    total_participating = await service.count_participation(1)
-
-    consultation_data = {
-            "id": consultations[0].id,
-            #"title": consultation.name,  # Assuming there's a title or similar field
-            #"total_participating": total_participating,
-            #"total_non_participating": total_non_participating
+    consultations = await service.get_all_consultations()
+    consultations_list = []
+    for consultation in consultations:
+        # Assuming each consultation has an id, name, and you calculate non-participating employees somehow
+        total_participating = await service.count_employees_by_consultation(consultation[0].id)
+        consultation_data = {
+            "id": consultation[0].id,
+            "name": consultation[0].name,
+            "total_participating": len(total_participating),
+            #"total_non_participating": len(total_participating) - participating_count
+            # This assumes you have a way to calculate this
         }
-        #consultations_list.append(consultation_data)
-    return consultation_data
+        consultations_list.append(consultation_data)
+
+    return consultations_list

@@ -1,75 +1,72 @@
-from faker import Faker
-from random import randint, choice
+from datetime import date
+import random
+from sqlalchemy import create_engine, select
+from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session
 from sqlalchemy.orm import Session
 
-from configs.Database import SessionLocal
+from faker import Faker
+from Consultation.models.Consultations import Consultation
+from Department.schemas.DepartmentSchema import CategoryEnum
 from employee.models.City import City
 from employee.models.Employee import Employee
 from employee.repo.EmployeeRepo import EmployeeRepo
-from employee.schemas.EmployeeSchema import CategoryEnum, EmployeeInfoRequest
-from employee.service.EmployeeService import EmployeeService
-from Consultation.models.Consultations import Consultation
-fake = Faker()
+from configs.Database import SessionLocal
+from employee.schemas.EmployeeSchema import EmployeeInfoRequest
 
 
 def get_random_manager_id(session):
     all_employee_ids = [employee.id for employee in session.query(Employee).all()]
-
     if not all_employee_ids:
         return None
+    return random.choice(all_employee_ids)
 
-    return choice(all_employee_ids)
-
-def generate_unique_id(session: Session):
+def generate_unique_id(session):
     while True:
-        new_id = randint(1, 99999)
+        new_id = random.randint(1, 99999)
         if not session.query(Employee).filter(Employee.id == new_id).first():
             return new_id
 
+def insert_random_employees(num_employees=10):
+    db = SessionLocal()  # Create a database session
+    fake = Faker()       # Faker library for generating fake data
+    all_city_ids = [city.id for city in db.query(City.id).all()]
 
-def create_employee_with_service(session: Session):
-    employee_service = EmployeeService(employeeRepo=EmployeeRepo())
+    for _ in range(num_employees):
+        # Generate random employee data
+        employee_data = {
+            "id": generate_unique_id(db),
+            "category": random.choice(list(CategoryEnum)),
+            "department_id": random.randint(1, 14),
+            "job_id": random.randint(1, 100),
+            "manager_id": None if random.randint(0, 1) == 0 else get_random_manager_id(db),
+            "first_name": fake.first_name(),
+            "last_name": fake.last_name(),
+            "cin": str(fake.random_number(digits=8)),
+            "cnss": str(fake.random_number(digits=8)),
+            "phone_number": fake.random_number(digits=8),
+            "birth_date": fake.date_of_birth(minimum_age=18, maximum_age=65).strftime('%Y-%m-%d'),
+            "Sexe": random.choice(["Male", "Female"]),
+            "city_id": random.choice(all_city_ids),
+            "date_start": fake.date_between(start_date='-10y', end_date='today').strftime('%Y-%m-%d'),
+            "date_hiring": fake.date_between(start_date='-20y', end_date='-10y').strftime('%Y-%m-%d'),
+            "date_end": None
+        }
 
-    all_city_ids = [city.id for city in session.query(City.id).all()]
+        # Initialize the repository with the session
+        employee_repo = EmployeeRepo(db=db)
+        employee_request = EmployeeInfoRequest(**employee_data)
 
-    employee_data = {
-        "id": generate_unique_id(session),
-        "category": choice(list(CategoryEnum)),
-        "department_id": randint(1, 14),
-        "job_id": randint(1, 100),
-        "manager_id": None if randint(0, 1) == 0 else get_random_manager_id(session),
-        "first_name": fake.first_name(),
-        "last_name": fake.last_name(),
-        "cin": str(fake.random_number(digits=8)),
-        "cnss": str(fake.random_number(digits=8)),
-        "phone_number": fake.random_number(digits=8),
-        "birth_date": fake.date_of_birth(minimum_age=18, maximum_age=65).strftime('%Y-%m-%d'),
-        "Sexe": choice(["Male", "Female"]),
-        "city_id": choice(all_city_ids),
-        "date_start": fake.date_between(start_date='-10y', end_date='today').strftime('%Y-%m-%d'),
-        "date_hiring": fake.date_between(start_date='-20y', end_date='-10y').strftime('%Y-%m-%d'),
-        "date_end": None
-    }
+        # Use the repository to create an employee
+        try:
+            employee = employee_repo.create(employee_request)
+            print(f"Employee created successfully with ID: {employee.id}")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            # Optionally, break the loop if you don't want to continue after a failure
+            break
 
-    employee_request = EmployeeInfoRequest(**employee_data)
-    employee_request.convert_dates()
+    db.close()
 
-    try:
-        employee_service.create(employee_request)
-        print(f"Created employee with ID: {employee_request.id}")
-    except Exception as e:
-        print(f"Error creating employee: {e}")
-
-
-def seed_data():
-    session = SessionLocal()
-    employee_service = EmployeeService(employeeRepo=EmployeeRepo())  # Create an instance of EmployeeService
-
-    for _ in range(1000):
-        create_employee_with_service(session)  # Pass only the session object
-
-    print(f"Created 1000 employees.")
-
-
-if __name__ == "__main__":
-    seed_data()
+# Call the function to insert random employees
+insert_random_employees(1)

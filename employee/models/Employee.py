@@ -1,5 +1,7 @@
+from datetime import date
 
-from sqlalchemy import Column, BigInteger, String, ForeignKey, Date, Index, Integer
+from sqlalchemy import Column, BigInteger, String, ForeignKey, Date, Index, Integer, func, case
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
 from Consultation.models.ConsultationAssociation import association_table
@@ -41,3 +43,18 @@ class Employee(EntityMeta):
         Return the full name of the employee by combining first and last name.
         """
         return f"{self.first_name} {self.last_name}"
+
+    def full_name(self) -> str:
+        """
+        Return the full name of the employee by combining first and last name.
+        """
+        return f"{self.first_name} {self.last_name}"
+
+    def calculate_seniority(self) -> int:
+        if self.date_start:
+            today = date.today()
+            # Calculate the full years of service
+            seniority = (today.year - self.date_start.year) - (
+                    (today.month, today.day) < (self.date_start.month, self.date_start.day))
+            return seniority
+        return 0

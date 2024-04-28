@@ -1,6 +1,6 @@
 from fastapi import Depends
 
-from Consultation.repo.consultationRepo import ConsultationRepo
+from MedicalExamination.repo.consultationRepo import ConsultationRepo
 
 
 class ConsultationService:
@@ -13,7 +13,6 @@ class ConsultationService:
 
     async def get_all_consultations(self):
         return await self.consultationRepo.get_all_consultations()
-
 
 
     async def get_employees_by_consultation_details(self, consultation_id: int):

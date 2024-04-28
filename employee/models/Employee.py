@@ -4,7 +4,7 @@ from sqlalchemy import Column, BigInteger, String, ForeignKey, Date, Index, Inte
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
-from Consultation.models.ConsultationAssociation import association_table
+from MedicalExamination.models.MedicalExaminationAssociation import association_table
 from configs.BaseModel import EntityMeta
 
 
@@ -36,7 +36,7 @@ class Employee(EntityMeta):
     city = relationship("City", back_populates="employees")
     certificates = relationship("Certificate", back_populates="employee")
     #consultations = relationship("ConsultationAssociation", back_populates="employee")
-    consultations = relationship("Consultation", secondary=association_table, back_populates="employees")
+    consultations = relationship("MedicalExamination", secondary=association_table, back_populates="employees")
 
     def full_name(self) -> str:
         """

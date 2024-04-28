@@ -9,7 +9,7 @@ from certificate.schemas.CertificateSchema import PostCertificateSchema
 from configs.Database import SessionLocal
 from employee.models.Employee import Employee
 from employee.repo.EmployeeRepo import EmployeeRepo
-from Consultation.models.Consultations import Consultation
+from MedicalExamination.models.MedicalExamination import Consultation
 
 
 def insert_random_certificates(num_certificates=10):

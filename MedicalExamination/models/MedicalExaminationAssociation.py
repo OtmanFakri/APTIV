@@ -5,7 +5,7 @@ from configs.BaseModel import EntityMeta
 
 association_table = Table('employee_consultation_association', EntityMeta.metadata,
                           Column('employee_id', Integer, ForeignKey('Employees.id'), index=True, nullable=False),
-                          Column('consultation_id', Integer, ForeignKey('consultations.id'), index=True,
+                          Column('MedicalExamination_id', Integer, ForeignKey('MedicalExaminations.id'), index=True,
                                  nullable=False),
                           Column('date', Date, nullable=True, index=True),
                           )

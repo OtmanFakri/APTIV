@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.orm import Session
 
 from faker import Faker
-from Consultation.models.Consultations import Consultation
+from MedicalExamination.models.MedicalExamination import Consultation
 from Department.schemas.DepartmentSchema import CategoryEnum
 from employee.models.City import City
 from employee.models.Employee import Employee

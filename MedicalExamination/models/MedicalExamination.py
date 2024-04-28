@@ -1,13 +1,13 @@
 from sqlalchemy import Column, Integer, String, ForeignKey,Enum
 from sqlalchemy.orm import relationship
 
-from Consultation.models.ConsultationAssociation import association_table
+from MedicalExamination.models.MedicalExaminationAssociation import association_table
 from employee.schemas.EmployeeSchema import CategoryEnum
 from configs.BaseModel import EntityMeta
 
 
-class Consultation(EntityMeta):
-    __tablename__ = 'consultations'
+class MedicalExamination(EntityMeta):
+    __tablename__ = 'MedicalExaminations'
     id = Column(Integer, primary_key=True)
     name = Column(String,nullable=False)
     seniority = Column(Integer,nullable=True)

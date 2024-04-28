@@ -8,9 +8,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session, joinedload
 from datetime import datetime
 
-from Consultation.models import ConsultationAssociation
-from Consultation.models.ConsultationAssociation import association_table
-from Consultation.models.Consultations import Consultation
+from MedicalExamination.models import MedicalExaminationAssociation
+from MedicalExamination.models.MedicalExaminationAssociation import association_table
+from MedicalExamination.models.MedicalExamination import MedicalExamination
 from Department.models.Department import Department
 from configs.Database import get_db_connection_async
 from employee.models.Employee import Employee
@@ -26,7 +26,7 @@ class ConsultationRepo:
 
     async def get_all_consultations(self):
         # Directly select all consultations without any join conditions
-        stmt = select(Consultation)
+        stmt = select(MedicalExamination)
 
         result = await self.db.execute(stmt)
         consultations = result.scalars().all()  # Fetch all consultation records as objects
@@ -39,7 +39,7 @@ class ConsultationRepo:
         """
         # Fetch the consultation first to get the related attributes
         result = await self.db.execute(
-            select(Consultation).where(Consultation.id == consultation_id)
+            select(MedicalExamination).where(MedicalExamination.id == consultation_id)
         )
         consultation = result.scalar_one()
         # If no consultation is found, return an empty list
@@ -67,7 +67,7 @@ class ConsultationRepo:
         stmt = (
             select(Employee)
             .join(association_table, Employee.id == association_table.c.employee_id)
-            .where(association_table.c.consultation_id == consultation_id)
+            .where(association_table.c.MedicalExamination_id == consultation_id)
         )
         result = await self.db.execute(stmt)
         count = result.scalars().all()  # This will return the count directly

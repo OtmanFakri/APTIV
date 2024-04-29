@@ -1,3 +1,5 @@
+from datetime import date
+
 from pydantic import BaseModel, Field
 from typing import List, Optional, Any
 
@@ -12,6 +14,8 @@ class PostMedicalExaminationSchema(BaseModel):
     category: CategoryEnum
     department_ids: Optional[List[int]]
     job_ids: Optional[List[int]]
+    date_start: date
+    date_end : date
 
 
 class responseMedicalExaminationSchema(BaseModel):

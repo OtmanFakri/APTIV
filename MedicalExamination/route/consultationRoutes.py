@@ -65,9 +65,11 @@ async def create(
             seniority=medical_exam.seniority,
             category=medical_exam.category,
             department_ids=medical_exam.department_ids,
-            job_ids=medical_exam.job_ids
+            job_ids=medical_exam.job_ids,
+            date_start=medical_exam.date_start,
+            date_end=medical_exam.date_end
         )
-        return created
+        return True
     except HTTPException as e:
         raise HTTPException(status_code=400, detail=f"Error creating the medical examination: {e.detail}")
     except Exception as e:

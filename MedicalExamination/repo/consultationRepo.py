@@ -71,7 +71,14 @@ class ConsultationRepo:
         count = result.scalars().all()  # This will return the count directly
         return count
 
-    async def create_medical_examination(self, name, seniority, category, department_ids=None, job_ids=None):
+    async def create_medical_examination(self, name,
+                                         seniority,
+                                         category,
+                                         date_start:datetime,
+                                         department_ids=None,
+                                         job_ids=None,
+                                         date_end: datetime = None
+                                         ):
         """
                 Creates a new medical examination record with the given details and links to departments and jobs.
 
@@ -86,7 +93,9 @@ class ConsultationRepo:
             new_medical_examination = MedicalExamination(
                 name=name,
                 seniority=seniority,
-                category=category
+                category=category,
+                date_start=date_start,
+                date_end=date_end
             )
             # Link to departments and jobs if applicable
             if department_ids:

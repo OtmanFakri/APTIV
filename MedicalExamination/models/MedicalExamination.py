@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey,Enum
+from sqlalchemy import Column, Integer, String, ForeignKey, Enum, Date
 from sqlalchemy.orm import relationship
 
 from Department.models.Assosation_MedicalExamination import medical_examination_department_association, \
@@ -15,6 +15,8 @@ class MedicalExamination(EntityMeta):
     name = Column(String, nullable=False)
     seniority = Column(Integer, nullable=True)
     category = Column(Enum(CategoryEnum), nullable=False)
+    date_start= Column(Date, nullable=False,index=True)
+    date_end= Column(Date, nullable=True,index=True)
     # Relationships
     departments = relationship(
         "Department",

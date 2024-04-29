@@ -19,7 +19,8 @@ from employee.models.Region import Region
 from employee.routers.AddressRouter import AddressRouter
 from employee.routers.EmployeeRouter import EmployeeRouter
 
-app = FastAPI()
+app = FastAPI(
+)
 
 origins = [
     "http://localhost:4200",  # Adjust the port if necessary

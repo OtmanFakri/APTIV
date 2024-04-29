@@ -11,12 +11,15 @@ class ConsultationService:
     ) -> None:
         self.consultationRepo = consultationRepo
 
-    async def get_all_consultations(self):
-        return await self.consultationRepo.get_all_consultations()
+    async def get_all_MedicalExamination(self):
+        return await self.consultationRepo.get_all_MedicalExamination()
 
 
-    async def get_employees_by_consultation_details(self, consultation_id: int):
-        return await self.consultationRepo.get_employees_by_consultation_details(consultation_id)
+    async def get_employees_by_MedicalExamination_details(self, consultation_id: int):
+        return await self.consultationRepo.get_employees_by_MedicalExamination_details(consultation_id)
 
     async def employees_by_consultation(self, consultation_id: int):
         return await self.consultationRepo.employees_participating(consultation_id)
+
+    async def create_medical_examination(self, name, seniority, category, department_ids=None, job_ids=None):
+        return await self.consultationRepo.create_medical_examination(name, seniority, category, department_ids, job_ids)

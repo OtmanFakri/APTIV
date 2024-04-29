@@ -1,19 +1,14 @@
 from datetime import date
 import random
-from sqlalchemy import create_engine, select
-from sqlalchemy.orm import Session
-from sqlalchemy.orm import Session
-from sqlalchemy.orm import Session
-
 from faker import Faker
-from MedicalExamination.models.MedicalExamination import Consultation
+
 from Department.schemas.DepartmentSchema import CategoryEnum
+from configs.Database import SessionLocal
 from employee.models.City import City
 from employee.models.Employee import Employee
 from employee.repo.EmployeeRepo import EmployeeRepo
-from configs.Database import SessionLocal
 from employee.schemas.EmployeeSchema import EmployeeInfoRequest
-
+from MedicalExamination.models.MedicalExamination import MedicalExamination
 
 def get_random_manager_id(session):
     all_employee_ids = [employee.id for employee in session.query(Employee).all()]
@@ -69,4 +64,4 @@ def insert_random_employees(num_employees=10):
     db.close()
 
 # Call the function to insert random employees
-insert_random_employees(1)
+insert_random_employees(100)

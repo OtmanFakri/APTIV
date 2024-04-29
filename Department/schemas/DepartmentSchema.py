@@ -13,10 +13,12 @@ class CategoryEnum(Enum):
 class DepartmentSchema(BaseModel):
     id: int
     name: str
-    jobs: Optional[List[JobSchema]] = None
+    jobs: Optional[List[JobSchema]] = []
 
     class Config:
         orm_mode = True
+        from_attributes = True
+
 
 
 class PostDepartmentSchema(BaseModel):

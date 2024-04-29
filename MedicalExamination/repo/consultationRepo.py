@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Union, Any, Sequence
+from typing import Union, Any, Sequence, List
 
 from fastapi import Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
@@ -68,8 +68,8 @@ class ConsultationRepo:
             .where(association_table.c.MedicalExamination_id == consultation_id)
         )
         result = await self.db.execute(stmt)
-        count = result.scalars().all()  # This will return the count directly
-        return count
+        employee = result.scalars().all()
+        return employee
 
     async def create_medical_examination(self, name,
                                          seniority,
@@ -111,3 +111,28 @@ class ConsultationRepo:
         except SQLAlchemyError as e:
             await self.db.rollback()
             raise HTTPException(status_code=500, detail=str(e))
+
+    async def get_monthly_participation(self, consultation_id: int):
+        # Define an expression to extract the year and month as a string "Month YYYY"
+        month_expr = func.to_char(association_table.c.date, 'Month YYYY').label('month')
+
+        # Build the query to fetch employee details and the associated date, ordered by the date
+        stmt = (
+            select(
+                Employee.id.label('employee_id'),
+                association_table.c.date.label('participation_date'),
+                month_expr
+            )
+            .select_from(MedicalExamination)  # Start from MedicalExaminations table
+            .join(association_table,
+                  MedicalExamination.id == association_table.c.MedicalExamination_id)  # Correctly join association table
+            .join(Employee, Employee.id == association_table.c.employee_id)  # Join Employee to fetch details
+            .where(MedicalExamination.id == consultation_id)  # Filter by MedicalExamination ID
+            .order_by(association_table.c.date)  # Ordering by participation date
+        )
+
+        # Execute the query
+        result = await self.db.execute(stmt)
+        rows = result.fetchall()
+        # Organize the data into a structured format
+        return rows

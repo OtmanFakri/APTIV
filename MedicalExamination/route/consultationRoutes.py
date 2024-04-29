@@ -39,16 +39,11 @@ async def list_all_consultations(service: ConsultationService = Depends(Consulta
         total_non_participating = await service.employees_by_consultation(examination.id)
 
         # Create the full examination data expected by the schema
-        examination_data = responseMedicalExaminationSchema(
-            id=examination.id,
-            name=examination.name,
-            seniority=examination.seniority,
-            category=examination.category,
-            departments=[DepartmentSchema.from_orm(dept) for dept in examination.departments],
-            jobs=[JobSchema.from_orm(job) for job in examination.jobs],
-            total_participating=len(total_participating),
-            total_non_participating=len(total_non_participating)
-        )
+        examination_data = {
+            "date":examination,
+            "total_non_participating" : len(total_participating),
+            "total_participating" : len(total_non_participating)
+        }
         medical_examination_list.append(examination_data)
 
     return medical_examination_list
@@ -74,3 +69,38 @@ async def create(
         raise HTTPException(status_code=400, detail=f"Error creating the medical examination: {e.detail}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@ConsultationRouter.get("/examination/{examination_id}/employee")
+async def list_all_consultations(
+        examination_id: int,
+        service: ConsultationService = Depends(ConsultationService)):
+    total_employees = await service.get_employees_by_MedicalExamination_details(examination_id)  # Get the total number of employees
+    rows = await service.get_monthly_participation(examination_id)
+    nb_employee = len(total_employees)
+
+    monthly_participation = {}
+    for row in rows:
+        month = row[2].strip()  # Extract the month and strip any extra whitespace
+        if month not in monthly_participation:
+            monthly_participation[month] = []
+        monthly_participation[month].append({
+            "employee_id": row[0],
+            "participation_date": row[1].isoformat() if row[1] else None  # Convert date to ISO format string
+        })
+
+    # Calculate remaining non-participations for each month
+    participation_details = []
+    for month, details in sorted(monthly_participation.items()):
+        nb_employee = nb_employee - len(details)
+        Total_CM=len(details) + nb_employee
+        participation_details.append({
+            "month": month,
+            "participations": details,
+            "total_participations": len(details),
+            "rest_participations": nb_employee,
+            "Total CM":Total_CM,
+            "%":(len(details)/Total_CM)*100
+        })
+
+    return participation_details

@@ -28,3 +28,6 @@ class ConsultationService:
                                                                       date_end=date_end,
                                                                       department_ids=department_ids,
                                                                       job_ids=job_ids)
+
+    async def get_monthly_participation(self, consultation_id: int):
+        return await self.consultationRepo.get_monthly_participation(consultation_id)

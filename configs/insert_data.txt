@@ -143,3 +143,20 @@ INSERT INTO employee_consultation_association (employee_id, consultation_id, is_
 SELECT e.id, c.id, false, NULL
 FROM "Employees" e
 CROSS JOIN consultations c;
+
+
+INSERT INTO employee_consultation_association (employee_id, "MedicalExamination_id", date)
+SELECT id, 4, CURRENT_DATE -- You can specify another date if needed
+FROM "Employees"
+WHERE department_id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+
+INSERT INTO employee_consultation_association (employee_id, "MedicalExamination_id", date)
+SELECT
+    id,
+    4,
+    '2024-04-29'::date + (random() * (365 + 1))::int  -- '365 + 1' covers the leap year scenario; adjust as needed
+FROM
+    "Employees"
+WHERE
+    department_id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);

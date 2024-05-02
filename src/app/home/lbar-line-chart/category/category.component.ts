@@ -1,78 +1,143 @@
-import { Component } from '@angular/core';
-import Chart from "chart.js/auto";
-import {transparentizeColor} from "./utils";
+import {AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
+import Chart, {ChartConfiguration, ChartData} from "chart.js/auto";
+import {
+    CertificateAnalyseByCategory,
+    CertificateAnalyseTotal
+} from "../../../interfaces/Analyse/CertificateAnalyseByDepertemt";
+import {AnalyseCertitifcatesService} from "../analyse-certitifcates.service";
+import {NzCollapseComponent, NzCollapsePanelComponent} from "ng-zorro-antd/collapse";
+import {NgForOf, NgIf} from "@angular/common";
+import {NzDatePickerComponent} from "ng-zorro-antd/date-picker";
+import {DepartmentComponent} from "../department/department.component";
+import {MonthsComponent} from "../months/months.component";
+import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
+import {SexeComponent} from "../sexe/sexe.component";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-category',
   standalone: true,
-  imports: [],
+    imports: [
+        NzCollapseComponent,
+        NzCollapsePanelComponent,
+        NgForOf,
+        NzDatePickerComponent,
+        DepartmentComponent,
+        MonthsComponent,
+        NgIf,
+        NzOptionComponent,
+        NzSelectComponent,
+        SexeComponent,
+        FormsModule
+    ],
   templateUrl: './category.component.html',
 })
-export class CategoryComponent {
-    ngOnInit(): void {
-        const labels = ['DH', 'IH', 'IS', 'Total'];
+export class CategoryComponent implements AfterViewInit {
+    @ViewChild('categorytCanvas') categorytCanvas!: ElementRef<HTMLCanvasElement>;
+    public chart!: Chart;
+    dataList?: CertificateAnalyseByCategory[];
+    certificateTotolData?: CertificateAnalyseTotal;
+    @Output() certificateTotolDataChange = new EventEmitter<CertificateAnalyseTotal>();
+    selectedMonth: Date = new Date();
 
-        const data = {
-            labels: labels,
+    constructor(private analyseService: AnalyseCertitifcatesService) {}
+
+    onMonthChange(date: Date): void {
+        this.selectedMonth = date;
+        const year = this.selectedMonth.getFullYear();
+        const month = this.selectedMonth.getMonth() + 1; // JavaScript months are 0-indexed, add 1 for correct month
+        this.fetchData(year, month);
+    }
+
+    ngAfterViewInit() {
+        const year = this.selectedMonth.getFullYear();
+        const month = this.selectedMonth.getMonth() + 1;
+        this.fetchData(year, month);
+    }
+
+    fetchData(year: number, month: number): void {
+        // @ts-ignore
+        this.analyseService.getCertificateAnalyseByCategory(year, month).subscribe((data: CertificateAnalyseByCategory[]) => {
+            this.dataList = data;
+            this.certificateTotolData = this.analyseService.calculateTotals(data);
+            this.certificateTotolDataChange.emit(this.certificateTotolData);
+            if (this.chart) {
+                this.updateChart(data);
+            } else {
+                this.createChart(data);
+            }
+        });
+    }
+
+    private createChart(data: CertificateAnalyseByCategory[]): void {
+        const chartData = this.formatChartData(data);
+        const config: ChartConfiguration = {
+            type: 'bar',
+            data: chartData as ChartData,
+            options: this.getChartOptions()
+        };
+        this.chart = new Chart(this.categorytCanvas.nativeElement, config);
+    }
+
+    private updateChart(data: CertificateAnalyseByCategory[]): void {
+        const chartData = this.formatChartData(data);
+        this.chart.data = chartData;
+        this.chart.update();
+    }
+
+    private formatChartData(data: CertificateAnalyseByCategory[]): ChartData {
+        return {
+            labels: data.map(d => d.category),
             datasets: [
                 {
-                    label: 'Certificates Nbr',
-                    data: [1, 10, 12, 32],
-                    backgroundColor: this.transparentize('red', 0.5),
-                    borderWidth: 2,
-                    borderRadius: Number.MAX_VALUE,
-                    borderSkipped: false,
+                    label: 'Number of Illness Certificates',
+                    data: data.map(d => d.certificates_nbr),
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
                 },
                 {
-                    label: 'Illness days nbr',
-                    data: [10, 10, 12, 10],
-                    backgroundColor: this.transparentize('blue', 0.5),
-                    borderWidth: 2,
-                    borderRadius: 5,
-                    borderSkipped: false,
+                    label: 'Total Illness Days',
+                    data: data.map(d => d.illness_days_nbr),
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
                 },
                 {
-                    label: 'Certificate Rate',
-                    data: [0, 20, 50, 50],
-                    backgroundColor: this.transparentize('green', 0.5),
-                    borderWidth: 2,
-                    borderRadius: 5,
-                    borderSkipped: false,
+                    label: 'Certificate Rate (%)',
+                    data: data.map(d => d.certificate_rate),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Average Illness Days',
+                    data: data.map(d => d.average_illness_days),
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
                 }
             ]
         };
-
-        const config = {
-            type: 'bar',
-            data: data,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Chart.js Bar Chart for Health Data'
-                    }
-                },
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: {
-                        beginAtZero: true,
-                        stacked: true,
-                    }
-                }
-            },
-        };
-
-        // @ts-ignore
-        const barChart = new Chart('barChart', config);
     }
 
-    transparentize(color: string, opacity: number): string {
-        return transparentizeColor(color, opacity);
+    private getChartOptions() {
+        return {
+            scales: {
+                y: {
+                    stacked: true,
+                    beginAtZero: true
+                },
+                x: {
+                    stacked: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top' as const
+                }
+            }
+        };
     }
 }

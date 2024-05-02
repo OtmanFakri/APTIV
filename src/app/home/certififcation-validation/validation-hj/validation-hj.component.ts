@@ -1,0 +1,118 @@
+import {AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
+import {AnalyseCertitifcatesService} from "../../lbar-line-chart/analyse-certitifcates.service";
+import Chart, {ChartConfiguration, ChartData} from "chart.js/auto";
+import {ValidationHj} from "../../../interfaces/Analyse/ValidationHj";
+import {NzDatePickerComponent} from "ng-zorro-antd/date-picker";
+import {FormsModule} from "@angular/forms";
+import {NzTableComponent, NzTbodyComponent, NzTheadComponent, NzTrDirective} from "ng-zorro-antd/table";
+import {NgForOf} from "@angular/common";
+
+@Component({
+  selector: 'app-validation-hj',
+  standalone: true,
+  imports: [
+    NzDatePickerComponent,
+    FormsModule,
+    NzTableComponent,
+    NzTheadComponent,
+    NzTbodyComponent,
+    NgForOf,
+    NzTrDirective
+  ],
+  templateUrl: './validation-hj.component.html',
+})
+export class ValidationHJComponent implements AfterViewInit{
+
+  @ViewChild('ValidationHj') ValidationHj!: ElementRef;
+  public chart: any;
+  dataList?: ValidationHj[];
+  @Output() certificateTotolDataChange = new EventEmitter<number>(); // Total count
+  selectedYear: Date = new Date();
+
+
+  constructor(private analyseService: AnalyseCertitifcatesService) {}
+
+  ngAfterViewInit() {
+    if (this.selectedYear) {
+      this.fetchData(this.selectedYear.getFullYear(), "VHJ");
+    }
+    this.fetchData(this.selectedYear.getFullYear(), "VHJ");
+
+  }
+
+  private fetchData(year: number, status: string): void {
+    this.analyseService.getCertificateAnalyseByHj(year, status).subscribe((data: ValidationHj[]) => {
+      this.dataList = data;
+      this.certificateTotolDataChange.emit(data.reduce((sum, current) => sum + current.count, 0));
+      if (this.chart) {
+        this.updateChart(data);
+      } else {
+        this.createChart(data);
+      }
+    });
+  }
+
+  private createChart(data: ValidationHj[]): void {
+    const chartData = this.formatChartData(data);
+    const config: ChartConfiguration = {
+      type: 'line',
+      data: chartData as ChartData,
+      options: this.getChartOptions()
+    };
+    this.chart = new Chart(this.ValidationHj.nativeElement, config);
+  }
+
+  private updateChart(data: ValidationHj[]): void {
+    const chartData = this.formatChartData(data);
+    this.chart.data = chartData;
+    this.chart.update();
+  }
+
+  private formatChartData(data: ValidationHj[]): ChartData {
+    return {
+      labels: data.map(d => d.month),
+      datasets: [{
+        data: data.map(d => d.count),
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0,
+        stepped: true,
+      }]
+    };
+  }
+
+  private getChartOptions() {
+    return {
+      scales: {
+        x: {
+          ticks: {
+            display: false // This will hide the x-axis labels
+          }
+        },
+        y: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        legend: {
+          display: false,
+          position: 'top' as 'top'
+        }
+      },
+      elements: {
+        line: {
+          tension: 0 // This is optional but generally set to 0 for stepped lines
+        }
+      }
+    };
+  }
+
+  onYearChange($event: Date) {
+   this.selectedYear = $event;
+    this.fetchData(this.selectedYear.getFullYear(), "VHJ");
+    console.log(this.selectedYear)
+  }
+  calculateTotalCount(): number {
+    return this.dataList!.reduce((total, data) => total + data.count, 0);
+  }
+}

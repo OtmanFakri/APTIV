@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnInit, Output} from '@angular/core';
 import Chart from 'chart.js/auto';
 import * as Utils from './utils';
 import {NzSegmentedComponent} from "ng-zorro-antd/segmented";
@@ -33,35 +33,31 @@ import {DateService} from "../date-service";
   templateUrl: './lbar-line-chart.component.html',
 })
 export class LbarLineChartComponent implements OnInit{
-  options :string[] = ['department', 'Month', 'Category','sexe'];
-  private   option :number= 0;
-  selectedValue = this.options[0];
+  options :string[] = ['department', 'Month',];
+  selectedOption: string='department';
   monthFormat = 'yyyy/MM';
   certificateTotolData: CertificateAnalyseTotal | undefined;
-  selectedMonth: Date = new Date(2022, 6, 1);
-  @Output() dateChangeEvent = new EventEmitter<Date>();
-
+  selectedMonth: Date = new Date();
+  selectedYear: Date = new Date();
 
   constructor(private dateService: DateService) {}
 
-  queryAnalyse: QuierAnalyse = {
-    department_id: null, // Assign your desired value
-    year: new Date().getFullYear(), // Set the current year as default
-    month: new Date().getMonth() - 1
-  };
+  onOptionChange(value: string) {
+    console.log('Option selected:', value);
+  }
   onMonthChange(date: Date): void {
     this.selectedMonth = date;
     this.dateService.updateDate(date);
-    console.log('Selected Month:', date);
+  }
+  onYearChange(date: Date) : void{
+    this.selectedYear = date;
+    this.dateService.updateDate(date);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.dateService.updateDate(this.selectedMonth);
   }
 
-
-  get getoption(): number {
-    return this.option;
-  }
   onCertificateTotolDataChange(data: CertificateAnalyseTotal) {
     this.certificateTotolData = data;
   }

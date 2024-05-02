@@ -1,0 +1,49 @@
+<!-- Chart widget -->
+
+<div class="flex justify-between">
+  <div class="flex flex-col  xl:col-span-8 bg-white  rounded-sm border border-gray-200">
+    <header class="flex flex-row justify-between px-5 py-4 border-b border-gray-100  items-center">
+      <h2 class="font-semibold text-gray-800">Nombre des CM par huissier de justice</h2>
+
+      <div class="flex flex-row space-x-2">
+        <nz-date-picker
+          nzMode="year"
+          (ngModelChange)="onYearChange($event)"
+          [(ngModel)]="selectedYear"
+        ></nz-date-picker>
+      </div>
+    </header>
+    <!-- Chart built with Chart.js 3 -->
+    <canvas width="800" height="300" #ValidationHj>{{ chart }}</canvas>
+  </div>
+
+  <div class="w-1/4 bg-white border border-gray-300">
+    <nz-table
+      [nzFooter]=footerTemplate
+      [nzScroll]="{ y: '245px' }"
+      [nzShowPagination]="false"
+      [nzData]="dataList || []"
+    >
+      <thead>
+      <tr>
+        <th>Month</th>
+        <th>CM par Huissier de Justice</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of dataList">
+        <td>{{ data.month }}</td>
+        <td>{{ data.count }}</td>
+      </tr>
+      </tbody>
+      <ng-template #footerTemplate>
+        <tr class="flex justify-between">
+          <td>Total</td>
+          <td>{{ calculateTotalCount() }}</td>
+        </tr>
+      </ng-template>
+    </nz-table>
+  </div>
+</div>
+
+

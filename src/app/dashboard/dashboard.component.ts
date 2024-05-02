@@ -55,4 +55,8 @@ export class DashboardComponent {
   toggleMenu() {
     this.showMenu = !this.showMenu;
   }
+
+  isSelected(route: string): boolean {
+    return route === this.router.url;
+  }
 }

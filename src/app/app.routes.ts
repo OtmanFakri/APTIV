@@ -13,6 +13,7 @@ import {ListCertificationComponent} from "./list-certification/list-certificatio
 import {ListDepartmentComponent} from "./list-department/list-department.component";
 import {ListDoctorComponent} from "./list-doctor/list-doctor.component";
 import {DoctorComponent} from "./list-doctor/doctor/doctor.component";
+import {ExaminationComponent} from "./examination/examination.component";
 
 export const routes: Routes = [
   {
@@ -34,6 +35,7 @@ export const routes: Routes = [
       },
       {path:'Doctors', component:ListDoctorComponent},
       {path:'Doctors/:id', component:DoctorComponent},
+      { path: 'examination', component: ExaminationComponent},
       { path: 'certifications', component: ListCertificationComponent },
 
     ]

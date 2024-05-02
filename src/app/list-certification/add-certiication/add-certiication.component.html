@@ -1,0 +1,66 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="max-w-4xl mx-auto">
+
+
+  <!-- Row 1: ID, First Name, Last Name -->
+  <div class="grid grid-cols-3 gap-4 mb-4">
+    <div>
+      <label class="block font-medium text-gray-700">ID</label>
+      <input type="text" formControlName="employee_id" placeholder="ID" class="form-input rounded-lg border px-3 py-2">
+    </div>
+    <div>
+      <label class="block font-medium text-gray-700">First Name</label>
+      <input type="text" formControlName="first_name" placeholder="First Name" class="form-input rounded-lg border px-3 py-2">
+    </div>
+    <div>
+      <label class="block font-medium text-gray-700">Last Name</label>
+      <input type="text" formControlName="last_name" placeholder="Last Name" class="form-input rounded-lg border px-3 py-2">
+    </div>
+  </div>
+
+  <!-- Row 2: Category, Department, Manager -->
+  <div class="grid grid-cols-3 gap-4 mb-4">
+    <div>
+      <label class="block font-medium text-gray-700">Category</label>
+      <input type="text" formControlName="category" placeholder="Category" class="form-input rounded-lg border px-3 py-2">
+    </div>
+    <div>
+      <label class="block font-medium text-gray-700">Department</label>
+      <input type="text" formControlName="department" placeholder="Department" class="form-input rounded-lg border px-3 py-2">
+    </div>
+    <div>
+      <label class="block font-medium text-gray-700">Manager</label>
+      <input type="text" formControlName="manager" placeholder="Manager" class="form-input rounded-lg border px-3 py-2">
+    </div>
+  </div>
+
+  <!-- Row 3: Doctor, Specialty -->
+  <div class="grid grid-cols-3 gap-4 mb-4">
+    <div>
+      <label class="block font-medium text-gray-700">Doctor ID</label>
+      <input type="text" formControlName="doctor_id" placeholder="Doctor ID" class="form-input rounded-lg border px-3 py-2">
+    </div>
+    <div>
+      <label class="block font-medium text-gray-700">Specialty</label>
+      <input type="text" formControlName="specialty" placeholder="Specialty" class="form-input rounded-lg border px-3 py-2">
+    </div>
+    <div>
+      <label class="block font-medium text-gray-700">Validation</label>
+      <input type="text" formControlName="validation" placeholder="validation" class="form-input rounded-lg border px-3 py-2">
+    </div>
+  </div>
+
+  <!-- Row 4: Date Start, Date End, Duration -->
+  <div class="grid grid-cols-2 gap-4 mb-4">
+    <div>
+      <label class="block font-medium text-gray-700">Date</label>
+      <nz-range-picker
+        class="form-input rounded-lg border px-3 py-2"
+        formControlName="dateRange"
+        (ngModelChange)="onRangeChange($event)"></nz-range-picker>
+    </div>
+    <div>
+      <label class="block font-medium text-gray-700">Duration</label>
+      <input type="text" disabled value="{{ Duration }}" placeholder="Duration (Days)" class="form-input rounded-lg border px-3 py-2">
+    </div>
+  </div>
+</form>

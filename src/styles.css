@@ -1,212 +1,233 @@
 /* You can add global styles to this file, and also import other style files */
+@import "pages.css";
+@import "components.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* Figma Styles of your File */
+
+
+
 :root {
-  /* Colors */
-  --primary-500: #e83f25;
-  --secondary-500: #a3d139;
-  --tertiary-500: #b21589;
-  --dark-500: #16151c;
-  --gray-500: #a2a1a8;
-  --light-500: #d9e1e1;
-  --white-500: #ffffff;
-  --primary-primary-100: #e6e2f8;
-  --primary-primary-200: #cec4f6;
-  --primary-primary-300: #b2a2f9;
-  --primary-primary-400: #9178fa;
-  --primary-primary-600: #5d3de7;
-  --primary-primary-700: #4f31d0;
-  --primary-primary-800: #3517b4;
-  --primary-primary-900: #250c92;
-  --primary-primary-90percent: rgba(113, 82, 243, 0.9);
-  --primary-primary-80percent: rgba(113, 82, 243, 0.8);
-  --primary-primary-20percent: rgba(113, 82, 243, 0.2);
-  --primary-primary-10percent: rgba(113, 82, 243, 0.1);
-  --primary-primary-5percent: rgba(113, 82, 243, 0.05);
-  --secondary-secondary-100: #e1f1bc;
-  --secondary-secondary-200: #cee993;
-  --secondary-secondary-300: #bcde6b;
-  --secondary-secondary-400: #afd751;
-  --secondary-secondary-600: #97bd33;
-  --secondary-secondary-700: #88a52a;
-  --secondary-secondary-800: #798d21;
-  --secondary-secondary-900: #626615;
-  --secondary-secondary-90percent: rgba(163, 209, 57, 0.9);
-  --secondary-secondary-80percent: rgba(163, 209, 57, 0.8);
-  --secondary-secondary-20percent: rgba(163, 209, 57, 0.2);
-  --secondary-secondary-10percent: rgba(163, 209, 57, 0.1);
-  --secondary-secondary-5percent: rgba(163, 209, 57, 0.05);
-  --tertiary-tertiary-100: #f0b0d9;
-  --tertiary-tertiary-200: #e67bc2;
-  --tertiary-tertiary-300: #d846ab;
-  --tertiary-tertiary-400: #cd0d9b;
-  --tertiary-tertiary-600: #af0a87;
-  --tertiary-tertiary-700: #9b0982;
-  --tertiary-tertiary-800: #8a087c;
-  --tertiary-tertiary-900: #6c0772;
-  --tertiary-tertiary-90percent: rgba(178, 21, 137, 0.9);
-  --tertiary-tertiary-80percent: rgba(178, 21, 137, 0.8);
-  --tertiary-tertiary-20percent: rgba(178, 21, 137, 0.2);
-  --tertiary-tertiary-10percent: rgba(178, 21, 137, 0.1);
-  --tertiary-tertiary-5percent: rgba(178, 21, 137, 0.05);
-  --dark-dark-90percent: rgba(22, 21, 28, 0.9);
-  --dark-dark-80percent: rgba(22, 21, 28, 0.8);
-  --dark-dark-20percent: rgba(22, 21, 28, 0.2);
-  --dark-dark-10percent: rgba(22, 21, 28, 0.1);
-  --dark-dark-5percent: rgba(22, 21, 28, 0.05);
-  --gray-gray-90percent: rgba(162, 161, 168, 0.9);
-  --gray-gray-80percent: rgba(162, 161, 168, 0.8);
-  --gray-gray-20percent: rgba(162, 161, 168, 0.2);
-  --gray-gray-10percent: rgba(162, 161, 168, 0.1);
-  --gray-gray-5percent: rgba(162, 161, 168, 0.05);
-  --light-light-90percent: rgba(217, 225, 225, 0.9);
-  --light-light-80percent: rgba(217, 225, 225, 0.8);
-  --light-light-20percent: rgba(217, 225, 225, 0.2);
-  --light-light-10percent: rgba(217, 225, 225, 0.1);
-  --light-light-5percent: rgba(217, 225, 225, 0.05);
-  --white-white-90percent: rgba(255, 255, 255, 0.9);
-  --white-white-80percent: rgba(255, 255, 255, 0.8);
-  --white-white-20percent: rgba(255, 255, 255, 0.2);
-  --white-white-10percent: rgba(255, 255, 255, 0.1);
-  --white-white-5percent: rgba(255, 255, 255, 0.05);
-  --color-option-color-option-1: #30be82;
-  --color-option-color-option-2: #30beb6;
-  --color-option-color-option-3: #5d30be;
-  --color-option-color-option-4: #304fbe;
-  --gradient-gradient-1: linear-gradient(
-    135deg,
-    rgba(127, 190, 48, 1) 0%,
-    rgba(48, 165, 190, 1) 100%
-  );
-  --gradient-gradient-2: linear-gradient(
-    135deg,
-    rgba(48, 190, 182, 1) 0%,
-    rgba(48, 105, 190, 1) 100%
-  );
-  --gradient-gradient-3: linear-gradient(
-    135deg,
-    rgba(93, 48, 190, 1) 0%,
-    rgba(179, 48, 190, 1) 100%
-  );
-
-  /* Fonts */
-  --header-1-bold-font-family: Lexend-SemiBold, sans-serif;
-  --header-1-bold-font-size: 80px;
-  --header-1-bold-line-height: normal;
-  --header-1-bold-font-weight: 600;
-  --header-1-bold-font-style: normal;
-  --header-1-regular-font-family: Lexend-Light, sans-serif;
-  --header-1-regular-font-size: 80px;
-  --header-1-regular-line-height: normal;
-  --header-1-regular-font-weight: 300;
-  --header-1-regular-font-style: normal;
-  --header-2-bold-font-family: Lexend-SemiBold, sans-serif;
-  --header-2-bold-font-size: 60px;
-  --header-2-bold-line-height: normal;
-  --header-2-bold-font-weight: 600;
-  --header-2-bold-font-style: normal;
-  --header-1-regular-font-family: Lexend-Light, sans-serif;
-  --header-1-regular-font-size: 60px;
-  --header-1-regular-line-height: normal;
-  --header-1-regular-font-weight: 300;
-  --header-1-regular-font-style: normal;
-  --header-3-bold-font-family: Lexend-SemiBold, sans-serif;
-  --header-3-bold-font-size: 40px;
-  --header-3-bold-line-height: normal;
-  --header-3-bold-font-weight: 600;
-  --header-3-bold-font-style: normal;
-  --header-3-regular-font-family: Lexend-Light, sans-serif;
-  --header-3-regular-font-size: 40px;
-  --header-3-regular-line-height: normal;
-  --header-3-regular-font-weight: 300;
-  --header-3-regular-font-style: normal;
-  --header-4-bold-font-family: Lexend-SemiBold, sans-serif;
-  --header-4-bold-font-size: 30px;
-  --header-4-bold-line-height: 40px;
-  --header-4-bold-font-weight: 600;
-  --header-4-bold-font-style: normal;
-  --header-4-regular-font-family: Lexend-Light, sans-serif;
-  --header-4-regular-font-size: 30px;
-  --header-4-regular-line-height: 40px;
-  --header-4-regular-font-weight: 300;
-  --header-4-regular-font-style: normal;
-  --header-5-bold-font-family: Lexend-SemiBold, sans-serif;
-  --header-5-bold-font-size: 24px;
-  --header-5-bold-line-height: 36px;
-  --header-5-bold-font-weight: 600;
-  --header-5-bold-font-style: normal;
-  --header-5-regular-font-family: Lexend-Light, sans-serif;
-  --header-5-regular-font-size: 24px;
-  --header-5-regular-line-height: 36px;
-  --header-5-regular-font-weight: 300;
-  --header-5-regular-font-style: normal;
-  --header-6-bold-font-family: Lexend-SemiBold, sans-serif;
-  --header-6-bold-font-size: 20px;
-  --header-6-bold-line-height: 30px;
-  --header-6-bold-font-weight: 600;
-  --header-6-bold-font-style: normal;
-  --header-6-regular-font-family: Lexend-Light, sans-serif;
-  --header-6-regular-font-size: 20px;
-  --header-6-regular-line-height: 30px;
-  --header-6-regular-font-weight: 300;
-  --header-6-regular-font-style: normal;
-  --header-7-bold-font-family: Lexend-SemiBold, sans-serif;
-  --header-7-bold-font-size: 18px;
-  --header-7-bold-line-height: 26px;
-  --header-7-bold-font-weight: 600;
-  --header-7-bold-font-style: normal;
-  --header-7-regular-font-family: Lexend-Light, sans-serif;
-  --header-7-regular-font-size: 18px;
-  --header-7-regular-line-height: 26px;
-  --header-7-regular-font-weight: 300;
-  --header-7-regular-font-style: normal;
-  --body-1-bold-font-family: Lexend-SemiBold, sans-serif;
-  --body-1-bold-font-size: 16px;
-  --body-1-bold-line-height: 24px;
-  --body-1-bold-font-weight: 600;
-  --body-1-bold-font-style: normal;
-  --body-1-regular-font-family: Lexend-Light, sans-serif;
-  --body-1-regular-font-size: 16px;
-  --body-1-regular-line-height: 24px;
-  --body-1-regular-font-weight: 300;
-  --body-1-regular-font-style: normal;
-  --body-2-bold-font-family: Lexend-SemiBold, sans-serif;
-  --body-2-bold-font-size: 14px;
-  --body-2-bold-line-height: 22px;
-  --body-2-bold-font-weight: 600;
-  --body-2-bold-font-style: normal;
-  --body-2-regular-font-family: Lexend-Light, sans-serif;
-  --body-2-regular-font-size: 14px;
-  --body-2-regular-line-height: 22px;
-  --body-2-regular-font-weight: 300;
-  --body-2-regular-font-style: normal;
-  --caption-bold-font-family: Lexend-SemiBold, sans-serif;
-  --caption-bold-font-size: 12px;
-  --caption-bold-line-height: 18px;
-  --caption-bold-font-weight: 600;
-  --caption-bold-font-style: normal;
-  --caption-regular-font-family: Lexend-Light, sans-serif;
-  --caption-regular-font-size: 12px;
-  --caption-regular-line-height: 18px;
-  --caption-regular-font-weight: 300;
-  --caption-regular-font-style: normal;
-  --label-bold-font-family: Lexend-SemiBold, sans-serif;
-  --label-bold-font-size: 11px;
-  --label-bold-line-height: 16px;
-  --label-bold-font-weight: 600;
-  --label-bold-font-style: normal;
-  --label-regular-font-family: Lexend-Light, sans-serif;
-  --label-regular-font-size: 11px;
-  --label-regular-line-height: 16px;
-  --label-regular-font-weight: 300;
-  --label-regular-font-style: normal;
-
-  /* Effects */
-  --ds1-box-shadow: 0px 55px 110px 0px rgba(0, 0, 0, 0.04),
-  0px 55px 110px 0px rgba(0, 0, 0, 0.05);
-  --ds2-box-shadow: 0px 8px 8px -4px rgba(16, 24, 40, 0.02),
-  0px 10px 40px -4px rgba(16, 24, 40, 0.02);
+  @apply [--margin-x:1rem]
+  [--main-sidebar-width:4.5rem]
+  [--sidebar-panel-width:230px]
+  [--sidebar-panel-min-width:64px]
+  md:[--margin-x:1.5rem]
+  lg:[--main-sidebar-width:5rem]
+  lg:[--sidebar-panel-width:240px]
+  xl:[--margin-x:4rem];
 }
 
+.has-min-sidebar {
+  @apply xl:[--margin-x:2.5rem];
+}
+
+.is-sidebar-open {
+  @apply xl:[--margin-x:1.5rem];
+}
+
+/* Basic styles */
+html {
+  @apply h-full overflow-x-hidden [text-rendering:optimizeLegibility] [-webkit-tap-highlight-color:transparent];
+}
+
+
+
+[x-cloak],
+[data-x-cloak] {
+  @apply !hidden;
+}
+
+body {
+  @apply bg-slate-50 font-sans text-sm leading-5 text-slate-500 antialiased [text-rendering:optimizeLegibility] ;
+}
+
+body.is-monochrome::before {
+  @apply pointer-events-none fixed inset-0 z-[999999] -m-[5rem] h-[calc(100%+10rem)] w-[calc(100%+10rem)] backdrop-grayscale backdrop-opacity-[.92] content-[''];
+}
+
+/* app-preloader */
+.app-preloader .app-preloader-inner::after,
+.app-preloader .app-preloader-inner::before {
+  @apply absolute h-full w-full rounded-full bg-slate-300/[.25] content-[''] ;
+  animation: spinner-grow 3s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
+}
+
+.app-preloader .app-preloader-inner::after {
+  animation-delay: -1.5s;
+}
+
+/* Sidebar Toggle Button */
+.menu-toggle span {
+  @apply h-[2px] w-5 translate-x-0 bg-current transition-all duration-[.25s] ease-in-out;
+}
+
+.menu-toggle span:nth-child(2) {
+  @apply w-3;
+}
+
+.menu-toggle.active span {
+  @apply ml-2 w-[11px] -translate-x-2;
+}
+
+.menu-toggle.active span:nth-child(1) {
+  @apply -rotate-45;
+}
+
+.menu-toggle.active span:nth-child(2) {
+  @apply hidden;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  @apply rotate-45;
+}
+
+/* Sidebar */
+.main-sidebar {
+  @apply fixed top-0 left-0 z-40 h-full w-[var(--main-sidebar-width)] shrink-0 -translate-x-full transform-gpu transition-transform duration-200 ease-in md:z-[60] md:translate-x-0;
+}
+
+.is-sidebar-open .main-sidebar {
+  @apply translate-x-0;
+}
+
+.sidebar-panel {
+  @apply fixed top-0 left-0 z-30 h-full w-[calc(var(--main-sidebar-width)+var(--sidebar-panel-width))] -translate-x-full transform-gpu shadow-soft transition-transform delay-150 duration-[.25s] ease-in  md:delay-[unset];
+}
+
+.is-sidebar-open .sidebar-panel {
+  @apply translate-x-0 ease-out;
+}
+
+.sidebar-panel-min {
+  @apply fixed z-40 h-full w-[var(--sidebar-panel-min-width)] shrink-0 -translate-x-full transform-gpu shadow-soft transition-transform duration-[.25s] ease-in  md:translate-x-[var(--main-sidebar-width)];
+}
+
+.is-sidebar-open .sidebar-panel-min {
+  @apply -translate-x-full;
+}
+
+/* Header */
+nav.header {
+  @apply fixed top-0 right-0 z-20 flex h-[61px] w-full border-b border-slate-150 transition-all duration-[.25s]  md:w-[calc(100%-var(--main-sidebar-width))];
+}
+
+nav.header:before {
+  @apply absolute -left-[calc((100vw-100%))] h-full w-[calc(100vw-100%)] bg-white content-[''] ;
+}
+
+nav.header .header-container {
+  @apply px-[var(--margin-x)] transition-[padding,width] duration-[.25s];
+}
+
+.has-min-sidebar nav.header {
+  @apply md:w-[calc(100%-(var(--main-sidebar-width)+var(--sidebar-panel-min-width)))];
+}
+
+.is-sidebar-open nav.header {
+  @apply xl:w-[calc(100%-(var(--main-sidebar-width)+var(--sidebar-panel-width)))];
+}
+
+.is-header-blur nav.header .header-container {
+  @apply backdrop-blur supports-[backdrop-filter]:bg-white/80 ;
+}
+
+.is-header-not-sticky nav.header {
+  @apply absolute;
+}
+
+/* Main content */
+.main-content {
+  @apply mt-[60px] grid grid-cols-1 place-content-start transition-[width,margin-left,margin-right,padding-left,padding-right] duration-[.25s] ease-in print:m-0 md:ml-[var(--main-sidebar-width)];
+}
+
+.has-min-sidebar .main-content {
+  @apply md:ml-[calc(var(--main-sidebar-width)+var(--sidebar-panel-min-width))];
+}
+
+.is-sidebar-open .main-content {
+  @apply ease-out xl:ml-[calc(var(--main-sidebar-width)+var(--sidebar-panel-width))];
+}
+
+/* Sideblock styles */
+.navigation\:sideblock {
+  @apply [--sideblock-width:260px];
+}
+
+.navigation\:sideblock .sidebar-panel {
+  @apply w-[var(--sideblock-width)] -translate-x-full;
+}
+
+.navigation\:sideblock.is-sidebar-open .sidebar-panel {
+  @apply translate-x-0;
+}
+
+.navigation\:sideblock nav.header {
+  @apply w-full;
+}
+
+.navigation\:sideblock.is-sidebar-open nav.header {
+  @apply xl:w-[calc(100%-(var(--sideblock-width)))];
+}
+
+.navigation\:sideblock .main-content {
+  @apply ml-0;
+}
+
+.navigation\:sideblock.is-sidebar-open .main-content {
+  @apply xl:ml-[var(--sideblock-width)];
+}
+
+/* Navigation Horizontal */
+.navigation\:horizontal nav.header {
+  @apply w-full sm:h-auto;
+}
+
+.navigation\:horizontal .main-content {
+  @apply ml-0 sm:mt-28;
+}
+
+/* Fix 100vh issue for phones */
+.h-100vh {
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+.min-h-100vh {
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Demo inline space */
+.inline-space > :not([hidden]) {
+  @apply mb-2.5 mr-2.5;
+}
+
+/* Demo inline code style */
+code.inline-code {
+  @apply rounded bg-slate-100 py-0.5 px-1 text-xs+ text-secondary ;
+}
+
+/* Scrollbar styles */
+.is-scrollbar-hidden {
+  @apply [scrollbar-width:none]; /* Firefox */
+}
+
+.is-scrollbar-hidden::-webkit-scrollbar {
+  @apply hidden;
+}
+
+@supports selector(::-webkit-scrollbar) {
+  .scrollbar-sm::-webkit-scrollbar {
+    @apply h-1.5 w-1.5;
+  }
+
+  .scrollbar-sm:hover::-webkit-scrollbar-thumb,
+  .scrollbar-sm:focus-within::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-slate-300/80 ;
+  }
+
+  .scrollbar-sm::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400 ;
+  }
+}

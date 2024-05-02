@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {NgForOf, NgIf} from "@angular/common";
 import {PaginationComponent} from "../Components/pagination/pagination.component";
@@ -10,6 +10,8 @@ import {NzModalComponent, NzModalContentDirective, NzModalModule} from "ng-zorro
 import {
   ShowCertificationComponent
 } from "../profile/me/info-certification/show-certification/show-certification.component";
+import {NzDrawerComponent, NzDrawerContentDirective} from "ng-zorro-antd/drawer";
+import {AddCertiicationComponent} from "./add-certiication/add-certiication.component";
 
 
 
@@ -38,7 +40,10 @@ interface ListCertification {
     NzTrDirective,
     NzModalComponent,
     ShowCertificationComponent,
-    NzModalContentDirective
+    NzModalContentDirective,
+    NzDrawerComponent,
+    AddCertiicationComponent,
+    NzDrawerContentDirective
   ],
   templateUrl: './list-certification.component.html',
 })
@@ -48,6 +53,7 @@ export class ListCertificationComponent {
   dateCertification = null;
   isVisible: boolean = false;
   isConfirmLoading = false;
+  @ViewChild(AddCertiicationComponent) addCertificationComponent!: AddCertiicationComponent;
 
   onChange(result: Date[]): void {
     console.log('onChange: ', result);
@@ -145,15 +151,21 @@ export class ListCertificationComponent {
   showModal() {
     this.isVisible = true;
   }
-  handleOk(): void {
-    this.isConfirmLoading = true;
-    setTimeout(() => {
-      this.isVisible = false;
-      this.isConfirmLoading = false;
-    }, 3000);
+
+
+  addCertifica = false;
+
+  save() {
+    if (this.addCertificationComponent) {
+      this.addCertificationComponent.onSubmit();
+      console.log('this.addCertificationComponent',);
+    }
+  }
+  open(): void {
+    this.addCertifica = true;
   }
 
-  handleCancel(): void {
-    this.isVisible = false;
+  close(): void {
+    this.addCertifica = false;
   }
 }

@@ -1,6 +1,12 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
-import Chart from "chart.js/auto";
+import {AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
+import Chart, {ChartConfiguration, ChartData} from "chart.js/auto";
 import * as Utils from "../utils";
+import {
+  CertificateAnalyseByYear,
+  CertificateAnalyseTotal
+} from "../../../interfaces/Analyse/CertificateAnalyseByDepertemt";
+import {AnalyseCertitifcatesService} from "../analyse-certitifcates.service";
+import {DateService} from "../../date-service";
 
 @Component({
   selector: 'app-months',
@@ -12,123 +18,114 @@ export class MonthsComponent implements AfterViewInit {
 
   @ViewChild('monthCanvas') monthCanvas!: ElementRef;
   public chart: any;
+  dataList?: CertificateAnalyseByYear[];
+  certificateTotolData?: CertificateAnalyseTotal;
+  selectedDate!: Date;
+  @Output() certificateTotolDataChange = new EventEmitter<CertificateAnalyseTotal>(); // Emit the certificateTotolData
 
-  createChart(data: any[]): void {
-    const labels = data.map(item => item.Month);
-    const certificateRates = data.map(item => item['Nb Certificats']);
-    const averageIllnessDays = data.map(item => item.Nbrjour);
+  constructor(private analyseService: AnalyseCertitifcatesService,
+              private dateService: DateService) {
 
-    const chartData = {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Certificate Rate',
-          data: certificateRates,
-          borderColor: Utils.CHART_COLORS.red,
-          backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
-          yAxisID: 'y1',
-          type: 'bar'
-        },
-        {
-          label: 'Average Illness Days',
-          data: averageIllnessDays,
-          borderColor: Utils.CHART_COLORS.blue,
-          backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
-          yAxisID: 'y2',
-          type: 'line'
-        }
-      ]
-    };
+    this.dateService.selectedDate.subscribe(date => {
+      this.selectedDate = date;
+      this.onDateChange(date);
+    });
+  }
 
-    // @ts-ignore
-    const config: Chart.ChartConfiguration = {
+  onDateChange(date: Date) {
+    if (this.selectedDate) {
+      this.fetchData(date.getFullYear(), date.getMonth() + 1);
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.selectedDate) {
+      this.fetchData(this.selectedDate.getFullYear(), 1);
+    }
+    this.fetchData(this.selectedDate.getFullYear(), 1);
+
+  }
+
+  private createChart(data: CertificateAnalyseByYear[]): void {
+    const chartData = this.formatChartData(data);
+    const config: ChartConfiguration = {
       type: 'bar',
-      data: chartData,
-      options: {
-        responsive: true,
-        scales: {
-          y1: {
-            type: 'linear',
-            display: true,
-            position: 'left',
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Certificate Rate'
-            },
-            grid: {
-              drawOnChartArea: false
-            }
-          },
-          y2: {
-            type: 'linear',
-            display: true,
-            position: 'right',
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Average Illness Days'
-            },
-            grid: {
-              drawOnChartArea: false
-            },
-            ticks: {
-              callback: function(value: any, index: any, values: any) {
-                return '';
-              }
-            }
-          }
-        }
-      },
+      data: chartData as ChartData,
+      options: this.getChartOptions()
     };
-
     this.chart = new Chart(this.monthCanvas.nativeElement, config);
   }
 
-  ngAfterViewInit(): void {
-    this.createChart(this.generateData());
+  private updateChart(data: CertificateAnalyseByYear[]): void {
+    const chartData = this.formatChartData(data);
+    this.chart.data = chartData;
+    this.chart.update();
   }
 
-  generateData(): any[] {
-    const baseData = [
-      {
-        "Date certificats": "2024-03-26",
-        "Month": "Mar",
-        "Matricule": 12345,
-        "Catégorie": "DH",
-        "Nb Certificats": Math.floor(Math.random() * 5) + 1,
-        "Département": "ASSEMBLY-1-",
-        "Date début": "2024-01-10",
-        "Nbr prevu": Math.floor(Math.random() * 5) + 1,
-        "Date fin": "2024-01-20",
-        "Contre visite": true,
-        "Validation(ITT DE 44 JRS,VALIDE)": "ITT DE 44 JRS",
-        "Nbrjour": Math.floor(Math.random() * 5) + 1,
-        "Ecart": 0,
-        "Date entree": "2023-12-01",
-        "Medcintraitant": "Dr. Smith",
-        "Spécialité": "Orthopedics",
-        "Contre maitre": "John Doe",
-        "Shift(M,N,HC,S)": "M"
+  fetchData(year: number, month: number): void {
+    // @ts-ignore
+    this.analyseService.getCertificateAnalyseByYear(year, month).subscribe((data: CertificateAnalyseByDepertemt[]) => {
+      this.dataList = data;
+      this.certificateTotolData = this.analyseService.calculateTotals(data);
+      this.certificateTotolDataChange.emit(this.certificateTotolData);
+      if (this.chart) {
+        this.updateChart(data);
+      } else {
+        this.createChart(data);
+
       }
-    ];
-
-    const months = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-    ];
-
-    let generatedData: any[] = [];
-
-    months.forEach(month => {
-      let newItem = { ...baseData[0] };
-      newItem["Month"] = month;
-      newItem["Nb Certificats"] = Math.floor(Math.random() * 5) + 1;
-      newItem["Nbr prevu"] = Math.floor(Math.random() * 5) + 1;
-      newItem["Nbrjour"] = Math.floor(Math.random() * 5) + 1;
-      generatedData.push(newItem);
     });
+  }
 
-    return generatedData;
+  private formatChartData(data: CertificateAnalyseByYear[]): ChartData {
+    return {
+      labels: data.map(d => d.month),
+      datasets: [
+        {
+          label: 'Number of Illness Certificates',
+          data: data.map(d => d.certificates_nbr),
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Total Illness Days',
+          data: data.map(d => d.illness_days_nbr),
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Certificate Rate (%)',
+          data: data.map(d => d.certificate_rate),
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Average Illness Days',
+          data: data.map(d => d.average_illness_days),
+          backgroundColor: 'rgba(153, 102, 255, 0.2)',
+          borderColor: 'rgba(153, 102, 255, 1)',
+          borderWidth: 1
+        }
+      ]
+    };
+  }
+
+  private getChartOptions() {
+    return {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top' as const
+        }
+      }
+    };
   }
 }

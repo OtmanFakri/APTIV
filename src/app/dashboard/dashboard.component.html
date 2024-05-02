@@ -1,12 +1,13 @@
 <nz-layout>
   <nz-sider
-    class="bg-white overflow-hidden h-screen"
+    class="bg-white h-screen fixed inset-y-0 left-0 overflow-y-hidden"
     nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
     <div class="h-8 bg-white bg-opacity-20 m-4">
-
     </div> <!-- Logo with Tailwind classes -->
     <ul nz-menu nzTheme="light" nzMode="inline">
-      <li nz-menu-item routerLink="/">
+      <li nz-menu-item
+          [nzSelected]="this.isSelected('/')"
+          routerLink="/">
         <span nz-icon>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" class="w-6 h-6">
@@ -16,7 +17,9 @@
         </span>
         <span>Dashboard</span>
       </li>
-      <li nz-menu-item routerLink="/Employee">
+      <li nz-menu-item
+          [nzSelected]="this.isSelected('/Employee')"
+          routerLink="/Employee">
         <span nz-icon>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" class="w-6 h-6">
@@ -26,7 +29,9 @@
         </span>
         <span>Employees</span>
       </li>
-      <li nz-menu-item routerLink="/Departments">
+      <li nz-menu-item routerLink="/Departments"
+          [nzSelected]="this.isSelected('/Departments')"
+      >
         <span nz-icon>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" class="w-6 h-6">
@@ -37,7 +42,7 @@
         </span>
         <span>Departments</span>
       </li>
-      <li nz-menu-item routerLink="/certifications">
+      <li nz-menu-item [nzSelected]="this.isSelected('/certifications')" routerLink="/certifications">
         <span nz-icon>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" class="w-6 h-6">
@@ -48,7 +53,7 @@
         </span>
         <span>Certifications</span>
       </li>
-      <li nz-menu-item routerLink="/Doctors">
+      <li nz-menu-item [nzSelected]="this.isSelected('/Doctors')" routerLink="/Doctors">
         <span nz-icon>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" class="w-6 h-6">
@@ -59,11 +64,10 @@
         </span>
         <span>Doctors</span>
       </li>
-
     </ul>
 
   </nz-sider>
-  <nz-layout class="bg-white ">
+  <nz-layout class="bg-white ml-[200px]">
     <nz-header class="bg-white p-0">
       <span
         class="trigger text-xl leading-[64px] px-6 cursor-pointer transition-colors duration-300 hover:text-blue-600"
@@ -79,11 +83,7 @@
       </span>
     </nz-header>
     <nz-content class="m-4">
-      <nz-breadcrumb class="m-4">
-        <nz-breadcrumb-item>User</nz-breadcrumb-item>
-        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
-      </nz-breadcrumb>
-      <div class="inner-content p-6 bg-white min-h-[360px]">
+      <div class="inner-content p-6 bg-white ">
         <router-outlet></router-outlet>
       </div>
     </nz-content>

@@ -12,6 +12,7 @@ from certificate.schemas.CertificateSchema import GetCertificateSchema, FilterCe
     DepartmentCertificates, MonthCertificates, CategoryCertificates, EmployeeVisit
 from certificate.service.Certificate_Service import CertificateService
 from configs.Database import get_db_connection
+from helper.int_to_month import int_to_month
 
 CertificateRouter = APIRouter(
     prefix="/certificate", tags=["certificate"]
@@ -116,8 +117,43 @@ async def certificates_per_category(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@CertificateRouter.get("/by_nbvisit")
-async def Nb_visites(
+
+@CertificateRouter.get("/by_validation")
+async def by_validation(
         year: int = None,
-        service: CertificateService = Depends(CertificateService))->List[EmployeeVisit]:
-    return await service.Nb_visites(year)
+        validation_status: str = None,
+        service: CertificateService = Depends(CertificateService)):
+    results = await service.get_certificates_nb_validation(year, validation_status)
+    return [
+        {
+            "month": int_to_month(int(item[0])),
+            "count": item[1],
+        }
+        for item in results
+    ]
+
+
+@CertificateRouter.get("/average-days/{year}")
+async def get_average_days_per_month(
+        year: int,
+        service: CertificateService = Depends(CertificateService)):
+    results = await service.get_average_days_per_month(year=year)
+    print("xxx", results)
+    return [
+        {
+            "month": result[0],
+            "number_of_days": result[1],
+            "total_days": result[2],
+            "average_days": result[3]
+
+        }
+        for result in results
+    ]
+
+
+@CertificateRouter.get("/validation-itt/{year}")
+async def get_validation_itt_per_month(
+        year: int,
+        service: CertificateService = Depends(CertificateService)):
+    results = await service.get_certificates_by_validation_itt(year=year)
+    return results

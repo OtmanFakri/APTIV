@@ -1,3 +1,4 @@
+import calendar
 from datetime import date
 
 from fastapi import Depends
@@ -56,9 +57,48 @@ class CertificateService:
             year,
             month)
 
-    async def get_certificates_by_category(self, category: str = None,year: int = None, month: int = None):
+    async def get_certificates_by_category(self, category: str = None, year: int = None, month: int = None):
         return await self.certificationRepository.get_certificates_by_category(category, year, month)
-
 
     async def Nb_visites(self, start_year):
         return await self.certificationRepository.fetch_employee_visits(start_year)
+
+    async def get_certificates_by_doctor(self, doctor_id: int = None, year: int = None, month: int = None):
+        pass
+
+    async def get_certificates_nb_validation(self, year: int, validation_status: str):
+        return await self.certificationRepository.get_certificates_by_validation_per_month(year=year,
+                                                                                           validation_status=validation_status)
+
+    async def get_average_days_per_month(self, year: int):
+        return await self.certificationRepository.get_average_days_per_month(year=year)
+
+    async def get_certificates_by_validation_itt(self, year: int ):
+        # Fetch ITT and all certificates
+        certificates_itt = await self.certificationRepository.get_certificates_by_validation_per_month(year=year,
+                                                                                                       validation_status="ITT")
+        certificates_all = await self.certificationRepository.get_certificates_by_validation_per_month(year=year)
+
+        month_names = {i: calendar.month_name[i] for i in range(1, 13)}
+
+        # Convert tuples to dictionaries with month as the key
+        itt_dict = {month_names[int(cert[0])]: cert[1] for cert in certificates_itt}
+        all_dict = {month_names[int(cert[0])]: cert[1] for cert in certificates_all}
+
+        # List to hold the combined results
+        combined_results = []
+
+        # Iterate through all months from the all_dict
+        for month, count_all in all_dict.items():
+            count_itt = itt_dict.get(month, 0)  # Get ITT count for the month, default to 0 if not found
+            itt_rate = (count_itt / count_all) if count_all != 0 else 0  # Calculate ITT rate, handle division by zero
+
+            # Add the combined data for each month
+            combined_results.append({
+                "month": month,
+                "count_itt": count_itt,
+                "count_all": count_all,
+                "itt_rate": itt_rate
+            })
+
+        return combined_results

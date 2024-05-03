@@ -5,12 +5,11 @@ from sqlalchemy import create_engine, select
 from faker import Faker
 
 from certificate.models.doctor import Doctor
-from certificate.schemas.CertificateSchema import PostCertificateSchema
+from certificate.schemas.CertificateSchema import PostCertificateSchema, ValidationCertificationEnum
 from configs.Database import SessionLocal
 from employee.models.Employee import Employee
 from employee.repo.EmployeeRepo import EmployeeRepo
-from MedicalExamination.models.MedicalExamination import Consultation
-
+from MedicalExamination.models.MedicalExamination import MedicalExamination
 
 def insert_random_certificates(num_certificates=10):
     db = SessionLocal()
@@ -37,7 +36,7 @@ def insert_random_certificates(num_certificates=10):
             date_start=fake.date_between(start_date="-2y", end_date="today"),
             date_end=fake.date_between(start_date="today", end_date="+2y"),
             date_entry=fake.date_between(start_date="-2y", end_date="today"),
-            validation=fake.sentence(nb_words=6),
+            validation=random.choice(list(ValidationCertificationEnum)),
             date_planned=fake.date_between(start_date="today", end_date="+2y"),
             nbr_expected=random.randint(1, 100),
             nbr_days=random.randint(1, 30),
@@ -60,4 +59,4 @@ def insert_random_certificates(num_certificates=10):
 
 
 # Call the function
-insert_random_certificates(1)
+insert_random_certificates(100)

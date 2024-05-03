@@ -118,6 +118,7 @@ def get_certificates_employee(
         fetched_certificate = employeeService.get_certificates_employee(employee_id)
         return paginate([GetCertificateSchema(
             id=certificate.id,
+
             doctor_name=certificate.doctor.name,
             date=certificate.date,
             date_start=certificate.date_start,

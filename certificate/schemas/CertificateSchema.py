@@ -2,12 +2,15 @@ from pydantic import BaseModel, Field, validator, root_validator
 from datetime import date, timedelta, datetime
 from typing import Optional
 
+from enum import Enum
+
+
 class PostCertificateSchema(BaseModel):
     doctor_id: int
     date: date
     date_start: date
     date_end: date
-    validation: str = Field(..., max_length=255)
+    validation: str
     date_planned: date
     nbr_days: int = Field(...)
     nbr_expected: int = Field(0, alias="nbr_expected_days")
@@ -46,9 +49,9 @@ class PostCertificateSchema(BaseModel):
 class GetCertificateSchema(BaseModel):
     id: Optional[int]
     doctor_name: str
-    nameEmployee: str
-    department: str
-    job: str
+    #nameEmployee: str
+    #department: str
+    #job: str
     date: date
     date_start: date
     date_end: date
@@ -123,9 +126,14 @@ class CategoryCertificates(BaseModel):
     class Config:
         orm_mode = True
 
-from pydantic import BaseModel
-
 class EmployeeVisit(BaseModel):
     month: str
     count_visit_not_null: int
     count_visit_null: int
+
+
+class ValidationCertificationEnum(Enum):
+    VALIDE = "VALIDE"
+    ITT = "ITT"
+    VHJ = "VHJ"
+    VPO = "VPO"

@@ -1,5 +1,6 @@
 import calendar
 from datetime import date
+from typing import Optional
 
 from sqlalchemy import select, func, and_, extract, distinct, case, or_
 
@@ -180,4 +181,43 @@ class CertificateRepository:
             for month, visits_not_null, visits_null in visits_data
         ]
         return response
+
+    async def get_certificates_by_validation_per_month(self, year: int, validation_status: Optional[str] = None):
+        # Build the basic SQL statement
+        stmt = (
+            select(
+                func.extract('month', Certificate.date).label('month'),
+                func.count().label('count')
+            )
+            .where(
+                func.extract('year', Certificate.date) == year
+            )
+            .group_by(func.extract('month', Certificate.date))
+            .order_by(func.extract('month', Certificate.date))
+        )
+
+        # Conditionally add where clause for validation_status if provided
+        if validation_status is not None:
+            stmt = stmt.where(Certificate.validation == validation_status)
+
+        results = await self.db.execute(stmt)
+        return results.all()
+
+    async def get_average_days_per_month(self, year: int):
+        stmt = (
+            select(
+                func.extract('month', Certificate.date).label('month'),
+                func.count().label('cert_count'),
+                func.sum(Certificate.nbr_days).label('total_days'),
+                case(
+                    (func.count() == 0, 0),  # Change here: removed the list
+                    else_=func.sum(Certificate.nbr_days) / func.count()
+                ).label('average_days')
+            )
+            .where(func.extract('year', Certificate.date) == year)
+            .group_by(func.extract('month', Certificate.date))
+            .order_by(func.extract('month', Certificate.date))
+        )
+        results = await self.db.execute(stmt)
+        return results.fetchall()
 

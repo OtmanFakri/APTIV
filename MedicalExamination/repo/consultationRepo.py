@@ -136,3 +136,5 @@ class ConsultationRepo:
         rows = result.fetchall()
         # Organize the data into a structured format
         return rows
+
+

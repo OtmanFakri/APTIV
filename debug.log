@@ -1,84 +1,72 @@
-2024-04-29 14:46:49,991 - INFO - select pg_catalog.version()
-2024-04-29 14:46:49,992 - INFO - [raw sql] {}
-2024-04-29 14:46:49,996 - INFO - select current_schema()
-2024-04-29 14:46:49,997 - INFO - [raw sql] {}
-2024-04-29 14:46:49,998 - INFO - show standard_conforming_strings
-2024-04-29 14:46:49,999 - INFO - [raw sql] {}
-2024-04-29 14:46:50,002 - INFO - BEGIN (implicit)
-2024-04-29 14:46:50,011 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-03 09:11:58,663 - INFO - select pg_catalog.version()
+2024-05-03 09:11:58,663 - INFO - [raw sql] {}
+2024-05-03 09:11:58,666 - INFO - select current_schema()
+2024-05-03 09:11:58,667 - INFO - [raw sql] {}
+2024-05-03 09:11:58,669 - INFO - show standard_conforming_strings
+2024-05-03 09:11:58,669 - INFO - [raw sql] {}
+2024-05-03 09:11:58,671 - INFO - BEGIN (implicit)
+2024-05-03 09:11:58,680 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-04-29 14:46:50,011 - INFO - [generated in 0.00068s] {'table_name': 'medical_examination_department', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-04-29 14:46:50,016 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-03 09:11:58,680 - INFO - [generated in 0.00055s] {'table_name': 'medical_examination_department', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-03 09:11:58,685 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-04-29 14:46:50,016 - INFO - [cached since 0.005788s ago] {'table_name': 'medical_examination_job', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-04-29 14:46:50,018 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-03 09:11:58,685 - INFO - [cached since 0.005626s ago] {'table_name': 'medical_examination_job', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-03 09:11:58,687 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-04-29 14:46:50,019 - INFO - [cached since 0.007978s ago] {'table_name': 'employee_consultation_association', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-04-29 14:46:50,021 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-03 09:11:58,687 - INFO - [cached since 0.008088s ago] {'table_name': 'employee_consultation_association', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-03 09:11:58,689 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-04-29 14:46:50,021 - INFO - [cached since 0.01047s ago] {'table_name': 'MedicalExaminations', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-04-29 14:46:50,023 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-03 09:11:58,690 - INFO - [cached since 0.01021s ago] {'table_name': 'MedicalExaminations', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-03 09:11:58,692 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-04-29 14:46:50,024 - INFO - [cached since 0.01298s ago] {'table_name': 'Jobs', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-04-29 14:46:50,026 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-03 09:11:58,692 - INFO - [cached since 0.01256s ago] {'table_name': 'Jobs', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-03 09:11:58,694 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-04-29 14:46:50,027 - INFO - [cached since 0.01603s ago] {'table_name': 'Departments', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-04-29 14:46:50,029 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-03 09:11:58,694 - INFO - [cached since 0.01493s ago] {'table_name': 'Departments', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-03 09:11:58,696 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-04-29 14:46:50,029 - INFO - [cached since 0.01868s ago] {'table_name': 'Employees', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-04-29 14:46:50,032 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-03 09:11:58,696 - INFO - [cached since 0.01697s ago] {'table_name': 'Employees', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-03 09:11:58,698 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-04-29 14:46:50,032 - INFO - [cached since 0.02186s ago] {'table_name': 'Doctors', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-04-29 14:46:50,034 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-03 09:11:58,699 - INFO - [cached since 0.0193s ago] {'table_name': 'Doctors', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-03 09:11:58,700 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-04-29 14:46:50,035 - INFO - [cached since 0.02425s ago] {'table_name': 'certificates', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-04-29 14:46:50,037 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-03 09:11:58,701 - INFO - [cached since 0.02143s ago] {'table_name': 'certificates', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-03 09:11:58,703 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-04-29 14:46:50,037 - INFO - [cached since 0.02674s ago] {'table_name': 'city', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-04-29 14:46:50,039 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-03 09:11:58,703 - INFO - [cached since 0.02367s ago] {'table_name': 'city', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-03 09:11:58,705 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-04-29 14:46:50,039 - INFO - [cached since 0.02876s ago] {'table_name': 'region', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-04-29 14:46:50,045 - INFO - SELECT pg_catalog.pg_type.typname 
+2024-05-03 09:11:58,706 - INFO - [cached since 0.0262s ago] {'table_name': 'region', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-03 09:11:58,713 - INFO - SELECT pg_catalog.pg_type.typname 
 FROM pg_catalog.pg_type JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_type.typnamespace 
 WHERE pg_catalog.pg_type.typname = %(typname_1)s AND pg_catalog.pg_type_is_visible(pg_catalog.pg_type.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-04-29 14:46:50,045 - INFO - [generated in 0.00059s] {'typname_1': 'categoryenum', 'nspname_1': 'pg_catalog'}
-2024-04-29 14:46:50,048 - INFO - COMMIT
-2024-04-29 14:46:50,177 - INFO - select pg_catalog.version()
-2024-04-29 14:46:50,178 - INFO - [raw sql] ()
-2024-04-29 14:46:50,183 - INFO - select current_schema()
-2024-04-29 14:46:50,183 - INFO - [raw sql] ()
-2024-04-29 14:46:50,193 - INFO - show standard_conforming_strings
-2024-04-29 14:46:50,194 - INFO - [raw sql] ()
-2024-04-29 14:46:50,199 - INFO - BEGIN (implicit)
-2024-04-29 14:46:50,211 - INFO - SELECT "MedicalExaminations".id, "MedicalExaminations".name, "MedicalExaminations".seniority, "MedicalExaminations".category, "MedicalExaminations".date_start, "MedicalExaminations".date_end 
-FROM "MedicalExaminations" 
-WHERE "MedicalExaminations".id = $1::INTEGER
-2024-04-29 14:46:50,212 - INFO - [generated in 0.00079s] (4,)
-2024-04-29 14:46:50,256 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
-FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_job AS medical_examination_job_1 ON "MedicalExaminations_1".id = medical_examination_job_1.medical_examination_id JOIN "Jobs" ON "Jobs".id = medical_examination_job_1.job_id 
-WHERE "MedicalExaminations_1".id IN ($1::INTEGER)
-2024-04-29 14:46:50,257 - INFO - [generated in 0.00056s] (4,)
-2024-04-29 14:46:50,268 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
-FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_department AS medical_examination_department_1 ON "MedicalExaminations_1".id = medical_examination_department_1.medical_examination_id JOIN "Departments" ON "Departments".id = medical_examination_department_1.department_id 
-WHERE "MedicalExaminations_1".id IN ($1::INTEGER)
-2024-04-29 14:46:50,268 - INFO - [generated in 0.00063s] (4,)
-2024-04-29 14:46:50,288 - INFO - SELECT "Employees".id, "Employees".department_id, "Employees".first_name, "Employees".last_name, "Employees".cin, "Employees".cnss, "Employees".phone_number, "Employees".birth_date, "Employees"."Sexe", "Employees".city_id, "Employees".date_start, "Employees".date_hiring, "Employees".date_end, "Employees".manager_id, "Employees".job_id 
-FROM "Employees" JOIN "Departments" ON "Departments".id = "Employees".department_id JOIN "Jobs" ON "Jobs".id = "Employees".job_id 
-WHERE "Departments".id IN ($3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT, $8::BIGINT, $9::BIGINT, $10::BIGINT, $11::BIGINT, $12::BIGINT) AND "Departments".category = $1::categoryenum AND "Employees".date_start <= $2::DATE
-2024-04-29 14:46:50,289 - INFO - [generated in 0.00113s] ('DH', datetime.date(2024, 4, 29), 10, 5, 6, 1, 7, 2, 8, 3, 9, 4)
-2024-04-29 14:46:50,305 - INFO - SELECT "Employees".id AS employee_id, employee_consultation_association.date AS participation_date, to_char(employee_consultation_association.date, $1::VARCHAR) AS month 
-FROM "MedicalExaminations" JOIN employee_consultation_association ON "MedicalExaminations".id = employee_consultation_association."MedicalExamination_id" JOIN "Employees" ON "Employees".id = employee_consultation_association.employee_id 
-WHERE "MedicalExaminations".id = $2::INTEGER ORDER BY employee_consultation_association.date
-2024-04-29 14:46:50,305 - INFO - [generated in 0.00098s] ('Month YYYY', 4)
-2024-04-29 14:46:50,315 - INFO - COMMIT
+2024-05-03 09:11:58,713 - INFO - [generated in 0.00063s] {'typname_1': 'categoryenum', 'nspname_1': 'pg_catalog'}
+2024-05-03 09:11:58,715 - INFO - COMMIT
+2024-05-03 09:12:08,579 - INFO - select pg_catalog.version()
+2024-05-03 09:12:08,580 - INFO - [raw sql] ()
+2024-05-03 09:12:08,584 - INFO - select current_schema()
+2024-05-03 09:12:08,585 - INFO - [raw sql] ()
+2024-05-03 09:12:08,589 - INFO - show standard_conforming_strings
+2024-05-03 09:12:08,589 - INFO - [raw sql] ()
+2024-05-03 09:12:08,591 - INFO - BEGIN (implicit)
+2024-05-03 09:12:08,681 - INFO - SELECT EXTRACT(month FROM certificates.date) AS month, count(*) AS count 
+FROM certificates 
+WHERE EXTRACT(year FROM certificates.date) = $1::INTEGER AND certificates.validation = $2::VARCHAR GROUP BY EXTRACT(month FROM certificates.date) ORDER BY EXTRACT(month FROM certificates.date)
+2024-05-03 09:12:08,681 - INFO - [generated in 0.00052s] (2023, 'ITT')
+2024-05-03 09:12:08,690 - INFO - SELECT EXTRACT(month FROM certificates.date) AS month, count(*) AS count 
+FROM certificates 
+WHERE EXTRACT(year FROM certificates.date) = $1::INTEGER GROUP BY EXTRACT(month FROM certificates.date) ORDER BY EXTRACT(month FROM certificates.date)
+2024-05-03 09:12:08,690 - INFO - [generated in 0.00051s] (2023,)
+2024-05-03 09:12:08,695 - INFO - COMMIT

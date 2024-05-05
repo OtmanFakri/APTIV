@@ -5,6 +5,7 @@ from fastapi_pagination import Page, paginate
 from starlette import status
 
 from certificate.schemas.CertificateSchema import PostCertificateSchema, GetCertificateSchema
+from employee.repo.v2.EmployeeRepo import EmployeeRepo
 from employee.schemas.EmployeeSchema import EmployeeInfoRequest, EmployeeInfoResponse
 from employee.service.EmployeeService import EmployeeService
 
@@ -74,15 +75,35 @@ def update_employee(
 
 
 @EmployeeRouter.post("/filter")
-def Filter_Employee(year: int,
-                    category: Optional[List[str]] = None,
-                    department_ids: Optional[List[int]] = None,
-                    manager_ids: Optional[List[int]] = None,
-                    employee_ids: Optional[List[int]] = None,
-                    is_visited: Optional[bool] = None,
-                    employeeService: EmployeeService = Depends()) -> Page[EmployeeInfoResponse]:
-    return paginate(employeeService.Filter_Employee(year, category, department_ids, manager_ids, employee_ids, is_visited))
-
+async def filter_employee(employee_id: Optional[int] = None,
+                          sex: Optional[str] = None,
+                          department_ids: Optional[List[int]] = None,
+                          manger_ids: Optional[List[int]] = None,
+                          job_ids: Optional[List[int]] = None,
+                          category: Optional[str] = None,
+                          min_seniority_years: Optional[int] = None,
+                          employeeService: EmployeeRepo = Depends()) ->  Page[EmployeeInfoResponse] :
+    responses = await employeeService.get_employee(
+        employee_id=employee_id,
+        sex=sex,
+        department_ids=department_ids,
+        job_ids=job_ids,
+        category=category,
+        min_seniority_years=min_seniority_years,
+        manger_ids=manger_ids
+    )
+    return paginate([
+        EmployeeInfoResponse(
+            id=response.id,
+            first_name=response.first_name,
+            last_name=response.last_name,
+            manager_name=str(response.manager_id),
+            category=response.department.category,
+            department_name=response.department.name,
+            job_name=response.job.name
+        )
+        for response in responses
+    ])
 
 @EmployeeRouter.post("/{employee_id}/certificate")
 def create_certificate(

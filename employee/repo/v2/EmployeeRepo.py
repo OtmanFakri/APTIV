@@ -18,18 +18,20 @@ class EmployeeRepo:
     ) -> None:
         self.db = db
 
-    async def get_employee(self, employee_id=None, sex=None, department_ids=None, job_ids=None, category=None, min_seniority_years=None):
+    async def get_employee(self, employee_id=None, sex=None, department_ids=None, job_ids=None, category=None, min_seniority_years=None,manger_ids=None):
         query = select(Employee).join(Employee.department).join(Employee.job)
 
         # Apply filters based on the input parameters
         if employee_id:
             query = query.filter(Employee.id == employee_id)
         if sex:
-            query = query.filter(Employee.sex == sex)  # Changed 'Sexe' to 'sex', adjust as per your model
+            query = query.filter(Employee.Sexe == sex)  # Changed 'Sexe' to 'sex', adjust as per your model
         if department_ids:
             query = query.filter(Department.id.in_(department_ids))
         if job_ids:
             query = query.filter(Job.id.in_(job_ids))
+        if manger_ids:
+            query = query.filter(Employee.manager_id.in_(manger_ids))
         if category:
             query = query.filter(Department.category == category)
         if min_seniority_years is not None:

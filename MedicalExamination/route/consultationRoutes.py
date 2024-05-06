@@ -110,3 +110,11 @@ async def list_all_consultations(
         })
 
     return participation_details
+
+@ConsultationRouter.post("/examination/{examination_id}/employee/{employee_id}")
+async def add_employee_examination_association(
+        examination_id: int,
+        employee_id: int,
+        service: ConsultationService = Depends(ConsultationService)
+):
+    return await service.add_employee_examinaionAssocation(employee_id, examination_id)

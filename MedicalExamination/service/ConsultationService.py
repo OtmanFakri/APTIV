@@ -1,4 +1,6 @@
-from fastapi import Depends
+import datetime
+
+from fastapi import Depends, HTTPException
 
 from MedicalExamination.repo.consultationRepo import ConsultationRepo
 
@@ -31,3 +33,27 @@ class ConsultationService:
 
     async def get_monthly_participation(self, consultation_id: int):
         return await self.consultationRepo.get_monthly_participation(consultation_id)
+
+    async def add_employee_examinaionAssocation(self, employee_id: int, consultation_id: int):
+        valid_employees = await self.get_employees_by_MedicalExamination_details(consultation_id)
+        employee_found = False
+        invalid_employee = None  # This will hold the reference to the problematic employee
+
+        for emp in valid_employees:
+            print(f"Checking employee: {emp.id}")
+            if emp.id == employee_id:
+                print(f"Employee found: {emp.id}")
+                employee_found = True
+                break
+            invalid_employee = emp  # Keep updating this with the current emp
+
+        if not employee_found:
+            print(f"Invalid employee: {employee_id}")  # Print details of the last checked employee
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid employee ID {employee_id} for the given consultation"
+            )
+
+        return await self.consultationRepo.add_employee_examinaionAssocation(employee_id=employee_id,
+                                                                             consultation_id=consultation_id,
+                                                                             )

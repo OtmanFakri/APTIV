@@ -1,13 +1,12 @@
-from datetime import datetime
+import datetime
 from typing import Union, Any, Sequence, List
 
 from fastapi import Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy import func, select, join, outerjoin, and_, not_, exists, distinct, Row, RowMapping
+from sqlalchemy import func, select,Date, insert
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session, joinedload, selectinload
-from datetime import datetime
 
 from Department.models.Job import Job
 from MedicalExamination.models import MedicalExaminationAssociation
@@ -137,4 +136,27 @@ class ConsultationRepo:
         # Organize the data into a structured format
         return rows
 
+    async def add_employee_examinaionAssocation(self, employee_id: int, consultation_id: int):
+        date_value = datetime.date.today()
+        try:
+            check_employee = await self.db.execute(
+                select(association_table).where(
+                    (association_table.c.employee_id == employee_id) &
+                    (association_table.c.MedicalExamination_id == consultation_id)
+                )
+            )
+            result = check_employee.fetchone()
+
+            if result is None:
+                stmt = insert(association_table).values(
+                    employee_id=employee_id,
+                    MedicalExamination_id=consultation_id,
+                    date=date_value
+                )
+                await self.db.execute(stmt)
+                await self.db.commit()
+                return True
+        except SQLAlchemyError as e:
+            await self.db.rollback()
+            raise HTTPException(status_code=500, detail=str(e))
 

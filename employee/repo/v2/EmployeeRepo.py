@@ -35,7 +35,7 @@ class EmployeeRepo:
         if manger_ids:
             query = query.filter(Employee.manager_id.in_(manger_ids))
         if category:
-            query = query.filter(Department.category == category)
+            query = query.filter(Department.category.in_(category))
         if min_seniority_years is not None:
             earliest_start_date = date.today() - timedelta(days=min_seniority_years * 365)
             query = query.filter(Employee.date_start <= earliest_start_date)

@@ -7,7 +7,7 @@ from sqlalchemy import func, select,Date, insert
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session, joinedload, selectinload
-
+from employee.schemas.EmployeeSchema import CategoryEnum
 from Department.models.Job import Job
 from MedicalExamination.models import MedicalExaminationAssociation
 from MedicalExamination.models.MedicalExaminationAssociation import association_table
@@ -73,7 +73,7 @@ class ConsultationRepo:
 
     async def create_medical_examination(self, name,
                                          seniority,
-                                         category,
+                                         category: List[CategoryEnum],
                                          date_start:datetime,
                                          department_ids=None,
                                          job_ids=None,

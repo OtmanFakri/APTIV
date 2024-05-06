@@ -11,7 +11,7 @@ from employee.schemas.EmployeeSchema import CategoryEnum
 class PostMedicalExaminationSchema(BaseModel):
     name: str
     seniority: int
-    category: CategoryEnum
+    category: List[CategoryEnum]
     department_ids: Optional[List[int]]
     job_ids: Optional[List[int]]
     date_start: date

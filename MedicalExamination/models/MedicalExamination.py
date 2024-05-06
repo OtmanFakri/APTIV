@@ -9,15 +9,12 @@ from configs.BaseModel import EntityMeta
 from sqlalchemy.dialects.postgresql import ARRAY
 
 
-from sqlalchemy.dialects.postgresql import ARRAY
-
-
 class MedicalExamination(EntityMeta):
     __tablename__ = 'MedicalExaminations'
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     seniority = Column(Integer, nullable=True)
-    category = Column(Enum(CategoryEnum), nullable=False)
+    category = Column(ARRAY(Enum(CategoryEnum)), nullable=False)
     date_start= Column(Date, nullable=False,index=True)
     date_end= Column(Date, nullable=True,index=True)
     # Relationships

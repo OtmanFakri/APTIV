@@ -21,7 +21,7 @@ class EmployeeRepo:
     async def get_employee(self, employee_id=None, sex=None,
                            department_ids=None, job_ids=None, category=None,
                            min_seniority_years=None,manger_ids=None):
-        query = select(Employee).join(Employee.department).join(Employee.job)
+        query = select(Employee).join(Employee.department).join(Employee.job).order_by(Employee.id.desc())
 
         # Apply filters based on the input parameters
         if employee_id:

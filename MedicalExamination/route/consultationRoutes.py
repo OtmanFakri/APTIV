@@ -1,12 +1,14 @@
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi_pagination import Page,paginate
 
 from Department.schemas.DepartmentSchema import DepartmentSchema
 from Department.schemas.JobSchema import JobSchema
 from MedicalExamination.schemas.MedicalExaminationSchema import PostMedicalExaminationSchema, \
     responseMedicalExaminationSchema
 from MedicalExamination.service.ConsultationService import ConsultationService
+from employee.schemas.EmployeeSchema import EmployeeInfoResponse
 
 ConsultationRouter = APIRouter(
     prefix="/consultation", tags=["consultation"]
@@ -39,16 +41,16 @@ async def list_all_consultations(service: ConsultationService = Depends(Consulta
 
         # Create the full examination data expected by the schema
         examination_data = {
-            "medical_examinations":[
+            "medical_examinations": [
                 examination.id,
                 examination.name,
                 examination.category,
                 examination.seniority,
             ],
-            "Department":[nameDep.name for nameDep in examination.departments],
-            "Job":[nameJob.name for nameJob in examination.jobs],
-            "total_non_participating" : len(total_participating),
-            "total_participating" : len(total_non_participating)
+            "Department": [nameDep.name for nameDep in examination.departments],
+            "Job": [nameJob.name for nameJob in examination.jobs],
+            "total_non_participating": len(total_participating),
+            "total_participating": len(total_non_participating)
         }
         medical_examination_list.append(examination_data)
 
@@ -81,7 +83,8 @@ async def create(
 async def list_all_consultations(
         examination_id: int,
         service: ConsultationService = Depends(ConsultationService)):
-    total_employees = await service.get_employees_by_MedicalExamination_details(examination_id)  # Get the total number of employees
+    total_employees = await service.get_employees_by_MedicalExamination_details(
+        examination_id)  # Get the total number of employees
     rows = await service.get_monthly_participation(examination_id)
     nb_employee = len(total_employees)
 
@@ -99,17 +102,18 @@ async def list_all_consultations(
     participation_details = []
     for month, details in sorted(monthly_participation.items()):
         nb_employee = nb_employee - len(details)
-        Total_CM=len(details) + nb_employee
+        Total_CM = len(details) + nb_employee
         participation_details.append({
             "month": month,
             "participations": details,
             "total_participations": len(details),
             "rest_participations": nb_employee,
-            "Total CM":Total_CM,
-            "%":(len(details)/Total_CM)*100
+            "Total CM": Total_CM,
+            "%": (len(details) / Total_CM) * 100
         })
 
     return participation_details
+
 
 @ConsultationRouter.post("/examination/{examination_id}/employee/{employee_id}")
 async def add_employee_examination_association(
@@ -118,3 +122,26 @@ async def add_employee_examination_association(
         service: ConsultationService = Depends(ConsultationService)
 ):
     return await service.add_employee_examinaionAssocation(employee_id, examination_id)
+
+
+@ConsultationRouter.post("/examination/{examination_id}/employee")
+async def get_exmanination_by_id(examination_id: int,
+                                 associated: bool = False,
+                                 service: ConsultationService = Depends(ConsultationService))->Page[EmployeeInfoResponse]:
+    if associated:
+        employees = await service.employees_by_consultation(examination_id)
+    else:
+        employees = await service.get_employees_by_MedicalExamination_details(examination_id)
+
+    return paginate([
+        EmployeeInfoResponse(
+            id=res.id,
+            first_name=res.first_name,
+            last_name=res.last_name,
+            manager_name=str(res.manager_id),
+            category=res.department.category,
+            department_name=res.department.name,
+            job_name=res.job.name
+        )
+        for res in employees
+    ])

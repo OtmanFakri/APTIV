@@ -6,7 +6,10 @@ from Department.models.Assosation_MedicalExamination import medical_examination_
 from MedicalExamination.models.MedicalExaminationAssociation import association_table
 from employee.schemas.EmployeeSchema import CategoryEnum
 from configs.BaseModel import EntityMeta
+from sqlalchemy.dialects.postgresql import ARRAY
 
+
+from sqlalchemy.dialects.postgresql import ARRAY
 
 
 class MedicalExamination(EntityMeta):

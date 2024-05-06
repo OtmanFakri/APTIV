@@ -41,6 +41,7 @@ class ConsultationRepo:
             select(MedicalExamination)
             .where(MedicalExamination.id == consultation_id)
             .options(selectinload(MedicalExamination.departments), selectinload(MedicalExamination.jobs))
+            .order_by(MedicalExamination.id.desc())
         )
         consultation = result.unique().scalar_one_or_none()  # Use unique to ensure no duplicates are fetched
 

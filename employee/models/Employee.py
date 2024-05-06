@@ -24,7 +24,7 @@ class Employee(EntityMeta):
     city_id = Column(Integer, ForeignKey('city.id'), nullable=False)
     date_start = Column(Date, nullable=False, index=True)
     date_hiring = Column(Date, nullable=False, index=True)
-    # date_visit = Column(Date, nullable=True,index=True)
+    date_visit = Column(Date, nullable=True,index=True)
     date_end = Column(Date, nullable=True, index=True)
     manager_id = Column(BigInteger, ForeignKey('Employees.id', ondelete='SET NULL'), index=True)
     job_id = Column(BigInteger, ForeignKey('Jobs.id', ondelete='SET NULL'), nullable=True, index=True)

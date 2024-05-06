@@ -22,7 +22,8 @@ class MedicalExamination(EntityMeta):
         "Department",
         secondary=medical_examination_department_association,
         back_populates="medical_examinations",
-        lazy="selectin"
+        lazy="selectin",
+
     )
     jobs = relationship(
         "Job",

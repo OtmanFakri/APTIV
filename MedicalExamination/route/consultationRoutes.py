@@ -34,13 +34,19 @@ async def list_all_consultations(service: ConsultationService = Depends(Consulta
     medical_examination_list = []
 
     for examination in medical_examinations:
-        # Assuming examination already includes department and job information
         total_participating = await service.get_employees_by_MedicalExamination_details(examination.id)
         total_non_participating = await service.employees_by_consultation(examination.id)
 
         # Create the full examination data expected by the schema
         examination_data = {
-            "date":examination,
+            "medical_examinations":[
+                examination.id,
+                examination.name,
+                examination.category,
+                examination.seniority,
+            ],
+            "Department":[nameDep.name for nameDep in examination.departments],
+            "Job":[nameJob.name for nameJob in examination.jobs],
             "total_non_participating" : len(total_participating),
             "total_participating" : len(total_non_participating)
         }

@@ -191,7 +191,10 @@ class EmployeeRepo:
 
 
     def get_certificates_employee(self, employee_id: int) -> List[dict]:
-        certificates = self.db.query(Certificate).filter(Certificate.employee_id == employee_id).all()
+        certificates = self.db.query(Certificate) \
+            .filter(Certificate.employee_id == employee_id) \
+            .order_by(Certificate.id.desc()) \
+            .all()
         return certificates
     def _employee_to_dict(self, query):
         employee_data = {

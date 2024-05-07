@@ -67,5 +67,4 @@ app.include_router(ConsultationRouter)
 def configure():
     init()
 
-
 add_pagination(app)  # important! add pagination to your app

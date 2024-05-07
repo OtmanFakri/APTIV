@@ -6,7 +6,7 @@ import pdfkit
 from starlette import status
 from starlette.responses import FileResponse
 from starlette.templating import Jinja2Templates
-
+import pandas as pd
 from certificate.schemas.CertificateSchema import PostCertificateSchema, GetCertificateSchema
 from employee.repo.v2.EmployeeRepo import EmployeeRepo
 from employee.schemas.EmployeeSchema import EmployeeInfoRequest, EmployeeInfoResponse, ExportationSchema
@@ -185,14 +185,15 @@ async def exportation(
         manger_ids=manger_ids
     )
     processed_data = process_data(responses, columns)
-
     if exporation.type == "xlsx":
-        return [
-            {
-                'data': data
-            }
-            for data in processed_data
-        ]
+        # Create a pandas DataFrame from processed data
+        df = pd.DataFrame(processed_data, columns=columns)
+        # Write DataFrame to Excel file
+        excel_path = "hello_world.xlsx"
+        df.to_excel(excel_path, index=False)
+        # Return the Excel file as a response
+        return FileResponse(path=excel_path, filename="hello_world.xlsx",
+                            media_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     elif exporation.type == "pdf":
         context = {'processed_data': processed_data}  # Dummy value for "request" key
         # Render the template as HTML string

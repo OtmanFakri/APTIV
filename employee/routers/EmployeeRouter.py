@@ -11,7 +11,7 @@ from certificate.schemas.CertificateSchema import PostCertificateSchema, GetCert
 from employee.repo.v2.EmployeeRepo import EmployeeRepo
 from employee.schemas.EmployeeSchema import EmployeeInfoRequest, EmployeeInfoResponse, ExportationSchema
 from employee.service.EmployeeService import EmployeeService
-from helper.exportation_helper import process_data
+from helper.exportation_helper import process_data, generate_excel, generate_pdf
 
 EmployeeRouter = APIRouter(
     prefix="/employee", tags=["employee"]
@@ -175,6 +175,7 @@ async def exportation(
         min_seniority_years: Optional[int] = None,
         employeeService: EmployeeRepo = Depends()
 ):
+    # Get responses from the service
     responses = await employeeService.get_employee(
         employee_id=employee_id,
         sex=sex,
@@ -184,13 +185,13 @@ async def exportation(
         min_seniority_years=min_seniority_years,
         manger_ids=manger_ids
     )
+
+    # Process data
     processed_data = process_data(responses, columns)
+
     if exporation.type == "xlsx":
-        # Create a pandas DataFrame from processed data
-        df = pd.DataFrame(processed_data, columns=columns)
-        # Write DataFrame to Excel file
-        excel_path = "hello_world.xlsx"
-        df.to_excel(excel_path, index=False)
+        # Generate Excel file
+        excel_path = generate_excel(processed_data, columns)
         # Return the Excel file as a response
         return FileResponse(path=excel_path, filename="hello_world.xlsx",
                             media_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
@@ -199,12 +200,7 @@ async def exportation(
         # Render the template as HTML string
         template = templates.get_template("testing.html")
         html_content = template.render(request=request, **context)
-
-        # Path to save the PDF
-        pdf_path = "hello_world.pdf"
-
-        # Convert HTML to PDF
-        pdfkit.from_string(html_content, pdf_path)
-
+        # Generate PDF
+        pdf_path = generate_pdf(html_content)
         # Return the PDF as a file response
         return FileResponse(path=pdf_path, filename="hello_world.pdf", media_type='application/pdf')

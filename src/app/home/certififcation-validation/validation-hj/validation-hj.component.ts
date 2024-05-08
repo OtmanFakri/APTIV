@@ -29,7 +29,6 @@ export class ValidationHJComponent implements AfterViewInit{
   @Output() certificateTotolDataChange = new EventEmitter<number>(); // Total count
   selectedYear: Date = new Date();
 
-
   constructor(private analyseService: AnalyseCertitifcatesService) {}
 
   ngAfterViewInit() {
@@ -113,6 +112,10 @@ export class ValidationHJComponent implements AfterViewInit{
     console.log(this.selectedYear)
   }
   calculateTotalCount(): number {
-    return this.dataList!.reduce((total, data) => total + data.count, 0);
+    if (!this.dataList || this.dataList.length === 0) {
+      return 0;
+    }
+    return this.dataList.reduce((total, data) => total + data.count, 0);
   }
+
 }

@@ -16,7 +16,6 @@ export class DepartmentService {
     return this.http.get<CategoryItemData[]>(this.apiUrl).pipe(
       shareReplay(1),
       catchError((error) => {
-        // Log or handle the error as needed
         console.error('Error fetching departments:', error);
         return throwError(() => new Error('Error fetching departments'));
       })

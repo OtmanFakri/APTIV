@@ -3,6 +3,7 @@ import {FormData, PersonInformation, ProfessionalInformation} from "./profile.mo
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import {ProfileEmployee} from "../interfaces/profileEmployee";
+import {NewEmployee} from "../interfaces/ListEmployee";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class ProfileService {
     this.employeeProfileSource.next(profile);
   }
 
-  addProfile(profile: any) {
+  addProfile(profile: NewEmployee) {
     console.log(profile)
   }
 }

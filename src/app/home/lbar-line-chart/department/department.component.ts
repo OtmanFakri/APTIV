@@ -35,6 +35,22 @@ export class DepartmentComponent implements AfterViewInit {
     if (this.selectedDate) {
       this.fetchData(date.getFullYear(), date.getMonth() + 1);
     }
+    this.fetchData(date.getFullYear(), date.getMonth() + 1);
+
+  }
+
+  fetchData(year: number, month: number): void {
+    // @ts-ignore
+    this.analyseService.getCertificateAnalyseByDepertemt(year, month).subscribe((data: CertificateAnalyseByDepertemt[]) => {
+      this.dataList = data;
+      this.certificateTotolData = this.analyseService.calculateTotals(data);
+      this.certificateTotolDataChange.emit(this.certificateTotolData);
+      if (this.chart) {
+        this.updateChart(data);
+      } else {
+        this.createChart(data);
+      }
+    });
   }
 
 
@@ -61,25 +77,13 @@ export class DepartmentComponent implements AfterViewInit {
     this.chart.update();
   }
 
-  fetchData(year: number, month: number): void {
-    // @ts-ignore
-    this.analyseService.getCertificateAnalyseByDepertemt(year, month).subscribe((data: CertificateAnalyseByDepertemt[]) => {
-      this.dataList = data;
-      this.certificateTotolData = this.analyseService.calculateTotals(data);
-      this.certificateTotolDataChange.emit(this.certificateTotolData);
-      if (this.chart) {
-        this.updateChart(data);
-      } else {
-        this.createChart(data);
-      }
-    });
-  }
 
   private formatChartData(data: CertificateAnalyseByDepertemt[]): ChartData {
     return {
       labels: data.map(d => d.department),
       datasets: [
         {
+          type: 'bar', // Specify type here for combo chart
           label: 'Number of Illness Certificates',
           data: data.map(d => d.certificates_nbr),
           backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -87,6 +91,7 @@ export class DepartmentComponent implements AfterViewInit {
           borderWidth: 1
         },
         {
+          type: 'bar', // Specify type here for combo chart
           label: 'Total Illness Days',
           data: data.map(d => d.illness_days_nbr),
           backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -94,13 +99,17 @@ export class DepartmentComponent implements AfterViewInit {
           borderWidth: 1
         },
         {
+          type: 'line', // Specify type here for combo chart
           label: 'Certificate Rate (%)',
           data: data.map(d => d.certificate_rate),
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1
+          borderWidth: 2,
+          fill: false // Typically set to false for line charts
+
         },
         {
+          type: 'bar', // Specify type here for combo chart
           label: 'Average Illness Days',
           data: data.map(d => d.average_illness_days),
           backgroundColor: 'rgba(153, 102, 255, 0.2)',

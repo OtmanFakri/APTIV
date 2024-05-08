@@ -33,3 +33,17 @@ export interface Job {
   department_id: number;
   id:            number;
 }
+
+export interface NbExaminiation {
+  month:                string;
+  participations:       Participation[];
+  total_participations: number;
+  rest_participations:  number;
+  "Total CM":           number;
+  "%":                  number;
+}
+
+export interface Participation {
+  employee_id:        number;
+  participation_date: Date;
+}

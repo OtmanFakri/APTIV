@@ -6,6 +6,7 @@ import {
 } from '../../interfaces/Analyse/CertificateAnalyseByDepertemt';
 import {Observable} from "rxjs";
 import {ValidationHj} from "../../interfaces/Analyse/ValidationHj";
+import {Examiniation, NbExaminiation} from "../../interfaces/Analyse/ExaminiationInterface";
 
 @Injectable({
   providedIn: 'root'
@@ -46,10 +47,17 @@ export class AnalyseCertitifcatesService {
   }
 
   getCertificateAnalyseByHj(year: number , status: string ): Observable<ValidationHj[]> {
-    // Assuming your API endpoint expects year and month as query parameters
     const url = `${this.apiUrl}/by_validation?year=${year}&validation_status=${status}`;
-    console.log('url it work',year)
     return this.http.get<ValidationHj[]>(url);
+  }
+
+  getCertificateExamination():Observable<Examiniation[]>{
+    const url = `http://127.0.0.1:8011/consultation/participation`;
+    return this.http.get<Examiniation[]>(url);
+  }
+  getCertificate_NbExamination():Observable<NbExaminiation[]>{
+    const url = `http://127.0.0.1:8011/consultation/examination/4/employee`;
+    return this.http.get<NbExaminiation[]>(url);
   }
 
   calculateTotals(data: CertificateAnalyseData[]): CertificateAnalyseTotal {

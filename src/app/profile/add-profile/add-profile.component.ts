@@ -9,6 +9,7 @@ import {RolesInformationComponent} from "./steps/roles-information/roles-informa
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {ProfileService} from "../profile.service";
 import {Router} from "@angular/router";
+import { NewEmployee } from '../../interfaces/ListEmployee';
 
 @Component({
   selector: 'app-add-profile',
@@ -82,19 +83,42 @@ export class AddProfileComponent {
     this.current = index;
   }
 
-  onSubmit(): void {
-    if (this.multipleForm.valid) {
-      this.profileService.addProfile(this.multipleForm.value);
-      this.notification
-        .blank(
-          '🎉 Well done!',
-          'Formulaire soumis.'
-        );
-      //this.router.navigate(['/']);
-    } else {
-      console.log('Form is invalid.');
+
+    onSubmit(): void {
+        if (this.multipleForm.valid) {
+            const personeInformationControl = this.multipleForm.get('personeInformation');
+            const professionalInformationControl = this.multipleForm.get('professionalInformation');
+
+            if (personeInformationControl && professionalInformationControl) {
+                const personeInformationValues = personeInformationControl.value;
+                const professionalInformationValues = professionalInformationControl.value;
+
+                const newEmployee: NewEmployee = {
+                    id: 0, // Assuming this is generated on the server side
+                    department_id: professionalInformationValues.department.key, // Extracting department value
+                    job_id: professionalInformationValues.job, // Extracting job value
+                    manager_id: professionalInformationValues.manger || null, // Extracting manager value, providing a default value if it's undefined
+                    first_name: personeInformationValues.first_name,
+                    last_name: personeInformationValues.last_name,
+                    cin: personeInformationValues.cin,
+                    cnss: personeInformationValues.cnss,
+                    phone_number: personeInformationValues.phone,
+                    birth_date: personeInformationValues.date_birth,
+                    Sexe: personeInformationValues.sexe,
+                    city_id: personeInformationValues.city,
+                    date_start: professionalInformationValues.date_start,
+                    date_hiring: professionalInformationValues.date_hiring,
+                    date_end: '', // You can set this value if needed
+                };
+
+                // You need to pass the newEmployee object, not the NewEmployee interface
+                this.profileService.addProfile(newEmployee);
+            } else {
+                console.error('Either personeInformation or professionalInformation control is null or undefined');
+                // Handle the case when either personeInformation or professionalInformation control is null or undefined
+            }
+        }
     }
-  }
 
 
 

@@ -7,15 +7,18 @@ import {
   NzAutocompleteTriggerDirective
 } from "ng-zorro-antd/auto-complete";
 import {NzInputDirective} from "ng-zorro-antd/input";
-import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
+import {NzOptionComponent, NzOptionGroupComponent, NzSelectComponent} from "ng-zorro-antd/select";
 import {NzDividerComponent} from "ng-zorro-antd/divider";
 import {NzIconDirective} from "ng-zorro-antd/icon";
+import {DepartmentService} from "../../../../list-department/department.service";
+import {DepartmentItemData, JobItemData} from "../../../../interfaces/ListDeprtemnt";
 
 
 interface Option {
   label: string;
   value: string;
 }
+
 @Component({
   selector: 'app-professional-information',
   standalone: true,
@@ -32,45 +35,38 @@ interface Option {
     NzAutocompleteOptionComponent,
     JsonPipe,
     NzDividerComponent,
-    NzIconDirective
+    NzIconDirective,
+    NzOptionGroupComponent
   ],
   templateUrl: './professional-information.component.html',
 })
 export class ProfessionalInformationComponent {
   @Input() parentForm!: FormGroup;
-  index = 0;
-  filteredOptions: string[] = [];
-  options = [
-    'ASSEMBLY',
-    'CUTTING',
-    'MAINTENANCE',
-    'ENGINEERING',
-    'PROCESS ENGI',
-    'PRODUCT ENGINEERING',
-    'QUALITY',
-    'LOGISTIC IMPO.EXPO',
-    'PURCHASING',
-    'FINANCE-CONTROLLING',
-    'GENERAL MANAGEMENT',
-    'HUMAN RESSOURCES',
-    'SAFETY H.R',
-    'IT',
-  ];
+  options: DepartmentItemData[][] = [];
+  optionsJobs: JobItemData[] = [];
 
-  constructor() {
-    this.filteredOptions = this.options;
+  constructor(
+    service: DepartmentService
+  ) {
+    service.getDepartments().subscribe((data) => {
+      this.options = data.map((item) => {
+        console.log(item.departments)
+        return item.departments;
+      });
+    });
   }
-  listOfItem = ['jack', 'lucy'];
 
 
   get department() {
     return this.parentForm.get('department') as FormArray;
   }
+
   addItem(input: HTMLInputElement): void {
     const value = input.value;
-    if (this.listOfItem.indexOf(value) === -1) {
-      this.listOfItem = [...this.listOfItem, input.value || `New item ${this.index++}`];
-    }
+  }
+
+  getDepartments(value: DepartmentItemData) {
+    this.optionsJobs=value.jobs
   }
 
 

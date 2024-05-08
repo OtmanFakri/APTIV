@@ -44,19 +44,19 @@ export class AddProfileComponent {
       phone: new FormControl('', Validators.required),
       sexe: new FormControl('', Validators.required),
       date_birth: new FormControl('', Validators.required),
-      cnss: new FormControl('', Validators.required),
+      cnss: new FormControl(''),
       city: new FormControl('', Validators.required),
       region: new FormControl('', Validators.required),
     }),
     professionalInformation: new FormGroup({
-      mtc: new FormControl('', Validators.required),
-      category: new FormControl('', Validators.required),
+      mtc: new FormControl(''),
+      category: new FormControl(''),
       department: new FormControl('', Validators.required),
       job: new FormControl('', Validators.required),
       manger: new FormControl('', Validators.required),
       date_hiring: new FormControl('', Validators.required),
       date_start: new FormControl('', Validators.required),
-      date_visit: new FormControl('', Validators.required),
+      date_visit: new FormControl(''),
     }),
   });
 
@@ -117,6 +117,10 @@ export class AddProfileComponent {
                 console.error('Either personeInformation or professionalInformation control is null or undefined');
                 // Handle the case when either personeInformation or professionalInformation control is null or undefined
             }
+        }
+        else {
+            this.notification.error('Error',
+                this.multipleForm.value,);
         }
     }
 

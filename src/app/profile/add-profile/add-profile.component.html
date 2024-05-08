@@ -26,7 +26,6 @@
             nzTitle="Permissions">
           </nz-step>
         </nz-steps>
-
       </div>
     </div>
 
@@ -47,18 +46,32 @@
         <app-roles-information/>
       </div>
 
-      <div class="flex flex-row items-start mt-10 space-x-1.5 justify-end shrink-0 relative">
-        <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0"
-                class="rounded-xl border-solid border-gray-gray-20percent border p-5 flex flex-row gap-2.5 items-center justify-center shrink-0 h-[50px] relative">
-          Previous
-        </button>
-        <button nz-button nzType="default" type="submit"
-                (click)="onSubmit()"
-                [disabled]="(current === 0 && !personeInformation.valid) ||
+      <div class="flex justify-end px-4">
+        <div
+                class="bg-indigo-700 lg:max-w-[143px] w-full py-3 px-2 rounded md:mt-12 mt-9 hover:bg-indigo-600 transition duration-300 ease-in-out cursor-pointer"
+        >
+          <div class="flex gap-2 items-center justify-center">
+            <button
+                    (click)="onSubmit()"
+                    [disabled]="(current === 0 && !personeInformation.valid) ||
                             (current === 1 && !professionalInformation.valid)"
-                class="text-white bg-primary-500 rounded-xl p-5 flex flex-row gap-2.5 items-center justify-center shrink-0 w-[91px] h-[50px] relative">
-          {{ (current < 2) ? 'Next' : 'Save' }}
-        </button>
+                    class="text-white">{{ (current < 2) ? 'Next Step' : 'Save' }}</button>
+            <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M5.21967 2.96967C4.92678 3.26256 4.92678 3.73744 5.21967 4.03033L9.18934 8L5.21967 11.9697C4.92678 12.2626 4.92678 12.7374 5.21967 13.0303C5.51256 13.3232 5.98744 13.3232 6.28033 13.0303L10.7803 8.53033C11.0732 8.23744 11.0732 7.76256 10.7803 7.46967L6.28033 2.96967C5.98744 2.67678 5.51256 2.67678 5.21967 2.96967Z"
+                      fill="white"
+              />
+            </svg>
+          </div>
+        </div>
       </div>
     </form>
 

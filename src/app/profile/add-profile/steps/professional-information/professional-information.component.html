@@ -1,165 +1,123 @@
-<div [formGroup]="parentForm" class="flex flex-col lg:flex-row  gap-5 items-start justify-start w-full relative mt-5">
-  <div>
-    <label for="mtc" class="block text-sm text-gray-500">mtc</label>
-    <input
-      id="mtc"
-      formControlName="mtc"
-      type="text"
-      placeholder="0612345678"
-      [class.border-error]="parentForm.get('mtc')?.invalid && parentForm.get('mtc')?.touched"
-      [class.error]="parentForm.get('mtc')?.invalid && parentForm.get('mtc')?.touched"
-      class="block mt-2 w-full placeholder-gray-400/70  rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 "
-    />
-    <p class="mt-3 text-xs text-red-400" *ngIf="parentForm.get('mtc')?.invalid && parentForm.get('mtc')?.touched">
-      Le MTC est obligatoire
-    </p>
-  </div>
-  <div>
-    <label for="category" class="block text-sm text-gray-500">Catégorie</label>
-    <input
-      id="category"
-      formControlName="category"
-      type="text"
-      placeholder="Catégorie"
-      [class.border-error]="parentForm.get('category')?.invalid && parentForm.get('category')?.touched"
-      [class.error]="parentForm.get('category')?.invalid && parentForm.get('category')?.touched"
-      class="block mt-2 w-full placeholder-gray-400/70 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-    />
-    <p class="mt-3 text-xs text-red-400"
-       *ngIf="parentForm.get('category')?.invalid && parentForm.get('category')?.touched">
-      La catégorie est obligatoire
-    </p>
-  </div>
-  <div>
-    <label for="department" class="block text-sm text-gray-500">Département</label>
-    <nz-select
-      id="department"
-      nzBorderless
-
-      class="block mt-2 w-full rounded-lg border border-gray-200 bg-white text-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-      formControlName="department"
-      nzSize="large"
-      nzShowSearch
-      nzAllowClear
-      (ngModelChange)="getDepartments($event)"
-      nzPlaceHolder="Select a department"
-      [class.border-error]="parentForm.get('department')?.invalid && parentForm.get('department')?.touched"
-      [class.error]="parentForm.get('department')?.invalid && parentForm.get('department')?.touched"
+<div [formGroup]="parentForm" class="px-3">
+  <div
+          class="lg:max-w-[932px] md:max-w-[744px] max-w-[375px] mx-auto bg-white "
+  >
+    <div
+            class="flex lg:flex-row md:flex-col-reverse flex-col-reverse justify-between lg:px-14 md:px-6 px-4  w-full"
     >
-      <ng-container *ngFor="let departmentGroup of options">
-          <nz-option *ngFor="let option of departmentGroup"
-                     [nzLabel]="option.department" [nzValue]="option"></nz-option>
-      </ng-container>
-    </nz-select>
-    <p class="mt-3 text-xs text-red-400"
-       *ngIf="parentForm.get('department')?.invalid && parentForm.get('department')?.touched">
-      Le département est obligatoire
-    </p>
-  </div>
+      <div class="text">
+        <div class="w-full lg:mt-0 mt-6">
+          <p class="text-base text-gray-800">DEPARTMENT</p>
+          <nz-select
+                  id="department"
+                  nzBorderless
+                  [ngClass]="{'border-red-400': parentForm.get('department')?.invalid && parentForm.get('department')?.touched, 'border-gray-300': !(parentForm.get('department')?.invalid && parentForm.get('department')?.touched)}"
+                  class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[540px] w-full py-3 px-3 rounded mt-4"
+                  formControlName="department"
+                  nzSize="default"
+                  nzShowSearch
+                  nzAllowClear
+                  (ngModelChange)="getDepartments($event)"
+                  nzPlaceHolder="Select a department"
+          >
+            <ng-container *ngFor="let departmentGroup of options">
+              <nz-option *ngFor="let option of departmentGroup"
+                         [nzLabel]="option.department" [nzValue]="option"></nz-option>
+            </ng-container>
+          </nz-select>
+          <p class="mt-3 text-xs text-red-400"
+             *ngIf="parentForm.get('department')?.invalid && parentForm.get('department')?.touched">
+            Le département est obligatoire
+          </p>
+        </div>
+        <div class="">
+          <div class="mt-10">
+            <p class="text-base text-gray-800">JOB</p>
+            <nz-select
+                    id="job"
+                    formControlName="job"
+                    nzBorderless
 
-</div>
-<div [formGroup]="parentForm" class="flex flex-col lg:flex-row mt-5 gap-5 items-start justify-start w-full relative">
-  <div>
-    <label for="job" class="block text-sm text-gray-500">Emploi</label>
-    <nz-select
-      id="job"
-      formControlName="job"
-      nzBorderless
-      class="block mt-2 w-full rounded-lg border border-gray-200 bg-white text-gray-700 focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-      nzShowSearch nzAllowClear
-      [nzDropdownRender]="renderTemplate"
-      nzPlaceHolder="Emploi"
-      [class.border-error]="parentForm.get('job')?.invalid && parentForm.get('job')?.touched"
-      [class.error]="parentForm.get('job')?.invalid && parentForm.get('job')?.touched"
-    >
-      <nz-option *ngFor="let option of optionsJobs"
-                 [nzLabel]="option.job" [nzValue]="option.job"></nz-option>
-    </nz-select>
-    <ng-template #renderTemplate>
-      <nz-divider></nz-divider>
-      <div class="flex flex-row p-1 items-center justify-center space-x-1">
-        <input
-          class="block w-full m-2 text-gray-900 border border-gray-300 rounded-lg text-base focus:ring-blue-500 focus:border-blue-500"
-          type="text" nz-input #inputElement/>
-        <a (click)="addItem(inputElement)">
-          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
-            <path
-              d="M6 10H14M10 6V14M4 20H16C18.2091 20 20 18.2091 20 16V4C20 1.79086 18.2091 0 16 0H4C1.79086 0 0 1.79086 0 4V16C0 18.2091 1.79086 20 4 20Z"
-              stroke="#28303F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
+                    [ngClass]="{'border-red-400': parentForm.get('job')?.invalid && parentForm.get('job')?.touched, 'border-gray-300': !(parentForm.get('job')?.invalid && parentForm.get('job')?.touched)}"
+                    class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[540px] w-full py-3 px-3 rounded mt-4"
+                    nzPlaceHolder="Emploi"
+            >
+              <nz-option *ngFor="let option of optionsJobs"
+                         [nzLabel]="option.job" [nzValue]="option.job"></nz-option>
+            </nz-select>
+          </div>
+        </div>
+        <div class="">
+          <div class="mt-10">
+            <p class="text-base text-gray-800">CONTRE MAITRE</p>
+            <input
+                    type="text"
+                    name="manger"
+                    formControlName="manger"
+                    id="manger"
+                    [ngClass]="{'border-red-400': parentForm.get('manger')?.invalid && parentForm.get('manger')?.touched, 'border-gray-300': !(parentForm.get('manger')?.invalid && parentForm.get('manger')?.touched)}"
+                    placeholder="Enter your CONTRE MAITRE"
+                    class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[540px] w-full py-3 px-3 rounded mt-4"
+            />
+          </div>
+        </div>
+        <div class="lg:flex md:flex block gap-8 lg:mt-10 md:mt-6 mt-4">
+          <div class="w-full">
+            <p class="text-base text-gray-800">DATE OF HIRINF</p>
+            <div
+                    class="flex justify-between border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4 border cursor-pointer"
+            >
+              <input
+                      formControlName="date_hiring"
+                      type="date"
+                      name="date_hiring"
+                      id="date_hiring"
+                      [ngClass]="{'border-red-400': parentForm.get('date_hiring')?.invalid && parentForm.get('date_hiring')?.touched, 'border-gray-300': !(parentForm.get('date_hiring')?.invalid && parentForm.get('manger')?.touched)}"
+                      placeholder="Select date"
+                      class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none w-full cursor-pointer"
+              />
+              <p class="mt-3 text-xs text-red-400" *ngIf="parentForm.get('phone')?.invalid && parentForm.get('phone')?.touched">
+                Please enter your date hiring.
+              </p>
+            </div>
+          </div>
+          <div class="lg:mt-0 md:mt-0 mt-4 w-full">
+            <p class="text-base text-gray-800">DATE OF START</p>
+            <div
+                    class="flex justify-between border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4 border cursor-pointer"
+            >
+              <input
+                      formControlName="date_start"
+                      type="date"
+                      name="date_start"
+                      id="date_start"
+                      [ngClass]="{'border-red-400': parentForm.get('date_start')?.invalid && parentForm.get('date_start')?.touched, 'border-gray-300': !(parentForm.get('date_start')?.invalid && parentForm.get('date_start')?.touched)}"
+                      placeholder="Select date"
+                      class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none w-full cursor-pointer"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="lg:flex md:flex block gap-8 md:mt-4 mt-6">
+          <div class="w-full">
+            <p class="text-base text-gray-800">DATE VISIT</p>
+            <div
+                    class="flex justify-between border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4 border cursor-pointer"
+            >
+              <input
+                      formControlName="date_visit"
+                      type="date"
+                      [ngClass]="{'border-red-400': parentForm.get('date_visit')?.invalid && parentForm.get('date_visit')?.touched, 'border-gray-300': !(parentForm.get('date_visit')?.invalid && parentForm.get('date_visit')?.touched)}"
+                      name="date_visit"
+                      id="date_visit"
+                      placeholder="Select date"
+                      class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none w-full cursor-pointer"
+              />
+            </div>
+          </div>
+        </div>
       </div>
-    </ng-template>
-    <p class="mt-3 text-xs text-red-400" *ngIf="parentForm.get('job')?.invalid && parentForm.get('job')?.touched">
-      L'emploi est obligatoire
-    </p>
-  </div>
 
-  <div>
-    <label for="manger" class="block text-sm text-gray-500">Contre maitre</label>
-    <input
-      id="manger"
-      formControlName="manger"
-      type="number"
-      placeholder="Contre maitre"
-      [class.border-error]="parentForm.get('manger')?.invalid && parentForm.get('manger')?.touched"
-      [class.error]="parentForm.get('manger')?.invalid && parentForm.get('manger')?.touched"
-      class="block mt-2 w-full rounded-lg border border-gray-200 bg-white text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-    />
-    <p class="mt-3 text-xs text-red-400" *ngIf="parentForm.get('manger')?.invalid && parentForm.get('manger')?.touched">
-      Contre maitre est obligatoire
-    </p>
-  </div>
-
-  <div>
-    <label for="date_hiring" class="block text-sm text-gray-500">Date d'embauche</label>
-    <input
-      id="date_hiring"
-      formControlName="date_hiring"
-      type="text"
-      onfocus="(this.type='date')"
-      placeholder="Date d'embauche"
-      [class.border-error]="parentForm.get('date_hiring')?.invalid && parentForm.get('date_hiring')?.touched"
-      [class.error]="parentForm.get('date_hiring')?.invalid && parentForm.get('date_hiring')?.touched"
-      class="block mt-2 w-full rounded-lg border border-gray-200 bg-white text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-    />
-    <p class="mt-3 text-xs text-red-400" *ngIf="parentForm.get('date_hiring')?.invalid && parentForm.get('date_hiring')?.touched">
-      La date d'embauche est obligatoire
-    </p>
-  </div>
-
-</div>
-<div [formGroup]="parentForm" class="flex flex-col lg:flex-row mt-5 gap-5 items-start justify-start w-full relative">
-  <div>
-    <label for="date_start" class="block text-sm text-gray-500">Date de début</label>
-    <input
-      id="date_start"
-      formControlName="date_start"
-      type="text"
-      onfocus="(this.type='date')"
-      placeholder="Date de début"
-      [class.border-error]="parentForm.get('date_start')?.invalid && parentForm.get('date_start')?.touched"
-      [class.error]="parentForm.get('date_start')?.invalid && parentForm.get('date_start')?.touched"
-      class="block mt-2 w-full rounded-lg border border-gray-200 bg-white text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-    />
-    <p class="mt-3 text-xs text-red-400" *ngIf="parentForm.get('date_start')?.invalid && parentForm.get('date_start')?.touched">
-      La date de début est obligatoire
-    </p>
-  </div>
-  <div>
-    <label for="date_visit" class="block text-sm text-gray-500">Date de visite</label>
-    <input
-      id="date_visit"
-      formControlName="date_visit"
-      type="text"
-      onfocus="(this.type='date')"
-      placeholder="Date de visite"
-      [class.border-error]="parentForm.get('date_visit')?.invalid && parentForm.get('date_visit')?.touched"
-      [class.error]="parentForm.get('date_visit')?.invalid && parentForm.get('date_visit')?.touched"
-      class="block mt-2 w-full rounded-lg border border-gray-200 bg-white text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-    />
-    <p class="mt-3 text-xs text-red-400" *ngIf="parentForm.get('date_visit')?.invalid && parentForm.get('date_visit')?.touched">
-      La date de visite est obligatoire
-    </p>
+    </div>
   </div>
 </div>

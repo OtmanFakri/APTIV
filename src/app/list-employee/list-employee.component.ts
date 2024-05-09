@@ -8,7 +8,6 @@ import {ListEmployee} from "../interfaces/ListEmployee";
 import {NzDrawerComponent, NzDrawerContentDirective} from "ng-zorro-antd/drawer";
 import {FilterEmployeeComponent} from "./Filter/filter-employee/filter-employee.component";
 import {FilterService} from "./Filter/filter.service";
-import {switchMap, tap} from "rxjs";
 import {NzTableComponent, NzTbodyComponent, NzTheadComponent} from "ng-zorro-antd/table";
 
 
@@ -40,19 +39,10 @@ export class ListEmployeeComponent implements OnInit {
   currentDepartments: string[] = [];
   isLoading: boolean = false;
   constructor(private employeeService: EmployeeService,
-              private filterService: FilterService) { }
+              public filterService: FilterService) { }
 
   ngOnInit(): void {
-    this.filterService.selectedCategoryTags$
-      .pipe(
-        tap(categories => this.currentCategories = categories),
-        switchMap(() => this.filterService.selectedDepartmentTags$)
-      )
-      .subscribe(departments => {
-        console.log('Departments:',this.filterService.getSelectedDepartmentKeys())
-        this.currentDepartments = this.filterService.getSelectedDepartmentKeys().map(String);
-        this.loadEmployees();
-      });
+
   }
 
   loadEmployees(): void {
@@ -74,7 +64,6 @@ export class ListEmployeeComponent implements OnInit {
 
   onPageChange(newPage: number): void {
     this.currentPage = newPage;
-    console.log('New page:', newPage);
     this.loadEmployees();
   }
 
@@ -89,14 +78,9 @@ export class ListEmployeeComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.isLoading = true;  // Start loading
-    this.currentCategories = [];
-    this.currentDepartments = [];
-    this.filterService.clearAllFilters(); // Assuming your FilterService has a method to clear filters
     this.loadEmployees();
-    this.isLoading = false;  // Start loading
+    this.filterService.clearFilterEmployee(); // Only if you want to clear this as a part of filters
 
   }
-  searchTerm: string = '';
   isFilterOpen: boolean = false;
 }

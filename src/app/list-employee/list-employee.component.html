@@ -47,19 +47,25 @@
             nzPlacement="right"
             nzTitle="Filter Employees"
             [nzFooter]="footerTpl"
-            (nzOnClose)="isFilterOpen = !isFilterOpen"
+            (nzOnClose)="toggleFilterOpen()"
           >
             <ng-container class="h-screen" *nzDrawerContent>
               <app-filter-employee/>
             </ng-container>
             <ng-template #footerTpl>
-              <div style="float: right">
+              <div class="lg:flex justify-end mr-1 items-center gap-x-3 mt-12  md:hidden hidden">
+                <button
+                  type="button"
+                  (click)="applyFilters()"
+                  [disabled]="isLoading"
+                  class="text-sm font-medium leading-none text-white text-center px-6 py-4 bg-indigo-700 rounded-md hover:bg-indigo-600 transform duration-300 ease-in-out"                >
+                    Apply Filters
+                </button>
                 <button
                   type="button"
                   (click)="clearFilters()"
                   [disabled]="isLoading"
-                  class="px-6 py-2 min-w-[120px] text-center text-violet-600 border border-violet-600 rounded hover:bg-violet-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring"
-                >
+                  class="text-sm font-medium leading-none text-center text-indigo-700 px-6 py-4 border rounded-md border-indigo-700 hover:bg-gray-100 transform duration-300 ease-in-out"                >
                   Clear Filters
                 </button>
 
@@ -118,7 +124,7 @@
               </div>
             </td>
             <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-              <div class="text-gray-900">job Title</div>
+              <div class="text-gray-900">{{user?.job_name}}</div>
               <div class="mt-1 text-gray-500">{{ user?.department_name }}</div>
             </td>
             <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
@@ -131,8 +137,10 @@
           </tbody>
         </nz-table>
       </div>
-      <app-pagination [currentPage]="currentPage" [totalPages]="totalPages"
+      <app-pagination [currentPage]="currentPage ?? 1" [totalPages]="listEmployee?.pages ?? 1"
+                      [size]="listEmployee?.size ?? 1" [total]="listEmployee?.total ?? 1"
                       (pageChange)="onPageChange($event)"></app-pagination>
+
     </div>
   </div>
 </div>

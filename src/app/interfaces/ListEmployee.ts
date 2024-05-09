@@ -13,6 +13,7 @@ export interface Item {
   manager_name: string;
   category: string;
   department_name: string;
+  job_name: string;
 }
 
 export interface NewEmployee {

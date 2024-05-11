@@ -4,9 +4,11 @@ from typing import Optional
 
 from enum import Enum
 
+from certificate.schemas.DoctorSchema import PostDoctorSchema
+
 
 class PostCertificateSchema(BaseModel):
-    doctor_id: int
+    doctor: PostDoctorSchema
     date: date
     date_start: date
     date_end: date

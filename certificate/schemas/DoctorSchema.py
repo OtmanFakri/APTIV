@@ -9,3 +9,8 @@ class DoctorSchema(BaseModel):
     class Config:
         orm_mode = True
         from_attributes = True
+
+
+class PostDoctorSchema(BaseModel):
+    name: str
+    specialty: str

@@ -1,8 +1,9 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi_pagination import Page, paginate
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
 
 from certificate.models.certificate import Certificate
 from certificate.models.doctor import Doctor
@@ -29,3 +30,22 @@ def get_certifications(doctor_id: int,
         raise HTTPException(status_code=404, detail="No certificates found for the given doctor ID")
 
     return paginate([CertificateByDoctorSchema.from_orm(certificate) for certificate in certificates])
+
+
+@DoctorRouter.get('/search_doctors')
+def search_doctors(query: str = Query(default=""),db: Session = Depends(get_db_connection)):
+    doctors = db.query(Doctor).filter(
+        or_(Doctor.name.ilike(f'%{query}%'))
+    ).all()
+    db.close()
+
+    return [{'id': doctor.id, 'name': doctor.name, 'specialty': doctor.specialty} for doctor in doctors]
+
+@DoctorRouter.get('/search_specialty')
+def search_specialty(query: str = Query(default=""),db: Session = Depends(get_db_connection)):
+    doctors = db.query(Doctor).filter(
+        or_(Doctor.specialty.ilike(f'%{query}%'))
+    ).all()
+    db.close()
+
+    return [{'id': doctor.id, 'name': doctor.name, 'specialty': doctor.specialty} for doctor in doctors]

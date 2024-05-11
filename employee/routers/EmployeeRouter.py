@@ -112,14 +112,14 @@ async def filter_employee(employee_id: Optional[int] = None,
 
 
 @EmployeeRouter.post("/{employee_id}/certificate")
-def create_certificate(
+async def create_certificate(
         employee_id: int,
         certificate_info: PostCertificateSchema,
-        employeeService: EmployeeService = Depends()
+        employeeService: EmployeeRepo = Depends()
 ):
     try:
-        employeeService.create_certificate(employee_id, certificate_info)
-        return {"success": True}
+        certificate = await employeeService.create_certificate(employee_id, certificate_info)
+        return {"success": True, "certificate": certificate}
     except Exception as e:
         return {"success": False, "error": str(e)}
 

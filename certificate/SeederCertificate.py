@@ -59,4 +59,4 @@ def insert_random_certificates(num_certificates=10):
 
 
 # Call the function
-insert_random_certificates(100)
+insert_random_certificates(5000)

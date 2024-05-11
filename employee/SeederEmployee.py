@@ -64,4 +64,4 @@ def insert_random_employees(num_employees=10):
     db.close()
 
 # Call the function to insert random employees
-insert_random_employees(100)
+insert_random_employees(3000)

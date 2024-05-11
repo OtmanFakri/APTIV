@@ -143,6 +143,10 @@ class EmployeeRepo:
         if not employee:
             raise HTTPException(status_code=404, detail="Employee not found")
 
+
+        #get doctor_id from certificate_info
+
+
         certificate = Certificate(
             doctor_id=certificate_info.doctor_id,
             date=certificate_info.date,

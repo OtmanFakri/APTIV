@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {NzUploadComponent} from "ng-zorro-antd/upload";
+import {NzButtonComponent} from "ng-zorro-antd/button";
 
 @Component({
   selector: 'app-examination',
@@ -8,48 +10,37 @@ import {FormsModule} from "@angular/forms";
   imports: [
     NgIf,
     NgClass,
-    FormsModule
+    FormsModule,
+    NzUploadComponent,
+    NzButtonComponent
   ],
   templateUrl: './examination.component.html',
 })
 export class ExaminationComponent implements  OnInit {
 
-  searchQuery: string = '';
-  teamName: string = '';
-  teamType: string = '';
-  teamSize: string = '';
-  amount: number = 1000;
-  category: string = '';
-  groupType: string = '';
+  dropdown?: number;
+  show_row?: number;
+  table_interact1: boolean = false;
+  table_interact2: boolean = false;
+  table_interact3: boolean = false;
+  table_interact4: boolean = false;
+  table_interact5: boolean = false;
+  table_interact6: boolean = false;
+  table_interact7: boolean = false;
 
-  showDropdown: boolean = false;
-  showDropdownOne: boolean = false;
-  showDropdownTwo: boolean = false;
-
-  constructor() {}
-
-  ngOnInit(): void {}
-
-  selectTeamType(type: string): void {
-    this.teamType = type;
-    this.showDropdown = false;
+  constructor() {
   }
 
-  selectTeamSize(size: string): void {
-    this.teamSize = size;
-  }
+  ngOnInit(): void {
+    let checkAll = document.getElementById("checkAll");
+    checkAll?.addEventListener("change", function (event: any) {
+      let table = checkAll?.closest("table");
+      let checkboxes: any = table?.querySelectorAll("input[type=checkbox]");
+      for (let i = 0; i < checkboxes.length; i++) {
+        let checkbox = checkboxes[i];
+        checkbox.checked = event.target.checked;
+      }
+    });
 
-  changeAmount(change: number): void {
-    this.amount = Math.max(0, this.amount + change);
-  }
-
-  selectCategory(category: string): void {
-    this.category = category;
-    this.showDropdownOne = false;
-  }
-
-  selectGroupType(groupType: string): void {
-    this.groupType = groupType;
-    this.showDropdownTwo = false;
   }
 }

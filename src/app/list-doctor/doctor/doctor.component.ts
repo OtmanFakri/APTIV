@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NzDescriptionsComponent, NzDescriptionsItemComponent} from "ng-zorro-antd/descriptions";
 import {Observable, switchMap} from "rxjs";
-import {CertificationInterface, CertificationsResponseInterface} from "../../interfaces/ListCertificationInterface";
+import {CertificationsResponseInterface} from "../../interfaces/ListCertificationInterface";
 import {ActivatedRoute} from "@angular/router";
 import {DoctorService} from "../doctor.service";
 
@@ -15,7 +15,7 @@ import {DoctorService} from "../doctor.service";
   templateUrl: './doctor.component.html',
 })
 export class DoctorComponent implements OnInit{
-  certifications$: Observable<CertificationInterface> = new Observable<CertificationInterface>();
+  certifications$: Observable<CertificationsResponseInterface> = new Observable<CertificationsResponseInterface>();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -23,12 +23,12 @@ export class DoctorComponent implements OnInit{
   ) {}
 
   ngOnInit() {
-    this.certifications$ = this.activatedRoute.paramMap.pipe(
-      switchMap(params => {
-        const id = parseInt(<string>params.get('id'), 10);
-        return this.doctorService.getCertifications(id);
-      }),
-      switchMap((response: CertificationsResponseInterface) => response.items)
-    );
+//    this.certifications$ = this.activatedRoute.paramMap.pipe(
+//      switchMap(params => {
+//        const id = parseInt(<string>params.get('id'), 10);
+//        return this.doctorService.getCertifications(id);
+//      }),
+//      switchMap((response: CertificationsResponseInterface) => response.items)
+//    );
   }
 }

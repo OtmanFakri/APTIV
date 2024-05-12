@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {PaginationComponent} from "../Components/pagination/pagination.component";
 import {RouterLink} from "@angular/router";
 import {NzTableCellDirective, NzTrDirective} from "ng-zorro-antd/table";
@@ -12,6 +12,7 @@ import {
 } from "../profile/me/info-certification/show-certification/show-certification.component";
 import {NzDrawerComponent, NzDrawerContentDirective} from "ng-zorro-antd/drawer";
 import {AddCertiicationComponent} from "./add-certiication/add-certiication.component";
+import {date_certification} from "./testjson";
 
 
 
@@ -43,7 +44,8 @@ interface ListCertification {
     NzModalContentDirective,
     NzDrawerComponent,
     AddCertiicationComponent,
-    NzDrawerContentDirective
+    NzDrawerContentDirective,
+    NgClass
   ],
   templateUrl: './list-certification.component.html',
 })
@@ -55,6 +57,28 @@ export class ListCertificationComponent {
   isConfirmLoading = false;
   @ViewChild(AddCertiicationComponent) addCertificationComponent!: AddCertiicationComponent;
 
+  dropdown?: number;
+  show_row?: number;
+  table_interact1: boolean = false;
+  table_interact2: boolean = false;
+  table_interact3: boolean = false;
+  table_interact4: boolean = false;
+  table_interact5: boolean = false;
+  table_interact6: boolean = false;
+  table_interact7: boolean = false;
+  constructor() {}
+
+  ngOnInit(): void {
+    let checkAll = document.getElementById("checkAll");
+    checkAll?.addEventListener("change", function (event: any) {
+      let table = checkAll?.closest("table");
+      let checkboxes: any = table?.querySelectorAll("input[type=checkbox]");
+      for (let i = 0; i < checkboxes.length; i++) {
+        let checkbox = checkboxes[i];
+        checkbox.checked = event.target.checked;
+      }
+    });
+  }
   onChange(result: Date[]): void {
     console.log('onChange: ', result);
   }
@@ -63,90 +87,7 @@ export class ListCertificationComponent {
     console.log('week: ', result.map(getISOWeek));
   }
 
-  public list: ListCertification[] = [
-    {
-      id: 1,
-      date: '2024-03-28',
-      datePlanned: '2024-03-29',
-      dateStart: '2024-03-30',
-      dateEnd: '2024-03-31',
-      nbrDaysDateEntry: 3,
-      validate: true
-    },
-    {
-      id: 2,
-      date: '2024-03-29',
-      datePlanned: '2024-03-30',
-      dateStart: '2024-03-31',
-      dateEnd: '2024-04-01',
-      nbrDaysDateEntry: 4,
-      validate: false
-    },
-    {
-      id: 3,
-      date: '2024-03-30',
-      datePlanned: '2024-03-31',
-      dateStart: '2024-04-01',
-      dateEnd: '2024-04-02',
-      nbrDaysDateEntry: 2,
-      validate: true
-    },
-    {
-      id: 1,
-      date: '2024-03-28',
-      datePlanned: '2024-03-29',
-      dateStart: '2024-03-30',
-      dateEnd: '2024-03-31',
-      nbrDaysDateEntry: 3,
-      validate: true
-    },
-    {
-      id: 2,
-      date: '2024-03-29',
-      datePlanned: '2024-03-30',
-      dateStart: '2024-03-31',
-      dateEnd: '2024-04-01',
-      nbrDaysDateEntry: 4,
-      validate: false
-    },
-    {
-      id: 3,
-      date: '2024-03-30',
-      datePlanned: '2024-03-31',
-      dateStart: '2024-04-01',
-      dateEnd: '2024-04-02',
-      nbrDaysDateEntry: 2,
-      validate: true
-    },
-    {
-      id: 1,
-      date: '2024-03-28',
-      datePlanned: '2024-03-29',
-      dateStart: '2024-03-30',
-      dateEnd: '2024-03-31',
-      nbrDaysDateEntry: 3,
-      validate: true
-    },
-    {
-      id: 2,
-      date: '2024-03-29',
-      datePlanned: '2024-03-30',
-      dateStart: '2024-03-31',
-      dateEnd: '2024-04-01',
-      nbrDaysDateEntry: 4,
-      validate: false
-    },
-    {
-      id: 3,
-      date: '2024-03-30',
-      datePlanned: '2024-03-31',
-      dateStart: '2024-04-01',
-      dateEnd: '2024-04-02',
-      nbrDaysDateEntry: 2,
-      validate: true
-    },
-
-  ];
+  public list= date_certification;
 
   showModal() {
     this.isVisible = true;
@@ -155,12 +96,7 @@ export class ListCertificationComponent {
 
   addCertifica = false;
 
-  save() {
-    if (this.addCertificationComponent) {
-      this.addCertificationComponent.onSubmit();
-      console.log('this.addCertificationComponent',);
-    }
-  }
+
   open(): void {
     this.addCertifica = true;
   }
@@ -168,4 +104,6 @@ export class ListCertificationComponent {
   close(): void {
     this.addCertifica = false;
   }
+
+  protected readonly date_certification = date_certification;
 }

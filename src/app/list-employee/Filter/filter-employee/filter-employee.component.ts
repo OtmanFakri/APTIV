@@ -48,13 +48,9 @@ export class FilterEmployeeComponent implements OnInit {
     this.filterService.filterEmployee.min_seniority_years = this.amount;
   }
 
-  selectCategory(category: string): void {
-    this.category = category;
-    this.showDropdownOne = false;
-  }
 
 
   selectGender(gender: string) {
-    this.filterService.filterEmployee.sexe = gender
+    this.filterService.filterEmployee.sex = gender
   }
 }

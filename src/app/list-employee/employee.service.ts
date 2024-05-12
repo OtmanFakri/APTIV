@@ -33,8 +33,8 @@ export class EmployeeService {
             queryParams = queryParams.set('min_seniority_years', filterEmployee.min_seniority_years.toString());
         }
 
-        if (filterEmployee.sexe) {
-            queryParams = queryParams.set('sexe', filterEmployee.sexe);
+        if (filterEmployee.sex) {
+            queryParams = queryParams.set('sex', filterEmployee.sex);
         }
 
         if (filterEmployee.employee_id) {

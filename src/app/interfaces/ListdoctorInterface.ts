@@ -3,3 +3,9 @@ export interface ListdoctorInterface {
   name: string;
   specialty: string;
 }
+
+export interface DoctorRequestInterface {
+  name:      string;
+  specialty: string;
+}
+

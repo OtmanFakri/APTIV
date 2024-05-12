@@ -14,6 +14,7 @@ import {ListDepartmentComponent} from "./list-department/list-department.compone
 import {ListDoctorComponent} from "./list-doctor/list-doctor.component";
 import {DoctorComponent} from "./list-doctor/doctor/doctor.component";
 import {ExaminationComponent} from "./examination/examination.component";
+import {AddCertiicationComponent} from "./list-certification/add-certiication/add-certiication.component";
 
 export const routes: Routes = [
   {
@@ -24,6 +25,7 @@ export const routes: Routes = [
       { path: 'Employee', component: ListEmployeeComponent },
       { path: 'Departments', component: ListDepartmentComponent },
       { path: 'Employee/new', component: AddProfileComponent },
+
       { path: 'Employee/:id',
         component: ProfileComponent,
         children: [

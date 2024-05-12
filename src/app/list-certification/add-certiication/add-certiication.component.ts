@@ -1,62 +1,157 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {getISOWeek} from "date-fns";
 import {NzDatePickerComponent, NzRangePickerComponent} from "ng-zorro-antd/date-picker";
+import {NzAutocompleteComponent, NzAutocompleteTriggerDirective} from "ng-zorro-antd/auto-complete";
+import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
+import {DoctorService} from "../../list-doctor/doctor.service";
+import {CertificationsRequestInterface} from "../../interfaces/ListCertificationInterface";
+import {DoctorRequestInterface} from "../../interfaces/ListdoctorInterface";
+import {CertificatesService} from "../certificates.service";
+import {formatDate} from "../../helper/getCurrentFormattedDate";
+import {NzNotificationService} from "ng-zorro-antd/notification";
 
 @Component({
-  selector: 'app-add-certiication',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    FormsModule,
-    NzRangePickerComponent,
-    NzDatePickerComponent,
-  ],
-  templateUrl: './add-certiication.component.html',
+    selector: 'app-add-certiication',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        NzRangePickerComponent,
+        NzDatePickerComponent,
+        NzAutocompleteTriggerDirective,
+        NzAutocompleteComponent,
+        NzSelectComponent,
+        NzOptionComponent,
+    ],
+    templateUrl: './add-certiication.component.html',
 })
 export class AddCertiicationComponent {
-  form: FormGroup;
-  Duration: string='0 day';
-  constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      employee_id: [null, Validators.required],
-      first_name: [null, Validators.required],
-      last_name: [null, Validators.required],
-      category: [null, Validators.required],
-      validation: [null, Validators.required],
-      department: [null, Validators.required],
-      manager: [null, Validators.required],
-      doctor_id: [null, Validators.required],
-      specialty: [null, Validators.required],
-      dateRange: [null, Validators.required] // Handles both dates
-    });
-  }
-  onSubmit() {
-    if (this.form.valid) {
-      console.log(this.form.value);
-    }
-  }
-  calculateDuration(startDate: Date, endDate: Date) {
-    if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
-      const diff = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
-      this.Duration = diff > 0 ? diff + ' days' : '0 day';
-      return diff > 0 ? diff + ' days' : '0 day';
+    form: FormGroup;
+    Duration: string = '0 day';
+    optionsDoctors: string[] = [];
+    optionsSpecialties: string[] = [];
+    date = null;
+    private delayTimer?: number; // Timer to manage the delay
+
+    constructor(private fb: FormBuilder,
+                public certificatesService: CertificatesService,
+                private notification: NzNotificationService,
+                public doctorService: DoctorService) {
+        this.form = this.fb.group({
+            employee_id: [null,],
+            doctor_name: [null,],
+            doctor_specialty: [null,],
+            validation: [null,],
+            nb_days: [null,],
+            date_start: [null],
+            date_end: [null],
+            dateRange: [null,] // Handles both dates
+        });
     }
 
-    return '0 day';
-  }
+    onSubmit(employeeId: Number) {
+        console.log(this.form.value);
+        var date = new Date();
 
-  onRangeChange(result: Date[]): void {
-    if (result && result.length === 2) {
-      const [start, end] = result;
-      this.form.patchValue({
-        date_start: start,
-        date_end: end
-      });
-      this.calculateDuration(start, end);
+        const doctorRequest: DoctorRequestInterface = {
+            name:  this.form.get('doctor_name')?.value,
+            specialty:  this.form.get('doctor_specialty')?.value,
+        };
+        const certificationRequest: CertificationsRequestInterface = {
+            doctor: doctorRequest,
+            date: formatDate(date), // Use actual date here
+            date_start: formatDate(this.form.get('date_start')?.value), // Use actual start date here
+            date_end: formatDate(this.form.get('date_end')?.value), // Use actual end date here
+            validation: this.form.get('validation')?.value, // Use actual validation status here
+            date_planned: formatDate(date), // Use actual planned date or null
+            nbr_days: Number(this.form.get('nb_days')?.value), // Use actual number of days here
+        }
+        console.log(employeeId)
+
+        this.certificatesService.createCertification(Number(employeeId), certificationRequest).subscribe({
+            next: (response) => {
+                console.log('Certification created:', response);
+                this.notification.create(
+                    "success",
+                    'Certification created',
+                    response.message,
+                    {nzPlacement: "bottomLeft"}
+                );
+            },
+            error: (err) => {
+                console.error('Error creating certification:', err);
+                this.notification.create(
+                    "error",
+                    `Certification created ID_error: ${employeeId}`,
+                    err.message,
+                    {nzPlacement: "bottomLeft"}
+                );
+                console.log('Error Details:', err.error);
+            }
+        });
+
     }
-  }
+
+    calculateDuration(startDate: Date, endDate: Date): string {
+        if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+            const diff = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
+            this.Duration = diff > 0 ? diff + ' days' : '0 day';
+            return this.Duration;
+        }
+        return '0 day';
+    }
+
+    onRangeChange(result: Date[]): void {
+        if (result && result.length === 2) {
+            const [start, end] = result;
+            this.form.patchValue({
+                date_start: start,
+                date_end: end
+            });
+            this.calculateDuration(start, end);
+        }
+    }
 
 
+    onInputDoctors(event: Event): void {
+        const value = (event.target as HTMLInputElement).value;
+        this.logChange(value, 'doctor');
+    }
 
+    onInputSpecialty(event: Event): void {
+        const value = (event.target as HTMLInputElement).value;
+        this.logChange(value, 'specialty');
+    }
+
+    logChange(value: string, type: string) {
+        // Clear the existing timeout to ensure only the last change is logged
+        if (this.delayTimer) {
+            clearTimeout(this.delayTimer);
+        }
+
+        // Set a new timeout
+        this.delayTimer = setTimeout(() => {
+            if (type === 'doctor') {
+                this.doctorService.searchDoctors(value).subscribe(
+                    (result) => {
+                        this.optionsDoctors = result.map((doctor) => doctor.name);
+                    },
+                    (error) => {
+                        console.error('Error fetching doctors:', error);
+                    }
+                );
+            } else if (type === 'specialty') {
+                this.doctorService.searchSpecialties(value).subscribe(
+                    (result) => {
+                        this.optionsSpecialties = result.map((doctor) => doctor.specialty);
+                    },
+                    (error) => {
+                        console.error('Error fetching specialties:', error);
+                    }
+                );
+            }
+            this.delayTimer = undefined; // Clear the timer reference once executed
+        }, 2000); // Delay of 2000 milliseconds (2 seconds)
+    }
 }

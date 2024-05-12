@@ -22,4 +22,12 @@ export class DoctorService {
     return this.http.get<CertificationsResponseInterface>(url);
   }
 
+  searchDoctors(query: string): Observable<ListdoctorInterface[]> {
+    return this.http.get<ListdoctorInterface[]>(`${this.apiUrl}search_doctors`, { params: { query } });
+  }
+  searchSpecialties(query: string): Observable<ListdoctorInterface[]> {
+    return this.http.get<ListdoctorInterface[]>(`${this.apiUrl}search_specialty`, { params: { query } });
+  }
+
+
 }

@@ -8,6 +8,7 @@
                 type="text"
                 placeholder="For example “Alpha”"
                 [(ngModel)]="filterService.filterEmployee.manger_ids"
+
         />
     </div>
 </div>
@@ -69,8 +70,8 @@
                 class="dropbtn-one relative px-5 py-[12px] flex items-center justify-between w-full"
                 (click)="showDropdownOne = !showDropdownOne"
         >
-          <span class="pr-4 font-medium text-gray-600 text-sm" [(ngModel)]="filterService.filterEmployee.sexe">
-            {{ filterService.filterEmployee.sexe || 'Select Gender' }}
+          <span class="pr-4 font-medium text-gray-600 text-sm" [(ngModel)]="filterService.filterEmployee.sex">
+            {{ filterService.filterEmployee.sex || 'Select Gender' }}
           </span>
             <svg
                     class="absolute right-5 z-10 cursor-pointer"

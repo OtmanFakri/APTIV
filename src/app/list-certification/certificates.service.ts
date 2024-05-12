@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {CertificateEmployee, PostCertification} from "../interfaces/CertificateEmployee";
+import {CertificateEmployee} from "../interfaces/CertificateEmployee";
+import {CertificationsRequestInterface} from "../interfaces/ListCertificationInterface";
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +26,9 @@ export class CertificatesService {
   }
 
 
-  createCertification(employee_id: number, certificate: PostCertification): Observable<any> {
+  createCertification(employee_id: number, certificate: CertificationsRequestInterface): Observable<any> {
     // Construct the URL with the employee ID
-    const url = `${this.baseUrl}/${employee_id}/certificates`;
+    const url = `${this.baseUrl}/${employee_id}/certificate`;
 
     // Make the POST request
     return this.http.post(url, certificate);

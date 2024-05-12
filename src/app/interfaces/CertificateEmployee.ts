@@ -22,13 +22,5 @@ export interface Item {
   nbr_gap:      number;
 }
 
-export interface PostCertification {
-  doctor_id:    number;
-  date:         Date;
-  date_start:   Date;
-  date_end:     Date;
-  validation:   string;
-  date_planned: Date;
-  nbr_days:     number;
-}
+
 

@@ -36,7 +36,7 @@ export interface NewEmployee {
 
 export interface FilterEmployee {
   employee_id?: number | null;
-  sexe?: string | null;
+  sex?: string | null;
   min_seniority_years?: number | null;
   department_ids?: number[] | null;
   manger_ids?: number[] | null;

@@ -9,7 +9,7 @@ export class FilterService {
 
   private _filterEmployee: FilterEmployee = {
     employee_id: null,
-    sexe: null,
+    sex: null,
     min_seniority_years: null,
     department_ids: [],
     manger_ids: [],
@@ -26,7 +26,7 @@ export class FilterService {
   clearFilterEmployee(): void {
     this._filterEmployee = {
       employee_id: null,
-      sexe: null,
+      sex: null,
       min_seniority_years: null,
       department_ids: [],
       manger_ids: [],

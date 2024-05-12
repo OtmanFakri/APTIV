@@ -135,4 +135,16 @@ export class InfoCertificationComponent implements OnInit {
         }
     }
 
+  ConfumeDelte() {
+    const validValues = this.selectedValues.filter((value): value is number => value !== null);
+    this.certificatesService.DeleteCertification(this.userId, validValues).subscribe(() => {
+      this.loadCertificates(this.userId);
+      this.selectedValues = [];
+      this.notification.create('success',
+        'Success',
+        'Certificate deleted successfully',
+        {nzPlacement: "bottomLeft"});
+    });
+
+  }
 }

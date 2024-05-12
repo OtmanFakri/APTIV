@@ -33,4 +33,13 @@ export class CertificatesService {
     // Make the POST request
     return this.http.post(url, certificate);
   }
+
+  DeleteCertification(employee_id: number, certificate_ids: number[]) {
+    // Construct the URL with the employee ID
+    const url = `${this.baseUrl}/${employee_id}/certificate`;
+
+    // Make the DELETE request
+    return this.http.delete(url, { body: certificate_ids });
+
+  }
 }

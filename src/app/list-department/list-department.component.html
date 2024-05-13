@@ -44,6 +44,61 @@
     </div>
   </ng-container>
 </nz-modal>
+<!-- UPDATE -->
+<nz-modal
+  nzWidth="40%"
+  [(nzVisible)]="isVisibleUpdate" nzTitle="UPDATE NEW DEPARTMENT" (nzOnCancel)="UpdatehandleCancel()"
+  (nzOnOk)="UpdatehandleOk()">
+  <ng-container *nzModalContent>
+    <div class="flex flex-row justify-start items-center py-5">
+      <div class="flex flex-col lg:mr-16">
+        <label
+          class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2">Department
+          Category</label>
+        <nz-radio-group
+          (ngModelChange)="onCategoryChange($event)"
+          [(ngModel)]="radioValue" class="bg-white font-normal w-64 h-10 flex items-center text-sm"
+          nzButtonStyle="solid">
+          <label nz-radio-button nzValue="DH">DH</label>
+          <label nz-radio-button nzValue="IH">IH</label>
+          <label nz-radio-button nzValue="IS">IS</label>
+        </nz-radio-group>
+      </div>
+      <div class="flex flex-col lg:mr-16">
+        <label class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2">Department
+          Color</label>
+        <nz-color-picker [(ngModel)]="selectedColor"
+                         class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
+                         nzShowText></nz-color-picker>
+      </div>
+    </div>
+    <div class="flex flex-row justify-start items-center">
+      <div class="flex flex-col lg:mr-16">
+        <label
+          class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2">Department
+          Name</label>
+        <nz-select
+          nzBorderless
+          nzShowSearch
+          (ngModelChange)="onDepartmentChange($event)"
+          class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center  text-sm border-gray-300 rounded border shadow"
+          nzAllowClear nzPlaceHolder="Select a person" [(ngModel)]="departmentName">
+          <nz-option *ngFor="let dept of allDepartments" [nzLabel]="dept.department"
+                     [nzValue]="dept"></nz-option>
+        </nz-select>
+      </div>
+
+      <div class="flex flex-col lg:mr-16">
+        <label class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2">Job
+          Name</label>
+        <nz-select [(ngModel)]="jobsValues"
+                   nzSize="default" nzMode="tags" nzPlaceHolder="Please select">
+          <nz-option *ngFor="let option of filteredJobs" [nzLabel]="option.job" [nzValue]="option.id"></nz-option>
+        </nz-select>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
 
 <div class="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
   <h3 class="text-base font-semibold leading-6 text-gray-900">DEPARTMENTS</h3>
@@ -73,7 +128,7 @@
           NEW DEPARTMENT
         </li>
         <li
-          (click)="showModalCreate()"
+          (click)="showModalUpdate()"
           nz-menu-item
           class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-700"
         >

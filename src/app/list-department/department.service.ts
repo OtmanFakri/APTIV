@@ -35,6 +35,10 @@ export class DepartmentService {
     return this.http.post(this.apiUrl, createDepartment);
   }
 
+  UPDATEDepartment(id: number, createDepartment:CreateDepartment) {
+    return this.http.put(this.apiUrl + id + '/', createDepartment);
+  }
+
   clearCache() {
     this.cachedDepartments = null;
   }

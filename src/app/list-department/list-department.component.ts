@@ -9,7 +9,7 @@ import {
 } from "ng-zorro-antd/table";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NgForOf, NgIf} from "@angular/common";
-import {CategoryItemData, CreateDepartment} from "../interfaces/ListDeprtemnt";
+import {CategoryItemData, CreateDepartment, DepartmentItemData, JobItemData} from "../interfaces/ListDeprtemnt";
 import {DepartmentService} from "./department.service";
 import {FormsModule} from "@angular/forms";
 import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
@@ -72,6 +72,13 @@ export class ListDepartmentComponent implements OnInit {
   visibleDept = false;
   visibleJob = false;
   isVisibleCreate: boolean = false;
+  index = 0;
+  radioValue = 'DH';
+  listOfOption: Array<{ label: string; value: string }> = [];
+  departmentName: string = '';
+  jobsValues: string[] = [];
+  isVisibleUpdate: boolean = false;
+  allDepartments: DepartmentItemData[] = [];
 
   constructor(private departmentService: DepartmentService,
               private notification: NzNotificationService) {
@@ -155,16 +162,71 @@ export class ListDepartmentComponent implements OnInit {
 
   showModalCreate() {
     this.isVisibleCreate = true;
+  }
 
+  showModalUpdate() {
+    this.isVisibleUpdate = true;
   }
 
   handleCancel() {
     this.isVisibleCreate = false;
+    this.departmentName = '';
+    this.jobsValues = [];
+    this.selectedColor = '#ffffff';
+    this.radioValue = 'DH';
+  }
+
+  UpdatehandleCancel() {
+    this.isVisibleUpdate = false;
+    //all the values should be reset
+    this.departmentName = '';
+    this.jobsValues = [];
+    this.selectedColor = '#ffffff';
+    this.radioValue = 'DH';
+  }
+
+  UpdatehandleOk() {
+    this.isVisibleUpdate = false;
+
+    //all the values should be showing
+    const departmentData: CreateDepartment = {
+      name: this.selectedDepartment?.department || '',
+      color: this.selectedColor,
+      category: this.radioValue,
+      jobs: this.jobsValues.map(job => ({name: job}))
+    };
+    //validation for all
+    if (departmentData.name === '' || departmentData.category === '' || departmentData.jobs.length === 0) {
+      console.error('Please fill all the fields');
+      this.notification.error('Error',
+        'Please fill all the fields',
+        {nzPlacement: 'bottomLeft'});
+      return;
+    }
+    this.departmentService.UPDATEDepartment(this.selectedDepartment?.key || 0, departmentData).subscribe({
+      next: (data) => {
+        console.log('Department updated successfully!', data);
+        this.notification.success('Success',
+          'Department updated successfully!',
+          {nzPlacement: 'bottomLeft'});
+        this.departmentService.clearCache();
+        this.departmentService.getDepartments().subscribe({
+          next: (data) => {
+            this.listOfCategoryData = data;
+            this.filteredData = [...this.listOfCategoryData]; // Initially, no filters are applied
+          },
+          error: (error) => {
+            console.error('There was an error!', error);
+          }
+        });
+      }
+    });
+
   }
 
   handleOk() {
     this.isVisibleCreate = false;
-    const departmentData:CreateDepartment = {
+    const departmentData: CreateDepartment = {
       name: this.departmentName,
       color: this.selectedColor,
       category: this.radioValue,
@@ -201,11 +263,19 @@ export class ListDepartmentComponent implements OnInit {
 
   }
 
-  index = 0;
-  radioValue = 'A';
-  listOfOption: Array<{ label: string; value: string }> = [];
-  departmentName: string = '';
-  jobsValues: string[] = [];
 
+  filteredJobs: JobItemData[] = [];
 
+  selectedDepartment: DepartmentItemData | null = null;
+
+  onCategoryChange(category: string) {
+    this.radioValue = category;
+    // Filter departments based on selected category
+    this.allDepartments = this.listOfCategoryData.filter(dept => dept.category === category).map(dept => dept.departments).flat();
+
+  }
+  onDepartmentChange(department: DepartmentItemData) {
+    this.selectedDepartment = department;
+    this.jobsValues = department.jobs.map(job => job.job);
+  }
 }

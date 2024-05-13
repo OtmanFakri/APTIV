@@ -15,6 +15,18 @@ export interface DepartmentItemData {
 }
 
 export interface JobItemData {
+  id: number;
   job: string;
   nbEmployees: number;
+}
+
+export interface CreateDepartment {
+  color:    string;
+  name:     string;
+  category: string;
+  jobs:     CreateJob[];
+}
+
+export interface CreateJob {
+  name: string;
 }

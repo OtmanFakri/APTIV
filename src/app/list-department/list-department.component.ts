@@ -9,7 +9,7 @@ import {
 } from "ng-zorro-antd/table";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NgForOf, NgIf} from "@angular/common";
-import {CategoryItemData} from "../interfaces/ListDeprtemnt";
+import {CategoryItemData, CreateDepartment} from "../interfaces/ListDeprtemnt";
 import {DepartmentService} from "./department.service";
 import {FormsModule} from "@angular/forms";
 import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
@@ -20,7 +20,8 @@ import {NzColorPickerComponent} from "ng-zorro-antd/color-picker";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
 import {NzDividerComponent} from "ng-zorro-antd/divider";
 import {NzRadioGroupComponent} from "ng-zorro-antd/radio";
-import { NzRadioModule } from 'ng-zorro-antd/radio';
+import {NzRadioModule} from 'ng-zorro-antd/radio';
+import {NzNotificationModule, NzNotificationService} from 'ng-zorro-antd/notification';
 
 
 @Component({
@@ -29,6 +30,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
   imports: [
     NzTheadComponent,
     NzRadioModule,
+    NzNotificationModule,
     NzTableComponent,
     NzTbodyComponent,
     NzModalModule,
@@ -71,7 +73,8 @@ export class ListDepartmentComponent implements OnInit {
   visibleJob = false;
   isVisibleCreate: boolean = false;
 
-  constructor(private departmentService: DepartmentService) {
+  constructor(private departmentService: DepartmentService,
+              private notification: NzNotificationService) {
   }
 
   ngOnInit() {
@@ -161,20 +164,48 @@ export class ListDepartmentComponent implements OnInit {
 
   handleOk() {
     this.isVisibleCreate = false;
+    const departmentData:CreateDepartment = {
+      name: this.departmentName,
+      color: this.selectedColor,
+      category: this.radioValue,
+      jobs: this.jobsValues.map(job => ({name: job}))
+    };
+    //validation for all
+    if (departmentData.name === '' || departmentData.category === '' || departmentData.jobs.length === 0) {
+      console.error('Please fill all the fields');
+      this.notification.error('Error',
+        'Please fill all the fields',
+        {nzPlacement: 'bottomLeft'});
+      return;
+    }
+    this.departmentService.POSTDepartment(departmentData).subscribe({
+      next: (data) => {
+        console.log('Department created successfully!', data);
+        this.notification.success('Success',
+          'Department created successfully!',
+          {nzPlacement: 'bottomLeft'});
+        this.departmentService.clearCache();
+        this.departmentService.getDepartments().subscribe({
+          next: (data) => {
+            this.listOfCategoryData = data;
+            this.filteredData = [...this.listOfCategoryData]; // Initially, no filters are applied
+          },
+          error: (error) => {
+            console.error('There was an error!', error);
+          }
+        });
+      }
+    });
+    // Log the data or send it to a backend server
+    console.log(departmentData);
 
   }
 
-  listOfItem = ['jack', 'lucy'];
   index = 0;
   radioValue = 'A';
-  JobsValues: any=[];
   listOfOption: Array<{ label: string; value: string }> = [];
+  departmentName: string = '';
+  jobsValues: string[] = [];
 
 
-  addItem(input: HTMLInputElement): void {
-    const value = input.value;
-    if (this.listOfItem.indexOf(value) === -1) {
-      this.listOfItem = [...this.listOfItem, input.value || `New item ${this.index++}`];
-    }
-  }
 }

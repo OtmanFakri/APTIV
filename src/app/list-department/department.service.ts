@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, Observable, shareReplay, throwError} from "rxjs";
-import {CategoryItemData} from "../interfaces/ListDeprtemnt";
+import {CategoryItemData, CreateDepartment} from "../interfaces/ListDeprtemnt";
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +30,11 @@ export class DepartmentService {
     );
     return this.cachedDepartments;
   }
+
+  POSTDepartment(createDepartment:CreateDepartment) {
+    return this.http.post(this.apiUrl, createDepartment);
+  }
+
   clearCache() {
     this.cachedDepartments = null;
   }

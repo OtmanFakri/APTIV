@@ -3,51 +3,44 @@
   [(nzVisible)]="isVisibleCreate" nzTitle="CREATE NEW DEPARTMENT" (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
-    <div class="flex flex-row justify-start items-center py-5 ">
+    <div class="flex flex-row justify-start items-center py-5">
       <div class="flex flex-col lg:mr-16">
         <label for="DepartmentName"
                class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2">Department
           Name</label>
-        <input id="DepartmentName" autocomplete="off"
+        <input id="DepartmentName" autocomplete="off" [(ngModel)]="departmentName"
                class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
                placeholder="Placeholder"/>
       </div>
       <div class="flex flex-col lg:mr-16">
         <label class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2">Department
           Color</label>
-        <nz-color-picker
-          class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
-          [(ngModel)]="selectedColor"
-          nzShowText></nz-color-picker>
+        <nz-color-picker [(ngModel)]="selectedColor"
+                         class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
+                         nzShowText></nz-color-picker>
       </div>
     </div>
-    <div class="flex flex-row justify-start items-center ">
+    <div class="flex flex-row justify-start items-center">
       <div class="flex flex-col lg:mr-16">
         <label
           class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2">Department
           Category</label>
-        <nz-radio-group
-          class="bg-white font-normal w-64 h-10 flex items-center  text-sm "
-          [(ngModel)]="radioValue" nzButtonStyle="solid">
+        <nz-radio-group [(ngModel)]="radioValue" class="bg-white font-normal w-64 h-10 flex items-center text-sm"
+                        nzButtonStyle="solid">
           <label nz-radio-button nzValue="DH">DH</label>
           <label nz-radio-button nzValue="IH">IH</label>
           <label nz-radio-button nzValue="IS">IS</label>
         </nz-radio-group>
       </div>
       <div class="flex flex-col lg:mr-16">
-        <label class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2">Job Name</label>
-        <nz-select
-          nzBorderless
-          class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center  text-sm border-gray-300 rounded border shadow"
-          [(ngModel)]="JobsValues"
-          nzSize="default"
-          nzMode="tags"
-          nzPlaceHolder="Please select"
-        >
+        <label class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2">Job
+          Name</label>
+        <nz-select [(ngModel)]="jobsValues" nzBorderless
+                   class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center text-sm border-gray-300 rounded border shadow"
+                   nzSize="default" nzMode="tags" nzPlaceHolder="Please select">
           <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
         </nz-select>
       </div>
-
     </div>
   </ng-container>
 </nz-modal>

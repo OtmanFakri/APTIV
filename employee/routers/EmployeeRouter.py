@@ -1,6 +1,6 @@
 from typing import Optional, List
 
-from fastapi import APIRouter, Depends,Request
+from fastapi import APIRouter, Depends, Request, HTTPException
 from fastapi_pagination import Page, paginate
 import pdfkit
 from starlette import status
@@ -123,6 +123,36 @@ async def create_certificate(
     except Exception as e:
         return {"success": False, "error": str(e)}
 
+@EmployeeRouter.put("/{employee_id}/certificate/{certificate_id}")
+async def update_certificate(
+        employee_id: int,
+        certificate_id: int,
+        update_data: PostCertificateSchema,
+        employeeService: EmployeeRepo = Depends()
+):
+    try:
+        certificate = await employeeService.update_certificate(employee_id=employee_id,
+                                                               update_data=update_data,
+                                                               certificate_id=certificate_id,)
+        return {"success": True, "certificate": certificate}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@EmployeeRouter.delete("/{employee_id}/certificate")
+async def delete_certificate(
+        employee_id: int,
+        certificate_ids: List[int],
+        employeeService: EmployeeRepo = Depends()
+):
+    try:
+        success = await employeeService.delete_certification_by_employee_id(employee_id, certificate_ids)
+        return {"success": success}
+    except RuntimeError as e:
+        # Catch custom runtime errors and return appropriate HTTP responses
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        # Log and return generic error message
+        raise HTTPException(status_code=500, detail="An internal server error occurred.")
 
 @EmployeeRouter.get("/{employee_id}/certificate")
 def get_certificate_employee(
@@ -133,7 +163,7 @@ def get_certificate_employee(
         fetched_certificate = employeeService.get_certificate_employee(employee_id)
         return fetched_certificate
     except Exception as e:
-        return {"success": False, "error": str(e)}
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @EmployeeRouter.get("/{employee_id}/certificates")

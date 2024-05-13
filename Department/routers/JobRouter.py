@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from Department.models.Job import Job
-from Department.schemas.JobSchema import JobSchema
+from Department.schemas.JobSchema import JobSchema, PostJobSchema
 from configs.Database import get_db_connection
 
 JobRouter = APIRouter(
@@ -18,15 +18,18 @@ def get_job(job_id: int, db: Session = Depends(get_db_connection)):
     return {"message": "Hello World"}
 
 @JobRouter.post("/", response_model=JobSchema)
-def create_job(job: JobSchema, db: Session = Depends(get_db_connection)):
+def create_job(job: PostJobSchema, db: Session = Depends(get_db_connection)):
     db_job = Job(**job.dict())
     db.add(db_job)
     db.commit()
     db.refresh(db_job)
-    return db_job
+    return JobSchema(
+        id=db_job.id,
+        name=db_job.name
+    )
 
 @JobRouter.put("/{job_id}", response_model=JobSchema)
-def update_job(job_id: int, job: JobSchema, db: Session = Depends(get_db_connection)):
+def update_job(job_id: int, job: PostJobSchema, db: Session = Depends(get_db_connection)):
     db_job = db.query(Job).filter(Job.id == job_id).first()
     if db_job is None:
         raise HTTPException(status_code=404, detail="Job not found")
@@ -34,7 +37,10 @@ def update_job(job_id: int, job: JobSchema, db: Session = Depends(get_db_connect
         setattr(db_job, var, value)
     db.commit()
     db.refresh(db_job)
-    return db_job
+    return JobSchema(
+        id=db_job.id,
+        name=db_job.name
+    )
 
 @JobRouter.delete("/{job_id}")
 def delete_job(job_id: int, db: Session = Depends(get_db_connection)):

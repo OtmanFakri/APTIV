@@ -8,3 +8,9 @@ class JobSchema(BaseModel):
     class Config:
         orm_mode = True
         from_attributes = True
+
+class PostJobSchema(BaseModel):
+    name: str
+    class Config:
+        orm_mode = True
+        from_attributes = True

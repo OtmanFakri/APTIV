@@ -2,10 +2,15 @@ from enum import Enum
 from typing import List, Optional
 
 from pydantic import BaseModel
+from Department.schemas.JobSchema import JobSchema, PostJobSchema
 
-from Department.schemas.JobSchema import JobSchema
 
 class CategoryEnum(Enum):
+    DH = "DH"
+    IH = "IH"
+    IS = "IS"
+
+class CategoryEnum2(str, Enum):
     DH = "DH"
     IH = "IH"
     IS = "IS"
@@ -33,13 +38,17 @@ class DepartmentBase(BaseModel):
     name: str
 
 class DepartmentCreate(DepartmentBase):
-    pass
+    color: str
+    name: str
+    category: CategoryEnum2
+    jobs: List[PostJobSchema]
 
-class DepartmentUpdate(DepartmentBase):
+class DepartmentUpdate(DepartmentCreate):
     pass
 
 
 class JobItemData(BaseModel):
+    id: int
     job: str
     nbEmployees: int
 

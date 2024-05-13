@@ -12,9 +12,15 @@ import {NgForOf, NgIf} from "@angular/common";
 import {CategoryItemData} from "../interfaces/ListDeprtemnt";
 import {DepartmentService} from "./department.service";
 import {FormsModule} from "@angular/forms";
-import {NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
+import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
 import {NzInputDirective} from "ng-zorro-antd/input";
 import {NzButtonComponent} from "ng-zorro-antd/button";
+import {NzModalComponent, NzModalModule} from "ng-zorro-antd/modal";
+import {NzColorPickerComponent} from "ng-zorro-antd/color-picker";
+import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
+import {NzDividerComponent} from "ng-zorro-antd/divider";
+import {NzRadioGroupComponent} from "ng-zorro-antd/radio";
+import { NzRadioModule } from 'ng-zorro-antd/radio';
 
 
 @Component({
@@ -22,8 +28,10 @@ import {NzButtonComponent} from "ng-zorro-antd/button";
   standalone: true,
   imports: [
     NzTheadComponent,
+    NzRadioModule,
     NzTableComponent,
     NzTbodyComponent,
+    NzModalModule,
     NzTrDirective,
     NzTdAddOnComponent,
     NzIconDirective,
@@ -36,24 +44,35 @@ import {NzButtonComponent} from "ng-zorro-antd/button";
     NzFilterTriggerComponent,
     NzDropdownMenuComponent,
     NzInputDirective,
-    NzButtonComponent
+    NzButtonComponent,
+    NzModalComponent,
+    NzColorPickerComponent,
+    NzOptionComponent,
+    NzDividerComponent,
+    NzSelectComponent,
+    NzDropDownDirective,
+    NzRadioGroupComponent,
   ],
   templateUrl: './list-department.component.html'
 })
 export class ListDepartmentComponent implements OnInit {
   listOfCategoryData: CategoryItemData[] = [];
-  filteredData: CategoryItemData[] = []; // For rendering filtered data
+  filteredData: CategoryItemData[] = [];
+  selectedColor: string = '#ffffff';  // Initialize with default color if needed
+// For rendering filtered data
   listOfFilter = [
-    { text: 'DH', value: 'DH' },
-    { text: 'IH', value: 'IH' },
-    { text: 'IS', value: 'IS' }
+    {text: 'DH', value: 'DH'},
+    {text: 'IH', value: 'IH'},
+    {text: 'IS', value: 'IS'}
   ];
   departmentSearchValue: string = ''; // Search string for department
   jobSearchValue: string = ''; // Search string for jobs
   visibleDept = false;
   visibleJob = false;
+  isVisibleCreate: boolean = false;
 
-  constructor(private departmentService: DepartmentService) { }
+  constructor(private departmentService: DepartmentService) {
+  }
 
   ngOnInit() {
     this.departmentService.getDepartments().subscribe({
@@ -65,7 +84,10 @@ export class ListDepartmentComponent implements OnInit {
         console.error('There was an error!', error);
       }
     });
+
+
   }
+
 
   onFilterChange(value: string[], key: string): void {
     if (value.length) {
@@ -106,28 +128,53 @@ export class ListDepartmentComponent implements OnInit {
       }, []);
       this.visibleDept = false;
       console.log('Filtered Data: ', this.filteredData);
-    }
-    else if (field === 'job') {
+    } else if (field === 'job') {
       // Create a new filtered list with modified structure for jobs
       this.filteredData = this.listOfCategoryData.reduce((acc, category) => {
         const matchingDepartments = category.departments.map(department => {
           const matchingJobs = department.jobs.filter(job =>
             job.job.toLowerCase().includes(this.jobSearchValue.toLowerCase())
           );
-          return matchingJobs.length > 0 ? { ...department, jobs: matchingJobs } : null;
+          return matchingJobs.length > 0 ? {...department, jobs: matchingJobs} : null;
         }).filter(dep => dep !== null);
         if (matchingDepartments.length > 0) {
           // @ts-ignore
-          acc.push({ ...category, departments: matchingDepartments });
+          acc.push({...category, departments: matchingDepartments});
         }
         return acc;
       }, []);
       this.visibleDept = false; // Update this variable name if jobs have a different visibility toggle
       console.log('Filtered Data: ', this.filteredData);
-    }
-
-    else {
+    } else {
       // Apply your search logic here for jobs
+    }
+  }
+
+  showModalCreate() {
+    this.isVisibleCreate = true;
+
+  }
+
+  handleCancel() {
+    this.isVisibleCreate = false;
+  }
+
+  handleOk() {
+    this.isVisibleCreate = false;
+
+  }
+
+  listOfItem = ['jack', 'lucy'];
+  index = 0;
+  radioValue = 'A';
+  JobsValues: any=[];
+  listOfOption: Array<{ label: string; value: string }> = [];
+
+
+  addItem(input: HTMLInputElement): void {
+    const value = input.value;
+    if (this.listOfItem.indexOf(value) === -1) {
+      this.listOfItem = [...this.listOfItem, input.value || `New item ${this.index++}`];
     }
   }
 }

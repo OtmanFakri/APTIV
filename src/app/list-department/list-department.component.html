@@ -1,3 +1,97 @@
+<nz-modal
+  nzWidth="40%"
+  [(nzVisible)]="isVisibleCreate" nzTitle="CREATE NEW DEPARTMENT" (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <div class="flex flex-row justify-start items-center py-5 ">
+      <div class="flex flex-col lg:mr-16">
+        <label for="DepartmentName"
+               class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2">Department
+          Name</label>
+        <input id="DepartmentName" autocomplete="off"
+               class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
+               placeholder="Placeholder"/>
+      </div>
+      <div class="flex flex-col lg:mr-16">
+        <label class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2">Department
+          Color</label>
+        <nz-color-picker
+          class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
+          [(ngModel)]="selectedColor"
+          nzShowText></nz-color-picker>
+      </div>
+    </div>
+    <div class="flex flex-row justify-start items-center ">
+      <div class="flex flex-col lg:mr-16">
+        <label
+          class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2">Department
+          Category</label>
+        <nz-radio-group
+          class="bg-white font-normal w-64 h-10 flex items-center  text-sm "
+          [(ngModel)]="radioValue" nzButtonStyle="solid">
+          <label nz-radio-button nzValue="DH">DH</label>
+          <label nz-radio-button nzValue="IH">IH</label>
+          <label nz-radio-button nzValue="IS">IS</label>
+        </nz-radio-group>
+      </div>
+      <div class="flex flex-col lg:mr-16">
+        <label class="text-gray-800 dark:text-gray-100 text-sm font-bold leading-tight tracking-normal mb-2">Job Name</label>
+        <nz-select
+          nzBorderless
+          class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center  text-sm border-gray-300 rounded border shadow"
+          [(ngModel)]="JobsValues"
+          nzSize="default"
+          nzMode="tags"
+          nzPlaceHolder="Please select"
+        >
+          <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+        </nz-select>
+      </div>
+
+    </div>
+  </ng-container>
+</nz-modal>
+
+<div class="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
+  <h3 class="text-base font-semibold leading-6 text-gray-900">DEPARTMENTS</h3>
+  <div class="mt-3 flex sm:ml-4 sm:mt-0">
+    <button type="button"
+            class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+      Export
+    </button>
+    <button
+      nz-dropdown
+      nzPlacement=bottomRight
+      [nzDropdownMenu]="menu"
+      type="button"
+      class="ml-3 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+      Create
+    </button>
+    <nz-dropdown-menu
+      #menu="nzDropdownMenu"
+      class="bg-white shadow-md rounded-lg py-1"
+    >
+      <ul nz-menu nzSelectable class="flex flex-col">
+        <li
+          (click)="showModalCreate()"
+          nz-menu-item
+          class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-700"
+        >
+          NEW DEPARTMENT
+        </li>
+        <li
+          (click)="showModalCreate()"
+          nz-menu-item
+          class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-700"
+        >
+          UPDATE DEPARTMENT
+        </li>
+        <!-- Add more items here -->
+      </ul>
+    </nz-dropdown-menu>
+
+  </div>
+</div>
 
 <nz-table #categoryTable [nzData]="filteredData" [nzPageSize]="10">
   <thead>
@@ -13,7 +107,8 @@
   <ng-template ngFor let-category [ngForOf]="categoryTable.data">
     <tr>
       <td [(nzExpand)]="category.expand">
-        <i nz-icon [nzType]="category.expand ? 'minus-square' : 'plus-square'" class="expand-icon" (click)="category.expand = !category.expand"></i>
+        <i nz-icon [nzType]="category.expand ? 'minus-square' : 'plus-square'" class="expand-icon"
+           (click)="category.expand = !category.expand"></i>
       </td>
       <td>{{ category.category }}</td>
       <td>{{ category.nbEmployees }}</td>
@@ -25,7 +120,8 @@
           <tr>
             <th></th>
             <th>Department
-              <nz-filter-trigger [(nzVisible)]="visibleDept" [nzActive]="departmentSearchValue.length > 0" [nzDropdownMenu]="menu">
+              <nz-filter-trigger [(nzVisible)]="visibleDept" [nzActive]="departmentSearchValue.length > 0"
+                                 [nzDropdownMenu]="menu">
                 <span nz-icon nzType="search"></span>
               </nz-filter-trigger>
             </th>
@@ -36,7 +132,8 @@
           <ng-container *ngFor="let department of departmentTable.data">
             <tr>
               <td [(nzExpand)]="department.expand">
-                <i nz-icon [nzType]="department.expand ? 'minus-square' : 'plus-square'" class="expand-icon" (click)="department.expand = !department.expand"></i>
+                <i nz-icon [nzType]="department.expand ? 'minus-square' : 'plus-square'" class="expand-icon"
+                   (click)="department.expand = !department.expand"></i>
               </td>
               <td>{{ department.department }}</td>
               <td>{{ department.nbEmployees }}</td>
@@ -49,7 +146,8 @@
                   <thead>
                   <tr>
                     <th>Jobs
-                      <nz-filter-trigger [(nzVisible)]="visibleJob" [nzActive]="jobSearchValue.length > 0" [nzDropdownMenu]="menujob">
+                      <nz-filter-trigger [(nzVisible)]="visibleJob" [nzActive]="jobSearchValue.length > 0"
+                                         [nzDropdownMenu]="menujob">
                         <span nz-icon nzType="search"></span>
                       </nz-filter-trigger>
                     </th>
@@ -71,7 +169,8 @@
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <div class="ant-table-filter-dropdown">
             <div class="search-box">
-              <input type="text" nz-input placeholder="Search name" [(ngModel)]="departmentSearchValue" (keyup.enter)="search('dept')" />
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="departmentSearchValue"
+                     (keyup.enter)="search('dept')"/>
               <button nz-button nzSize="small" nzType="primary" (click)="search('dept')">Search</button>
               <button nz-button nzSize="small" (click)="reset('dept')">Reset</button>
             </div>
@@ -81,7 +180,8 @@
         <nz-dropdown-menu #menujob="nzDropdownMenu">
           <div class="ant-table-filter-dropdown">
             <div class="search-box">
-              <input type="text" nz-input placeholder="Search name" [(ngModel)]="jobSearchValue" (keyup.enter)="search('job')" />
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="jobSearchValue"
+                     (keyup.enter)="search('job')"/>
               <button nz-button nzSize="small" nzType="primary" (click)="search('job')">Search</button>
               <button nz-button nzSize="small" (click)="reset('dept')">Reset</button>
             </div>

@@ -31,11 +31,11 @@ export enum Validation {
 
 export interface CertificationsRequestInterface {
   doctor:       DoctorRequestInterface;
-  date:         string;
-  date_start:   string;
-  date_end:     string;
-  validation:   string;
+  date:         string | null;
+  date_start:   string | null;
+  date_end:     string | null;
+  validation:   string | null;
   date_planned: string | null;
-  nbr_days:     number;
+  nbr_days:     number | null;
 }
 

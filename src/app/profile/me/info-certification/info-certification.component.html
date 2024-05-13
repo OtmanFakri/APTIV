@@ -23,7 +23,9 @@
                 <ng-template #notificationBtnTpl let-notification>
                   <button nz-button nzType="primary" nzSize="small" (click)="ConfumeDelte()">Confirm</button>
                 </ng-template>
-                <a class="text-gray-600 p-2 ml-2 border-gray-200 dark:text-gray-400 border rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray">
+                <a
+                        (click)="loadDoctorData()"
+                  class="text-gray-600 p-2 ml-2 border-gray-200 dark:text-gray-400 border rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray">
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-upload" width="20"
                        height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
                        stroke-linecap="round" stroke-linejoin="round">
@@ -33,6 +35,55 @@
                     <line x1="12" y1="4" x2="12" y2="16" />
                   </svg>
                 </a>
+                <nz-modal
+                  nzWidth="70%"
+                  [(nzVisible)]="isVisibleUpdate" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+                  <ng-container *nzModalContent>
+                    <div>
+                      <form id="form" class=" mx-auto bg-white">
+                        <div class="w-11/12 mx-auto">
+                          <div class="container mx-auto">
+                            <div class="my-8 mx-auto xl:w-full xl:mx-0">
+                              <div class="xl:flex lg:flex md:flex flex-wrap justify-between">
+
+                                <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                                  <label for="DoctorName" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">Doctor's Name</label>
+                                  <input [(ngModel)]="doctor.name" type="text" id="DoctorName" name="name" required class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100" placeholder="Enter Doctor's Name" />
+                                </div>
+                                <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                                  <label for="Specialty" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">Specialty</label>
+                                  <input [(ngModel)]="doctor.specialty" type="text" id="Specialty" name="specialty" required class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100" placeholder="Enter Specialty" />
+                                </div>
+                                <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                                  <label for="Validation" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">Validation</label>
+                                  <input [(ngModel)]="certificationsRequestInterface.validation" type="text" id="Validation" name="validation" required class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100" placeholder="Enter Validation Name" />
+                                </div>
+                                <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                                  <label for="DatePlanned" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">Planned Date</label>
+                                  <input [(ngModel)]="certificationsRequestInterface.date_planned" type="date" id="DatePlanned" name="date_planned" required class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100" />
+                                </div>
+                                <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                                  <label for="DateStart" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">Start Date</label>
+                                  <input [(ngModel)]="certificationsRequestInterface.date_start" type="date" id="DateStart" name="date_start" required class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100" />
+                                </div>
+                                <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                                  <label for="DateEnd" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">End Date</label>
+                                  <input [(ngModel)]="certificationsRequestInterface.date_end" type="date" id="DateEnd" name="date_end" required class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100" />
+                                </div>
+                                <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                                  <label for="NumberOfDays" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">Number of Days</label>
+                                  <input [(ngModel)]="certificationsRequestInterface.nbr_days" type="number" id="NumberOfDays" name="nbr_days" required class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100" placeholder="Enter Number of Days" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+
+                  </ng-container>
+                </nz-modal>
+
               </div>
             </div>
           </div>

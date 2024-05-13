@@ -42,4 +42,12 @@ export class CertificatesService {
     return this.http.delete(url, { body: certificate_ids });
 
   }
+
+  updateCertificate(employeeId: number, certificateId: number, data: CertificationsRequestInterface) {
+    // Construct the URL with template literals
+    const url = `${this.baseUrl}/${employeeId}/certificate/${certificateId}`;
+
+    // Make the HTTP PUT request
+    return this.http.put(url, data);
+  }
 }

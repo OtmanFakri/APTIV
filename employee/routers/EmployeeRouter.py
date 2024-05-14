@@ -80,6 +80,19 @@ async def update_employee(
     except Exception as e:
         return {"success": False, "error": str(e)}
 
+@EmployeeRouter.post("/search")
+async def search_manger(
+        search: str,
+        employeeService: EmployeeRepo = Depends()
+):
+    responses = await employeeService.SearchManager(search)
+    return [
+        {
+            "id": response.id,
+            "full_name": response.full_name()
+        }
+        for response in responses
+    ]
 
 @EmployeeRouter.post("/filter")
 async def filter_employee(employee_id: Optional[int] = None,

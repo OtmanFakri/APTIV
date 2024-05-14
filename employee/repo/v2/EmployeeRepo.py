@@ -244,3 +244,9 @@ class EmployeeRepo:
         except Exception as e:
             await self.db.rollback()
             raise HTTPException(status_code=400, detail=str(e))
+
+
+    async def SearchManager(self,manger_name):
+        query = select(Employee).filter(Employee.first_name.ilike(f"%{manger_name}%"))
+        result = await self.db.execute(query)
+        return result.scalars().all()

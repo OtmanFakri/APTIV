@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {FormArray, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {FormArray, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {JsonPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {
   NzAutocompleteComponent,
@@ -12,6 +12,8 @@ import {NzDividerComponent} from "ng-zorro-antd/divider";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {DepartmentService} from "../../../../list-department/department.service";
 import {DepartmentItemData, JobItemData} from "../../../../interfaces/ListDeprtemnt";
+import {EmployeeService} from "../../../../list-employee/employee.service";
+import {SearchManger} from "../../../../interfaces/ListEmployee";
 
 
 interface Option {
@@ -36,7 +38,8 @@ interface Option {
     JsonPipe,
     NzDividerComponent,
     NzIconDirective,
-    NzOptionGroupComponent
+    NzOptionGroupComponent,
+    FormsModule
   ],
   templateUrl: './professional-information.component.html',
 })
@@ -46,7 +49,8 @@ export class ProfessionalInformationComponent {
   optionsJobs: JobItemData[] = [];
 
   constructor(
-    service: DepartmentService
+    service: DepartmentService,
+    private employeeService: EmployeeService
   ) {
     service.getDepartments().subscribe((data) => {
       this.options = data.map((item) => {
@@ -61,13 +65,31 @@ export class ProfessionalInformationComponent {
     return this.parentForm.get('department') as FormArray;
   }
 
-  addItem(input: HTMLInputElement): void {
-    const value = input.value;
-  }
+
 
   getDepartments(value: DepartmentItemData) {
     this.optionsJobs=value.jobs
   }
+  optionList: SearchManger[] = [];
+  isLoading = false;
 
+
+  onSearch(query: string): void {
+    if (query) {
+      this.isLoading = true;
+      this.employeeService.GETSERACHMANGER(query).subscribe(
+        (data: SearchManger[]) => {
+          this.optionList = data.map(manager => ({ id: manager.id, full_name: manager.full_name }));
+          this.isLoading = false;
+        },
+        error => {
+          console.error('Error searching managers', error);
+          this.isLoading = false;
+        }
+      );
+    } else {
+      this.optionList = [];
+    }
+  }
 
 }

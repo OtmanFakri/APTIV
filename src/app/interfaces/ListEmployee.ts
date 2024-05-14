@@ -43,3 +43,22 @@ export interface FilterEmployee {
   job_ids?: number[] | null;
 }
 
+export interface RegionsResponse {
+  items: Region[];
+  total: number;
+  page: number;
+  size: number;
+  pages: number;
+}
+
+export interface Region {
+  name: string;
+}
+export interface City {
+  name: string;
+}
+export interface SearchManger {
+  id:        number;
+  full_name: string;
+}
+

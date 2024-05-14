@@ -1,6 +1,6 @@
-from typing import Optional, List
+from typing import Optional, List, Union
 
-from fastapi import APIRouter, Depends, Request, HTTPException
+from fastapi import APIRouter, Depends, Request, HTTPException, UploadFile, File, Body
 from fastapi_pagination import Page, paginate
 import pdfkit
 from starlette import status
@@ -19,14 +19,15 @@ EmployeeRouter = APIRouter(
 templates = Jinja2Templates(directory="templates")
 
 
-@EmployeeRouter.post("/create",
-                     status_code=status.HTTP_200_OK)
-def create_employee(
-        employee_info: EmployeeInfoRequest,
-        employeeService: EmployeeService = Depends()
+@EmployeeRouter.post("/create")
+async def create_employee(
+        employee_info: EmployeeInfoRequest = Depends(),
+        uploaded_file: UploadFile = File(None),
+        employeeService: EmployeeRepo = Depends()
+
 ):
     try:
-        employeeService.create(employee_info)
+        await employeeService.create_employee(employee_info=employee_info, uploaded_file=uploaded_file)
         return {"success": True}
     except Exception as e:
         return {"success": False, "error": str(e)}
@@ -67,13 +68,14 @@ def delete_employee(
 
 
 @EmployeeRouter.put("/{employee_id}")
-def update_employee(
+async def update_employee(
         employee_id: int,
-        employee_info: EmployeeInfoRequest,
-        employeeService: EmployeeService = Depends()
+        employee_info: EmployeeInfoRequest = Depends(),
+        uploaded_file: UploadFile = File(None),
+        employeeService: EmployeeRepo = Depends()
 ):
     try:
-        employeeService.update(employee_id, employee_info)
+        await employeeService.update_employee(employee_id, employee_info, uploaded_file)
         return {"success": True}
     except Exception as e:
         return {"success": False, "error": str(e)}
@@ -85,7 +87,7 @@ async def filter_employee(employee_id: Optional[int] = None,
                           department_ids: Optional[List[int]] = None,
                           manger_ids: Optional[List[int]] = None,
                           job_ids: Optional[List[int]] = None,
-                          category: Optional[str] = None,
+                          category: Optional[List[str]] = None,
                           min_seniority_years: Optional[int] = None,
                           employeeService: EmployeeRepo = Depends()) -> Page[EmployeeInfoResponse]:
     responses = await employeeService.get_employee(
@@ -123,6 +125,7 @@ async def create_certificate(
     except Exception as e:
         return {"success": False, "error": str(e)}
 
+
 @EmployeeRouter.put("/{employee_id}/certificate/{certificate_id}")
 async def update_certificate(
         employee_id: int,
@@ -133,10 +136,11 @@ async def update_certificate(
     try:
         certificate = await employeeService.update_certificate(employee_id=employee_id,
                                                                update_data=update_data,
-                                                               certificate_id=certificate_id,)
+                                                               certificate_id=certificate_id, )
         return {"success": True, "certificate": certificate}
     except Exception as e:
         return {"success": False, "error": str(e)}
+
 
 @EmployeeRouter.delete("/{employee_id}/certificate")
 async def delete_certificate(
@@ -153,6 +157,7 @@ async def delete_certificate(
     except Exception as e:
         # Log and return generic error message
         raise HTTPException(status_code=500, detail="An internal server error occurred.")
+
 
 @EmployeeRouter.get("/{employee_id}/certificate")
 def get_certificate_employee(

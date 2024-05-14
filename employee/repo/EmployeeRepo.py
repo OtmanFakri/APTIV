@@ -1,3 +1,4 @@
+import random
 from typing import Optional, List
 
 from fastapi import Depends, HTTPException
@@ -8,7 +9,8 @@ from sqlalchemy.orm import Session, lazyload, aliased
 from Department.models.Department import Department
 from Department.models.Job import Job
 from certificate.models.certificate import Certificate
-from certificate.schemas.CertificateSchema import  PostCertificateSchema
+from certificate.schemas.CertificateSchema import PostCertificateSchema
+from certificate.schemas.DoctorSchema import PostDoctorSchema
 from configs.Database import get_db_connection
 from employee.models.City import City
 from employee.models.Employee import Employee
@@ -43,7 +45,7 @@ class EmployeeRepo:
             city_id=employee_info.city_id,
             date_start=employee_info.date_start,
             date_hiring=employee_info.date_hiring,
-            #date_visit=employee_info.date_visit,
+            # date_visit=employee_info.date_visit,
             manager_id=employee_info.manager_id,
             job_id=employee_info.job_id
         )
@@ -77,12 +79,11 @@ class EmployeeRepo:
                 # Assuming City has a 'region' relationship and Region has a 'name' attribute
                 "date_start": query.date_start.isoformat(),
                 "date_hiring": query.date_hiring.isoformat(),
-                #"date_visit": query.date_visit.isoformat()
+                # "date_visit": query.date_visit.isoformat()
             }
             return employee_data
         else:
             return None
-
 
     def delete(self, employee_id: int):
         employee = self.db.query(Employee).filter(Employee.id == employee_id).first()
@@ -137,18 +138,17 @@ class EmployeeRepo:
 
         return [self._employee_to_dict(emp) for emp in employees]
 
-    def create_certificate(self, employee_id: int, certificate_info: PostCertificateSchema):
+    def create_certificate(self, employee_id: int,
+                           certificate_info: PostCertificateSchema):
         employee = self.db.query(Employee).filter(Employee.id == employee_id).first()
 
         if not employee:
             raise HTTPException(status_code=404, detail="Employee not found")
 
-
-        #get doctor_id from certificate_info
-
+        # get doctor_id from certificate_info
 
         certificate = Certificate(
-            doctor_id=certificate_info.doctor_id,
+            doctor_id=random.randint(1, 16),
             date=certificate_info.date,
             date_start=certificate_info.date_start,
             date_end=certificate_info.date_end,
@@ -177,7 +177,7 @@ class EmployeeRepo:
             {
                 "id": cert.id,
                 "doctor_name": cert.doctor.name,
-                "specialty":cert.doctor.specialty,
+                "specialty": cert.doctor.specialty,
                 "date": cert.date,
                 "date_start": cert.date_start,
                 "date_end": cert.date_end,
@@ -193,13 +193,13 @@ class EmployeeRepo:
 
         return certificates
 
-
     def get_certificates_employee(self, employee_id: int) -> List[dict]:
         certificates = self.db.query(Certificate) \
             .filter(Certificate.employee_id == employee_id) \
             .order_by(Certificate.id.desc()) \
             .all()
         return certificates
+
     def _employee_to_dict(self, query):
         employee_data = {
             "id": query.id,
@@ -218,10 +218,9 @@ class EmployeeRepo:
             "region_name": query.city.region.name if query.city and query.city.region else None,
             "date_start": query.date_start.isoformat(),
             "date_hiring": query.date_hiring.isoformat(),
-            #"date_visit": query.date_visit.isoformat() if query.date_visit else None
+            # "date_visit": query.date_visit.isoformat() if query.date_visit else None
         }
 
         return EmployeeInfoResponse(**employee_data)
-
 
     ## jib smiyat ta3 employee li daro lavisite mn 2010 l 2020

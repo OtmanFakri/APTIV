@@ -1,11 +1,14 @@
-from typing import List
+import os
+from typing import List, Optional
 
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, UploadFile, File
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import and_, delete, update
 from sqlalchemy.future import select
 from datetime import date, timedelta
+
+from sqlalchemy.orm import selectinload
 
 from Department.models.Department import Department
 from Department.models.Job import Job
@@ -14,6 +17,7 @@ from certificate.schemas.CertificateSchema import PostCertificateSchema
 from certificate.service.Doctor_Service import DoctorService
 from configs.Database import get_db_connection_async
 from employee.models.Employee import Employee
+from employee.schemas.EmployeeSchema import EmployeeInfoRequest
 
 
 class EmployeeRepo:
@@ -59,7 +63,7 @@ class EmployeeRepo:
         if not employee:
             raise HTTPException(status_code=404, detail="Employee not found")
 
-        #Get_or_create the doctor
+        # Get_or_create the doctor
         doctor = await self.DoctorService.get_or_create_doctor(
             name=certificate_info.doctor.name,
             specialty=certificate_info.doctor.specialty
@@ -100,7 +104,8 @@ class EmployeeRepo:
             # Handle unexpected errors
             raise RuntimeError("An unexpected error occurred while deleting certifications.") from e
 
-    async def update_certificate(self, employee_id: int, certificate_id: int, update_data: PostCertificateSchema) -> bool:
+    async def update_certificate(self, employee_id: int, certificate_id: int,
+                                 update_data: PostCertificateSchema) -> bool:
         try:
             # Execute the update query
 
@@ -137,13 +142,105 @@ class EmployeeRepo:
             if result.rowcount > 0:
                 return True
             else:
-                #logging.warning(f"No certificate found with employee_id={employee_id} and certificate_id={certificate_id} to update.")
+                # logging.warning(f"No certificate found with employee_id={employee_id} and certificate_id={certificate_id} to update.")
                 return False
         except SQLAlchemyError as e:
             # Log the database error
-            #logging.error(f"Database error occurred while updating: {str(e)}")
+            # logging.error(f"Database error occurred while updating: {str(e)}")
             raise RuntimeError("Failed to update certification due to a database error.") from e
         except Exception as e:
             # Handle unexpected errors
-            #logging.error(f"Unexpected error occurred while updating certification: {str(e)}")
+            # logging.error(f"Unexpected error occurred while updating certification: {str(e)}")
             raise RuntimeError("An unexpected error occurred while updating certifications.") from e
+
+    async def save_avatar(self, employee_id: int, profile_picture: UploadFile):
+        avatar_dir = "avatars"
+        if not os.path.exists(avatar_dir):
+            os.makedirs(avatar_dir)
+
+        file_extension = os.path.splitext(profile_picture.filename)[1]
+        file_location = f"{avatar_dir}/{employee_id}{file_extension}"
+
+        with open(file_location, "wb+") as file_object:
+            file_object.write(profile_picture.file.read())
+        print(f"Avatar saved 1 at: {file_location}")
+        return file_location
+
+    async def create_employee(self, employee_info: EmployeeInfoRequest, uploaded_file: UploadFile = File(None)):
+        employee_info.convert_dates()
+        try:
+            employee = Employee(
+                department_id=employee_info.department_id,
+                job_id=employee_info.job_id,
+                manager_id=employee_info.manager_id,
+                first_name=employee_info.first_name,
+                last_name=employee_info.last_name,
+                cin=employee_info.cin,
+                cnss=employee_info.cnss,
+                phone_number=employee_info.phone_number,
+                birth_date=employee_info.birth_date,
+                Sexe=employee_info.Sexe,
+                city_id=employee_info.city_id,
+                date_start=employee_info.date_start,
+                date_hiring=employee_info.date_hiring,
+                date_visit=employee_info.date_visit if employee_info.date_visit else None,
+                profile_picture=None,
+                date_end=employee_info.date_end if employee_info.date_end else None,
+            )
+
+            self.db.add(employee)
+            await self.db.flush()  # Use flush here to send to the DB without committing.
+            if uploaded_file:
+                profile_picture_path = await self.save_avatar(employee.id, uploaded_file)
+                employee.profile_picture = profile_picture_path
+                await self.db.flush()  # Use flush here to send the updated employee to the DB.
+
+            await self.db.refresh(employee)  # Refresh to get the latest state if needed.
+            await self.db.commit()  # Commit once at the end.
+
+            return employee
+        except Exception as e:
+            await self.db.rollback()
+            raise HTTPException(status_code=400, detail=str(e))
+
+    async def update_employee(self, employee_id: int, employee_info: EmployeeInfoRequest,
+                              uploaded_file: UploadFile = File(None)):
+
+        employee_info.convert_dates()
+        result = await self.db.execute(select(Employee).where(Employee.id == employee_id))
+        employee = result.scalars().first()
+
+        print("employeeUpdate :: ",employee)
+        if not employee:
+            raise HTTPException(status_code=404, detail="Employee not found")
+
+        # Update employee fields
+        employee.department_id = employee_info.department_id
+        employee.job_id = employee_info.job_id
+        employee.manager_id = employee_info.manager_id
+        employee.first_name = employee_info.first_name
+        employee.last_name = employee_info.last_name
+        employee.cin = employee_info.cin
+        employee.cnss = employee_info.cnss
+        employee.phone_number = employee_info.phone_number
+        employee.birth_date = employee_info.birth_date
+        employee.Sexe = employee_info.Sexe
+        employee.city_id = employee_info.city_id
+        employee.date_start = employee_info.date_start
+        employee.date_hiring = employee_info.date_hiring
+        employee.date_visit = employee_info.date_visit if employee_info.date_visit else employee.date_visit
+        employee.date_end = employee_info.date_end if employee_info.date_end else employee.date_end
+
+        if uploaded_file:
+            # Save the new profile picture and update the employee record
+            profile_picture_path = await self.save_avatar(employee.id, uploaded_file)
+            employee.profile_picture = profile_picture_path
+
+        try:
+            await self.db.flush()  # Use flush to send changes to the DB without committing
+            await self.db.refresh(employee)  # Refresh to get the latest state if needed
+            await self.db.commit()  # Commit once at the end
+            return employee
+        except Exception as e:
+            await self.db.rollback()
+            raise HTTPException(status_code=400, detail=str(e))

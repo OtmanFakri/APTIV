@@ -18,18 +18,21 @@ def get_Regions(
         regionService: RegionService = Depends()
 ) -> Page[RegionSchema]:
     regions = regionService.index()
-    return paginate([{"name": region.name} for region in regions])
+    return paginate(
+        [{
+            "id": region.id,
+            "name": region.name
+        }
+            for region in regions])
 
 
 @AddressRouter.get("/region/{region_id}")
 def getCityByRegion(
         region_id: int,
         cityService: CityService = Depends(),
-)->List[CitySchema]:
+) -> List[CitySchema]:
     citys = cityService.get_City_by_Region(region_id)
-    return [{"name": city.name} for city in citys]
-
-
-@AddressRouter.get("/test")
-def test():
-    return {"message": "Hello, World!"}
+    return [
+        {
+            "id": city.id,
+            "name": city.name} for city in citys]

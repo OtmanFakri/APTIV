@@ -4,6 +4,7 @@ from employee.schemas.RegionSchema import RegionSchema
 
 
 class CitySchema(BaseModel):
+    id: int
     name: str
     class Config:
         orm_mode = True

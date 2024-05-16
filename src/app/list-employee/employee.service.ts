@@ -1,6 +1,13 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {City, FilterEmployee, ListEmployee, RegionsResponse, SearchManger} from "../interfaces/ListEmployee";
+import {
+  City,
+  FilterEmployee,
+  ListEmployee,
+  NewEmployee,
+  RegionsResponse,
+  SearchManger
+} from "../interfaces/ListEmployee";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -48,6 +55,8 @@ export class EmployeeService {
 
     return this.http.post<ListEmployee>(this.baseUrl, requestBody, options);
   }
+
+
 
   GETRegions(page: number = 1, size: number = 50): Observable<RegionsResponse> {
     let apiUrl = 'http://127.0.0.1:8011/address/regions';

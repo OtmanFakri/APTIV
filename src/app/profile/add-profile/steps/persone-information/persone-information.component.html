@@ -2,276 +2,287 @@
      class="px-3 "
 >
 
-  <div
-    class="lg:max-w-[932px] md:max-w-[744px] max-w-[375px] mx-auto bg-white "
-  >
     <div
-      class="flex lg:flex-row md:flex-col-reverse flex-col-reverse justify-between lg:px-14 md:px-6 px-4  w-full"
+            class="lg:max-w-[932px] md:max-w-[744px] max-w-[375px] mx-auto bg-white "
     >
-      <div class="text">
-        <!--First Name and Last Name-->
-        <div class="lg:flex md:flex block gap-8 md:mt-4 mt-6">
-          <div class="w-full">
-            <p class="text-base text-gray-800">LAST NAME</p>
-            <input
-              formControlName="last_name"
-              type="text"
-              name="last_name"
-              [ngClass]="{'border-red-400': parentForm.get('last_name')?.invalid && parentForm.get('last_name')?.touched, 'border-gray-300': !(parentForm.get('last_name')?.invalid && parentForm.get('last_name')?.touched)}"
-              id="last_name"
-              placeholder="Enter your postal address"
-              class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4"
-            />
-            <p class="mt-3 text-xs text-red-400"
-               *ngIf="parentForm.get('last_name')?.invalid && parentForm.get('last_name')?.touched">
-              Please enter your last name.
-            </p>
-          </div>
-          <div class="lg:mt-0 md:mt-0 mt-4 w-full">
-            <p class="text-base text-gray-800">FIRST NAME</p>
-            <input
-              formControlName="first_name"
-              type="text"
-              name="first_name"
-              id="first_name"
-              [ngClass]="{'border-red-400': parentForm.get('first_name')?.invalid && parentForm.get('first_name')?.touched, 'border-gray-300': !(parentForm.get('first_name')?.invalid && parentForm.get('last_name')?.touched)}"
-              placeholder="Enter zip code"
-              class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4"
-            />
-            <p class="mt-3 text-xs text-red-400"
-               *ngIf="parentForm.get('first_name')?.invalid && parentForm.get('first_name')?.touched">
-              Please enter your first name.
-            </p>
-          </div>
-        </div>
-        <!--CNI and CNSS-->
-        <div class="lg:flex md:flex block gap-8 md:mt-4 mt-6">
-          <div class="w-full">
-            <p class="text-base text-gray-800">CNI</p>
-            <input
-              formControlName="cin"
-              type="text"
-              name="cin"
-              [ngClass]="{'border-red-400': parentForm.get('cin')?.invalid && parentForm.get('cin')?.touched, 'border-gray-300': !(parentForm.get('cin')?.invalid && parentForm.get('cin')?.touched)}"
-              id="cin"
-              placeholder="Enter your postal address"
-              class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4"
-            />
-            <p class="mt-3 text-xs text-red-400"
-               *ngIf="parentForm.get('cin')?.invalid && parentForm.get('cin')?.touched">
-              Please enter your CNI.
-            </p>
-          </div>
-          <div class="lg:mt-0 md:mt-0 mt-4 w-full">
-            <p class="text-base text-gray-800">CNSS</p>
-            <input
-              formControlName="cnss"
-              type="text"
-              name="cnss"
-              id="cnss"
-              placeholder="Enter zip CNSS"
-              [ngClass]="{'border-red-400': parentForm.get('cnss')?.invalid && parentForm.get('cnss')?.touched, 'border-gray-300': !(parentForm.get('cnss')?.invalid && parentForm.get('cnss')?.touched)}"
-              class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4"
-            />
-            <p class="mt-3 text-xs text-red-400"
-               *ngIf="parentForm.get('cnss')?.invalid && parentForm.get('cnss')?.touched">
-              Please enter your CNSS.
-            </p>
-          </div>
-        </div>
-        <!--Phone and Date_birth-->
-        <div class="lg:flex md:flex block gap-8 lg:mt-10 md:mt-6 mt-4">
-          <div class="w-full">
-            <p class="text-base text-gray-800">DATE OF BIRTH</p>
-            <div
-              class="flex justify-between border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4 border cursor-pointer"
-            >
-              <input
-                formControlName="date_birth"
-                type="date"
-                name="date_birth"
-                id="date_birth"
-                [ngClass]="{'border-red-400': parentForm.get('date_birth')?.invalid && parentForm.get('date_birth')?.touched, 'border-gray-300': !(parentForm.get('date_birth')?.invalid && parentForm.get('date_birth')?.touched)}"
-                placeholder="Select date"
-                class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none w-full cursor-pointer"
-              />
-              <p class="mt-3 text-xs text-red-400"
-                 *ngIf="parentForm.get('date')?.invalid && parentForm.get('date')?.touched">
-                Please enter your date de Naissance.
-              </p>
-            </div>
-          </div>
-          <div class="lg:mt-0 md:mt-0 mt-4 w-full">
-            <p class="text-base text-gray-800">PHONE</p>
-            <input
-              formControlName="phone"
-              type="text"
-              name="phone"
-              id="phone"
-              [ngClass]="{'border-red-400': parentForm.get('phone')?.invalid && parentForm.get('phone')?.touched, 'border-gray-300': !(parentForm.get('phone')?.invalid && parentForm.get('phone')?.touched)}"
-              placeholder="Enter birth place"
-              class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4"
-            />
-            <p class="mt-3 text-xs text-red-400"
-               *ngIf="parentForm.get('phone')?.invalid && parentForm.get('phone')?.touched">
-              Please enter your Phone.
-            </p>
-          </div>
-        </div>
-        <!--City and Regtion-->
-        <div class="lg:flex md:flex block gap-8 lg:mt-10 md:mt-6 mt-4">
-          <div class="lg:mt-0 md:mt-0 mt-4 w-full">
-            <p class="text-base text-gray-800">REGION</p>
-            <nz-select
-              nzShowSearch
-              nzAllowClear
-              nzPlaceHolder="Select a region"
-              formControlName="region"
-              id="region"
-              [ngClass]="{'border-red-400': parentForm.get('region')?.invalid && parentForm.get('region')?.touched, 'border-gray-300': !(parentForm.get('region')?.invalid && parentForm.get('region')?.touched)}"
-              class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4"
-              (ngModelChange)="onRegionSelect($event)"
-              (nzOpenChange)="onOpen($event)">
-              <nz-option
-                *ngFor="let region of regions?.items"
-                [nzLabel]="region.name"
-                [nzValue]="region.name">
-              </nz-option>
-            </nz-select>
-            <p class="mt-3 text-xs text-red-400"
-               *ngIf="parentForm.get('region')?.invalid && parentForm.get('region')?.touched">
-              Please enter your Phone.
-            </p>
-          </div>
-          <div class="w-full">
-            <p class="text-base text-gray-800">CITY</p>
-            <nz-select
-              nzShowSearch
-              nzAllowClear
-              nzPlaceHolder="Select a city"
-              formControlName="city"
-              class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4"
-              [ngClass]="{'border-red-400': parentForm.get('city')?.invalid && parentForm.get('city')?.touched, 'border-gray-300': !(parentForm.get('city')?.invalid && parentForm.get('city')?.touched)}"
-            >
-              <nz-option
-                *ngFor="let city of cities"
-                [nzLabel]="city.name"
-                [nzValue]="city.name">
-              </nz-option>
-            </nz-select>
-            <p class="mt-3 text-xs text-red-400"
-               *ngIf="parentForm.get('city')?.invalid && parentForm.get('city')?.touched">
-              Please enter your CITY.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="border border-gray-300 w-full pb-4 py-8 h-[276px]">
-        <nz-upload
-          class="avatar-uploader"
-          nzName="avatar"
-          nzListType="picture-card"
-          [nzShowUploadList]="false"
-          [nzBeforeUpload]="beforeUpload"
-          (nzChange)="handleChange($event)"
+        <div
+                class="flex lg:flex-row md:flex-col-reverse flex-col-reverse justify-between lg:px-14 md:px-6 px-4  w-full"
         >
-          <ng-container *ngIf="!avatarUrl">
-            <span class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></span>
-            <div class="ant-upload-text">Upload</div>
-          </ng-container>
-          <img *ngIf="avatarUrl" [src]="avatarUrl" style="width: 100%"/>
-        </nz-upload>
+            <div class="text">
+                <!--First Name and Last Name-->
+                <div class="lg:flex md:flex block gap-8 md:mt-4 mt-6">
+                    <div class="w-full">
+                        <p class="text-base text-gray-800">LAST NAME</p>
+                        <input
+                                formControlName="last_name"
+                                type="text"
+                                name="last_name"
+                                [ngClass]="{'border-red-400': parentForm.get('last_name')?.invalid && parentForm.get('last_name')?.touched, 'border-gray-300': !(parentForm.get('last_name')?.invalid && parentForm.get('last_name')?.touched)}"
+                                id="last_name"
+                                placeholder="Enter your postal address"
+                                class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4"
+                        />
+                        <p class="mt-3 text-xs text-red-400"
+                           *ngIf="parentForm.get('last_name')?.invalid && parentForm.get('last_name')?.touched">
+                            Please enter your last name.
+                        </p>
+                    </div>
+                    <div class="lg:mt-0 md:mt-0 mt-4 w-full">
+                        <p class="text-base text-gray-800">FIRST NAME</p>
+                        <input
+                                formControlName="first_name"
+                                type="text"
+                                name="first_name"
+                                id="first_name"
+                                [ngClass]="{'border-red-400': parentForm.get('first_name')?.invalid && parentForm.get('first_name')?.touched, 'border-gray-300': !(parentForm.get('first_name')?.invalid && parentForm.get('last_name')?.touched)}"
+                                placeholder="Enter zip code"
+                                class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4"
+                        />
+                        <p class="mt-3 text-xs text-red-400"
+                           *ngIf="parentForm.get('first_name')?.invalid && parentForm.get('first_name')?.touched">
+                            Please enter your first name.
+                        </p>
+                    </div>
+                </div>
+                <!--CNI and CNSS-->
+                <div class="lg:flex md:flex block gap-8 md:mt-4 mt-6">
+                    <div class="w-full">
+                        <p class="text-base text-gray-800">CNI</p>
+                        <input
+                                formControlName="cin"
+                                type="text"
+                                name="cin"
+                                [ngClass]="{'border-red-400': parentForm.get('cin')?.invalid && parentForm.get('cin')?.touched, 'border-gray-300': !(parentForm.get('cin')?.invalid && parentForm.get('cin')?.touched)}"
+                                id="cin"
+                                placeholder="Enter your postal address"
+                                class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4"
+                        />
+                        <p class="mt-3 text-xs text-red-400"
+                           *ngIf="parentForm.get('cin')?.invalid && parentForm.get('cin')?.touched">
+                            Please enter your CNI.
+                        </p>
+                    </div>
+                    <div class="lg:mt-0 md:mt-0 mt-4 w-full">
+                        <p class="text-base text-gray-800">CNSS</p>
+                        <input
+                                formControlName="cnss"
+                                type="text"
+                                name="cnss"
+                                id="cnss"
+                                placeholder="Enter zip CNSS"
+                                [ngClass]="{'border-red-400': parentForm.get('cnss')?.invalid && parentForm.get('cnss')?.touched, 'border-gray-300': !(parentForm.get('cnss')?.invalid && parentForm.get('cnss')?.touched)}"
+                                class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4"
+                        />
+                        <p class="mt-3 text-xs text-red-400"
+                           *ngIf="parentForm.get('cnss')?.invalid && parentForm.get('cnss')?.touched">
+                            Please enter your CNSS.
+                        </p>
+                    </div>
+                </div>
+                <!--Phone and Date_birth-->
+                <div class="lg:flex md:flex block gap-8 lg:mt-10 md:mt-6 mt-4">
+                    <div class="w-full">
+                        <p class="text-base text-gray-800">DATE OF BIRTH</p>
+                        <div
+                                class="flex justify-between border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4 border cursor-pointer"
+                        >
+                            <input
+                                    formControlName="date_birth"
+                                    type="date"
+                                    name="date_birth"
+                                    id="date_birth"
+                                    [ngClass]="{'border-red-400': parentForm.get('date_birth')?.invalid && parentForm.get('date_birth')?.touched, 'border-gray-300': !(parentForm.get('date_birth')?.invalid && parentForm.get('date_birth')?.touched)}"
+                                    placeholder="Select date"
+                                    class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none w-full cursor-pointer"
+                            />
+                            <p class="mt-3 text-xs text-red-400"
+                               *ngIf="parentForm.get('date')?.invalid && parentForm.get('date')?.touched">
+                                Please enter your date de Naissance.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="lg:mt-0 md:mt-0 mt-4 w-full">
+                        <p class="text-base text-gray-800">PHONE</p>
+                        <input
+                                formControlName="phone"
+                                type="text"
+                                name="phone"
+                                id="phone"
+                                [ngClass]="{'border-red-400': parentForm.get('phone')?.invalid && parentForm.get('phone')?.touched, 'border-gray-300': !(parentForm.get('phone')?.invalid && parentForm.get('phone')?.touched)}"
+                                placeholder="Enter birth place"
+                                class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4"
+                        />
+                        <p class="mt-3 text-xs text-red-400"
+                           *ngIf="parentForm.get('phone')?.invalid && parentForm.get('phone')?.touched">
+                            Please enter your Phone.
+                        </p>
+                    </div>
+                </div>
+                <!--City and Regtion-->
+                <div class="lg:flex md:flex block gap-8 lg:mt-10 md:mt-6 mt-4">
+                    <div class="lg:mt-0 md:mt-0 mt-4 w-full">
+                        <p class="text-base text-gray-800">REGION</p>
+                        <nz-select
+                                nzShowSearch
+                                nzAllowClear
+                                nzPlaceHolder="Select a region"
+                                formControlName="region"
+                                id="region"
+                                [ngClass]="{'border-red-400': parentForm.get('region')?.invalid && parentForm.get('region')?.touched, 'border-gray-300': !(parentForm.get('region')?.invalid && parentForm.get('region')?.touched)}"
+                                class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4"
+                                (ngModelChange)="onRegionSelect($event)"
+                                (nzOpenChange)="onOpen($event)">
+                            <nz-option
+                                    *ngFor="let region of regions?.items"
+                                    [nzLabel]="region.name"
+                                    [nzValue]="region.name">
+                            </nz-option>
+                        </nz-select>
+                        <p class="mt-3 text-xs text-red-400"
+                           *ngIf="parentForm.get('region')?.invalid && parentForm.get('region')?.touched">
+                            Please enter your Phone.
+                        </p>
+                    </div>
+                    <div class="w-full">
+                        <p class="text-base text-gray-800">CITY</p>
+                        <nz-select
+                                nzShowSearch
+                                nzAllowClear
+                                nzPlaceHolder="Select a city"
+                                formControlName="city"
+                                class="placeholder:text-sm placeholdertext-gray-500 focus:outline-none border border-gray-300 lg:min-w-[250px] w-full py-3 px-3 rounded mt-4"
+                                [ngClass]="{'border-red-400': parentForm.get('city')?.invalid && parentForm.get('city')?.touched, 'border-gray-300': !(parentForm.get('city')?.invalid && parentForm.get('city')?.touched)}"
+                        >
+                            <nz-option
+                                    *ngFor="let city of cities"
+                                    [nzLabel]="city.name"
+                                    [nzValue]="city.id">
+                            </nz-option>
+                        </nz-select>
+                        <p class="mt-3 text-xs text-red-400"
+                           *ngIf="parentForm.get('city')?.invalid && parentForm.get('city')?.touched">
+                            Please enter your CITY.
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-        <div class="flex gap-4 mt-6 items-center px-3">
-          <svg
-            class="flex-shrink-0"
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M2.72604 3.29001C3.17815 2.17541 4.3106 1.12109 6 1.12109C7.81762 1.12109 9.36673 2.35779 9.70638 4.3591C10.186 4.43088 10.6881 4.61455 11.1015 4.92168C11.6154 5.30341 12 5.88506 12 6.66172C12 7.41476 11.683 8.01384 11.1668 8.41542C10.6608 8.80906 9.98743 8.99609 9.28125 8.99609H7.5C7.29289 8.99609 7.125 8.8282 7.125 8.62109C7.125 8.41399 7.29289 8.24609 7.5 8.24609H9.28125C9.86413 8.24609 10.3626 8.09083 10.7063 7.82347C11.0397 7.56405 11.25 7.18345 11.25 6.66172C11.25 6.16361 11.0135 5.79054 10.6543 5.52375C10.2859 5.25009 9.79763 5.09874 9.35645 5.07688C9.17172 5.06773 9.02126 4.92527 9.00203 4.74132C8.8131 2.93361 7.51384 1.87109 6 1.87109C4.57051 1.87109 3.65655 2.81413 3.35709 3.74809C3.3113 3.89092 3.18479 3.99273 3.03547 4.00691C1.74323 4.12968 0.75 4.92523 0.75 6.12734C0.75 7.33585 1.79426 8.24609 3.1875 8.24609H4.5C4.70711 8.24609 4.875 8.41399 4.875 8.62109C4.875 8.8282 4.70711 8.99609 4.5 8.99609H3.1875C1.48699 8.99609 0 7.84946 0 6.12734C0 4.48954 1.29668 3.51105 2.72604 3.29001Z"
-              fill="#6B7280"
-            />
-            <path
-              d="M6.26517 4.23093L7.76517 5.73093C7.91161 5.87738 7.91161 6.11481 7.76517 6.26126C7.61872 6.40771 7.38128 6.40771 7.23483 6.26126L6.375 5.40142V10.5059C6.375 10.713 6.20711 10.8809 6 10.8809C5.79289 10.8809 5.625 10.713 5.625 10.5059V5.40142L4.76516 6.26126C4.61872 6.40771 4.38128 6.40771 4.23484 6.26126C4.08839 6.11481 4.08839 5.87738 4.23484 5.73093L5.73484 4.23093C5.88128 4.08448 6.11872 4.08448 6.26517 4.23093Z"
-              fill="#6B7280"
-            />
-          </svg>
-          <p class="text-sm text-gray-500">Upload Image</p>
-        </div>
-        <div class="flex gap-4 mt-6 items-center px-3">
-          <svg
-            class="flex-shrink-0"
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M6.7962 6.00098L9.02276 3.77441C9.12844 3.66893 9.18787 3.52578 9.18801 3.37647C9.18814 3.22716 9.12895 3.08391 9.02347 2.97824C8.91798 2.87257 8.77484 2.81313 8.62553 2.813C8.47621 2.81287 8.33297 2.87205 8.22729 2.97754L6.00073 5.2041L3.77417 2.97754C3.6685 2.87187 3.52517 2.8125 3.37573 2.8125C3.22629 2.8125 3.08297 2.87187 2.97729 2.97754C2.87162 3.08321 2.81226 3.22653 2.81226 3.37598C2.81226 3.52542 2.87162 3.66874 2.97729 3.77441L5.20386 6.00098L2.97729 8.22754C2.87162 8.33321 2.81226 8.47653 2.81226 8.62598C2.81226 8.77542 2.87162 8.91874 2.97729 9.02441C3.08297 9.13009 3.22629 9.18945 3.37573 9.18945C3.52517 9.18945 3.6685 9.13009 3.77417 9.02441L6.00073 6.79785L8.22729 9.02441C8.33297 9.13009 8.47629 9.18945 8.62573 9.18945C8.77517 9.18945 8.9185 9.13009 9.02417 9.02441C9.12984 8.91874 9.18921 8.77542 9.18921 8.62598C9.18921 8.47653 9.12984 8.33321 9.02417 8.22754L6.7962 6.00098Z"
-              fill="#6B7280"
-            />
-          </svg>
-          <p class="text-sm text-gray-500">Remove Image</p>
-        </div>
-        <div class="flex gap-4 mt-4 px-3">
-          <svg
-            class="flex-shrink-0"
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M1.125 5.8125C1.125 3.22391 3.22391 1.125 5.8125 1.125C8.40109 1.125 10.5 3.22391 10.5 5.8125C10.5 8.40109 8.40109 10.5 5.8125 10.5C3.22391 10.5 1.125 8.40109 1.125 5.8125ZM5.8125 1.875C3.63812 1.875 1.875 3.63812 1.875 5.8125C1.875 7.98688 3.63812 9.75 5.8125 9.75C7.98688 9.75 9.75 7.98688 9.75 5.8125C9.75 3.63812 7.98688 1.875 5.8125 1.875ZM4.78125 5.15625C4.78125 4.94914 4.94914 4.78125 5.15625 4.78125H5.90625C6.11336 4.78125 6.28125 4.94914 6.28125 5.15625V7.59375H6.9375C7.14461 7.59375 7.3125 7.76164 7.3125 7.96875C7.3125 8.17586 7.14461 8.34375 6.9375 8.34375H4.875C4.66789 8.34375 4.5 8.17586 4.5 7.96875C4.5 7.76164 4.66789 7.59375 4.875 7.59375H5.53125V5.53125H5.15625C4.94914 5.53125 4.78125 5.36336 4.78125 5.15625Z"
-              fill="#6B7280"
-            />
-            <path
-              d="M5.8125 3.04688C5.69198 3.04688 5.57416 3.08261 5.47395 3.14957C5.37374 3.21653 5.29563 3.3117 5.24951 3.42305C5.20339 3.5344 5.19132 3.65693 5.21483 3.77513C5.23835 3.89334 5.29638 4.00192 5.38161 4.08714C5.46683 4.17237 5.57541 4.2304 5.69362 4.25392C5.81182 4.27743 5.93435 4.26536 6.0457 4.21924C6.15705 4.17312 6.25222 4.09501 6.31918 3.9948C6.38614 3.89459 6.42188 3.77677 6.42188 3.65625C6.42188 3.49463 6.35767 3.33964 6.24339 3.22536C6.12911 3.11108 5.97412 3.04688 5.8125 3.04688Z"
-              fill="#6B7280"
-            />
-          </svg>
-          <p class="text-sm text-gray-500">
-            Acceptable image format is JPG, JPEG & PNG. (Size up to 5MB)
-          </p>
-        </div>
-      </div>
+            <div class="border border-gray-300 w-full pb-4 py-8 h-[276px]">
+                <div class="">
+                    <nz-upload
+                            nzListType="picture-card"
+                            [(nzFileList)]="fileList"
+                            [nzShowButton]="fileList.length < 1"
+                            formControlName="avatar"
+                            [nzPreview]="handlePreview"
+                            (nzChange)="handleChange($event.fileList)"
+                    >
+                        <div>
+                            <span>+</span>
+                            <div style="margin-top: 8px">Upload</div>
+                        </div>
+                    </nz-upload>
+                    <nz-modal
+                            [nzVisible]="previewVisible"
+                            [nzContent]="modalContent"
+                            [nzFooter]="null"
+                            (nzOnCancel)="previewVisible = false"
+                    >
+                        <ng-template #modalContent>
+                            <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+                        </ng-template>
+                    </nz-modal>
+                </div>
 
-    </div>
-    <div class="lg:px-14 md:px-6 px-4">
-      <p class="text-base leading-none text-gray-800">GENDER</p>
-      <div class="flex items-center gap-4 mt-6">
-        <div class="flex gap-3 items-center">
-          <input
-            formControlName="sexe"
-            type="radio"
-            name="sexe"
-            value="male"
-            class="w-4 h-4 accent-indigo-700 cursor-pointer"
-          />
-          <p class="text-sm leading-none text-gray-600">Male</p>
+                <div class="flex gap-4 mt-6 items-center px-3">
+                    <svg
+                            class="flex-shrink-0"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 12 12"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                                d="M2.72604 3.29001C3.17815 2.17541 4.3106 1.12109 6 1.12109C7.81762 1.12109 9.36673 2.35779 9.70638 4.3591C10.186 4.43088 10.6881 4.61455 11.1015 4.92168C11.6154 5.30341 12 5.88506 12 6.66172C12 7.41476 11.683 8.01384 11.1668 8.41542C10.6608 8.80906 9.98743 8.99609 9.28125 8.99609H7.5C7.29289 8.99609 7.125 8.8282 7.125 8.62109C7.125 8.41399 7.29289 8.24609 7.5 8.24609H9.28125C9.86413 8.24609 10.3626 8.09083 10.7063 7.82347C11.0397 7.56405 11.25 7.18345 11.25 6.66172C11.25 6.16361 11.0135 5.79054 10.6543 5.52375C10.2859 5.25009 9.79763 5.09874 9.35645 5.07688C9.17172 5.06773 9.02126 4.92527 9.00203 4.74132C8.8131 2.93361 7.51384 1.87109 6 1.87109C4.57051 1.87109 3.65655 2.81413 3.35709 3.74809C3.3113 3.89092 3.18479 3.99273 3.03547 4.00691C1.74323 4.12968 0.75 4.92523 0.75 6.12734C0.75 7.33585 1.79426 8.24609 3.1875 8.24609H4.5C4.70711 8.24609 4.875 8.41399 4.875 8.62109C4.875 8.8282 4.70711 8.99609 4.5 8.99609H3.1875C1.48699 8.99609 0 7.84946 0 6.12734C0 4.48954 1.29668 3.51105 2.72604 3.29001Z"
+                                fill="#6B7280"
+                        />
+                        <path
+                                d="M6.26517 4.23093L7.76517 5.73093C7.91161 5.87738 7.91161 6.11481 7.76517 6.26126C7.61872 6.40771 7.38128 6.40771 7.23483 6.26126L6.375 5.40142V10.5059C6.375 10.713 6.20711 10.8809 6 10.8809C5.79289 10.8809 5.625 10.713 5.625 10.5059V5.40142L4.76516 6.26126C4.61872 6.40771 4.38128 6.40771 4.23484 6.26126C4.08839 6.11481 4.08839 5.87738 4.23484 5.73093L5.73484 4.23093C5.88128 4.08448 6.11872 4.08448 6.26517 4.23093Z"
+                                fill="#6B7280"
+                        />
+                    </svg>
+                    <p class="text-sm text-gray-500">Upload Image</p>
+                </div>
+                <div class="flex gap-4 mt-6 items-center px-3">
+                    <svg
+                            class="flex-shrink-0"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 12 12"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                                d="M6.7962 6.00098L9.02276 3.77441C9.12844 3.66893 9.18787 3.52578 9.18801 3.37647C9.18814 3.22716 9.12895 3.08391 9.02347 2.97824C8.91798 2.87257 8.77484 2.81313 8.62553 2.813C8.47621 2.81287 8.33297 2.87205 8.22729 2.97754L6.00073 5.2041L3.77417 2.97754C3.6685 2.87187 3.52517 2.8125 3.37573 2.8125C3.22629 2.8125 3.08297 2.87187 2.97729 2.97754C2.87162 3.08321 2.81226 3.22653 2.81226 3.37598C2.81226 3.52542 2.87162 3.66874 2.97729 3.77441L5.20386 6.00098L2.97729 8.22754C2.87162 8.33321 2.81226 8.47653 2.81226 8.62598C2.81226 8.77542 2.87162 8.91874 2.97729 9.02441C3.08297 9.13009 3.22629 9.18945 3.37573 9.18945C3.52517 9.18945 3.6685 9.13009 3.77417 9.02441L6.00073 6.79785L8.22729 9.02441C8.33297 9.13009 8.47629 9.18945 8.62573 9.18945C8.77517 9.18945 8.9185 9.13009 9.02417 9.02441C9.12984 8.91874 9.18921 8.77542 9.18921 8.62598C9.18921 8.47653 9.12984 8.33321 9.02417 8.22754L6.7962 6.00098Z"
+                                fill="#6B7280"
+                        />
+                    </svg>
+                    <p class="text-sm text-gray-500">Remove Image</p>
+                </div>
+                <div class="flex gap-4 mt-4 px-3">
+                    <svg
+                            class="flex-shrink-0"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 12 12"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M1.125 5.8125C1.125 3.22391 3.22391 1.125 5.8125 1.125C8.40109 1.125 10.5 3.22391 10.5 5.8125C10.5 8.40109 8.40109 10.5 5.8125 10.5C3.22391 10.5 1.125 8.40109 1.125 5.8125ZM5.8125 1.875C3.63812 1.875 1.875 3.63812 1.875 5.8125C1.875 7.98688 3.63812 9.75 5.8125 9.75C7.98688 9.75 9.75 7.98688 9.75 5.8125C9.75 3.63812 7.98688 1.875 5.8125 1.875ZM4.78125 5.15625C4.78125 4.94914 4.94914 4.78125 5.15625 4.78125H5.90625C6.11336 4.78125 6.28125 4.94914 6.28125 5.15625V7.59375H6.9375C7.14461 7.59375 7.3125 7.76164 7.3125 7.96875C7.3125 8.17586 7.14461 8.34375 6.9375 8.34375H4.875C4.66789 8.34375 4.5 8.17586 4.5 7.96875C4.5 7.76164 4.66789 7.59375 4.875 7.59375H5.53125V5.53125H5.15625C4.94914 5.53125 4.78125 5.36336 4.78125 5.15625Z"
+                                fill="#6B7280"
+                        />
+                        <path
+                                d="M5.8125 3.04688C5.69198 3.04688 5.57416 3.08261 5.47395 3.14957C5.37374 3.21653 5.29563 3.3117 5.24951 3.42305C5.20339 3.5344 5.19132 3.65693 5.21483 3.77513C5.23835 3.89334 5.29638 4.00192 5.38161 4.08714C5.46683 4.17237 5.57541 4.2304 5.69362 4.25392C5.81182 4.27743 5.93435 4.26536 6.0457 4.21924C6.15705 4.17312 6.25222 4.09501 6.31918 3.9948C6.38614 3.89459 6.42188 3.77677 6.42188 3.65625C6.42188 3.49463 6.35767 3.33964 6.24339 3.22536C6.12911 3.11108 5.97412 3.04688 5.8125 3.04688Z"
+                                fill="#6B7280"
+                        />
+                    </svg>
+                    <p class="text-sm text-gray-500">
+                        Acceptable image format is JPG, JPEG & PNG. (Size up to 5MB)
+                    </p>
+                </div>
+            </div>
+
         </div>
-        <div class="flex gap-3 items-center">
-          <input
-            formControlName="sexe"
-            type="radio"
-            name="sexe"
-            value="female"
-            class="w-4 h-4 accent-indigo-700 cursor-pointer"
-          />
-          <p class="text-sm leading-none text-gray-600">Female</p>
+        <div class="lg:px-14 md:px-6 px-4">
+            <p class="text-base leading-none text-gray-800">GENDER</p>
+            <div class="flex items-center gap-4 mt-6">
+                <div class="flex gap-3 items-center">
+                    <input
+                            formControlName="sexe"
+                            type="radio"
+                            name="sexe"
+                            value="male"
+                            class="w-4 h-4 accent-indigo-700 cursor-pointer"
+                    />
+                    <p class="text-sm leading-none text-gray-600">Male</p>
+                </div>
+                <div class="flex gap-3 items-center">
+                    <input
+                            formControlName="sexe"
+                            type="radio"
+                            name="sexe"
+                            value="female"
+                            class="w-4 h-4 accent-indigo-700 cursor-pointer"
+                    />
+                    <p class="text-sm leading-none text-gray-600">Female</p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
 </div>
 

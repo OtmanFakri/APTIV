@@ -1,35 +1,22 @@
-<div>
-  <div class="flex items-center justify-between">
-    <h2 class="text-sm font-medium leading-6 text-gray-900">RAM</h2>
-    <a href="#" class="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500">See performance specs</a>
-  </div>
-
-  <fieldset class="mt-2">
-    <legend class="sr-only">Choose a memory option</legend>
-    <nz-radio-group class="grid grid-cols-3 gap-3 sm:grid-cols-6" [(ngModel)]="selectedMemory">
-      <!--
-        In Stock: "cursor-pointer", Out of Stock: "opacity-25 cursor-not-allowed"
-        Active: "ring-2 ring-indigo-600 ring-offset-2"
-        Checked: "bg-indigo-600 text-white hover:bg-indigo-500", Not Checked: "ring-1 ring-inset ring-gray-300 bg-white text-gray-900 hover:bg-gray-50"
-      -->
-      <label *ngFor="let memory of memories" nz-radio-button
-             class="flex items-center justify-center rounded-md py-3 px-3 text-sm font-semibold uppercase cursor-pointer focus:outline-none"
-             [class.opacity-25]="memory.disabled"
-             [class.cursor-not-allowed]="memory.disabled"
-             [class.bg-indigo-600]="selectedMemory === memory.value"
-             [class.text-white]="selectedMemory === memory.value"
-             [class.hover:bg-indigo-500]="selectedMemory === memory.value"
-             [class.ring-1]="selectedMemory !== memory.value"
-             [class.ring-inset]="selectedMemory !== memory.value"
-             [class.ring-gray-300]="selectedMemory !== memory.value"
-             [class.bg-white]="selectedMemory !== memory.value"
-             [class.text-gray-900]="selectedMemory !== memory.value"
-             [class.hover:bg-gray-50]="selectedMemory !== memory.value"
-             [nzValue]="memory.value"
-             [attr.aria-labelledby]="'memory-option-' + memory.id + '-label'">
-        <input type="radio" [name]="memory.name" [value]="memory.value" class="sr-only" [attr.disabled]="memory.disabled ? true : null">
-        <span [id]="'memory-option-' + memory.id + '-label'">{{ memory.label }}</span>
-      </label>
-    </nz-radio-group>
-  </fieldset>
+<div class="">
+  <nz-upload
+          nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          nzListType="picture-card"
+          [(nzFileList)]="fileList"
+          [nzShowButton]="fileList.length < 1"
+          [nzPreview]="handlePreview"
+          (nzChange)="handleChange($event.fileList)"
+  >
+    <div>
+      <span>+</span>
+      <div style="margin-top: 8px">Upload</div>
+    </div>
+  </nz-upload>
+  <nz-modal
+          [nzVisible]="previewVisible"
+          [nzFooter]="null"
+          (nzOnCancel)="previewVisible = false"
+  >
+    <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+  </nz-modal>
 </div>

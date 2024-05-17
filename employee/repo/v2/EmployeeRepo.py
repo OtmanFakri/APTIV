@@ -1,10 +1,11 @@
 import os
+from collections import defaultdict
 from typing import List, Optional
 
 from fastapi import Depends, HTTPException, UploadFile, File
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import and_, delete, update
+from sqlalchemy import and_, delete, update, extract
 from sqlalchemy.future import select
 from datetime import date, timedelta
 
@@ -34,7 +35,8 @@ class EmployeeRepo:
 
     async def get_employee(self, employee_id=None, sex=None,
                            department_ids=None, job_ids=None, category=None,
-                           min_seniority_years=None, manger_ids=None):
+                           start_year=None,
+                           min_seniority_years=None, manger_ids=None, max_seniority_years=None):
         query = select(Employee).join(Employee.department).join(Employee.job).order_by(Employee.id.desc())
 
         # Apply filters based on the input parameters
@@ -53,6 +55,11 @@ class EmployeeRepo:
         if min_seniority_years is not None:
             earliest_start_date = date.today() - timedelta(days=min_seniority_years * 365)
             query = query.filter(Employee.date_start <= earliest_start_date)
+        if max_seniority_years is not None:
+            latest_start_year = date.today().year - max_seniority_years
+            query = query.filter(extract('year', Employee.date_start) >= latest_start_year)
+        if start_year:
+            query = query.filter(extract('year', Employee.date_start) == start_year)
 
         result = await self.db.execute(query)
         return result.scalars().all()
@@ -210,7 +217,7 @@ class EmployeeRepo:
         result = await self.db.execute(select(Employee).where(Employee.id == employee_id))
         employee = result.scalars().first()
 
-        print("employeeUpdate :: ",employee)
+        print("employeeUpdate :: ", employee)
         if not employee:
             raise HTTPException(status_code=404, detail="Employee not found")
 
@@ -245,8 +252,30 @@ class EmployeeRepo:
             await self.db.rollback()
             raise HTTPException(status_code=400, detail=str(e))
 
-
-    async def SearchManager(self,manger_name):
+    async def SearchManager(self, manger_name):
         query = select(Employee).filter(Employee.first_name.ilike(f"%{manger_name}%"))
         result = await self.db.execute(query)
         return result.scalars().all()
+
+    async def employee_visits(self, current_year: int = None):
+        # Fetch employees with the calculated max_seniority_years
+        employees = await self.get_employee(start_year=current_year)
+
+        # Separate employees based on date_visit being null or not
+        null_visits = [employee for employee in employees if employee.date_visit is None]
+        not_null_visits = [employee for employee in employees if employee.date_visit is not None]
+
+        # Organize the visits by month
+        visits_by_month = defaultdict(lambda: {"null": 0, "not_null": 0})
+        for employee in null_visits:
+            visits_by_month[employee.date_start.month]["null"] += 1
+        for employee in not_null_visits:
+            visits_by_month[employee.date_visit.month]["not_null"] += 1
+
+        # Calculate the percentages
+        for month, data in visits_by_month.items():
+            total_visits = data["null"] + data["not_null"]
+            data["CM"] = total_visits
+            data["not_null_percentage"] = (data["not_null"] / total_visits * 100) if total_visits > 0 else 0
+
+        return visits_by_month

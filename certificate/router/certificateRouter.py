@@ -4,6 +4,7 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.encoders import jsonable_encoder
 from fastapi_pagination import paginate, Page
+from numpy.distutils.misc_util import yellow_text
 from sqlalchemy.orm import Session, joinedload
 from starlette.responses import JSONResponse
 
@@ -157,3 +158,6 @@ async def get_validation_itt_per_month(
         service: CertificateService = Depends(CertificateService)):
     results = await service.get_certificates_by_validation_itt(year=year)
     return results
+
+
+

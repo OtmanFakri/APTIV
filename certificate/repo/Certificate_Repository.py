@@ -1,33 +1,35 @@
 import calendar
-from datetime import date
 from typing import Optional
 
-from sqlalchemy import select, func, and_, extract, distinct, case, or_
+from sqlalchemy import select, func, extract, distinct, case
 
 from fastapi import Depends
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import joinedload
 import logging
 
 from Department.models.Department import Department
 from certificate.models.certificate import Certificate
-from certificate.schemas.CertificateSchema import EmployeeVisit
-from configs.Database import get_db_connection, get_db_connection_async, AsyncSessionLocal
+from configs.Database import get_db_connection_async
 from employee.models.Employee import Employee
-
-
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, filename='debug.log', filemode='w',
                     format='%(asctime)s - %(levelname)s - %(message)s')
+
+
 class CertificateRepository:
-    db: Session
+    db: AsyncSession
 
     def __init__(
-            self, db: Session = Depends(get_db_connection_async)
+            self,
+            db: AsyncSession = Depends(get_db_connection_async),
+
     ) -> None:
         self.db = db
 
-    async def filter_certificates(self, doctor_id=None, manager_id=None, from_date=None, to_date=None, nbr_days=None, validation=None):
+    async def filter_certificates(self, doctor_id=None, manager_id=None, from_date=None, to_date=None, nbr_days=None,
+                                  validation=None):
         async with self.db as session:
             query = select(Certificate).options(
                 joinedload(Certificate.doctor),
@@ -42,7 +44,8 @@ class CertificateRepository:
 
             # Filter by manager_id if provided
             if manager_id is not None:
-                query = query.join(Employee, Certificate.employee_id == Employee.id).where(Employee.manager_id == manager_id)
+                query = query.join(Employee, Certificate.employee_id == Employee.id).where(
+                    Employee.manager_id == manager_id)
 
             # Filter by date range if provided
             if from_date and to_date:
@@ -153,35 +156,6 @@ class CertificateRepository:
 
 
 
-    async def fetch_employee_visits(self, year: int):
-        # SQL query to count visits per month, separating null and non-null visits
-        from sqlalchemy import func, case
-
-        # Inside the fetch_employee_visits method in Certificate_Repository:
-        stmt = select(
-            func.extract('month', Employee.date_visit).label('month'),
-            func.sum(case((Employee.date_visit != None, 1), else_=0)).label('count_visit_not_null'),
-            func.sum(case((Employee.date_visit == None, 1), else_=0)).label('count_visit_null')
-        ).where(
-            func.extract('year', Employee.date_visit) == year
-        ).group_by('month').order_by('month')
-
-        # Execute and process as before
-
-        result = await self.db.execute(stmt)
-        visits_data = result.all()
-
-        # Formulate the response based on the EmployeeVisit model
-        response = [
-            EmployeeVisit(
-                month=calendar.month_name[int(month)],
-                count_visit_not_null=visits_not_null,
-                count_visit_null=visits_null
-            )
-            for month, visits_not_null, visits_null in visits_data
-        ]
-        return response
-
     async def get_certificates_by_validation_per_month(self, year: int, validation_status: Optional[str] = None):
         # Build the basic SQL statement
         stmt = (
@@ -220,4 +194,3 @@ class CertificateRepository:
         )
         results = await self.db.execute(stmt)
         return results.fetchall()
-

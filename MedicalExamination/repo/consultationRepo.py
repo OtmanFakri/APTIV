@@ -57,7 +57,8 @@ class ConsultationRepo:
             department_ids=department_ids,
             job_ids=job_ids,
             category=consultation.category,
-            min_seniority_years=consultation.seniority  # Assumes consultation.seniority maps directly to years
+            min_seniority_years=consultation.seniority,  # Assumes consultation.seniority maps directly to years
+            #max_seniority_years=consultation.seniority
         )
         return employees
 

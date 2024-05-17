@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import Optional, List, Union
 
 from fastapi import APIRouter, Depends, Request, HTTPException, UploadFile, File, Body
@@ -80,6 +81,7 @@ async def update_employee(
     except Exception as e:
         return {"success": False, "error": str(e)}
 
+
 @EmployeeRouter.post("/search")
 async def search_manger(
         search: str,
@@ -94,6 +96,7 @@ async def search_manger(
         for response in responses
     ]
 
+
 @EmployeeRouter.post("/filter")
 async def filter_employee(employee_id: Optional[int] = None,
                           sex: Optional[str] = None,
@@ -102,6 +105,8 @@ async def filter_employee(employee_id: Optional[int] = None,
                           job_ids: Optional[List[int]] = None,
                           category: Optional[List[str]] = None,
                           min_seniority_years: Optional[int] = None,
+                          max_seniority_years: Optional[int] = None,
+                          start_year: Optional[int] = None,
                           employeeService: EmployeeRepo = Depends()) -> Page[EmployeeInfoResponse]:
     responses = await employeeService.get_employee(
         employee_id=employee_id,
@@ -110,7 +115,9 @@ async def filter_employee(employee_id: Optional[int] = None,
         job_ids=job_ids,
         category=category,
         min_seniority_years=min_seniority_years,
-        manger_ids=manger_ids
+        manger_ids=manger_ids,
+        max_seniority_years=max_seniority_years,
+        start_year=start_year
     )
     return paginate([
         EmployeeInfoResponse(
@@ -209,6 +216,15 @@ def get_certificates_employee(
         return {"success": False, "error": str(e)}
 
 
+@EmployeeRouter.post("/visit/{current_year}")
+async def get_visit(
+        current_year: int,
+        employeeService: EmployeeRepo = Depends()):
+    is_null_visits = await employeeService.employee_visits(current_year=current_year)
+
+    return is_null_visits
+
+
 @EmployeeRouter.post("/exporation")
 async def exportation(
         request: Request,
@@ -221,6 +237,8 @@ async def exportation(
         job_ids: Optional[List[int]] = None,
         category: Optional[str] = None,
         min_seniority_years: Optional[int] = None,
+        max_seniority_years: Optional[int] = None,
+
         employeeService: EmployeeRepo = Depends()
 ):
     # Get responses from the service
@@ -231,7 +249,8 @@ async def exportation(
         job_ids=job_ids,
         category=category,
         min_seniority_years=min_seniority_years,
-        manger_ids=manger_ids
+        manger_ids=manger_ids,
+        max_seniority_years=max_seniority_years
     )
 
     # Process data

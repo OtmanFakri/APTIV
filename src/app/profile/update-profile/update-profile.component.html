@@ -1,0 +1,171 @@
+<div>
+  <nz-upload
+    nzListType="picture-card"
+    [(nzFileList)]="fileList"
+    [nzShowButton]="fileList.length < 1"
+    formControlName="avatar"
+    [nzPreview]="handlePreview"
+    (nzChange)="handleChange($event.fileList)"
+  >
+    <div>
+      <span>+</span>
+      <div style="margin-top: 8px">Upload</div>
+    </div>
+  </nz-upload>
+</div>
+<form [formGroup]="profileForm">
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">ID</label>
+    <input formControlName="id"
+           placeholder="ID"
+           class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow">
+  </div>
+
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">Category</label>
+    <nz-select
+      class="w-64 h-10"
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Select a category"
+      formControlName="category"
+      (ngModelChange)="onCategoryChange($event)">
+      <nz-option *ngFor="let category of categories" [nzLabel]="category.category" [nzValue]="category.category"></nz-option>
+    </nz-select>
+  </div>
+
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">Department Name</label>
+    <nz-select
+      class="w-64 h-10"
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Select a department"
+      formControlName="department_name"
+      (ngModelChange)="onDepartmentChange($event)">
+      <nz-option *ngFor="let department of filteredDepartments" [nzLabel]="department.department" [nzValue]="department.department"></nz-option>
+    </nz-select>
+  </div>
+
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">Job Name</label>
+    <nz-select
+      class="w-64 h-10"
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Select a job"
+      formControlName="job_name">
+      <nz-option *ngFor="let job of filteredJobs" [nzLabel]="job.job" [nzValue]="job.id"></nz-option>
+    </nz-select>
+  </div>
+
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">Manager Name</label>
+    <input formControlName="manager_name"
+           placeholder="Manager Name"
+           class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow">
+  </div>
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">First Name</label>
+    <input formControlName="first_name"
+           placeholder="First Name"
+           class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow">
+  </div>
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">Last Name</label>
+    <input formControlName="last_name"
+           placeholder="Last Name"
+           class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow">
+  </div>
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">CIN</label>
+    <input formControlName="cin"
+           placeholder="CIN"
+           class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow">
+  </div>
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">CNSS</label>
+    <input formControlName="cnss"
+           placeholder="CNSS"
+           class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow">
+  </div>
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">Phone Number</label>
+    <input formControlName="phone_number"
+           placeholder="Phone Number"
+           type="number"
+           class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow">
+  </div>
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">Birth Date</label>
+    <input formControlName="birth_date"
+           placeholder="Birth Date"
+           type="date"
+           class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow">
+  </div>
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">Sexe</label>
+    <input formControlName="Sexe"
+           placeholder="Sexe"
+           class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow">
+  </div>
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">Region Name</label>
+    <nz-select
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Select a region"
+      formControlName="region_name"
+      id="region"
+      class="w-64 h-10"
+      (ngModelChange)="onRegionSelect($event)"
+      (nzOpenChange)="onOpen($event)">
+      <nz-option
+        *ngFor="let region of regions?.items"
+        [nzLabel]="region.name"
+        [nzValue]="region.name">
+      </nz-option>
+    </nz-select>
+
+  </div>
+
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">City Name</label>
+    <nz-select
+      nzShowSearch
+      nzAllowClear
+      class="w-64 h-10"
+      nzPlaceHolder="Select a city"
+      formControlName="city_name"
+    >
+      <nz-option
+        *ngFor="let city of cities"
+        [nzLabel]="city.name"
+        [nzValue]="city.id">
+      </nz-option>
+    </nz-select>
+
+  </div>
+
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">Date Start</label>
+    <input formControlName="date_start"
+           placeholder="Date Start"
+           type="date"
+           class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow">
+  </div>
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">Date Hiring</label>
+    <input formControlName="date_hiring"
+           placeholder="Date Hiring"
+           type="date"
+           class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow">
+  </div>
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">Date Visit</label>
+    <input formControlName="date_visit"
+           placeholder="Date Visit"
+           type="date"
+           class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow">
+  </div>
+</form>

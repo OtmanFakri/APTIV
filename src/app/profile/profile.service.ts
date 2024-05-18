@@ -30,6 +30,10 @@ export class ProfileService {
         this.employeeProfileSource.next(profile);
     }
 
+    deleteEmployee(emp_id:number){
+      return this.http.delete(`${this.baseUrl}/${emp_id}`)
+    }
+
     addProfile(employee: NewEmployee) {
         const formData: FormData = new FormData();
         formData.append('uploaded_file', employee.avatar || '');

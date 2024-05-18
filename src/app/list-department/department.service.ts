@@ -18,7 +18,6 @@ export class DepartmentService {
     if (this.cachedDepartments) {
       return this.cachedDepartments;
     }
-
     // Otherwise, fetch the data from the API
     this.cachedDepartments = this.http.get<CategoryItemData[]>(this.apiUrl).pipe(
       shareReplay(1),

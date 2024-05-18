@@ -1,47 +1,40 @@
 <div class="mx-auto container bg-white dark:bg-gray-800 shadow rounded">
-    <div class="flex w-full pl-3 sm:pl-6 pr-3 py-5 items-center justify-between bg-blue-100 rounded-t">
-        <h3 class="text-gray-800 font-bold text-base sm:text-xl">Jack and Jill Enterprise</h3>
-        <button
-                routerLink="/certification/new"
-                class="ml-0 sm:ml-6 bg-indigo-700 transition duration-150 ease-in-out focus:outline-none hover:bg-indigo-600 rounded text-white px-5 h-8 flex items-center text-sm">
-            Create
-            New
-        </button>
+  <div class="flex flex-col md:flex-row p-3 justify-between items-start md:items-stretch w-full">
+    <div class="w-full md:w-1/3 flex flex-col md:flex-row items-start md:items-center">
+      <div class="flex items-center">
+        <a
+          class="p-2 border-gray-200 text-gray-600 dark:text-gray-400 border rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-trash"
+               width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z"/>
+            <line x1="4" y1="7" x2="20" y2="7"/>
+            <line x1="10" y1="11" x2="10" y2="17"/>
+            <line x1="14" y1="11" x2="14" y2="17"/>
+            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/>
+            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/>
+          </svg>
+        </a>
+        <a
+          class="text-gray-600 p-2 ml-2 border-gray-200 dark:text-gray-400 border rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-upload" width="20"
+               height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z"/>
+            <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"/>
+            <polyline points="7 9 12 4 17 9"/>
+            <line x1="12" y1="4" x2="12" y2="16"/>
+          </svg>
+        </a>
+      </div>
     </div>
-    <div class="flex flex-col md:flex-row p-3 justify-between items-start md:items-stretch w-full">
-        <div class="w-full md:w-1/3 flex flex-col md:flex-row items-start md:items-center">
-            <div class="flex items-center">
-                <a class="p-2 border-gray-200 text-gray-600 dark:text-gray-400 border rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-trash"
-                         width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                         stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z"/>
-                        <line x1="4" y1="7" x2="20" y2="7"/>
-                        <line x1="10" y1="11" x2="10" y2="17"/>
-                        <line x1="14" y1="11" x2="14" y2="17"/>
-                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/>
-                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/>
-                    </svg>
-                </a>
-                <a class="text-gray-600 p-2 ml-2 border-gray-200 dark:text-gray-400 border rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-upload" width="20"
-                         height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                         stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z"/>
-                        <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"/>
-                        <polyline points="7 9 12 4 17 9"/>
-                        <line x1="12" y1="4" x2="12" y2="16"/>
-                    </svg>
-                </a>
-            </div>
-        </div>
-        <div class="w-full md:w-2/3 flex flex-col md:flex-row items-start md:items-center justify-end">
-            <div class="flex flex-col w-full sm:w-1/2 md:ml-4 mt-3 md:mt-0">
-                <div class="relative w-full">
-                    <div
-                            class="absolute cursor-pointer text-gray-600 dark:text-gray-400 flex items-center pr-3 right-0 border-l h-full">
+    <div class="w-full md:w-2/3 flex flex-col md:flex-row items-start md:items-center justify-end">
+      <div class="flex flex-col w-full sm:w-1/2 md:ml-4 mt-3 md:mt-0">
+        <div class="relative w-full">
+          <div
+            class="absolute cursor-pointer text-gray-600 dark:text-gray-400 flex items-center pr-3 right-0 border-l h-full">
                         <span class="ml-2 mr-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-filter"
                                  width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -51,253 +44,253 @@
                                 </path>
                             </svg>
                         </span>
-                        <span class="text-sm leading-tight tracking-normal">Filter</span>
-                    </div>
-                    <div class="absolute text-gray-600 dark:text-gray-400 flex items-center pl-3 h-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="16"
-                             height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                             stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z"></path>
-                            <circle cx="10" cy="10" r="7"></circle>
-                            <line x1="21" y1="21" x2="15" y2="15"></line>
-                        </svg>
-                    </div>
-                    <label for="search"
-                           class="hidden text-gray-800 text-sm font-bold leading-tight tracking-normal mb-2"></label>
-                    <input id="search"
-                           class="w-full text-gray-600 bg-transparent dark:bg-gray-800 dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 font-normal pl-8 pr-24 h-10 flex items-center text-sm border-gray-300 dark:border-gray-200 rounded border"
-                           placeholder="Search by project name or owner"/>
-                </div>
-            </div>
+            <span class="text-sm leading-tight tracking-normal">Filter</span>
+          </div>
+          <div class="absolute text-gray-600 dark:text-gray-400 flex items-center pl-3 h-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="16"
+                 height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z"></path>
+              <circle cx="10" cy="10" r="7"></circle>
+              <line x1="21" y1="21" x2="15" y2="15"></line>
+            </svg>
+          </div>
+          <label for="search"
+                 class="hidden text-gray-800 text-sm font-bold leading-tight tracking-normal mb-2"></label>
+          <input id="search"
+                 class="w-full text-gray-600 bg-transparent dark:bg-gray-800 dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 font-normal pl-8 pr-24 h-10 flex items-center text-sm border-gray-300 dark:border-gray-200 rounded border"
+                 placeholder="Search by project name or owner"/>
         </div>
+      </div>
     </div>
-    <div class="w-full overflow-x-scroll xl:overflow-x-hidden h-[450px] overflow-y-scroll">
-        <table class="min-w-full bg-white dark:bg-gray-800 rounded border border-gray-300 " id="main-table">
-            <thead>
-            <tr class="w-full bg-gray-100 dark:bg-gray-700 border-b border-gray-300">
-                <th class="pl-3 w-24 py-3">
-                    <div class="flex items-center">
-                        <input type="checkbox" id="checkAll"
-                               class="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-white outline-none"/>
-                        <div class="opacity-0 cursor-defaut ml-4 text-gray-800 dark:text-gray-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-up"
-                                 width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z"/>
-                                <polyline points="6 15 12 9 18 15"/>
-                            </svg>
-                        </div>
+  </div>
+  <div class="w-full overflow-x-scroll xl:overflow-x-hidden h-[450px] overflow-y-scroll">
+    <table class="min-w-full bg-white dark:bg-gray-800 rounded border border-gray-300 " id="main-table">
+      <thead>
+      <tr class="w-full bg-gray-100 dark:bg-gray-700 border-b border-gray-300">
+        <th class="pl-3 w-24 py-3">
+          <div class="flex items-center">
+            <input type="checkbox" id="checkAll"
+                   class="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-white outline-none"/>
+            <div class="opacity-0 cursor-defaut ml-4 text-gray-800 dark:text-gray-100">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-up"
+                   width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                   fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z"/>
+                <polyline points="6 15 12 9 18 15"/>
+              </svg>
+            </div>
+          </div>
+        </th>
+        <th class="whitespace-no-wrap w-32 first-dropdown cursor-pointer">
+          <div class="flex items-center justify-between relative chuss-div">
+            <p
+              class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
+              Date</p>
+          </div>
+        </th>
+        <th class="border-l border-gray-300 pl-4 whitespace-no-wrap w-32 first-dropdown cursor-pointer"
+        >
+          <div class="flex items-center justify-between relative">
+            <p
+              class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
+              Date début</p>
+          </div>
+        </th>
+        <th class="border-l border-gray-300 pl-4 whitespace-no-wrap w-32 first-dropdown cursor-pointer"
+        >
+          <div class="flex items-center justify-between relative">
+            <p
+              class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
+              Date fin</p>
+          </div>
+        </th>
+        <th class="border-l border-gray-300 pl-4 whitespace-no-wrap w-32 first-dropdown cursor-pointer"
+        >
+          <div class="flex items-center justify-between relative">
+            <p
+              class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
+              Nb jour</p>
+          </div>
+        </th>
+        <th class="border-l border-gray-300 pl-4 whitespace-no-wrap w-32 first-dropdown cursor-pointer"
+        >
+          <div class="flex items-center justify-between relative">
+            <p
+              class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
+              Date Entre
+            </p>
+          </div>
+        </th>
+        <th class="border-l border-gray-300 pl-4 whitespace-no-wrap w-32 first-dropdown cursor-pointer"
+        >
+          <div class="flex items-center justify-between relative">
+            <p
+              class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
+              Validation</p>
+          </div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let item of date_certification.items; let i = index">
+
+        <tr
+
+          [ngClass]="table_interact1 ? 'border-b bg-gray-100 border-gray-300' : 'border-b border-gray-300 bg-white' ">
+          <td class="pl-3 w-24 py-3">
+            <div class="flex items-center">
+              <input type="checkbox"
+                     class="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-white outline-none"
+                     (click)="table_interact1=!table_interact1"/>
+              <a (click)="show_row===i ? (show_row=0):(show_row=i)"
+                 class="focus:outline-none cursor-pointer text-gray-800 dark:text-gray-100 ml-2 lg:ml-4 mr-2 sm:mr-0 border border-transparent rounded focus:outline-none"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="icon icon-tabler icon-tabler-chevron-down" width="16" height="16"
+                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z"></path>
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </a>
+            </div>
+          </td>
+          <td class="whitespace-no-wrap w-32">
+            <p
+              class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
+              {{item.date}}</p>
+          </td>
+          <td class="pl-4 whitespace-no-wrap w-32">
+            <p
+              class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
+              {{item.date_start}}</p>
+          </td>
+          <td class="pl-4 whitespace-no-wrap w-32">
+            <div class="bg-blue-200 h-6 w-20 rounded-md flex items-center justify-center">
+              <span class="text-xs text-blue-500 font-normal">{{item.date_end}}</span>
+            </div>
+          </td>
+          <td class="pl-4 whitespace-no-wrap w-32">
+            <p
+              class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
+              {{item.nbr_days}}</p>
+          </td>
+          <td class="pl-4 whitespace-no-wrap w-32">
+            <p
+              class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
+              {{item.date_entry}}</p>
+          </td>
+
+          <td class="pl-4 whitespace-no-wrap w-32">
+            <p
+              class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
+              {{item.validation}}</p>
+          </td>
+        </tr>
+        <tr *ngIf="show_row===i" class="detail-row">
+          <td colspan="9">
+            <div class="flex items-stretch w-full border-b border-gray-300 dark:border-gray-200">
+
+              <div class="w-full bg-white border-l border-gray-300 dark:bg-gray-800">
+                <h4
+                  class="pl-10 w-full text-sm text-gray-800 dark:text-gray-100 py-3 bg-gray-100 dark:bg-gray-700">
+                  CERTIFICATION DETAILS</h4>
+                <div class="bg-white dark:bg-gray-800 px-8 py-6">
+                  <div class="flex items-start">
+                    <div class="w-1/3">
+                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">ID
+                        CERTIFICATION</p>
+                      <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.id}}
+                      </h5>
                     </div>
-                </th>
-                <th class="whitespace-no-wrap w-32 first-dropdown cursor-pointer">
-                    <div class="flex items-center justify-between relative chuss-div">
-                        <p
-                                class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
-                            Date</p>
+                    <div class="w-1/3">
+                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">DOCTORE
+                        NAME</p>
+                      <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.doctor_name}}
+                      </h5>
                     </div>
-                </th>
-                <th class="border-l border-gray-300 pl-4 whitespace-no-wrap w-32 first-dropdown cursor-pointer"
-                >
-                    <div class="flex items-center justify-between relative">
-                        <p
-                                class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
-                            Date début</p>
+                    <div class="w-1/3">
+                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">SPECIALITY
+                        NAME
+                      </p>
+                      <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">1440 Hours,
+                        45 Mins</h5>
                     </div>
-                </th>
-                <th class="border-l border-gray-300 pl-4 whitespace-no-wrap w-32 first-dropdown cursor-pointer"
-                >
-                    <div class="flex items-center justify-between relative">
-                        <p
-                                class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
-                            Date fin</p>
+                  </div>
+                  <div class="flex items-start mt-6">
+                    <div class="w-1/3">
+                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">DATE
+                        PLANAED</p>
+                      <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.date_planned}}
+                      </h5>
                     </div>
-                </th>
-                <th class="border-l border-gray-300 pl-4 whitespace-no-wrap w-32 first-dropdown cursor-pointer"
-                >
-                    <div class="flex items-center justify-between relative">
-                        <p
-                                class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
-                          Nb jour</p>
+                    <div class="w-1/3">
+                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">NB
+                        EXECTED </p>
+                      <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.nbr_expected}}</h5>
                     </div>
-                </th>
-                <th class="border-l border-gray-300 pl-4 whitespace-no-wrap w-32 first-dropdown cursor-pointer"
-                >
-                    <div class="flex items-center justify-between relative">
-                        <p
-                                class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
-                          Date Entre
-                          </p>
+                    <div class="w-1/3">
+                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">NB GAP
+                      </p>
+                      <h5 class="text-indigo-700 font-normal text-xs">{{item.nbr_gap}}
+                      </h5>
                     </div>
-                </th>
-                <th class="border-l border-gray-300 pl-4 whitespace-no-wrap w-32 first-dropdown cursor-pointer"
-                >
-                    <div class="flex items-center justify-between relative">
-                        <p
-                                class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
-                            Validation</p>
+                  </div>
+                  <hr class="my-6 border-t border-gray-300 w-full"/>
+                  <h5 class="text-gray-600 dark:text-gray-400 text-xs mb-2 font-bold">Message</h5>
+                  <p class="text-gray-800 dark:text-gray-100 font-normal text-xs w-3/5 leading-6">But
+                    I must explain to you how all this mistaken idea of denouncing pleasure and
+                    praising pain was born and I will give you a complete account of the system, and
+                    expound the actual teachings of the great explorer of the truth, the
+                    master-builder of human happiness. No one rejects, dislikes, or avoids pleasure
+                    itself, because it is pleasure, but because those who do not know how to pursue
+                    pleasure rationally encounter consequences that are extremely painful</p>
+                  <h5 class="text-indigo-700 text-xs mb-2 mt-12 font-bold">Documents</h5>
+                  <div>
+                    <div
+                      class="flex justify-between items-center border border-gray-300 gap-4 rounded px-3 py-3 mt-4"
+                    >
+                      <div class="lg:flex md:block block gap-5 items-center">
+                        <p class="text-sm leading-none">
+                          Drop your file(s) here or
+                          <span class="text-indigo-700 font-medium cursor-pointer"
+                          >Browse</span
+                          >
+                        </p>
+                        <p class="text-xs leading-3 text-gray-500 lg:pt-0 md:pt-3 pt-3">
+                          Max File Size: 20MB
+                        </p>
+                      </div>
+
+                      <div>
+                        <svg
+                          width="22"
+                          height="22"
+                          viewBox="0 0 22 22"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M18.3277 4.98261C18.6135 5.23264 18.6424 5.66698 18.3924 5.95273L8.7674 16.9527C8.6421 17.0959 8.46305 17.1808 8.27288 17.1871C8.08271 17.1935 7.89841 17.1207 7.76386 16.9861L3.63886 12.8611C3.37038 12.5927 3.37038 12.1574 3.63886 11.8889C3.90735 11.6204 4.34265 11.6204 4.61114 11.8889L8.21651 15.4942L17.3576 5.04729C17.6076 4.76154 18.042 4.73258 18.3277 4.98261Z"
+                            fill="#22C55E"
+                          />
+                        </svg>
+                      </div>
                     </div>
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <ng-container *ngFor="let item of date_certification.items; let i = index">
 
-                <tr
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
 
-                        [ngClass]="table_interact1 ? 'border-b bg-gray-100 border-gray-300' : 'border-b border-gray-300 bg-white' ">
-                    <td class="pl-3 w-24 py-3">
-                        <div class="flex items-center">
-                            <input type="checkbox"
-                                   class="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-white outline-none"
-                                   (click)="table_interact1=!table_interact1"/>
-                            <a (click)="show_row===i ? (show_row=0):(show_row=i)"
-                               class="focus:outline-none cursor-pointer text-gray-800 dark:text-gray-100 ml-2 lg:ml-4 mr-2 sm:mr-0 border border-transparent rounded focus:outline-none"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="icon icon-tabler icon-tabler-chevron-down" width="16" height="16"
-                                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                                     stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z"></path>
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                            </a>
-                        </div>
-                    </td>
-                    <td class="whitespace-no-wrap w-32">
-                        <p
-                                class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
-                            {{item.date}}</p>
-                    </td>
-                    <td class="pl-4 whitespace-no-wrap w-32">
-                        <p
-                                class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
-                            {{item.date_start}}</p>
-                    </td>
-                    <td class="pl-4 whitespace-no-wrap w-32">
-                        <div class="bg-blue-200 h-6 w-20 rounded-md flex items-center justify-center">
-                            <span class="text-xs text-blue-500 font-normal">{{item.date_end}}</span>
-                        </div>
-                    </td>
-                    <td class="pl-4 whitespace-no-wrap w-32">
-                        <p
-                                class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
-                            {{item.nbr_days}}</p>
-                    </td>
-                  <td class="pl-4 whitespace-no-wrap w-32">
-                    <p
-                            class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
-                      {{item.date_entry}}</p>
-                  </td>
+      </ng-container>
 
-                  <td class="pl-4 whitespace-no-wrap w-32">
-                        <p
-                                class="text-gray-800 dark:text-gray-100 font-normal text-left text-xs tracking-normal leading-4">
-                            {{item.validation}}</p>
-                    </td>
-                </tr>
-                <tr *ngIf="show_row===i" class="detail-row">
-                    <td colspan="9">
-                        <div class="flex items-stretch w-full border-b border-gray-300 dark:border-gray-200">
-
-                            <div class="w-full bg-white border-l border-gray-300 dark:bg-gray-800">
-                                <h4
-                                        class="pl-10 w-full text-sm text-gray-800 dark:text-gray-100 py-3 bg-gray-100 dark:bg-gray-700">
-                                    CERTIFICATION DETAILS</h4>
-                                <div class="bg-white dark:bg-gray-800 px-8 py-6">
-                                    <div class="flex items-start">
-                                        <div class="w-1/3">
-                                            <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">ID
-                                                CERTIFICATION</p>
-                                            <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.id}}
-                                            </h5>
-                                        </div>
-                                        <div class="w-1/3">
-                                            <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">DOCTORE
-                                                NAME</p>
-                                            <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.doctor_name}}
-                                            </h5>
-                                        </div>
-                                        <div class="w-1/3">
-                                            <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">SPECIALITY
-                                                NAME
-                                            </p>
-                                            <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">1440 Hours,
-                                                45 Mins</h5>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start mt-6">
-                                        <div class="w-1/3">
-                                            <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">DATE
-                                                PLANAED</p>
-                                            <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.date_planned}}
-                                                </h5>
-                                        </div>
-                                        <div class="w-1/3">
-                                            <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">NB
-                                                EXECTED </p>
-                                            <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.nbr_expected}}</h5>
-                                        </div>
-                                        <div class="w-1/3">
-                                            <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">NB GAP
-                                            </p>
-                                            <h5 class="text-indigo-700 font-normal text-xs">{{item.nbr_gap}}
-                                                </h5>
-                                        </div>
-                                    </div>
-                                    <hr class="my-6 border-t border-gray-300 w-full"/>
-                                    <h5 class="text-gray-600 dark:text-gray-400 text-xs mb-2 font-bold">Message</h5>
-                                    <p class="text-gray-800 dark:text-gray-100 font-normal text-xs w-3/5 leading-6">But
-                                        I must explain to you how all this mistaken idea of denouncing pleasure and
-                                        praising pain was born and I will give you a complete account of the system, and
-                                        expound the actual teachings of the great explorer of the truth, the
-                                        master-builder of human happiness. No one rejects, dislikes, or avoids pleasure
-                                        itself, because it is pleasure, but because those who do not know how to pursue
-                                        pleasure rationally encounter consequences that are extremely painful</p>
-                                    <h5 class="text-indigo-700 text-xs mb-2 mt-12 font-bold">Documents</h5>
-                                    <div>
-                                        <div
-                                                class="flex justify-between items-center border border-gray-300 gap-4 rounded px-3 py-3 mt-4"
-                                        >
-                                            <div class="lg:flex md:block block gap-5 items-center">
-                                                <p class="text-sm leading-none">
-                                                    Drop your file(s) here or
-                                                    <span class="text-indigo-700 font-medium cursor-pointer"
-                                                    >Browse</span
-                                                    >
-                                                </p>
-                                                <p class="text-xs leading-3 text-gray-500 lg:pt-0 md:pt-3 pt-3">
-                                                    Max File Size: 20MB
-                                                </p>
-                                            </div>
-
-                                            <div>
-                                                <svg
-                                                        width="22"
-                                                        height="22"
-                                                        viewBox="0 0 22 22"
-                                                        fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path
-                                                            fill-rule="evenodd"
-                                                            clip-rule="evenodd"
-                                                            d="M18.3277 4.98261C18.6135 5.23264 18.6424 5.66698 18.3924 5.95273L8.7674 16.9527C8.6421 17.0959 8.46305 17.1808 8.27288 17.1871C8.08271 17.1935 7.89841 17.1207 7.76386 16.9861L3.63886 12.8611C3.37038 12.5927 3.37038 12.1574 3.63886 11.8889C3.90735 11.6204 4.34265 11.6204 4.61114 11.8889L8.21651 15.4942L17.3576 5.04729C17.6076 4.76154 18.042 4.73258 18.3277 4.98261Z"
-                                                            fill="#22C55E"
-                                                    />
-                                                </svg>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-
-            </ng-container>
-
-            </tbody>
-        </table>
-    </div>
+      </tbody>
+    </table>
+  </div>
 </div>

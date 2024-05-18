@@ -1,0 +1,13 @@
+<form [formGroup]="form" class="flex flex-col space-y-3">
+  <nz-select formControlName="categories" nzPlaceHolder="Select Categories" [nzSize]="'large'" nzMode="multiple">
+    <nz-option *ngFor="let category of categories" [nzLabel]="category.category" [nzValue]="category.key"></nz-option>
+  </nz-select>
+
+  <nz-select formControlName="departments" nzPlaceHolder="Select Departments" [nzSize]="'large'" nzMode="multiple">
+    <nz-option *ngFor="let department of selectableDepartments" [nzLabel]="department.department" [nzValue]="department.key"></nz-option>
+  </nz-select>
+
+  <nz-select formControlName="jobs" nzPlaceHolder="Select Jobs" [nzSize]="'large'" nzMode="multiple">
+    <nz-option *ngFor="let job of selectableJobs" [nzLabel]="job.job" [nzValue]="job.id"></nz-option>
+  </nz-select>
+</form>

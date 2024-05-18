@@ -28,6 +28,7 @@ import {NewEmployee} from '../../interfaces/ListEmployee';
     templateUrl: './add-profile.component.html'
 })
 export class AddProfileComponent {
+    profile: NewEmployee | null = null;
 
     constructor(
         private router: Router,
@@ -70,7 +71,6 @@ export class AddProfileComponent {
     get professionalInformation(): FormGroup {
         return this.multipleForm.get('professionalInformation') as FormGroup;
     }
-
 
     pre(): void {
         this.current -= 1;

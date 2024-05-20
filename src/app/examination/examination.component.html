@@ -1,5 +1,5 @@
 <div class="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
-  <h3 class="text-base font-semibold leading-6 text-gray-900">Job Postings</h3>
+  <h3 class="text-base font-semibold leading-6 text-gray-900">Periodic visit</h3>
   <div class="mt-3 sm:ml-4 sm:mt-0">
     <button
       (click)="showCreate()"
@@ -7,7 +7,9 @@
       class="mx-2 my-2 bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 rounded text-white px-6 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-indigo-600">
       Create new Examining
     </button>
-    <nz-modal [(nzVisible)]="isCreate" nzTitle="The first Modal" (nzOnCancel)="handleCreateCancel()" (nzOnOk)="handleCreateOk()">
+    <nz-modal
+      nzWidth="43%"
+      [(nzVisible)]="isCreate" nzTitle="The first Modal" (nzOnCancel)="handleCreateCancel()" (nzOnOk)="handleCreateOk()">
       <ng-container *nzModalContent>
         <app-add-examiniation />
       </ng-container>

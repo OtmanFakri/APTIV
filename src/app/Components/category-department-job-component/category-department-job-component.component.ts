@@ -4,6 +4,8 @@ import {CategoryItemData, DepartmentItemData, JobItemData} from "../../interface
 import {DepartmentService} from "../../list-department/department.service";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
 import {NgForOf} from "@angular/common";
+import {NzButtonComponent} from "ng-zorro-antd/button";
+import {NzButtonModule} from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-category-department-job-component',
@@ -12,7 +14,9 @@ import {NgForOf} from "@angular/common";
     NzSelectComponent,
     ReactiveFormsModule,
     NgForOf,
-    NzOptionComponent
+    NzOptionComponent,
+    NzButtonComponent,
+    NzButtonModule
   ],
   providers: [
     {
@@ -98,5 +102,33 @@ export class CategoryDepartmentJobComponentComponent implements OnInit, ControlV
     } else {
       this.form.enable();
     }
+  }
+
+  // Select All Operations
+  selectAllCategories() {
+    const allCategoryKeys = this.categories.map(c => c.key);
+    this.form.patchValue({categories: allCategoryKeys});
+  }
+
+  deselectAllCategories() {
+    this.form.patchValue({categories: []});
+  }
+
+  selectAllDepartments() {
+    const allDepartmentKeys = this.selectableDepartments.map(d => d.key);
+    this.form.patchValue({departments: allDepartmentKeys});
+  }
+
+  deselectAllDepartments() {
+    this.form.patchValue({departments: []});
+  }
+
+  selectAllJobs() {
+    const allJobIds = this.selectableJobs.map(j => j.id);
+    this.form.patchValue({jobs: allJobIds});
+  }
+
+  deselectAllJobs() {
+    this.form.patchValue({jobs: []});
   }
 }

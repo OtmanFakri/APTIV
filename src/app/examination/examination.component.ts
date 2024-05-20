@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NzUploadComponent, NzUploadFile} from "ng-zorro-antd/upload";
@@ -9,7 +9,7 @@ import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzDatePickerComponent} from "ng-zorro-antd/date-picker";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
 import {NzInputNumberComponent} from "ng-zorro-antd/input-number";
-import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import {NzInputNumberModule} from 'ng-zorro-antd/input-number';
 import {AddExaminiationComponent} from "./add-examiniation/add-examiniation.component";
 
 
@@ -48,6 +48,8 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
 })
 export class ExaminationComponent implements OnInit {
 
+  @ViewChild(AddExaminiationComponent) addExaminiationComponent!: AddExaminiationComponent;
+
 
   constructor() {
   }
@@ -55,6 +57,7 @@ export class ExaminationComponent implements OnInit {
   ngOnInit(): void {
 
   }
+
   isCreate = false;
 
 
@@ -64,6 +67,7 @@ export class ExaminationComponent implements OnInit {
 
   handleCreateOk(): void {
     console.log('Button ok clicked!');
+    this.addExaminiationComponent.onSubmit();
     this.isCreate = false;
   }
 

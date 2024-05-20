@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {FilterEmployee} from "../../interfaces/ListEmployee";
 
@@ -20,9 +20,7 @@ export class FilterService {
     return this._filterEmployee;
   }
 
-  set filterEmployee(employee: FilterEmployee) {
-    this._filterEmployee = employee;
-  }
+
   clearFilterEmployee(): void {
     this._filterEmployee = {
       employee_id: null,
@@ -32,5 +30,17 @@ export class FilterService {
       manger_ids: [],
       job_ids: []
     };
+  }
+
+  addManagerId(managerId: number): void {
+    // Ensure this._filterEmployee and this._filterEmployee.manger_ids are not null or undefined
+    if (this._filterEmployee && this._filterEmployee.manger_ids) {
+      if (this._filterEmployee.manger_ids.indexOf(managerId) === -1) {
+        this._filterEmployee.manger_ids.push(managerId);
+      }
+    } else {
+      // Handle the case where this._filterEmployee or this._filterEmployee.manger_ids is null/undefined
+      console.error('Attempted to add a manager ID to a null or undefined manger_ids array');
+    }
   }
 }

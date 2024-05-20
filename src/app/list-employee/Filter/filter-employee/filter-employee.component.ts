@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {NzTagComponent} from "ng-zorro-antd/tag";
 import {NgForOf, NgIf} from "@angular/common";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
@@ -7,6 +7,8 @@ import {NzSwitchComponent} from "ng-zorro-antd/switch";
 import {FilterService} from "../filter.service";
 import {DepartmentService} from "../../../list-department/department.service";
 import {DepartmentItemData, JobItemData} from "../../../interfaces/ListDeprtemnt";
+import {ManagerSelectComponent} from "../../../Components/manager-select/manager-select.component";
+import {SearchManger} from "../../../interfaces/ListEmployee";
 
 @Component({
   selector: 'app-filter-employee',
@@ -18,7 +20,8 @@ import {DepartmentItemData, JobItemData} from "../../../interfaces/ListDeprtemnt
     FormsModule,
     NzOptionComponent,
     NzSwitchComponent,
-    NgIf
+    NgIf,
+    ManagerSelectComponent
   ],
   templateUrl: './filter-employee.component.html',
 })
@@ -30,7 +33,10 @@ export class FilterEmployeeComponent implements OnInit {
   listOfOptionJobs: JobItemData[] = [];
 
   constructor(public filterService: FilterService,
-              private departmentService: DepartmentService) {}
+              private departmentService: DepartmentService,
+              private cdRef: ChangeDetectorRef
+  ) {
+  }
 
 
   ngOnInit(): void {
@@ -39,7 +45,7 @@ export class FilterEmployeeComponent implements OnInit {
     });
   }
 
-  onJobUploading(dep:DepartmentItemData[]){
+  onJobUploading(dep: DepartmentItemData[]) {
     this.listOfOptionJobs = dep.flatMap((item) => item.jobs);
   }
 
@@ -49,8 +55,15 @@ export class FilterEmployeeComponent implements OnInit {
   }
 
 
-
   selectGender(gender: string) {
     this.filterService.filterEmployee.sex = gender
   }
+
+  onManagerSelected(manager: SearchManger) {
+    console.log('Selected Manager:', manager);
+    this.filterService.addManagerId(manager.id);
+    console.log('Updated Manager IDs:', this.filterService.filterEmployee.manger_ids);
+  }
+
+
 }

@@ -1,0 +1,20 @@
+<nz-select
+  nzPlaceHolder="Select managers"
+  nzAllowClear
+  nzShowSearch
+  nzServerSearch
+  [formControl]="control"
+  [ngClass]="{'border-red-400': control.invalid && (control.dirty || control.touched), 'border-gray-300': !(control.invalid && (control.dirty || control.touched))}"
+  (nzOnSearch)="onSearch($event)"
+  (ngModelChange)="selectManager($event)"
+>
+  <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+    <i nz-icon nzType="loading" class="loading-icon"></i> Loading Data...
+  </nz-option>
+
+  <nz-option
+    *ngFor="let manager of optionList"
+    [nzValue]="manager"
+    [nzLabel]="manager.full_name">
+  </nz-option>
+</nz-select>

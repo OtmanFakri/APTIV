@@ -1,13 +1,37 @@
 <form [formGroup]="form" class="flex flex-col space-y-3">
-  <nz-select formControlName="categories" nzPlaceHolder="Select Categories" [nzSize]="'large'" nzMode="multiple">
-    <nz-option *ngFor="let category of categories" [nzLabel]="category.category" [nzValue]="category.key"></nz-option>
-  </nz-select>
+  <!-- Categories Select with Select/Deselect All -->
+  <div class="flex flex-col space-y-2">
+    <label for="categories" class="font-bold">Categories</label>
+    <div class="flex ">
+      <button nz-button nzType="primary" (click)="selectAllCategories()">Select All Categories</button>
+      <button nz-button nzType="default" (click)="deselectAllCategories()">Deselect All Categories</button>
+    </div>
+    <nz-select id="categories" formControlName="categories" nzPlaceHolder="Select Categories" [nzSize]="'large'" nzMode="multiple">
+      <nz-option *ngFor="let category of categories" [nzLabel]="category.category" [nzValue]="category.key"></nz-option>
+    </nz-select>
+  </div>
 
-  <nz-select formControlName="departments" nzPlaceHolder="Select Departments" [nzSize]="'large'" nzMode="multiple">
-    <nz-option *ngFor="let department of selectableDepartments" [nzLabel]="department.department" [nzValue]="department.key"></nz-option>
-  </nz-select>
+  <!-- Departments Select with Select/Deselect All -->
+  <div class="flex flex-col space-y-2">
+    <label for="departments" class="font-bold">Departments</label>
+    <div class="flex ">
+      <button nz-button nzType="primary" (click)="selectAllDepartments()">Select All Departments</button>
+      <button nz-button nzType="default" (click)="deselectAllDepartments()">Deselect All Departments</button>
+    </div>
+    <nz-select id="departments" formControlName="departments" nzPlaceHolder="Select Departments" [nzSize]="'large'" nzMode="multiple">
+      <nz-option *ngFor="let department of selectableDepartments" [nzLabel]="department.department" [nzValue]="department.key"></nz-option>
+    </nz-select>
+  </div>
 
-  <nz-select formControlName="jobs" nzPlaceHolder="Select Jobs" [nzSize]="'large'" nzMode="multiple">
-    <nz-option *ngFor="let job of selectableJobs" [nzLabel]="job.job" [nzValue]="job.id"></nz-option>
-  </nz-select>
+  <!-- Jobs Select with Select/Deselect All -->
+  <div class="flex flex-col space-y-2">
+    <label for="jobs" class="font-bold">Jobs</label>
+    <div class="flex ">
+      <button nz-button nzType="primary" (click)="selectAllJobs()">Select All Jobs</button>
+      <button nz-button nzType="default" (click)="deselectAllJobs()">Deselect All Jobs</button>
+    </div>
+    <nz-select id="jobs" formControlName="jobs" nzPlaceHolder="Select Jobs" [nzSize]="'large'" nzMode="multiple">
+      <nz-option *ngFor="let job of selectableJobs" [nzLabel]="job.job" [nzValue]="job.id"></nz-option>
+    </nz-select>
+  </div>
 </form>

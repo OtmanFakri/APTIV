@@ -198,12 +198,32 @@ class ConsultationRepo:
 
         return None
 
-    async def get_Dep_participation(self,consultation_id:int):
+    async def employees_participating2(self, consultation_id: int, sort_by: str = None):
+        stmt = (
+            select(Employee)
+            .join(association_table, Employee.id == association_table.c.employee_id)
+            .join(Employee.department)
+            .where(association_table.c.MedicalExamination_id == consultation_id)
+        )
+
+        # Determine the sorting criteria
+        if sort_by == "Sexe":
+            stmt = stmt.order_by(Employee.Sexe)
+        elif sort_by == "category":
+            stmt = stmt.order_by(Department.category)  # Correctly reference Department.category
+        elif sort_by == "department":
+            stmt = stmt.order_by(Employee.department_id)
+
+        result = await self.db.execute(stmt)
+        employees = result.scalars().all()
+        return employees
+
+    async def get_employees_by_MedicalExamination_details2(self, consultation_id: int, sort_by: str = None):
         # Fetch the consultation first to get the related attributes
         result = await self.db.execute(
             select(MedicalExamination)
             .where(MedicalExamination.id == consultation_id)
-            .options(selectinload(MedicalExamination.employees))
+            .options(selectinload(MedicalExamination.departments), selectinload(MedicalExamination.jobs))
         )
 
         consultation = result.unique().scalar_one_or_none()
@@ -211,18 +231,25 @@ class ConsultationRepo:
         if not consultation:
             return []
 
-        # Extract employee IDs from the consultation
-        employee_ids = [emp.id for emp in consultation.employees]
+        # Extract department and job IDs from the consultation
+        department_ids = [dept.id for dept in consultation.departments]
+        job_ids = [job.id for job in consultation.jobs]
 
-        if not employee_ids:
-            return []
-
-        # Fetch employees and sort by department
-        result = await self.db.execute(
-            select(Employee)
-            .where(Employee.id.in_(employee_ids))
-            .order_by(Employee.department_id)
+        # Use the enhanced get_employee method
+        employees = await self.employee_repo.get_employee(
+            department_ids=department_ids,
+            job_ids=job_ids,
+            category=consultation.category,
+            min_seniority_years=consultation.seniority,
+            # max_seniority_years=consultation.seniority
         )
 
-        employees = result.scalars().all()
+        # Sort employees if sort_by is provided
+        if sort_by == "Sexe":
+            employees.sort(key=lambda emp: emp.Sexe)
+        elif sort_by == "category":
+            employees.sort(key=lambda emp: emp.department.category)
+        elif sort_by == "department":
+            employees.sort(key=lambda emp: emp.department_id)
+
         return employees

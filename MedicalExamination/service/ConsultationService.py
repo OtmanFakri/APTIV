@@ -65,5 +65,8 @@ class ConsultationService:
     async def search_employee(self, employee_id: int,consultation_id:int):
         return await self.consultationRepo.search_employee(employee_id=employee_id,consultation_id=consultation_id)
 
-    async def get_Dep_participation(self, consultation_id: int):
-        return await self.consultationRepo.get_Dep_participation(consultation_id)
+    async def employees_participating2(self, consultation_id: int, sort_by: str = None):
+        return await self.consultationRepo.employees_participating2(consultation_id, sort_by)
+
+    async def get_employees_by_MedicalExamination_details2(self, consultation_id: int, sort_by: str = None):
+        return await self.consultationRepo.get_employees_by_MedicalExamination_details2(consultation_id, sort_by)

@@ -243,3 +243,79 @@ async def get_Dep_participation(
         })
 
     return response
+
+
+@ConsultationRouter.get("/test")
+async def testing(
+        consultation_id: int,
+        sort_by: str = None,
+        service: ConsultationService = Depends(ConsultationService)
+):
+    # Get participating employees
+    participating_employees = await service.employees_participating2(consultation_id, sort_by)
+    # Get non-participating employees
+    non_participating_employees = await service.get_employees_by_MedicalExamination_details2(consultation_id, sort_by)
+
+    # Group employees by the sorting criteria
+    grouped_data = defaultdict(lambda: {'participating': [], 'non_participating': []})
+
+    for emp in participating_employees:
+        if sort_by == "Sexe":
+            key = emp.Sexe
+        elif sort_by == "category":
+            key = emp.department.category
+        elif sort_by == "department":
+            key = emp.department.name
+        grouped_data[key]['participating'].append(emp)
+
+    for emp in non_participating_employees:
+        if sort_by == "Sexe":
+            key = emp.Sexe
+        elif sort_by == "category":
+            key = emp.department.category
+        elif sort_by == "department":
+            key = emp.department.name
+        grouped_data[key]['non_participating'].append(emp)
+
+    # Create the response
+    response = []
+    for key, group in grouped_data.items():
+        total_participating = len(group['participating'])
+        total_non_participating = len(group['non_participating']) - total_participating
+        total_cm = total_participating + len(group['non_participating'])
+        participation_percentage = round((total_participating / total_cm) * 100, 2) if total_cm > 0 else 0
+
+        response.append({
+            sort_by: key,
+            "total_participating": total_participating,
+            "total_non_participating": total_non_participating,
+            "Total CM": total_cm,
+            "%": participation_percentage,
+            "participating_employees": [
+                {
+                    "id": emp.id,
+                    "first_name": emp.first_name,
+                    "last_name": emp.last_name,
+                    "manager_name": str(emp.manager_id),
+                    "category": emp.department.category,
+                    "department_name": emp.department.name,
+                    "job_name": emp.job.name
+                }
+                for emp in group['participating']
+            ],
+            "non_participating_employees": [
+                {
+                    "id": emp.id,
+                    "first_name": emp.first_name,
+                    "last_name": emp.last_name,
+                    "manager_name": str(emp.manager_id),
+                    "category": emp.department.category,
+                    "department_name": emp.department.name,
+                    "job_name": emp.job.name
+                }
+                for emp in group['non_participating']
+            ]
+        })
+
+    return response
+

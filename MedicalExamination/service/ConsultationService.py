@@ -22,7 +22,8 @@ class ConsultationService:
     async def employees_by_consultation(self, consultation_id: int):
         return await self.consultationRepo.employees_participating(consultation_id)
 
-    async def create_medical_examination(self, name, seniority, category,date_start,date_end=None,department_ids=None, job_ids=None):
+    async def create_medical_examination(self, name, seniority, category, date_start, date_end=None,
+                                         department_ids=None, job_ids=None):
         return await self.consultationRepo.create_medical_examination(name=name,
                                                                       seniority=seniority,
                                                                       category=category,
@@ -57,3 +58,12 @@ class ConsultationService:
         return await self.consultationRepo.add_employee_examinaionAssocation(employee_id=employee_id,
                                                                              consultation_id=consultation_id,
                                                                              )
+
+    async def delete(self, employee_id: int, consultation_id: int):
+        return await self.consultationRepo.delete_employee_examinaionAssocation(employee_id=employee_id,
+                                                                                consultation_id=consultation_id)
+    async def search_employee(self, employee_id: int,consultation_id:int):
+        return await self.consultationRepo.search_employee(employee_id=employee_id,consultation_id=consultation_id)
+
+    async def get_Dep_participation(self, consultation_id: int):
+        return await self.consultationRepo.get_Dep_participation(consultation_id)

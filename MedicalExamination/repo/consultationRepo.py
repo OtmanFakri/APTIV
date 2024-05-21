@@ -3,7 +3,7 @@ from typing import Union, Any, Sequence, List
 
 from fastapi import Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy import func, select,Date, insert
+from sqlalchemy import func, select, Date, insert, delete
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session, joinedload, selectinload
@@ -23,10 +23,12 @@ class ConsultationRepo:
     employee_repo: EmployeeRepo
 
     def __init__(
-            self, db: AsyncSession = Depends(get_db_connection_async)
+            self, db: AsyncSession = Depends(get_db_connection_async),
+            employee_repo: EmployeeRepo = Depends()
+
     ) -> None:
         self.db = db
-        self.employee_repo = EmployeeRepo(db)
+        self.employee_repo = employee_repo
 
     async def get_all_MedicalExamination(self):
         stmt = select(MedicalExamination)
@@ -40,10 +42,9 @@ class ConsultationRepo:
         result = await self.db.execute(
             select(MedicalExamination)
             .where(MedicalExamination.id == consultation_id)
-            .options(selectinload(MedicalExamination.departments), selectinload(MedicalExamination.jobs))
-            .order_by(MedicalExamination.id.desc())
-        )
-        consultation = result.unique().scalar_one_or_none()  # Use unique to ensure no duplicates are fetched
+            .options(selectinload(MedicalExamination.departments), selectinload(MedicalExamination.jobs)))
+
+        consultation = result.unique().scalar_one_or_none()
 
         if not consultation:
             return []
@@ -57,8 +58,8 @@ class ConsultationRepo:
             department_ids=department_ids,
             job_ids=job_ids,
             category=consultation.category,
-            min_seniority_years=consultation.seniority,  # Assumes consultation.seniority maps directly to years
-            #max_seniority_years=consultation.seniority
+            min_seniority_years=consultation.seniority,
+            # max_seniority_years=consultation.seniority
         )
         return employees
 
@@ -75,7 +76,7 @@ class ConsultationRepo:
     async def create_medical_examination(self, name,
                                          seniority,
                                          category: List[CategoryEnum],
-                                         date_start:datetime,
+                                         date_start: datetime,
                                          department_ids=None,
                                          job_ids=None,
                                          date_end: datetime = None
@@ -162,3 +163,66 @@ class ConsultationRepo:
             await self.db.rollback()
             raise HTTPException(status_code=500, detail=str(e))
 
+    async def delete_employee_examinaionAssocation(self, employee_id: int, consultation_id: int):
+        try:
+            # Check if the association exists
+            check_employee = await self.db.execute(
+                select(association_table).where(
+                    (association_table.c.employee_id == employee_id) &
+                    (association_table.c.MedicalExamination_id == consultation_id)
+                )
+            )
+            result = check_employee.fetchone()
+
+            if result is not None:
+                stmt = delete(association_table).where(
+                    (association_table.c.employee_id == employee_id) &
+                    (association_table.c.MedicalExamination_id == consultation_id)
+                )
+                await self.db.execute(stmt)
+                await self.db.commit()
+                return True
+            else:
+                raise HTTPException(status_code=404, detail="Association not found")
+        except SQLAlchemyError as e:
+            await self.db.rollback()
+            raise HTTPException(status_code=500, detail=str(e))
+
+    async def search_employee(self, employee_id: int, consultation_id: int):
+        employees = await self.get_employees_by_MedicalExamination_details(consultation_id)
+
+        # Search for the employee by ID in the returned list
+        for employee in employees:
+            if employee.id == employee_id:
+                return [employee]
+
+        return None
+
+    async def get_Dep_participation(self,consultation_id:int):
+        # Fetch the consultation first to get the related attributes
+        result = await self.db.execute(
+            select(MedicalExamination)
+            .where(MedicalExamination.id == consultation_id)
+            .options(selectinload(MedicalExamination.employees))
+        )
+
+        consultation = result.unique().scalar_one_or_none()
+
+        if not consultation:
+            return []
+
+        # Extract employee IDs from the consultation
+        employee_ids = [emp.id for emp in consultation.employees]
+
+        if not employee_ids:
+            return []
+
+        # Fetch employees and sort by department
+        result = await self.db.execute(
+            select(Employee)
+            .where(Employee.id.in_(employee_ids))
+            .order_by(Employee.department_id)
+        )
+
+        employees = result.scalars().all()
+        return employees

@@ -1,7 +1,8 @@
+from collections import defaultdict
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi_pagination import Page,paginate
+from fastapi_pagination import Page, paginate
 
 from Department.schemas.DepartmentSchema import DepartmentSchema
 from Department.schemas.JobSchema import JobSchema
@@ -127,7 +128,8 @@ async def add_employee_examination_association(
 @ConsultationRouter.post("/examination/{examination_id}/employee")
 async def get_exmanination_by_id(examination_id: int,
                                  associated: bool = False,
-                                 service: ConsultationService = Depends(ConsultationService))->Page[EmployeeInfoResponse]:
+                                 service: ConsultationService = Depends(ConsultationService)) -> Page[
+    EmployeeInfoResponse]:
     if associated:
         employees = await service.employees_by_consultation(examination_id)
     else:
@@ -145,3 +147,99 @@ async def get_exmanination_by_id(examination_id: int,
         )
         for res in employees
     ])
+
+
+@ConsultationRouter.delete("/examination/{examination_id}/employee/{employee_id}")
+async def delete_employee_examinition(examination_id: int,
+                                      employee_id: int,
+                                      service: ConsultationService = Depends(ConsultationService)):
+    return await service.delete(employee_id=employee_id, consultation_id=examination_id)
+
+
+@ConsultationRouter.get("/search")
+async def search_employee(
+        employee_id: int,
+        consultation_id: int,
+        service: ConsultationService = Depends(ConsultationService)
+) -> Page[EmployeeInfoResponse]:
+    rsulta = await service.search_employee(employee_id=employee_id, consultation_id=consultation_id)
+
+    if rsulta is None:
+        rsulta = []
+
+    return paginate([
+        EmployeeInfoResponse(
+            id=res.id,
+            first_name=res.first_name,
+            last_name=res.last_name,
+            manager_name=str(res.manager_id),
+            category=res.department.category,
+            department_name=res.department.name,
+            job_name=res.job.name
+        )
+        for res in rsulta
+    ])
+
+
+@ConsultationRouter.get("/participation/department/{consultation_id}")
+async def get_Dep_participation(
+        consultation_id: int,
+        service: ConsultationService = Depends(ConsultationService)
+):
+    employees = await service.employees_by_consultation(consultation_id)
+    employees_dont = await service.get_employees_by_MedicalExamination_details(consultation_id)
+
+    # Group employees by department
+    departments = defaultdict(lambda: {'participating': [], 'non_participating': []})
+    for employee in employees:
+        departments[employee.department.name]['participating'].append(employee)
+    for employee in employees_dont:
+        departments[employee.department.name]['non_participating'].append(employee)
+
+    # Create the response
+    response = []
+    for department_name, department_employees in departments.items():
+        total_participating = len(department_employees['participating'])
+        total_non_participating = len(department_employees['non_participating']) - total_participating
+
+        response.append({
+            "department": {
+                "id": department_employees['participating'][0].department.id if department_employees[
+                    'participating'] else department_employees['non_participating'][0].department.id,
+                "name": department_name,
+                "category": department_employees['participating'][0].department.category if department_employees[
+                    'participating'] else department_employees['non_participating'][0].department.category,
+            },
+            "total_participating": total_participating,
+            "total_non_participating": total_non_participating,
+            "Total CM": total_participating + total_non_participating,
+            "%": round(
+                (total_participating / (total_participating + total_non_participating)) * 100,
+                2) if (total_participating + total_non_participating) > 0 else 0,
+            "participating_employees": [
+                {
+                    "id": employee.id,
+                    "first_name": employee.first_name,
+                    "last_name": employee.last_name,
+                    "manager_name": str(employee.manager_id),
+                    "category": employee.department.category,
+                    "department_name": employee.department.name,
+                    "job_name": employee.job.name
+                }
+                for employee in department_employees['participating']
+            ],
+            "non_participating_employees": [
+                {
+                    "id": employee.id,
+                    "first_name": employee.first_name,
+                    "last_name": employee.last_name,
+                    "manager_name": str(employee.manager_id),
+                    "category": employee.department.category,
+                    "department_name": employee.department.name,
+                    "job_name": employee.job.name
+                }
+                for employee in department_employees['non_participating']
+            ]
+        })
+
+    return response

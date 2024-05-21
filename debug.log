@@ -1,88 +1,268 @@
-2024-05-17 11:05:19,766 - INFO - select pg_catalog.version()
-2024-05-17 11:05:19,766 - INFO - [raw sql] {}
-2024-05-17 11:05:19,771 - INFO - select current_schema()
-2024-05-17 11:05:19,771 - INFO - [raw sql] {}
-2024-05-17 11:05:19,772 - INFO - show standard_conforming_strings
-2024-05-17 11:05:19,773 - INFO - [raw sql] {}
-2024-05-17 11:05:19,775 - INFO - BEGIN (implicit)
-2024-05-17 11:05:19,785 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-21 10:37:13,027 - INFO - select pg_catalog.version()
+2024-05-21 10:37:13,027 - INFO - [raw sql] {}
+2024-05-21 10:37:13,030 - INFO - select current_schema()
+2024-05-21 10:37:13,030 - INFO - [raw sql] {}
+2024-05-21 10:37:13,031 - INFO - show standard_conforming_strings
+2024-05-21 10:37:13,032 - INFO - [raw sql] {}
+2024-05-21 10:37:13,035 - INFO - BEGIN (implicit)
+2024-05-21 10:37:13,046 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-05-17 11:05:19,786 - INFO - [generated in 0.00090s] {'table_name': 'medical_examination_department', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-05-17 11:05:19,789 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-21 10:37:13,046 - INFO - [generated in 0.00061s] {'table_name': 'medical_examination_department', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-21 10:37:13,049 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-05-17 11:05:19,790 - INFO - [cached since 0.004731s ago] {'table_name': 'medical_examination_job', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-05-17 11:05:19,792 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-21 10:37:13,050 - INFO - [cached since 0.00444s ago] {'table_name': 'medical_examination_job', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-21 10:37:13,053 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-05-17 11:05:19,792 - INFO - [cached since 0.007271s ago] {'table_name': 'employee_consultation_association', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-05-17 11:05:19,794 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-21 10:37:13,053 - INFO - [cached since 0.007583s ago] {'table_name': 'employee_consultation_association', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-21 10:37:13,055 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-05-17 11:05:19,794 - INFO - [cached since 0.009408s ago] {'table_name': 'MedicalExaminations', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-05-17 11:05:19,796 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-21 10:37:13,056 - INFO - [cached since 0.01034s ago] {'table_name': 'MedicalExaminations', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-21 10:37:13,059 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-05-17 11:05:19,796 - INFO - [cached since 0.01142s ago] {'table_name': 'Jobs', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-05-17 11:05:19,798 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-21 10:37:13,059 - INFO - [cached since 0.01368s ago] {'table_name': 'Jobs', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-21 10:37:13,061 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-05-17 11:05:19,799 - INFO - [cached since 0.01408s ago] {'table_name': 'Departments', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-05-17 11:05:19,802 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-21 10:37:13,062 - INFO - [cached since 0.01628s ago] {'table_name': 'Departments', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-21 10:37:13,063 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-05-17 11:05:19,803 - INFO - [cached since 0.01798s ago] {'table_name': 'Employees', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-05-17 11:05:19,805 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-21 10:37:13,064 - INFO - [cached since 0.01835s ago] {'table_name': 'Employees', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-21 10:37:13,065 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-05-17 11:05:19,805 - INFO - [cached since 0.02024s ago] {'table_name': 'Doctors', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-05-17 11:05:19,807 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-21 10:37:13,066 - INFO - [cached since 0.02028s ago] {'table_name': 'Doctors', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-21 10:37:13,068 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-05-17 11:05:19,807 - INFO - [cached since 0.02251s ago] {'table_name': 'certificates', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-05-17 11:05:19,809 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-21 10:37:13,069 - INFO - [cached since 0.02305s ago] {'table_name': 'certificates', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-21 10:37:13,071 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-05-17 11:05:19,810 - INFO - [cached since 0.02486s ago] {'table_name': 'city', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-05-17 11:05:19,811 - INFO - SELECT pg_catalog.pg_class.relname 
+2024-05-21 10:37:13,072 - INFO - [cached since 0.02617s ago] {'table_name': 'city', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-21 10:37:13,073 - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-05-17 11:05:19,812 - INFO - [cached since 0.02671s ago] {'table_name': 'region', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
-2024-05-17 11:05:19,818 - INFO - SELECT pg_catalog.pg_type.typname 
+2024-05-21 10:37:13,074 - INFO - [cached since 0.02839s ago] {'table_name': 'region', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+2024-05-21 10:37:13,080 - INFO - SELECT pg_catalog.pg_type.typname 
 FROM pg_catalog.pg_type JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_type.typnamespace 
 WHERE pg_catalog.pg_type.typname = %(typname_1)s AND pg_catalog.pg_type_is_visible(pg_catalog.pg_type.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
-2024-05-17 11:05:19,818 - INFO - [generated in 0.00054s] {'typname_1': 'categoryenum', 'nspname_1': 'pg_catalog'}
-2024-05-17 11:05:19,820 - INFO - COMMIT
-2024-05-17 11:05:19,854 - INFO - select pg_catalog.version()
-2024-05-17 11:05:19,855 - INFO - [raw sql] ()
-2024-05-17 11:05:19,858 - INFO - select current_schema()
-2024-05-17 11:05:19,858 - INFO - [raw sql] ()
-2024-05-17 11:05:19,861 - INFO - show standard_conforming_strings
-2024-05-17 11:05:19,861 - INFO - [raw sql] ()
-2024-05-17 11:05:19,863 - INFO - BEGIN (implicit)
-2024-05-17 11:05:19,968 - INFO - SELECT "Employees".id, "Employees".department_id, "Employees".first_name, "Employees".last_name, "Employees".cin, "Employees".cnss, "Employees".phone_number, "Employees".birth_date, "Employees"."Sexe", "Employees".city_id, "Employees".date_start, "Employees".date_hiring, "Employees".date_visit, "Employees".profile_picture, "Employees".date_end, "Employees".manager_id, "Employees".job_id 
+2024-05-21 10:37:13,081 - INFO - [generated in 0.00057s] {'typname_1': 'categoryenum', 'nspname_1': 'pg_catalog'}
+2024-05-21 10:37:13,083 - INFO - COMMIT
+2024-05-21 10:37:20,026 - INFO - select pg_catalog.version()
+2024-05-21 10:37:20,027 - INFO - [raw sql] ()
+2024-05-21 10:37:20,046 - INFO - select current_schema()
+2024-05-21 10:37:20,047 - INFO - [raw sql] ()
+2024-05-21 10:37:20,050 - INFO - show standard_conforming_strings
+2024-05-21 10:37:20,051 - INFO - [raw sql] ()
+2024-05-21 10:37:20,054 - INFO - BEGIN (implicit)
+2024-05-21 10:37:20,160 - INFO - SELECT "Employees".id, "Employees".department_id, "Employees".first_name, "Employees".last_name, "Employees".cin, "Employees".cnss, "Employees".phone_number, "Employees".birth_date, "Employees"."Sexe", "Employees".city_id, "Employees".date_start, "Employees".date_hiring, "Employees".date_visit, "Employees".profile_picture, "Employees".date_end, "Employees".manager_id, "Employees".job_id 
+FROM "Employees" JOIN employee_consultation_association ON "Employees".id = employee_consultation_association.employee_id 
+WHERE employee_consultation_association."MedicalExamination_id" = $1::INTEGER
+2024-05-21 10:37:20,160 - INFO - [generated in 0.00056s] (1,)
+2024-05-21 10:37:20,173 - INFO - SELECT "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
+FROM "Departments" 
+WHERE "Departments".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT)
+2024-05-21 10:37:20,173 - INFO - [generated in 0.00071s] (1, 3, 6)
+2024-05-21 10:37:20,201 - INFO - SELECT "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
+FROM "Jobs" 
+WHERE "Jobs".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT)
+2024-05-21 10:37:20,201 - INFO - [generated in 0.00084s] (2, 4, 6, 7)
+2024-05-21 10:37:20,211 - INFO - SELECT city.id AS city_id, city.name AS city_name, city.region_id AS city_region_id 
+FROM city 
+WHERE city.id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT)
+2024-05-21 10:37:20,211 - INFO - [generated in 0.00082s] (32, 217, 264, 296, 315, 329)
+2024-05-21 10:37:20,224 - INFO - SELECT "Departments_1".id AS "Departments_1_id", "MedicalExaminations".id AS "MedicalExaminations_id", "MedicalExaminations".name AS "MedicalExaminations_name", "MedicalExaminations".seniority AS "MedicalExaminations_seniority", "MedicalExaminations".category AS "MedicalExaminations_category", "MedicalExaminations".date_start AS "MedicalExaminations_date_start", "MedicalExaminations".date_end AS "MedicalExaminations_date_end" 
+FROM "Departments" AS "Departments_1" JOIN medical_examination_department AS medical_examination_department_1 ON "Departments_1".id = medical_examination_department_1.department_id JOIN "MedicalExaminations" ON "MedicalExaminations".id = medical_examination_department_1.medical_examination_id 
+WHERE "Departments_1".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT)
+2024-05-21 10:37:20,225 - INFO - [generated in 0.00080s] (1, 3, 6)
+2024-05-21 10:37:20,248 - INFO - SELECT "Jobs_1".id AS "Jobs_1_id", "MedicalExaminations".id AS "MedicalExaminations_id", "MedicalExaminations".name AS "MedicalExaminations_name", "MedicalExaminations".seniority AS "MedicalExaminations_seniority", "MedicalExaminations".category AS "MedicalExaminations_category", "MedicalExaminations".date_start AS "MedicalExaminations_date_start", "MedicalExaminations".date_end AS "MedicalExaminations_date_end" 
+FROM "Jobs" AS "Jobs_1" JOIN medical_examination_job AS medical_examination_job_1 ON "Jobs_1".id = medical_examination_job_1.job_id JOIN "MedicalExaminations" ON "MedicalExaminations".id = medical_examination_job_1.medical_examination_id 
+WHERE "Jobs_1".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT)
+2024-05-21 10:37:20,248 - INFO - [generated in 0.00063s] (2, 4, 6, 7)
+2024-05-21 10:37:20,260 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_job AS medical_examination_job_1 ON "MedicalExaminations_1".id = medical_examination_job_1.medical_examination_id JOIN "Jobs" ON "Jobs".id = medical_examination_job_1.job_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER, $2::INTEGER, $3::INTEGER)
+2024-05-21 10:37:20,260 - INFO - [generated in 0.00072s] (1, 3, 4)
+2024-05-21 10:37:20,271 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_department AS medical_examination_department_1 ON "MedicalExaminations_1".id = medical_examination_department_1.medical_examination_id JOIN "Departments" ON "Departments".id = medical_examination_department_1.department_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER, $2::INTEGER, $3::INTEGER)
+2024-05-21 10:37:20,272 - INFO - [generated in 0.00089s] (1, 3, 4)
+2024-05-21 10:37:20,282 - INFO - SELECT "MedicalExaminations".id, "MedicalExaminations".name, "MedicalExaminations".seniority, "MedicalExaminations".category, "MedicalExaminations".date_start, "MedicalExaminations".date_end 
+FROM "MedicalExaminations" 
+WHERE "MedicalExaminations".id = $1::INTEGER
+2024-05-21 10:37:20,282 - INFO - [generated in 0.00049s] (1,)
+2024-05-21 10:37:20,292 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_department AS medical_examination_department_1 ON "MedicalExaminations_1".id = medical_examination_department_1.medical_examination_id JOIN "Departments" ON "Departments".id = medical_examination_department_1.department_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER)
+2024-05-21 10:37:20,292 - INFO - [generated in 0.00071s] (1,)
+2024-05-21 10:37:20,300 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_job AS medical_examination_job_1 ON "MedicalExaminations_1".id = medical_examination_job_1.medical_examination_id JOIN "Jobs" ON "Jobs".id = medical_examination_job_1.job_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER)
+2024-05-21 10:37:20,300 - INFO - [generated in 0.00055s] (1,)
+2024-05-21 10:37:20,312 - INFO - SELECT "Employees".id, "Employees".department_id, "Employees".first_name, "Employees".last_name, "Employees".cin, "Employees".cnss, "Employees".phone_number, "Employees".birth_date, "Employees"."Sexe", "Employees".city_id, "Employees".date_start, "Employees".date_hiring, "Employees".date_visit, "Employees".profile_picture, "Employees".date_end, "Employees".manager_id, "Employees".job_id 
 FROM "Employees" JOIN "Departments" ON "Departments".id = "Employees".department_id JOIN "Jobs" ON "Jobs".id = "Employees".job_id 
-WHERE EXTRACT(year FROM "Employees".date_start) = $1::INTEGER ORDER BY "Employees".id DESC
-2024-05-17 11:05:19,969 - INFO - [generated in 0.00063s] (2023,)
-2024-05-17 11:05:20,002 - INFO - SELECT "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
+WHERE "Departments".id IN ($2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT, $8::BIGINT) AND "Jobs".id IN ($9::BIGINT, $10::BIGINT, $11::BIGINT, $12::BIGINT, $13::BIGINT, $14::BIGINT, $15::BIGINT) AND "Departments".category IN ($16::categoryenum, $17::categoryenum) AND "Employees".date_start <= $1::DATE ORDER BY "Employees".id DESC
+2024-05-21 10:37:20,313 - INFO - [generated in 0.00101s] (datetime.date(2022, 5, 22), 6, 7, 1, 2, 3, 5, 4, 3, 4, 5, 6, 1, 7, 2, 'DH', 'IS')
+2024-05-21 10:37:20,324 - INFO - SELECT "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
+FROM "Departments" 
+WHERE "Departments".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT)
+2024-05-21 10:37:20,325 - INFO - [cached since 0.1524s ago] (1, 3, 4, 6, 7)
+2024-05-21 10:37:20,330 - INFO - SELECT "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
+FROM "Jobs" 
+WHERE "Jobs".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT)
+2024-05-21 10:37:20,330 - INFO - [cached since 0.1299s ago] (1, 2, 3, 4, 5, 6, 7)
+2024-05-21 10:37:20,338 - INFO - SELECT city.id AS city_id, city.name AS city_name, city.region_id AS city_region_id 
+FROM city 
+WHERE city.id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT, $8::BIGINT, $9::BIGINT, $10::BIGINT, $11::BIGINT, $12::BIGINT, $13::BIGINT, $14::BIGINT, $15::BIGINT, $16::BIGINT, $17::BIGINT, $18::BIGINT, $19::BIGINT, $20::BIGINT, $21::BIGINT, $22::BIGINT, $23::BIGINT, $24::BIGINT, $25::BIGINT, $26::BIGINT, $27::BIGINT, $28::BIGINT, $29::BIGINT, $30::BIGINT, $31::BIGINT, $32::BIGINT, $33::BIGINT, $34::BIGINT, $35::BIGINT, $36::BIGINT, $37::BIGINT, $38::BIGINT, $39::BIGINT, $40::BIGINT, $41::BIGINT, $42::BIGINT, $43::BIGINT, $44::BIGINT, $45::BIGINT, $46::BIGINT, $47::BIGINT, $48::BIGINT, $49::BIGINT, $50::BIGINT, $51::BIGINT, $52::BIGINT, $53::BIGINT, $54::BIGINT, $55::BIGINT, $56::BIGINT, $57::BIGINT, $58::BIGINT, $59::BIGINT, $60::BIGINT, $61::BIGINT, $62::BIGINT, $63::BIGINT)
+2024-05-21 10:37:20,338 - INFO - [cached since 0.1282s ago] (5, 11, 18, 32, 42, 46, 62, 65, 70, 72, 78, 83, 86, 87, 95, 98, 116, 121, 129, 130, 135, 142, 148, 162, 165, 171, 176, 193, 195, 206, 207, 211, 215, 216, 217, 227, 237, 243, 260, 264, 269, 280, 283, 288, 289, 290, 296, 298, 302, 309, 315, 322, 325, 326, 329, 339, 346, 347, 371, 385, 387, 395, 397)
+2024-05-21 10:37:20,349 - INFO - SELECT "Departments_1".id AS "Departments_1_id", "MedicalExaminations".id AS "MedicalExaminations_id", "MedicalExaminations".name AS "MedicalExaminations_name", "MedicalExaminations".seniority AS "MedicalExaminations_seniority", "MedicalExaminations".category AS "MedicalExaminations_category", "MedicalExaminations".date_start AS "MedicalExaminations_date_start", "MedicalExaminations".date_end AS "MedicalExaminations_date_end" 
+FROM "Departments" AS "Departments_1" JOIN medical_examination_department AS medical_examination_department_1 ON "Departments_1".id = medical_examination_department_1.department_id JOIN "MedicalExaminations" ON "MedicalExaminations".id = medical_examination_department_1.medical_examination_id 
+WHERE "Departments_1".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT)
+2024-05-21 10:37:20,349 - INFO - [cached since 0.1251s ago] (1, 3, 4, 6, 7)
+2024-05-21 10:37:20,356 - INFO - SELECT "Jobs_1".id AS "Jobs_1_id", "MedicalExaminations".id AS "MedicalExaminations_id", "MedicalExaminations".name AS "MedicalExaminations_name", "MedicalExaminations".seniority AS "MedicalExaminations_seniority", "MedicalExaminations".category AS "MedicalExaminations_category", "MedicalExaminations".date_start AS "MedicalExaminations_date_start", "MedicalExaminations".date_end AS "MedicalExaminations_date_end" 
+FROM "Jobs" AS "Jobs_1" JOIN medical_examination_job AS medical_examination_job_1 ON "Jobs_1".id = medical_examination_job_1.job_id JOIN "MedicalExaminations" ON "MedicalExaminations".id = medical_examination_job_1.medical_examination_id 
+WHERE "Jobs_1".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT)
+2024-05-21 10:37:20,356 - INFO - [cached since 0.1084s ago] (1, 2, 3, 4, 5, 6, 7)
+2024-05-21 10:37:20,362 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_job AS medical_examination_job_1 ON "MedicalExaminations_1".id = medical_examination_job_1.medical_examination_id JOIN "Jobs" ON "Jobs".id = medical_examination_job_1.job_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER, $2::INTEGER, $3::INTEGER)
+2024-05-21 10:37:20,362 - INFO - [cached since 0.1027s ago] (1, 3, 4)
+2024-05-21 10:37:20,367 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_department AS medical_examination_department_1 ON "MedicalExaminations_1".id = medical_examination_department_1.medical_examination_id JOIN "Departments" ON "Departments".id = medical_examination_department_1.department_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER, $2::INTEGER, $3::INTEGER)
+2024-05-21 10:37:20,368 - INFO - [cached since 0.09676s ago] (1, 3, 4)
+2024-05-21 10:37:20,385 - INFO - COMMIT
+2024-05-21 10:37:24,100 - INFO - BEGIN (implicit)
+2024-05-21 10:37:24,101 - INFO - SELECT "Employees".id, "Employees".department_id, "Employees".first_name, "Employees".last_name, "Employees".cin, "Employees".cnss, "Employees".phone_number, "Employees".birth_date, "Employees"."Sexe", "Employees".city_id, "Employees".date_start, "Employees".date_hiring, "Employees".date_visit, "Employees".profile_picture, "Employees".date_end, "Employees".manager_id, "Employees".job_id 
+FROM "Employees" JOIN employee_consultation_association ON "Employees".id = employee_consultation_association.employee_id 
+WHERE employee_consultation_association."MedicalExamination_id" = $1::INTEGER
+2024-05-21 10:37:24,101 - INFO - [cached since 3.941s ago] (2,)
+2024-05-21 10:37:24,106 - INFO - SELECT "MedicalExaminations".id, "MedicalExaminations".name, "MedicalExaminations".seniority, "MedicalExaminations".category, "MedicalExaminations".date_start, "MedicalExaminations".date_end 
+FROM "MedicalExaminations" 
+WHERE "MedicalExaminations".id = $1::INTEGER
+2024-05-21 10:37:24,107 - INFO - [cached since 3.825s ago] (2,)
+2024-05-21 10:37:24,110 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_department AS medical_examination_department_1 ON "MedicalExaminations_1".id = medical_examination_department_1.medical_examination_id JOIN "Departments" ON "Departments".id = medical_examination_department_1.department_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER)
+2024-05-21 10:37:24,111 - INFO - [cached since 3.819s ago] (2,)
+2024-05-21 10:37:24,115 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_job AS medical_examination_job_1 ON "MedicalExaminations_1".id = medical_examination_job_1.medical_examination_id JOIN "Jobs" ON "Jobs".id = medical_examination_job_1.job_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER)
+2024-05-21 10:37:24,115 - INFO - [cached since 3.815s ago] (2,)
+2024-05-21 10:37:24,122 - INFO - SELECT "Employees".id, "Employees".department_id, "Employees".first_name, "Employees".last_name, "Employees".cin, "Employees".cnss, "Employees".phone_number, "Employees".birth_date, "Employees"."Sexe", "Employees".city_id, "Employees".date_start, "Employees".date_hiring, "Employees".date_visit, "Employees".profile_picture, "Employees".date_end, "Employees".manager_id, "Employees".job_id 
+FROM "Employees" JOIN "Departments" ON "Departments".id = "Employees".department_id JOIN "Jobs" ON "Jobs".id = "Employees".job_id 
+WHERE "Departments".id IN ($2::BIGINT) AND "Jobs".id IN ($3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT, $8::BIGINT, $9::BIGINT, $10::BIGINT, $11::BIGINT, $12::BIGINT, $13::BIGINT, $14::BIGINT, $15::BIGINT) AND "Departments".category IN ($16::categoryenum, $17::categoryenum, $18::categoryenum) AND "Employees".date_start <= $1::DATE ORDER BY "Employees".id DESC
+2024-05-21 10:37:24,122 - INFO - [cached since 3.81s ago] (datetime.date(2022, 5, 22), 14, 22, 42, 57, 58, 63, 65, 66, 67, 79, 84, 86, 88, 90, 'DH', 'IS', 'IH')
+2024-05-21 10:37:24,129 - INFO - SELECT "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
+FROM "Departments" 
+WHERE "Departments".id IN ($1::BIGINT)
+2024-05-21 10:37:24,130 - INFO - [cached since 3.957s ago] (14,)
+2024-05-21 10:37:24,133 - INFO - SELECT "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
+FROM "Jobs" 
+WHERE "Jobs".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT, $8::BIGINT, $9::BIGINT, $10::BIGINT, $11::BIGINT)
+2024-05-21 10:37:24,134 - INFO - [cached since 3.933s ago] (22, 42, 63, 65, 66, 67, 79, 84, 86, 88, 90)
+2024-05-21 10:37:24,139 - INFO - SELECT city.id AS city_id, city.name AS city_name, city.region_id AS city_region_id 
+FROM city 
+WHERE city.id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT, $8::BIGINT, $9::BIGINT, $10::BIGINT, $11::BIGINT, $12::BIGINT, $13::BIGINT, $14::BIGINT, $15::BIGINT, $16::BIGINT, $17::BIGINT, $18::BIGINT, $19::BIGINT, $20::BIGINT, $21::BIGINT, $22::BIGINT, $23::BIGINT, $24::BIGINT, $25::BIGINT, $26::BIGINT, $27::BIGINT)
+2024-05-21 10:37:24,140 - INFO - [cached since 3.93s ago] (29, 42, 43, 47, 49, 66, 71, 79, 134, 146, 189, 193, 196, 220, 239, 240, 294, 296, 314, 323, 326, 342, 357, 360, 370, 390, 391)
+2024-05-21 10:37:24,146 - INFO - SELECT "Departments_1".id AS "Departments_1_id", "MedicalExaminations".id AS "MedicalExaminations_id", "MedicalExaminations".name AS "MedicalExaminations_name", "MedicalExaminations".seniority AS "MedicalExaminations_seniority", "MedicalExaminations".category AS "MedicalExaminations_category", "MedicalExaminations".date_start AS "MedicalExaminations_date_start", "MedicalExaminations".date_end AS "MedicalExaminations_date_end" 
+FROM "Departments" AS "Departments_1" JOIN medical_examination_department AS medical_examination_department_1 ON "Departments_1".id = medical_examination_department_1.department_id JOIN "MedicalExaminations" ON "MedicalExaminations".id = medical_examination_department_1.medical_examination_id 
+WHERE "Departments_1".id IN ($1::BIGINT)
+2024-05-21 10:37:24,146 - INFO - [cached since 3.922s ago] (14,)
+2024-05-21 10:37:24,151 - INFO - SELECT "Jobs_1".id AS "Jobs_1_id", "MedicalExaminations".id AS "MedicalExaminations_id", "MedicalExaminations".name AS "MedicalExaminations_name", "MedicalExaminations".seniority AS "MedicalExaminations_seniority", "MedicalExaminations".category AS "MedicalExaminations_category", "MedicalExaminations".date_start AS "MedicalExaminations_date_start", "MedicalExaminations".date_end AS "MedicalExaminations_date_end" 
+FROM "Jobs" AS "Jobs_1" JOIN medical_examination_job AS medical_examination_job_1 ON "Jobs_1".id = medical_examination_job_1.job_id JOIN "MedicalExaminations" ON "MedicalExaminations".id = medical_examination_job_1.medical_examination_id 
+WHERE "Jobs_1".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT, $8::BIGINT, $9::BIGINT, $10::BIGINT, $11::BIGINT)
+2024-05-21 10:37:24,151 - INFO - [cached since 3.904s ago] (22, 42, 63, 65, 66, 67, 79, 84, 86, 88, 90)
+2024-05-21 10:37:24,160 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_job AS medical_examination_job_1 ON "MedicalExaminations_1".id = medical_examination_job_1.medical_examination_id JOIN "Jobs" ON "Jobs".id = medical_examination_job_1.job_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER, $2::INTEGER)
+2024-05-21 10:37:24,160 - INFO - [cached since 3.9s ago] (2, 3)
+2024-05-21 10:37:24,165 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_department AS medical_examination_department_1 ON "MedicalExaminations_1".id = medical_examination_department_1.medical_examination_id JOIN "Departments" ON "Departments".id = medical_examination_department_1.department_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER)
+2024-05-21 10:37:24,166 - INFO - [cached since 3.895s ago] (2,)
+2024-05-21 10:37:24,173 - INFO - COMMIT
+2024-05-21 10:37:53,568 - INFO - BEGIN (implicit)
+2024-05-21 10:37:53,569 - INFO - SELECT "Employees".id, "Employees".department_id, "Employees".first_name, "Employees".last_name, "Employees".cin, "Employees".cnss, "Employees".phone_number, "Employees".birth_date, "Employees"."Sexe", "Employees".city_id, "Employees".date_start, "Employees".date_hiring, "Employees".date_visit, "Employees".profile_picture, "Employees".date_end, "Employees".manager_id, "Employees".job_id 
+FROM "Employees" JOIN employee_consultation_association ON "Employees".id = employee_consultation_association.employee_id 
+WHERE employee_consultation_association."MedicalExamination_id" = $1::INTEGER
+2024-05-21 10:37:53,570 - INFO - [cached since 33.41s ago] (3,)
+2024-05-21 10:37:53,575 - INFO - SELECT "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
+FROM "Departments" 
+WHERE "Departments".id IN ($1::BIGINT)
+2024-05-21 10:37:53,576 - INFO - [cached since 33.4s ago] (8,)
+2024-05-21 10:37:53,580 - INFO - SELECT "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
+FROM "Jobs" 
+WHERE "Jobs".id IN ($1::BIGINT)
+2024-05-21 10:37:53,580 - INFO - [cached since 33.38s ago] (24,)
+2024-05-21 10:37:53,585 - INFO - SELECT city.id AS city_id, city.name AS city_name, city.region_id AS city_region_id 
+FROM city 
+WHERE city.id IN ($1::BIGINT)
+2024-05-21 10:37:53,585 - INFO - [cached since 33.38s ago] (359,)
+2024-05-21 10:37:53,590 - INFO - SELECT "Departments_1".id AS "Departments_1_id", "MedicalExaminations".id AS "MedicalExaminations_id", "MedicalExaminations".name AS "MedicalExaminations_name", "MedicalExaminations".seniority AS "MedicalExaminations_seniority", "MedicalExaminations".category AS "MedicalExaminations_category", "MedicalExaminations".date_start AS "MedicalExaminations_date_start", "MedicalExaminations".date_end AS "MedicalExaminations_date_end" 
+FROM "Departments" AS "Departments_1" JOIN medical_examination_department AS medical_examination_department_1 ON "Departments_1".id = medical_examination_department_1.department_id JOIN "MedicalExaminations" ON "MedicalExaminations".id = medical_examination_department_1.medical_examination_id 
+WHERE "Departments_1".id IN ($1::BIGINT)
+2024-05-21 10:37:53,591 - INFO - [cached since 33.37s ago] (8,)
+2024-05-21 10:37:53,595 - INFO - SELECT "Jobs_1".id AS "Jobs_1_id", "MedicalExaminations".id AS "MedicalExaminations_id", "MedicalExaminations".name AS "MedicalExaminations_name", "MedicalExaminations".seniority AS "MedicalExaminations_seniority", "MedicalExaminations".category AS "MedicalExaminations_category", "MedicalExaminations".date_start AS "MedicalExaminations_date_start", "MedicalExaminations".date_end AS "MedicalExaminations_date_end" 
+FROM "Jobs" AS "Jobs_1" JOIN medical_examination_job AS medical_examination_job_1 ON "Jobs_1".id = medical_examination_job_1.job_id JOIN "MedicalExaminations" ON "MedicalExaminations".id = medical_examination_job_1.medical_examination_id 
+WHERE "Jobs_1".id IN ($1::BIGINT)
+2024-05-21 10:37:53,596 - INFO - [cached since 33.35s ago] (24,)
+2024-05-21 10:37:53,602 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_job AS medical_examination_job_1 ON "MedicalExaminations_1".id = medical_examination_job_1.medical_examination_id JOIN "Jobs" ON "Jobs".id = medical_examination_job_1.job_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER)
+2024-05-21 10:37:53,603 - INFO - [cached since 33.34s ago] (3,)
+2024-05-21 10:37:53,608 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_department AS medical_examination_department_1 ON "MedicalExaminations_1".id = medical_examination_department_1.medical_examination_id JOIN "Departments" ON "Departments".id = medical_examination_department_1.department_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER, $2::INTEGER)
+2024-05-21 10:37:53,608 - INFO - [cached since 33.34s ago] (3, 4)
+2024-05-21 10:37:53,613 - INFO - SELECT "MedicalExaminations".id, "MedicalExaminations".name, "MedicalExaminations".seniority, "MedicalExaminations".category, "MedicalExaminations".date_start, "MedicalExaminations".date_end 
+FROM "MedicalExaminations" 
+WHERE "MedicalExaminations".id = $1::INTEGER
+2024-05-21 10:37:53,613 - INFO - [cached since 33.33s ago] (3,)
+2024-05-21 10:37:53,619 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_department AS medical_examination_department_1 ON "MedicalExaminations_1".id = medical_examination_department_1.medical_examination_id JOIN "Departments" ON "Departments".id = medical_examination_department_1.department_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER)
+2024-05-21 10:37:53,619 - INFO - [cached since 33.33s ago] (3,)
+2024-05-21 10:37:53,626 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_job AS medical_examination_job_1 ON "MedicalExaminations_1".id = medical_examination_job_1.medical_examination_id JOIN "Jobs" ON "Jobs".id = medical_examination_job_1.job_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER)
+2024-05-21 10:37:53,626 - INFO - [cached since 33.33s ago] (3,)
+2024-05-21 10:37:53,631 - INFO - SELECT "Employees".id, "Employees".department_id, "Employees".first_name, "Employees".last_name, "Employees".cin, "Employees".cnss, "Employees".phone_number, "Employees".birth_date, "Employees"."Sexe", "Employees".city_id, "Employees".date_start, "Employees".date_hiring, "Employees".date_visit, "Employees".profile_picture, "Employees".date_end, "Employees".manager_id, "Employees".job_id 
+FROM "Employees" JOIN "Departments" ON "Departments".id = "Employees".department_id JOIN "Jobs" ON "Jobs".id = "Employees".job_id 
+WHERE "Departments".id IN ($2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT, $8::BIGINT, $9::BIGINT, $10::BIGINT, $11::BIGINT, $12::BIGINT, $13::BIGINT, $14::BIGINT, $15::BIGINT, $16::BIGINT, $17::BIGINT) AND "Jobs".id IN ($18::BIGINT, $19::BIGINT, $20::BIGINT) AND "Departments".category IN ($21::categoryenum, $22::categoryenum, $23::categoryenum) AND "Employees".date_start <= $1::DATE ORDER BY "Employees".id DESC
+2024-05-21 10:37:53,631 - INFO - [cached since 33.32s ago] (datetime.date(2022, 5, 22), 13, 2, 14, 8, 4, 6, 1, 9, 23, 22, 7, 10, 12, 11, 5, 3, 6, 24, 52, 'DH', 'IS', 'IH')
+2024-05-21 10:37:53,646 - INFO - SELECT "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
 FROM "Departments" 
 WHERE "Departments".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT, $8::BIGINT, $9::BIGINT, $10::BIGINT, $11::BIGINT, $12::BIGINT, $13::BIGINT, $14::BIGINT)
-2024-05-17 11:05:20,003 - INFO - [generated in 0.00098s] (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
-2024-05-17 11:05:20,039 - INFO - SELECT "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
+2024-05-21 10:37:53,647 - INFO - [cached since 33.47s ago] (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
+2024-05-21 10:37:53,654 - INFO - SELECT "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
 FROM "Jobs" 
-WHERE "Jobs".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT, $8::BIGINT, $9::BIGINT, $10::BIGINT, $11::BIGINT, $12::BIGINT, $13::BIGINT, $14::BIGINT, $15::BIGINT, $16::BIGINT, $17::BIGINT, $18::BIGINT, $19::BIGINT, $20::BIGINT, $21::BIGINT, $22::BIGINT, $23::BIGINT, $24::BIGINT, $25::BIGINT, $26::BIGINT, $27::BIGINT, $28::BIGINT, $29::BIGINT, $30::BIGINT, $31::BIGINT, $32::BIGINT, $33::BIGINT, $34::BIGINT, $35::BIGINT, $36::BIGINT, $37::BIGINT, $38::BIGINT, $39::BIGINT, $40::BIGINT, $41::BIGINT, $42::BIGINT, $43::BIGINT, $44::BIGINT, $45::BIGINT, $46::BIGINT, $47::BIGINT, $48::BIGINT, $49::BIGINT, $50::BIGINT, $51::BIGINT, $52::BIGINT, $53::BIGINT, $54::BIGINT, $55::BIGINT, $56::BIGINT, $57::BIGINT, $58::BIGINT, $59::BIGINT, $60::BIGINT, $61::BIGINT, $62::BIGINT, $63::BIGINT, $64::BIGINT, $65::BIGINT, $66::BIGINT, $67::BIGINT, $68::BIGINT, $69::BIGINT, $70::BIGINT, $71::BIGINT, $72::BIGINT, $73::BIGINT, $74::BIGINT, $75::BIGINT, $76::BIGINT, $77::BIGINT, $78::BIGINT, $79::BIGINT, $80::BIGINT, $81::BIGINT, $82::BIGINT, $83::BIGINT, $84::BIGINT, $85::BIGINT, $86::BIGINT, $87::BIGINT, $88::BIGINT, $89::BIGINT, $90::BIGINT, $91::BIGINT, $92::BIGINT, $93::BIGINT, $94::BIGINT, $95::BIGINT)
-2024-05-17 11:05:20,040 - INFO - [generated in 0.00235s] (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 36, 37, 38, 39, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 89, 90, 91, 92, 93, 95, 96, 97, 98, 99, 100)
-2024-05-17 11:05:20,061 - INFO - SELECT city.id AS city_id, city.name AS city_name, city.region_id AS city_region_id 
+WHERE "Jobs".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT)
+2024-05-21 10:37:53,655 - INFO - [cached since 33.45s ago] (6, 24, 52)
+2024-05-21 10:37:53,662 - INFO - SELECT city.id AS city_id, city.name AS city_name, city.region_id AS city_region_id 
 FROM city 
-WHERE city.id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT, $8::BIGINT, $9::BIGINT, $10::BIGINT, $11::BIGINT, $12::BIGINT, $13::BIGINT, $14::BIGINT, $15::BIGINT, $16::BIGINT, $17::BIGINT, $18::BIGINT, $19::BIGINT, $20::BIGINT, $21::BIGINT, $22::BIGINT, $23::BIGINT, $24::BIGINT, $25::BIGINT, $26::BIGINT, $27::BIGINT, $28::BIGINT, $29::BIGINT, $30::BIGINT, $31::BIGINT, $32::BIGINT, $33::BIGINT, $34::BIGINT, $35::BIGINT, $36::BIGINT, $37::BIGINT, $38::BIGINT, $39::BIGINT, $40::BIGINT, $41::BIGINT, $42::BIGINT, $43::BIGINT, $44::BIGINT, $45::BIGINT, $46::BIGINT, $47::BIGINT, $48::BIGINT, $49::BIGINT, $50::BIGINT, $51::BIGINT, $52::BIGINT, $53::BIGINT, $54::BIGINT, $55::BIGINT, $56::BIGINT, $57::BIGINT, $58::BIGINT, $59::BIGINT, $60::BIGINT, $61::BIGINT, $62::BIGINT, $63::BIGINT, $64::BIGINT, $65::BIGINT, $66::BIGINT, $67::BIGINT, $68::BIGINT, $69::BIGINT, $70::BIGINT, $71::BIGINT, $72::BIGINT, $73::BIGINT, $74::BIGINT, $75::BIGINT, $76::BIGINT, $77::BIGINT, $78::BIGINT, $79::BIGINT, $80::BIGINT, $81::BIGINT, $82::BIGINT, $83::BIGINT, $84::BIGINT, $85::BIGINT, $86::BIGINT, $87::BIGINT, $88::BIGINT, $89::BIGINT, $90::BIGINT, $91::BIGINT, $92::BIGINT, $93::BIGINT, $94::BIGINT, $95::BIGINT, $96::BIGINT, $97::BIGINT, $98::BIGINT, $99::BIGINT, $100::BIGINT, $101::BIGINT, $102::BIGINT, $103::BIGINT, $104::BIGINT, $105::BIGINT, $106::BIGINT, $107::BIGINT, $108::BIGINT, $109::BIGINT, $110::BIGINT, $111::BIGINT, $112::BIGINT, $113::BIGINT, $114::BIGINT, $115::BIGINT, $116::BIGINT, $117::BIGINT, $118::BIGINT, $119::BIGINT, $120::BIGINT, $121::BIGINT, $122::BIGINT, $123::BIGINT, $124::BIGINT, $125::BIGINT, $126::BIGINT, $127::BIGINT, $128::BIGINT, $129::BIGINT, $130::BIGINT, $131::BIGINT, $132::BIGINT, $133::BIGINT, $134::BIGINT, $135::BIGINT, $136::BIGINT, $137::BIGINT, $138::BIGINT, $139::BIGINT, $140::BIGINT, $141::BIGINT, $142::BIGINT, $143::BIGINT, $144::BIGINT, $145::BIGINT, $146::BIGINT, $147::BIGINT, $148::BIGINT, $149::BIGINT, $150::BIGINT, $151::BIGINT, $152::BIGINT, $153::BIGINT, $154::BIGINT, $155::BIGINT, $156::BIGINT, $157::BIGINT, $158::BIGINT, $159::BIGINT, $160::BIGINT, $161::BIGINT, $162::BIGINT, $163::BIGINT, $164::BIGINT, $165::BIGINT, $166::BIGINT, $167::BIGINT, $168::BIGINT, $169::BIGINT, $170::BIGINT, $171::BIGINT, $172::BIGINT, $173::BIGINT, $174::BIGINT, $175::BIGINT, $176::BIGINT, $177::BIGINT, $178::BIGINT, $179::BIGINT, $180::BIGINT, $181::BIGINT, $182::BIGINT, $183::BIGINT, $184::BIGINT, $185::BIGINT, $186::BIGINT, $187::BIGINT, $188::BIGINT, $189::BIGINT, $190::BIGINT, $191::BIGINT, $192::BIGINT, $193::BIGINT, $194::BIGINT, $195::BIGINT, $196::BIGINT, $197::BIGINT, $198::BIGINT, $199::BIGINT, $200::BIGINT, $201::BIGINT, $202::BIGINT, $203::BIGINT, $204::BIGINT, $205::BIGINT, $206::BIGINT, $207::BIGINT, $208::BIGINT)
-2024-05-17 11:05:20,061 - INFO - [generated in 0.00347s] (1, 2, 3, 4, 6, 9, 15, 17, 18, 19, 21, 24, 25, 26, 28, 31, 34, 37, 38, 41, 42, 43, 44, 45, 46, 47, 50, 51, 53, 56, 58, 64, 65, 66, 67, 69, 71, 72, 74, 77, 79, 80, 81, 82, 83, 84, 89, 93, 94, 95 ... 108 parameters truncated ... 300, 301, 303, 306, 307, 311, 313, 315, 319, 322, 323, 324, 326, 327, 328, 330, 334, 339, 346, 351, 355, 356, 357, 358, 361, 362, 363, 364, 367, 369, 370, 372, 374, 375, 379, 380, 381, 385, 388, 389, 391, 392, 394, 396, 397, 399, 400, 401, 402, 404)
-2024-05-17 11:05:20,088 - INFO - SELECT "Departments_1".id AS "Departments_1_id", "MedicalExaminations".id AS "MedicalExaminations_id", "MedicalExaminations".name AS "MedicalExaminations_name", "MedicalExaminations".seniority AS "MedicalExaminations_seniority", "MedicalExaminations".category AS "MedicalExaminations_category", "MedicalExaminations".date_start AS "MedicalExaminations_date_start", "MedicalExaminations".date_end AS "MedicalExaminations_date_end" 
+WHERE city.id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT, $8::BIGINT, $9::BIGINT, $10::BIGINT, $11::BIGINT, $12::BIGINT, $13::BIGINT, $14::BIGINT, $15::BIGINT, $16::BIGINT, $17::BIGINT, $18::BIGINT, $19::BIGINT, $20::BIGINT, $21::BIGINT, $22::BIGINT, $23::BIGINT, $24::BIGINT, $25::BIGINT, $26::BIGINT, $27::BIGINT, $28::BIGINT, $29::BIGINT, $30::BIGINT, $31::BIGINT, $32::BIGINT, $33::BIGINT, $34::BIGINT, $35::BIGINT, $36::BIGINT, $37::BIGINT, $38::BIGINT, $39::BIGINT, $40::BIGINT, $41::BIGINT, $42::BIGINT, $43::BIGINT, $44::BIGINT, $45::BIGINT, $46::BIGINT, $47::BIGINT, $48::BIGINT, $49::BIGINT, $50::BIGINT, $51::BIGINT, $52::BIGINT, $53::BIGINT, $54::BIGINT, $55::BIGINT, $56::BIGINT, $57::BIGINT, $58::BIGINT, $59::BIGINT, $60::BIGINT, $61::BIGINT, $62::BIGINT, $63::BIGINT, $64::BIGINT, $65::BIGINT, $66::BIGINT, $67::BIGINT, $68::BIGINT)
+2024-05-21 10:37:53,662 - INFO - [cached since 33.45s ago] (5, 18, 21, 26, 31, 32, 36, 38, 40, 42, 46, 48, 50, 55, 56, 59, 62, 73, 104, 121, 124, 125, 129, 134, 140, 147, 149, 156, 157, 163, 165, 181, 209, 211, 218, 223, 228, 231, 237, 238, 245, 247, 280, 284, 287, 292, 298, 316, 325, 326, 331, 332, 335, 336, 346, 347, 353, 359, 379, 390, 393, 394, 397, 398, 400, 401, 403, 404)
+2024-05-21 10:37:53,671 - INFO - SELECT "Departments_1".id AS "Departments_1_id", "MedicalExaminations".id AS "MedicalExaminations_id", "MedicalExaminations".name AS "MedicalExaminations_name", "MedicalExaminations".seniority AS "MedicalExaminations_seniority", "MedicalExaminations".category AS "MedicalExaminations_category", "MedicalExaminations".date_start AS "MedicalExaminations_date_start", "MedicalExaminations".date_end AS "MedicalExaminations_date_end" 
 FROM "Departments" AS "Departments_1" JOIN medical_examination_department AS medical_examination_department_1 ON "Departments_1".id = medical_examination_department_1.department_id JOIN "MedicalExaminations" ON "MedicalExaminations".id = medical_examination_department_1.medical_examination_id 
 WHERE "Departments_1".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT, $8::BIGINT, $9::BIGINT, $10::BIGINT, $11::BIGINT, $12::BIGINT, $13::BIGINT, $14::BIGINT)
-2024-05-17 11:05:20,089 - INFO - [generated in 0.00086s] (1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 2)
-2024-05-17 11:05:20,112 - INFO - SELECT "Jobs_1".id AS "Jobs_1_id", "MedicalExaminations".id AS "MedicalExaminations_id", "MedicalExaminations".name AS "MedicalExaminations_name", "MedicalExaminations".seniority AS "MedicalExaminations_seniority", "MedicalExaminations".category AS "MedicalExaminations_category", "MedicalExaminations".date_start AS "MedicalExaminations_date_start", "MedicalExaminations".date_end AS "MedicalExaminations_date_end" 
+2024-05-21 10:37:53,672 - INFO - [cached since 33.45s ago] (1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 2)
+2024-05-21 10:37:53,680 - INFO - SELECT "Jobs_1".id AS "Jobs_1_id", "MedicalExaminations".id AS "MedicalExaminations_id", "MedicalExaminations".name AS "MedicalExaminations_name", "MedicalExaminations".seniority AS "MedicalExaminations_seniority", "MedicalExaminations".category AS "MedicalExaminations_category", "MedicalExaminations".date_start AS "MedicalExaminations_date_start", "MedicalExaminations".date_end AS "MedicalExaminations_date_end" 
 FROM "Jobs" AS "Jobs_1" JOIN medical_examination_job AS medical_examination_job_1 ON "Jobs_1".id = medical_examination_job_1.job_id JOIN "MedicalExaminations" ON "MedicalExaminations".id = medical_examination_job_1.medical_examination_id 
-WHERE "Jobs_1".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT, $4::BIGINT, $5::BIGINT, $6::BIGINT, $7::BIGINT, $8::BIGINT, $9::BIGINT, $10::BIGINT, $11::BIGINT, $12::BIGINT, $13::BIGINT, $14::BIGINT, $15::BIGINT, $16::BIGINT, $17::BIGINT, $18::BIGINT, $19::BIGINT, $20::BIGINT, $21::BIGINT, $22::BIGINT, $23::BIGINT, $24::BIGINT, $25::BIGINT, $26::BIGINT, $27::BIGINT, $28::BIGINT, $29::BIGINT, $30::BIGINT, $31::BIGINT, $32::BIGINT, $33::BIGINT, $34::BIGINT, $35::BIGINT, $36::BIGINT, $37::BIGINT, $38::BIGINT, $39::BIGINT, $40::BIGINT, $41::BIGINT, $42::BIGINT, $43::BIGINT, $44::BIGINT, $45::BIGINT, $46::BIGINT, $47::BIGINT, $48::BIGINT, $49::BIGINT, $50::BIGINT, $51::BIGINT, $52::BIGINT, $53::BIGINT, $54::BIGINT, $55::BIGINT, $56::BIGINT, $57::BIGINT, $58::BIGINT, $59::BIGINT, $60::BIGINT, $61::BIGINT, $62::BIGINT, $63::BIGINT, $64::BIGINT, $65::BIGINT, $66::BIGINT, $67::BIGINT, $68::BIGINT, $69::BIGINT, $70::BIGINT, $71::BIGINT, $72::BIGINT, $73::BIGINT, $74::BIGINT, $75::BIGINT, $76::BIGINT, $77::BIGINT, $78::BIGINT, $79::BIGINT, $80::BIGINT, $81::BIGINT, $82::BIGINT, $83::BIGINT, $84::BIGINT, $85::BIGINT, $86::BIGINT, $87::BIGINT, $88::BIGINT, $89::BIGINT, $90::BIGINT, $91::BIGINT, $92::BIGINT, $93::BIGINT, $94::BIGINT, $95::BIGINT)
-2024-05-17 11:05:20,113 - INFO - [generated in 0.00194s] (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 36, 37, 38, 39, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 89, 90, 91, 92, 93, 95, 96, 97, 98, 99, 100)
-2024-05-17 11:05:20,127 - INFO - COMMIT
+WHERE "Jobs_1".id IN ($1::BIGINT, $2::BIGINT, $3::BIGINT)
+2024-05-21 10:37:53,680 - INFO - [cached since 33.43s ago] (6, 24, 52)
+2024-05-21 10:37:53,687 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Jobs".id AS "Jobs_id", "Jobs".name AS "Jobs_name", "Jobs".department_id AS "Jobs_department_id" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_job AS medical_examination_job_1 ON "MedicalExaminations_1".id = medical_examination_job_1.medical_examination_id JOIN "Jobs" ON "Jobs".id = medical_examination_job_1.job_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER)
+2024-05-21 10:37:53,687 - INFO - [cached since 33.43s ago] (1, 2, 3, 4)
+2024-05-21 10:37:53,696 - INFO - SELECT "MedicalExaminations_1".id AS "MedicalExaminations_1_id", "Departments".id AS "Departments_id", "Departments".color AS "Departments_color", "Departments".name AS "Departments_name", "Departments".category AS "Departments_category" 
+FROM "MedicalExaminations" AS "MedicalExaminations_1" JOIN medical_examination_department AS medical_examination_department_1 ON "MedicalExaminations_1".id = medical_examination_department_1.medical_examination_id JOIN "Departments" ON "Departments".id = medical_examination_department_1.department_id 
+WHERE "MedicalExaminations_1".id IN ($1::INTEGER, $2::INTEGER, $3::INTEGER)
+2024-05-21 10:37:53,697 - INFO - [cached since 33.43s ago] (1, 3, 4)
+2024-05-21 10:37:53,715 - INFO - COMMIT

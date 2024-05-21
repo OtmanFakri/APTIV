@@ -154,8 +154,6 @@ class CertificateRepository:
         result = await self.db.execute(query)
         return result.fetchall()
 
-
-
     async def get_certificates_by_validation_per_month(self, year: int, validation_status: Optional[str] = None):
         # Build the basic SQL statement
         stmt = (
@@ -194,3 +192,20 @@ class CertificateRepository:
         )
         results = await self.db.execute(stmt)
         return results.fetchall()
+
+    async def analyze_certificates_by_gender_and_year(self, year: int):
+        query = (
+            select(
+                Employee.Sexe,
+                func.count(Employee.id).label('headcount'),
+                func.count(Certificate.id).label('certificates_nbr'),
+                func.sum(Certificate.nbr_days).label('illness_days_nbr'),
+                func.avg(Certificate.nbr_days).label('average_illness_days')
+            )
+            .join(Certificate, Employee.id == Certificate.employee_id)
+            .filter(extract('year', Certificate.date) == year)
+            .group_by(Employee.Sexe)
+        )
+
+        result = await self.db.execute(query)
+        return result.fetchall()

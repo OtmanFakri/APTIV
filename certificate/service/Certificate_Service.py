@@ -60,8 +60,6 @@ class CertificateService:
     async def get_certificates_by_category(self, category: str = None, year: int = None, month: int = None):
         return await self.certificationRepository.get_certificates_by_category(category, year, month)
 
-
-
     async def get_certificates_by_doctor(self, doctor_id: int = None, year: int = None, month: int = None):
         pass
 
@@ -72,7 +70,7 @@ class CertificateService:
     async def get_average_days_per_month(self, year: int):
         return await self.certificationRepository.get_average_days_per_month(year=year)
 
-    async def get_certificates_by_validation_itt(self, year: int ):
+    async def get_certificates_by_validation_itt(self, year: int):
         # Fetch ITT and all certificates
         certificates_itt = await self.certificationRepository.get_certificates_by_validation_per_month(year=year,
                                                                                                        validation_status="ITT")
@@ -101,3 +99,6 @@ class CertificateService:
             })
 
         return combined_results
+
+    async def analyze_certificates_by_gender_and_year(self, year: int):
+        return await self.certificationRepository.analyze_certificates_by_gender_and_year(year=year)

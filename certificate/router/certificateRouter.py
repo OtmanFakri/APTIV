@@ -160,4 +160,21 @@ async def get_validation_itt_per_month(
     return results
 
 
+@CertificateRouter.get("/gendre/{year}")
+async def analyze_certificates_by_gender_and_year(
+        year: int,
+        service: CertificateService = Depends(CertificateService)):
+    results = await service.certificationRepository.analyze_certificates_by_gender_and_year(year=year)
 
+    return [
+        {
+            "gender": row[0],
+            "headcount": row[1],
+            "certificates_nbr": row[2],
+            "illness_days_nbr": float(row[3]),
+            "average_illness_days": float(row[4]),
+            "certificate_rate": float(row[2]) / float(row[1]) if row[1] > 0 else 0  # Certificates per employee
+
+        }
+        for row in results
+    ]

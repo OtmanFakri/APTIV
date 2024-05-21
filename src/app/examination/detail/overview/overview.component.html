@@ -1,6 +1,63 @@
 <div>
-  <app-overview-dep />
-  <app-overview-catgory />
-  <app-overview-gendre />
+  <div class="container pt-6 mx-auto">
+    <nz-drawer
+      [nzClosable]="false"
+      [nzVisible]="visible"
+      nzPlacement="right"
+      [nzTitle]="ExaminitionId || 'Default Title'"
+      (nzOnClose)="close()"
+    >
+      <ng-container *nzDrawerContent>
+        <p *ngFor="let participation of ShowingExamin">{{ participation.employee_id }}</p>
+      </ng-container>
+    </nz-drawer>
+    <div class="flex flex-wrap">
+      <div class="md:w-2/5 w-full pb-6 md:pb-0 md:pr-6">
+        <div class="rounded border-gray-300 dark:border-gray-700 border-dashed border-2 ">
+          <div class="overflow-x-auto">
+            <table class="min-w-full bg-white">
+              <thead>
+              <tr>
+                <th class="py-2 px-4 bg-gray-200">Month</th>
+                <th class="py-2 px-4 bg-gray-200">Total Participations</th>
+                <th class="py-2 px-4 bg-gray-200">Rest Participations</th>
+                <th class="py-2 px-4 bg-gray-200">Total CM</th>
+                <th class="py-2 px-4 bg-gray-200">%</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let exam of ListExamination">
+                <td class="border py-2 px-4">{{ exam.month }}</td>
+                <td class="border py-2 px-4" (click)="open(exam.participations)">{{ exam.total_participations }}</td>
+                <td class="border py-2 px-4">{{ exam.rest_participations }}</td>
+                <td class="border py-2 px-4">{{ exam["Total CM"] }}</td>
+                <td class="border py-2 px-4">{{ exam["%"].toFixed(2) }}</td>
+              </tr>
+              </tbody>
+              <tfoot>
+              <tr>
+                <td class="py-2 px-4 bg-gray-200 font-bold">Total</td>
+                <td class="py-2 px-4 bg-gray-200 font-bold">{{ getTotalParticipations() }}</td>
+                <td class="py-2 px-4 bg-gray-200 font-bold">{{ getTotalRestParticipations() }}</td>
+                <td class="py-2 px-4 bg-gray-200 font-bold">{{ getTotalCM() }}</td>
+                <td class="py-2 px-4 bg-gray-200 font-bold">{{ getTotalPercentage() }}%</td>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="md:w-3/5 w-full">
+        <canvas #examinationCanvas></canvas>
+      </div>
+    </div>
+  </div>
+
+  <app-overview-dep
+    [ExaminitionId]="ExaminitionId"/>
+  <app-overview-catgory/>
+  <app-overview-gendre
+    [ExaminitionId]="ExaminitionId"
+  />
 
 </div>

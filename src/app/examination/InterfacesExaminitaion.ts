@@ -1,3 +1,5 @@
+import {Item} from "../interfaces/ListEmployee";
+
 export interface EmployeeExaminition {
   items: Item[];
   total: number;
@@ -6,35 +8,34 @@ export interface EmployeeExaminition {
   pages: number;
 }
 
-export interface Item {
-  id:              number;
-  first_name:      string;
-  last_name:       string;
-  manager_name:    string;
-  category:        Category;
-  department_name: DepartmentName;
-  job_name:        JobName;
+export interface ExaminitionMonth {
+  month:                string;
+  participations:       Participation[];
+  total_participations: number;
+  rest_participations:  number;
+  "Total CM":           number;
+  "%":                  number;
 }
 
-export enum Category {
-  Dh = "DH",
-  Is = "IS",
+export interface Participation {
+  employee_id:        number;
+  participation_date: Date;
 }
-
-export enum DepartmentName {
-  Assembly = "ASSEMBLY",
-  Engineering = "ENGINEERING",
-  Maintenance = "MAINTENANCE",
-  ProductEngineering = "PRODUCT ENGINEERING",
-  Quality = "QUALITY",
+export interface ExaminitionGendre {
+  Sexe:                        string;
+  total_participating:         number;
+  total_non_participating:     number;
+  "Total CM":                  number;
+  "%":                         number;
+  participating_employees:     Item[];
+  non_participating_employees: Item[];
 }
-
-export enum JobName {
-  AssistantManager = "Assistant Manager",
-  GeologicalEngineer = "Geological Engineer",
-  GraphicDesigner = "Graphic Designer",
-  OccupationalTherapist = "Occupational Therapist",
-  Operator = "Operator",
-  Pharmacist = "Pharmacist",
-  VPProductManagement = "VP Product Management",
+export interface ExaminitionDepartment {
+  department:                  string;
+  total_participating:         number;
+  total_non_participating:     number;
+  "Total CM":                  number;
+  "%":                         number;
+  participating_employees:     Item[];
+  non_participating_employees: Item[];
 }

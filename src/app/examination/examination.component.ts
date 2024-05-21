@@ -11,15 +11,15 @@ import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
 import {NzInputNumberComponent} from "ng-zorro-antd/input-number";
 import {NzInputNumberModule} from 'ng-zorro-antd/input-number';
 import {AddExaminiationComponent} from "./add-examiniation/add-examiniation.component";
+import {NzListGridDirective, NzListItemComponent} from "ng-zorro-antd/list";
+import {NzColDirective, NzRowDirective} from "ng-zorro-antd/grid";
+import {NzCardComponent} from "ng-zorro-antd/card";
+import {NzListModule} from 'ng-zorro-antd/list';
+import {ExaminitationService} from "./examinitation.service";
+import {NzTagComponent} from "ng-zorro-antd/tag";
+import {NzDrawerModule} from 'ng-zorro-antd/drawer';
+import {Router} from "@angular/router";
 
-
-const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
 
 @Component({
   selector: 'app-examination',
@@ -27,6 +27,7 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
   imports: [
     NgIf,
     NgClass,
+    NzListModule,
     NzInputNumberModule,
     NzModalModule,
     FormsModule,
@@ -42,38 +43,66 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
     NzSelectComponent,
     ReactiveFormsModule,
     NzInputNumberComponent,
-    AddExaminiationComponent
+    AddExaminiationComponent,
+    NzListGridDirective,
+    NzRowDirective,
+    NzColDirective,
+    NzListItemComponent,
+    NzCardComponent,
+    NzDrawerModule,
+    NzTagComponent
   ],
   templateUrl: './examination.component.html',
 })
 export class ExaminationComponent implements OnInit {
 
   @ViewChild(AddExaminiationComponent) addExaminiationComponent!: AddExaminiationComponent;
+  data: any[] = [];
 
 
-  constructor() {
+  constructor(private examinitationService: ExaminitationService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
-
+    this.examinitationService.GetConsulation().subscribe(
+      (data: any[]) => {
+        this.data = data
+      },
+      (error) => {
+        console.error('Error fetching consultation data:', error);
+      }
+    );
   }
+
 
   isCreate = false;
 
 
-  showCreate(): void {
+  showCreate()
+    :
+    void {
     this.isCreate = true;
   }
 
-  handleCreateOk(): void {
+  handleCreateOk()
+    :
+    void {
     console.log('Button ok clicked!');
     this.addExaminiationComponent.onSubmit();
     this.isCreate = false;
   }
 
-  handleCreateCancel(): void {
+  handleCreateCancel()
+    :
+    void {
     console.log('Button cancel clicked!');
     this.isCreate = false;
   }
 
+  protected readonly console = console;
+
+  viewProjectDetails(item: any) {
+    this.router.navigate(['/examination', item.id]);
+  }
 }

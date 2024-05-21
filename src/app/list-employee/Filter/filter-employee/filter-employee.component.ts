@@ -60,9 +60,14 @@ export class FilterEmployeeComponent implements OnInit {
   }
 
   onManagerSelected(manager: SearchManger) {
-    console.log('Selected Manager:', manager);
-    this.filterService.addManagerId(manager.id);
-    console.log('Updated Manager IDs:', this.filterService.filterEmployee.manger_ids);
+    // Check if manager.id is not undefined and not null
+    if (manager.id !== undefined && manager.id !== null) {
+      console.log('Selected Manager:', manager);
+      this.filterService.addManagerId(manager.id);
+      console.log('Updated Manager IDs:', this.filterService.filterEmployee.manger_ids);
+    } else {
+      console.log('Manager ID is undefined or null');
+    }
   }
 
 

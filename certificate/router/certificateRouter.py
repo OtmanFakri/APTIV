@@ -1,3 +1,4 @@
+import calendar
 from datetime import date
 from typing import List
 
@@ -175,6 +176,24 @@ async def analyze_certificates_by_gender_and_year(
             "average_illness_days": float(row[4]),
             "certificate_rate": float(row[2]) / float(row[1]) if row[1] > 0 else 0  # Certificates per employee
 
+        }
+        for row in results
+    ]
+
+
+@CertificateRouter.get("/{year}/{week}")
+async def analyze_certificates_by_week_and_year(year: int, week: int,
+                                                service: CertificateService = Depends(CertificateService)):
+    results = await service.certificationRepository.analyze_certificates_by_week_and_year(year=year, week=week)
+    return [
+        {
+            "day_of_week": f"{calendar.day_name[int(row[1])]} {row[0].day}",
+            "date": row[0],
+            "headcount": row[2],
+            "certificates_nbr": row[3],
+            "illness_days_nbr": float(row[4]),
+            "average_illness_days": float(row[5]),
+            "certificate_rate": float(row[3]) / float(row[2]) if row[2] > 0 else 0  # Certificates per employee
         }
         for row in results
     ]

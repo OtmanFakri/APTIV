@@ -209,3 +209,26 @@ class CertificateRepository:
 
         result = await self.db.execute(query)
         return result.fetchall()
+
+    async def analyze_certificates_by_week_and_year(self, year: int, week: int):
+        query = (
+            select(
+                Certificate.date,
+                extract('dow', Certificate.date).label('day_of_week'),
+                func.count(distinct(Employee.id)).label('distinct_employees'),
+                func.count(Certificate.id).label('certificates_nbr'),
+                func.sum(Certificate.nbr_days).label('illness_days_nbr'),
+                func.avg(Certificate.nbr_days).label('average_illness_days')
+            )
+            .join(Certificate, Employee.id == Certificate.employee_id)
+            .filter(
+                extract('year', Certificate.date) == year,
+                extract('week', Certificate.date) == week
+            )
+            .group_by(Certificate.date)
+        )
+
+        result = await self.db.execute(query)
+        result_tuple = result.fetchall()
+
+        return result_tuple

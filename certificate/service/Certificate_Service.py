@@ -102,3 +102,5 @@ class CertificateService:
 
     async def analyze_certificates_by_gender_and_year(self, year: int):
         return await self.certificationRepository.analyze_certificates_by_gender_and_year(year=year)
+    async def analyze_certificates_by_week_and_year(self, year: int, week: int):
+        return await self.certificationRepository.analyze_certificates_by_week_and_year(year=year, week=week)

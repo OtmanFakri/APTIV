@@ -61,9 +61,6 @@ export class AnalyseCertitifcatesService {
     return this.http.get<NbExaminiation[]>(url);
   }
 
-  getCertificate_Gendre(year: number): Observable<ExaminitionGendre[]> {
-    return this.http.get<ExaminitionGendre[]>(`${this.apiUrl}/gendre/${year}`);
-  }
 
   calculateTotals(data: CertificateAnalyseData[]): CertificateAnalyseTotal {
     let totalCertificatesNbr = 0;

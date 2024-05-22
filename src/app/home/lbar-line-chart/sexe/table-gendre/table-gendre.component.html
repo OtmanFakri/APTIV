@@ -1,1 +1,37 @@
-<p>table-gendre works!</p>
+<nz-table
+  [nzFooter]="footerTemplate"
+  [nzScroll]="{ y: '245px' }"
+  [nzShowPagination]="false"
+  [nzData]="data || []"
+>
+  <thead>
+  <tr>
+    <th>Gender</th>
+    <th>Headcount</th>
+    <th>Nb Certificates</th>
+    <th>Illness Days</th>
+    <th>Average Illness Days</th>
+    <th>Certificate Rate (%)</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of data">
+    <td>{{ item.gender }}</td>
+    <td>{{ item.headcount }}</td>
+    <td>{{ item.certificates_nbr }}</td>
+    <td>{{ item.illness_days_nbr }}</td>
+    <td>{{ item.average_illness_days | number: '1.2-2' }}</td>
+    <td>{{ item.certificate_rate | number: '1.2-2' }}</td>
+  </tr>
+  </tbody>
+  <ng-template #footerTemplate>
+    <tr class="flex justify-between">
+      <td>Total</td>
+      <td>{{ totals?.total_headcount }}</td>
+      <td>{{ totals?.total_certificates_nbr }}</td>
+      <td>{{ totals?.total_illness_todays_nbr }}</td>
+      <td>{{ totals?.total_average_illness_days | number: '1.2-2' }}</td>
+      <td>{{ totals?.total_certificate_rate | number: '1.2-2' }}</td>
+    </tr>
+  </ng-template>
+</nz-table>

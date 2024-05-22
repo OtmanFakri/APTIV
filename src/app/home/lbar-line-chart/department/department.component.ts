@@ -8,6 +8,7 @@ import {
 } from "../../../interfaces/Analyse/CertificateAnalyseByDepertemt";
 import {QuierAnalyse} from "../../../interfaces/Analyse/QueryAnakyse";
 import {DateService} from "../../date-service";
+import {DepartmentTableService} from "./department-table.service";
 
 @Component({
   selector: 'app-department',
@@ -23,11 +24,29 @@ export class DepartmentComponent implements AfterViewInit {
   certificateTotolData?: CertificateAnalyseTotal;
   selectedDate!: Date;
 
-  constructor(private analyseService: AnalyseCertitifcatesService, private dateService: DateService) {
+  constructor(private analyseService: DepartmentTableService,
+              private analyseCertitifcatesService: AnalyseCertitifcatesService,
+              private dateService: DateService) {
     this.dateService.selectedDate.subscribe(date => {
       this.selectedDate = date;
       this.onDateChange(date);
     });
+
+    this.analyseService.Listdata.subscribe(
+        (data: CertificateAnalyseByDepertemt[]) => {
+          this.dataList = data;
+          this.certificateTotolData = this.analyseCertitifcatesService.calculateTotals(data);
+          this.certificateTotolDataChange.emit(this.certificateTotolData);
+          if (this.chart) {
+            this.updateChart(data);
+          } else {
+            this.createChart(data);
+          }
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+    );
   }
 
   onDateChange(date: Date) {
@@ -37,20 +56,12 @@ export class DepartmentComponent implements AfterViewInit {
   }
 
   fetchData(year: number, month: number): void {
-    // @ts-ignore
-    this.analyseService.getCertificateAnalyseByDepertemt(year, month).subscribe((data: CertificateAnalyseByDepertemt[]) => {
-      this.dataList = data;
-      this.certificateTotolData = this.analyseService.calculateTotals(data);
-      this.certificateTotolDataChange.emit(this.certificateTotolData);
-      if (this.chart) {
-        this.updateChart(data);
-      } else {
-        this.createChart(data);
-      }
-    });
+    console.log(`Fetching data for year: ${year}, month: ${month}`);
+    this.analyseService.getCertificate_deep(year, month);
   }
 
   ngAfterViewInit() {
+    console.log('ngAfterViewInit called');
     if (this.selectedDate) {
       this.fetchData(this.selectedDate.getFullYear(), this.selectedDate.getMonth() + 1);
     } else {
@@ -61,6 +72,7 @@ export class DepartmentComponent implements AfterViewInit {
   }
 
   private createChart(data: CertificateAnalyseByDepertemt[]): void {
+    console.log('Creating chart with www: ', data);
     const chartData = this.formatChartData(data);
     const config: ChartConfiguration = {
       type: 'bar',
@@ -71,6 +83,7 @@ export class DepartmentComponent implements AfterViewInit {
   }
 
   private updateChart(data: CertificateAnalyseByDepertemt[]): void {
+    console.log('Updating chart with data: ', data);
     const chartData = this.formatChartData(data);
     this.chart.data = chartData;
     this.chart.update();

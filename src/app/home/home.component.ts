@@ -13,6 +13,7 @@ import {TableGendreComponent} from "./lbar-line-chart/sexe/table-gendre/table-ge
 import {MonthsComponent} from "./lbar-line-chart/months/months.component";
 import {WeekComponent} from "./lbar-line-chart/months/week/week.component";
 import {TableWeekComponent} from "./lbar-line-chart/months/week/table-week/table-week.component";
+import {DepartmentTableComponent} from "./lbar-line-chart/department/department-table/department-table.component";
 
 @Component({
   selector: 'app-home',
@@ -30,7 +31,8 @@ import {TableWeekComponent} from "./lbar-line-chart/months/week/table-week/table
         TableGendreComponent,
         MonthsComponent,
         WeekComponent,
-        TableWeekComponent
+        TableWeekComponent,
+        DepartmentTableComponent
     ],
   templateUrl: './home.component.html',
 })

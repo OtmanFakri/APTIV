@@ -39,3 +39,12 @@ export interface ExaminitionDepartment {
   participating_employees:     Item[];
   non_participating_employees: Item[];
 }
+export interface ExaminitionCategory {
+  category:                    string;
+  total_participating:         number;
+  total_non_participating:     number;
+  "Total CM":                  number;
+  "%":                         number;
+  participating_employees:     Item[];
+  non_participating_employees: Item[];
+}

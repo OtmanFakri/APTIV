@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {
   CertificateAnalyseByDepertemt, CertificateAnalyseByYear, CertificateAnalyseData,
-  CertificateAnalyseTotal
+  CertificateAnalyseTotal, ExaminitionGendre
 } from '../../interfaces/Analyse/CertificateAnalyseByDepertemt';
 import {Observable} from "rxjs";
 import {ValidationHj} from "../../interfaces/Analyse/ValidationHj";
@@ -46,18 +46,23 @@ export class AnalyseCertitifcatesService {
     return this.http.get(this.apiUrl + '/by_category', {params: parms});
   }
 
-  getCertificateAnalyseByHj(year: number , status: string ): Observable<ValidationHj[]> {
+  getCertificateAnalyseByHj(year: number, status: string): Observable<ValidationHj[]> {
     const url = `${this.apiUrl}/by_validation?year=${year}&validation_status=${status}`;
     return this.http.get<ValidationHj[]>(url);
   }
 
-  getCertificateExamination():Observable<Examiniation[]>{
+  getCertificateExamination(): Observable<Examiniation[]> {
     const url = `http://127.0.0.1:8011/consultation/participation`;
     return this.http.get<Examiniation[]>(url);
   }
-  getCertificate_NbExamination():Observable<NbExaminiation[]>{
-    const url = `http://127.0.0.1:8011/consultation/examination/4/employee`;
+
+  getCertificate_NbExamination(): Observable<NbExaminiation[]> {
+    const url = `http://127.0.0.1:8011/consultation/examination/1/employee`;
     return this.http.get<NbExaminiation[]>(url);
+  }
+
+  getCertificate_Gendre(year: number): Observable<ExaminitionGendre[]> {
+    return this.http.get<ExaminitionGendre[]>(`${this.apiUrl}/gendre/${year}`);
   }
 
   calculateTotals(data: CertificateAnalyseData[]): CertificateAnalyseTotal {

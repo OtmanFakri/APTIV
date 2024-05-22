@@ -13,12 +13,12 @@
   <div class="flex flex-wrap">
     <div class="md:w-3/5 w-full pb-6 md:pb-0 md:pr-6">
       <div class="rounded border-gray-300 dark:border-gray-700 border-dashed border-2">
-        <canvas class="w-full" #departmentCanvas></canvas>
+        <canvas class="w-full h-full" #departmentCanvas></canvas>
       </div>
     </div>
     <div class="md:w-2/5 w-full">
-      <div class="rounded border-gray-300 dark:border-gray-700 border-dashed border-2 ">
-        <div class="overflow-x-auto">
+      <div class="rounded border-gray-300 dark:border-gray-700 border-dashed border-2 h-full">
+        <div class="overflow-x-auto h-full">
           <table class="min-w-full bg-white">
             <thead>
             <tr>
@@ -32,10 +32,8 @@
             <tbody>
             <tr *ngFor="let exam of ListExamination">
               <td class="border py-2 px-4">{{ exam.department }}</td>
-              <td class="border py-2 px-4"
-                  (click)="open(exam.participating_employees)">{{ exam.total_participating }}</td>
-              <td class="border py-2 px-4"
-                  (click)="open(exam.non_participating_employees)">{{ exam.total_non_participating }}</td>
+              <td class="border py-2 px-4" (click)="open(exam.participating_employees)">{{ exam.total_participating }}</td>
+              <td class="border py-2 px-4" (click)="open(exam.non_participating_employees)">{{ exam.total_non_participating }}</td>
               <td class="border py-2 px-4">{{ exam["Total CM"] }}</td>
               <td class="border py-2 px-4">{{ exam["%"].toFixed(2) }}</td>
             </tr>
@@ -55,3 +53,14 @@
     </div>
   </div>
 </div>
+
+<style>
+  /* Ensure the table can scroll if necessary */
+  .overflow-x-auto {
+    max-height: 400px; /* Adjust as necessary */
+  }
+  /* Set the canvas height to match the table container height */
+  canvas {
+    height: 100%;
+  }
+</style>

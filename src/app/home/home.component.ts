@@ -8,6 +8,8 @@ import {QuierAnalyse} from "../interfaces/Analyse/QueryAnakyse";
 import {CategoryComponent} from "./lbar-line-chart/category/category.component";
 import {CertififcationValidationComponent} from "./certififcation-validation/certififcation-validation.component";
 import {ValidationHJComponent} from "./certififcation-validation/validation-hj/validation-hj.component";
+import {SexeComponent} from "./lbar-line-chart/sexe/sexe.component";
+import {TableGendreComponent} from "./lbar-line-chart/sexe/table-gendre/table-gendre.component";
 
 @Component({
   selector: 'app-home',
@@ -20,7 +22,9 @@ import {ValidationHJComponent} from "./certififcation-validation/validation-hj/v
     DepartmentComponent,
     CategoryComponent,
     CertififcationValidationComponent,
-    ValidationHJComponent
+    ValidationHJComponent,
+    SexeComponent,
+    TableGendreComponent
   ],
   templateUrl: './home.component.html',
 })

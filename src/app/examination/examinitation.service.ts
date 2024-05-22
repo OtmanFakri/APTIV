@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {POSTExamination} from "../interfaces/ExaminitionInterface";
 import {Observable} from "rxjs";
 import {
-  EmployeeExaminition,
+  EmployeeExaminition, ExaminitionCategory,
   ExaminitionDepartment,
   ExaminitionGendre,
   ExaminitionMonth
@@ -49,9 +49,9 @@ export class ExaminitationService {
     //consultation/test?consultation_id=1&sort_by=Sexe/category/department
     return this.http.get<ExaminitionGendre[]>(`${this.apiUrl}/consultation/test?consultation_id=${id_Examination}&sort_by=Sexe`)
   }
-  ExaminitionCategory(id_Examination: number): Observable<ExaminitionGendre[]> {
+  ExaminitionCategory(id_Examination: number): Observable<ExaminitionCategory[]> {
     //consultation/test?consultation_id=1&sort_by=Sexe/category/department
-    return this.http.get<ExaminitionGendre[]>(`${this.apiUrl}/consultation/test?consultation_id=${id_Examination}&sort_by=category`)
+    return this.http.get<ExaminitionCategory[]>(`${this.apiUrl}/consultation/test?consultation_id=${id_Examination}&sort_by=category`)
   }
   ExaminitionDep(id_Examination: number): Observable<ExaminitionDepartment[]> {
     //consultation/test?consultation_id=1&sort_by=Sexe/category/department

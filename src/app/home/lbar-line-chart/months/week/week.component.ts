@@ -1,44 +1,42 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import Chart, {ChartConfiguration, ChartData} from "chart.js/auto";
-import {AnalyseCertitifcatesService} from "../analyse-certitifcates.service";
-import {CertificateAnalyseTotal, ExaminitionGendre} from "../../../interfaces/Analyse/CertificateAnalyseByDepertemt";
-import {ServiceGendreService} from "./service-gendre.service";
+import Chart from "chart.js/auto";
+import {MonthWeeekService} from "../month-weeek.service";
+import {CertificationWeekInterface} from "../CertificationWeekInterafce";
+import {DateService} from "../../../date-service";
 import {NzDatePickerComponent} from "ng-zorro-antd/date-picker";
 import {FormsModule} from "@angular/forms";
+import {getISOWeek} from "date-fns";
 
 
 @Component({
-    selector: 'app-sexe',
+    selector: 'app-week',
     standalone: true,
     imports: [
         NzDatePickerComponent,
         FormsModule
     ],
-    templateUrl: './sexe.component.html',
+    templateUrl: './week.component.html',
+    styleUrl: './week.component.css'
 })
-export class SexeComponent implements OnInit {
-    data: ExaminitionGendre[] = [];
-    @ViewChild('sexeCanvas') sexeCanvas!: ElementRef<HTMLCanvasElement>;
+export class WeekComponent implements OnInit {
+    data: CertificationWeekInterface[] = [];
+    @ViewChild('weekCanvas') weekCanvas!: ElementRef<HTMLCanvasElement>;
     chart: Chart | null = null;
     date: Date = new Date();
 
-    constructor(private certificateService: ServiceGendreService) {
+    constructor(private weekService: MonthWeeekService,
+                private dateService: DateService) {
+    }
+
+    getWeek(result: Date): void {
+        console.log('week: ', getISOWeek(result));
+        this.fetchData(result.getFullYear(), getISOWeek(result));
     }
 
     ngOnInit(): void {
-        this.fetchData(this.date.getFullYear());
-    }
-
-    onChange(result: Date): void {
-        const selectedYear = result.getFullYear();
-        console.log('onChange: ', selectedYear);
-        this.fetchData(selectedYear);
-    }
-
-    private fetchData(year: number): void {
-        this.certificateService.getCertificate_Gendre(year);
-        this.certificateService.Listdata.subscribe(
-            (response: ExaminitionGendre[]) => {
+        this.fetchData(this.dateService.getCurrentYear(), this.dateService.getCurrentWeek()); // Example year and week
+        this.weekService.Listdata.subscribe(
+            (response: CertificationWeekInterface[]) => {
                 this.data = response;
                 if (this.chart) {
                     this.updateChart(this.data);
@@ -52,26 +50,30 @@ export class SexeComponent implements OnInit {
         );
     }
 
-    private createChart(data: ExaminitionGendre[]): void {
+    private fetchData(year: number, week: number): void {
+        this.weekService.getCertificate_week(year, week);
+    }
+
+    private createChart(data: CertificationWeekInterface[]): void {
         const chartData = this.formatChartData(data);
         const config = {
             type: 'bar',
             data: chartData,
             options: this.getChartOptions()
         };
-        this.chart = new Chart(this.sexeCanvas.nativeElement, config);
+        this.chart = new Chart(this.weekCanvas.nativeElement, config);
     }
 
-    private updateChart(data: ExaminitionGendre[]): void {
+    private updateChart(data: CertificationWeekInterface[]): void {
         if (this.chart) {
             this.chart.data = this.formatChartData(data);
             this.chart.update();
         }
     }
 
-    private formatChartData(data: ExaminitionGendre[]): any {
+    private formatChartData(data: CertificationWeekInterface[]): any {
         return {
-            labels: data.map(d => d.gender),
+            labels: data.map(d => d.date),
             datasets: [
                 {
                     type: 'bar',

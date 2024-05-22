@@ -18,13 +18,12 @@ import {DateService} from "../../date-service";
 export class DepartmentComponent implements AfterViewInit {
   @ViewChild('departmentCanvas') departmentCanvas!: ElementRef<HTMLCanvasElement>;
   public chart!: Chart;
-  @Output() certificateTotolDataChange = new EventEmitter<CertificateAnalyseTotal>(); // Emit the certificateTotolData
+  @Output() certificateTotolDataChange = new EventEmitter<CertificateAnalyseTotal>();
   dataList?: CertificateAnalyseByDepertemt[];
   certificateTotolData?: CertificateAnalyseTotal;
   selectedDate!: Date;
 
-  constructor(private analyseService: AnalyseCertitifcatesService,
-              private dateService: DateService) {
+  constructor(private analyseService: AnalyseCertitifcatesService, private dateService: DateService) {
     this.dateService.selectedDate.subscribe(date => {
       this.selectedDate = date;
       this.onDateChange(date);
@@ -32,11 +31,9 @@ export class DepartmentComponent implements AfterViewInit {
   }
 
   onDateChange(date: Date) {
-    if (this.selectedDate) {
+    if (date) {
       this.fetchData(date.getFullYear(), date.getMonth() + 1);
     }
-    this.fetchData(date.getFullYear(), date.getMonth() + 1);
-
   }
 
   fetchData(year: number, month: number): void {
@@ -53,12 +50,14 @@ export class DepartmentComponent implements AfterViewInit {
     });
   }
 
-
   ngAfterViewInit() {
     if (this.selectedDate) {
-      this.fetchData(this.selectedDate.getFullYear(), this.selectedDate.getMonth());
+      this.fetchData(this.selectedDate.getFullYear(), this.selectedDate.getMonth() + 1);
+    } else {
+      const currentDate = new Date();
+      this.selectedDate = currentDate;
+      this.fetchData(currentDate.getFullYear(), currentDate.getMonth() + 1);
     }
-    this.fetchData(this.selectedDate.getFullYear(), this.selectedDate.getMonth());
   }
 
   private createChart(data: CertificateAnalyseByDepertemt[]): void {
@@ -77,13 +76,12 @@ export class DepartmentComponent implements AfterViewInit {
     this.chart.update();
   }
 
-
   private formatChartData(data: CertificateAnalyseByDepertemt[]): ChartData {
     return {
       labels: data.map(d => d.department),
       datasets: [
         {
-          type: 'bar', // Specify type here for combo chart
+          type: 'bar',
           label: 'Number of Illness Certificates',
           data: data.map(d => d.certificates_nbr),
           backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -91,7 +89,7 @@ export class DepartmentComponent implements AfterViewInit {
           borderWidth: 1
         },
         {
-          type: 'bar', // Specify type here for combo chart
+          type: 'bar',
           label: 'Total Illness Days',
           data: data.map(d => d.illness_days_nbr),
           backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -99,17 +97,16 @@ export class DepartmentComponent implements AfterViewInit {
           borderWidth: 1
         },
         {
-          type: 'line', // Specify type here for combo chart
+          type: 'line',
           label: 'Certificate Rate (%)',
           data: data.map(d => d.certificate_rate),
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgba(75, 192, 192, 1)',
           borderWidth: 2,
-          fill: false // Typically set to false for line charts
-
+          fill: false
         },
         {
-          type: 'bar', // Specify type here for combo chart
+          type: 'bar',
           label: 'Average Illness Days',
           data: data.map(d => d.average_illness_days),
           backgroundColor: 'rgba(153, 102, 255, 0.2)',

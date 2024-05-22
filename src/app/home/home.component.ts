@@ -10,22 +10,28 @@ import {CertififcationValidationComponent} from "./certififcation-validation/cer
 import {ValidationHJComponent} from "./certififcation-validation/validation-hj/validation-hj.component";
 import {SexeComponent} from "./lbar-line-chart/sexe/sexe.component";
 import {TableGendreComponent} from "./lbar-line-chart/sexe/table-gendre/table-gendre.component";
+import {MonthsComponent} from "./lbar-line-chart/months/months.component";
+import {WeekComponent} from "./lbar-line-chart/months/week/week.component";
+import {TableWeekComponent} from "./lbar-line-chart/months/week/table-week/table-week.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    NgStyle,
-    NzCalendarComponent,
-    LbarLineChartComponent,
-    ContresVisitesPieComponent,
-    DepartmentComponent,
-    CategoryComponent,
-    CertififcationValidationComponent,
-    ValidationHJComponent,
-    SexeComponent,
-    TableGendreComponent
-  ],
+    imports: [
+        NgStyle,
+        NzCalendarComponent,
+        LbarLineChartComponent,
+        ContresVisitesPieComponent,
+        DepartmentComponent,
+        CategoryComponent,
+        CertififcationValidationComponent,
+        ValidationHJComponent,
+        SexeComponent,
+        TableGendreComponent,
+        MonthsComponent,
+        WeekComponent,
+        TableWeekComponent
+    ],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {

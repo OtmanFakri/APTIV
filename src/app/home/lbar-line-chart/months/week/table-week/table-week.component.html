@@ -1,0 +1,26 @@
+<nz-table
+        [nzScroll]="{ y: '245px' }"
+        [nzShowPagination]="false"
+        [nzData]="data || []"
+>
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Headcount</th>
+        <th>Certificates</th>
+        <th>Illness Days</th>
+        <th>Avg. Illness Days</th>
+        <th>Cert. Rate (%)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of data">
+        <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ item.headcount }}</td>
+        <td>{{ item.certificates_nbr }}</td>
+        <td>{{ item.illness_days_nbr }}</td>
+        <td>{{ item.average_illness_days }}</td>
+        <td>{{ item.certificate_rate | number: '1.2-2' }}</td>
+    </tr>
+    </tbody>
+</nz-table>

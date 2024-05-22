@@ -1,1 +1,12 @@
-<canvas #sexeCanvas></canvas>
+
+<div class="flex flex-col  xl:col-span-8 bg-white  rounded-sm border border-gray-200">
+    <header class="flex flex-row justify-between px-5 py-4 border-b border-gray-100  items-center">
+        <h2 class="font-semibold text-gray-800">Nombre des CM par Gender</h2>
+
+        <nz-date-picker nzMode="year"
+                        [(ngModel)]="date"
+                        (ngModelChange)="onChange($event)"></nz-date-picker>
+
+    </header>
+    <canvas width="800" height="300" #sexeCanvas></canvas>
+</div>

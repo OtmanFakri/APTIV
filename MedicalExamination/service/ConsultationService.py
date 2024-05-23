@@ -70,3 +70,6 @@ class ConsultationService:
 
     async def get_employees_by_MedicalExamination_details2(self, consultation_id: int, sort_by: str = None):
         return await self.consultationRepo.get_employees_by_MedicalExamination_details2(consultation_id, sort_by)
+
+    async def get_examination_by_employee(self, employee_id: int):
+        return await self.consultationRepo.get_examination_by_employee(employee_id)

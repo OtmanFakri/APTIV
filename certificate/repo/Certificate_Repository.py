@@ -69,7 +69,7 @@ class CertificateRepository:
     ):
         query = select(
             Department.name.label("department"),
-            func.count(distinct(Employee.id)).label("headcount"),
+            func.count(func.distinct(Employee.id)).label('headcount'),
             func.count(Certificate.id).label("certificates_nbr"),
             func.sum(Certificate.nbr_days).label("illness_days_nbr"),
             (func.count(Certificate.id) / func.count(distinct(Employee.id))).label("certificate_rate"),
@@ -100,7 +100,7 @@ class CertificateRepository:
                 func.count(Certificate.id).label("certificates_nbr"),
                 func.sum(Certificate.nbr_days).label("illness_days_nbr"),
                 (func.sum(Certificate.nbr_days) / func.count(Certificate.id)).label("average_illness_days"),
-                func.count(distinct(Employee.id)).label("headcount"),
+                func.count(func.distinct(Employee.id)).label('headcount'),
                 (func.count(Certificate.id) / func.count(distinct(Employee.id))).label("certificate_rate")
             )
             .select_from(Certificate)
@@ -127,7 +127,7 @@ class CertificateRepository:
         query = (
             select(
                 Department.category.label("category"),
-                func.count(distinct(Employee.id)).label("headcount"),
+                func.count(func.distinct(Employee.id)).label('headcount'),
                 func.count(Certificate.id).label("certificates_nbr"),
                 func.sum(Certificate.nbr_days).label("illness_days_nbr"),
                 (func.count(Certificate.id) / func.count(distinct(Employee.id))).label("certificate_rate"),
@@ -197,7 +197,7 @@ class CertificateRepository:
         query = (
             select(
                 Employee.Sexe,
-                func.count(Employee.id).label('headcount'),
+                func.count(func.distinct(Employee.id)).label('headcount'),
                 func.count(Certificate.id).label('certificates_nbr'),
                 func.sum(Certificate.nbr_days).label('illness_days_nbr'),
                 func.avg(Certificate.nbr_days).label('average_illness_days')

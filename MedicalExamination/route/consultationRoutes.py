@@ -268,21 +268,24 @@ async def testing(
             key = emp.department.name
         grouped_data[key]['participating'].append(emp)
 
+    participating_employee_ids = {emp.id for emp in participating_employees}
+
     for emp in non_participating_employees:
-        if sort_by == "Sexe":
-            key = emp.Sexe
-        elif sort_by == "category":
-            key = emp.department.category
-        elif sort_by == "department":
-            key = emp.department.name
-        grouped_data[key]['non_participating'].append(emp)
+        if emp.id not in participating_employee_ids:
+            if sort_by == "Sexe":
+                key = emp.Sexe
+            elif sort_by == "category":
+                key = emp.department.category
+            elif sort_by == "department":
+                key = emp.department.name
+            grouped_data[key]['non_participating'].append(emp)
 
     # Create the response
     response = []
     for key, group in grouped_data.items():
         total_participating = len(group['participating'])
-        total_non_participating = len(group['non_participating']) - total_participating
-        total_cm = total_participating + len(group['non_participating'])
+        total_non_participating = len(group['non_participating'])
+        total_cm = total_participating + total_non_participating
         participation_percentage = round((total_participating / total_cm) * 100, 2) if total_cm > 0 else 0
 
         response.append({
@@ -319,3 +322,10 @@ async def testing(
 
     return response
 
+
+@ConsultationRouter.get("/me/{employee_id}")
+async def get_examination_by_employee(employee_id: int,
+                                      service: ConsultationService = Depends(ConsultationService)
+                                      ):
+    result = await service.get_examination_by_employee(employee_id)
+    return result

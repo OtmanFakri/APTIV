@@ -253,3 +253,13 @@ class ConsultationRepo:
             employees.sort(key=lambda emp: emp.department_id)
 
         return employees
+
+    async def get_examination_by_employee(self, employee_id: int):
+        stmt = (
+            select(MedicalExamination)
+            .join(association_table, MedicalExamination.id == association_table.c.MedicalExamination_id)
+            .where(association_table.c.employee_id == employee_id)
+        )
+        result = await self.db.execute(stmt)
+        examinations = result.scalars().all()
+        return examinations

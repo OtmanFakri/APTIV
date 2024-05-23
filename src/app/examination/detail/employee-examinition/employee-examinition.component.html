@@ -12,6 +12,8 @@
                   stroke-linejoin="round"></path>
           </svg>
           <input type="text"
+                 [(ngModel)]="searchValue"
+                 (ngModelChange)="onSearchChange($event)"
                  class="py-2.5 pl-1 w-full focus:outline-none text-sm rounded text-gray-600 placeholder-gray-500"
                  placeholder="Search"/>
         </div>
@@ -80,7 +82,8 @@
         <td
           class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ user?.manager_name }}</td>
         <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-          <select class="w-full text-sm leading-3 text-gray-500 focus:outline-none" (change)="onDropdownChangeExaminition($event, user?.id)">
+          <select class="w-full text-sm leading-3 text-gray-500 focus:outline-none"
+                  (change)="onDropdownChangeExaminition($event, user?.id)">
             <option [value]="false">False</option>
             <option [value]="true">True</option>
           </select>

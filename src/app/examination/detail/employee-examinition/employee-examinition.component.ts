@@ -37,10 +37,13 @@ export class EmployeeExaminitionComponent {
 
   employeeExaminations: EmployeeExaminition | null = null;
   selectedValue: boolean = true;
+  searchValue: string = '';
+  searchTimeout: any;
 
   constructor(private examinitationService: ExaminitationService,
               private notification: NzNotificationService) {
   }
+
 
   ngOnInit(): void {
     this.GetEmployeeExamination(Number(this.ExaminitionId), this.selectedValue);
@@ -48,6 +51,13 @@ export class EmployeeExaminitionComponent {
 
   GetEmployeeExamination(id_Examinition: number, associated: boolean): void {
     this.examinitationService.GetEmployeeExamination(id_Examinition, associated).subscribe(
+      (data: EmployeeExaminition) => {
+        this.employeeExaminations = data;
+        console.log("EmployeeExaminitionComponent", data);
+      });
+  }
+  searchEmployeeExamination(id_Examinition: number, page = 1, search: string): void {
+    this.examinitationService.searchEmployeeExamination(id_Examinition, page, search).subscribe(
       (data: EmployeeExaminition) => {
         this.employeeExaminations = data;
         console.log("EmployeeExaminitionComponent", data);
@@ -128,5 +138,16 @@ export class EmployeeExaminitionComponent {
         }
       );
     }
+  }
+
+  onSearchChange($event: any) {
+    clearTimeout(this.searchTimeout); // Clear the previous timeout
+    this.searchTimeout = setTimeout(() => {
+      if (this.searchValue !== null && this.searchValue !== '') {
+        this.searchEmployeeExamination(Number(this.ExaminitionId), 1, this.searchValue);
+      } else {
+        this.GetEmployeeExamination(Number(this.ExaminitionId), this.selectedValue);
+      }
+    }, 2000); // Delay of 2 seconds
   }
 }

@@ -19,14 +19,7 @@ export class AnalyseCertitifcatesService {
   constructor(private http: HttpClient) {
   }
 
-  getCertificateAnalyseByDepertemt(year: number, month: number) {
 
-    const parms = {
-      year: year.toString(),
-      month: month.toString()
-    }
-    return this.http.get(this.apiUrl + '/by_department', {params: parms});
-  }
 
   getCertificateAnalyseByYear(year: number, month: number) {
 
@@ -37,14 +30,6 @@ export class AnalyseCertitifcatesService {
     return this.http.get(this.apiUrl + '/by_month', {params: parms});
   }
 
-  getCertificateAnalyseByCategory(year: number, month: number) {
-
-    const parms = {
-      year: year.toString(),
-      // month: month.toString()
-    }
-    return this.http.get(this.apiUrl + '/by_category', {params: parms});
-  }
 
   getCertificateAnalyseByHj(year: number, status: string): Observable<ValidationHj[]> {
     const url = `${this.apiUrl}/by_validation?year=${year}&validation_status=${status}`;

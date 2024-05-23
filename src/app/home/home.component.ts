@@ -14,26 +14,28 @@ import {MonthsComponent} from "./lbar-line-chart/months/months.component";
 import {WeekComponent} from "./lbar-line-chart/months/week/week.component";
 import {TableWeekComponent} from "./lbar-line-chart/months/week/table-week/table-week.component";
 import {DepartmentTableComponent} from "./lbar-line-chart/department/department-table/department-table.component";
+import {CategoryTableComponent} from "./lbar-line-chart/category/category-table/category-table.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-    imports: [
-        NgStyle,
-        NzCalendarComponent,
-        LbarLineChartComponent,
-        ContresVisitesPieComponent,
-        DepartmentComponent,
-        CategoryComponent,
-        CertififcationValidationComponent,
-        ValidationHJComponent,
-        SexeComponent,
-        TableGendreComponent,
-        MonthsComponent,
-        WeekComponent,
-        TableWeekComponent,
-        DepartmentTableComponent
-    ],
+  imports: [
+    NgStyle,
+    NzCalendarComponent,
+    LbarLineChartComponent,
+    ContresVisitesPieComponent,
+    DepartmentComponent,
+    CategoryComponent,
+    CertififcationValidationComponent,
+    ValidationHJComponent,
+    SexeComponent,
+    TableGendreComponent,
+    MonthsComponent,
+    WeekComponent,
+    TableWeekComponent,
+    DepartmentTableComponent,
+    CategoryTableComponent
+  ],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {

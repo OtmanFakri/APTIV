@@ -13,6 +13,7 @@ import {MonthsComponent} from "../months/months.component";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
 import {SexeComponent} from "../sexe/sexe.component";
 import {FormsModule} from "@angular/forms";
+import {CategoryAnalyseCertificationService} from "./category-analyse-certification.service";
 
 @Component({
   selector: 'app-category',
@@ -40,8 +41,8 @@ export class CategoryComponent implements AfterViewInit {
   @Output() certificateTotolDataChange = new EventEmitter<CertificateAnalyseTotal>();
   selectedMonth: Date = new Date();
 
-  constructor(private analyseService: AnalyseCertitifcatesService) {
-  }
+  constructor(private analyseService: CategoryAnalyseCertificationService,
+              private analyseCertitifcatesService :AnalyseCertitifcatesService) {}
 
   onMonthChange(date: Date): void {
     this.selectedMonth = date;
@@ -57,10 +58,10 @@ export class CategoryComponent implements AfterViewInit {
   }
 
   fetchData(year: number, month: number): void {
-    // @ts-ignore
-    this.analyseService.getCertificateAnalyseByCategory(year, month).subscribe((data: CertificateAnalyseByCategory[]) => {
+    this.analyseService.getCertificateAnalyseByCategory(year, month);
+    this.analyseService.categoryListData.subscribe((data: CertificateAnalyseByCategory[]) => {
       this.dataList = data;
-      this.certificateTotolData = this.analyseService.calculateTotals(data);
+      this.certificateTotolData = this.analyseCertitifcatesService.calculateTotals(data); // Update to calculate totals in the component
       this.certificateTotolDataChange.emit(this.certificateTotolData);
       if (this.chart) {
         this.updateChart(data);
@@ -92,7 +93,6 @@ export class CategoryComponent implements AfterViewInit {
       datasets: [
         {
           type: 'bar', // Specify type here for combo chart
-
           label: 'Number of Illness Certificates',
           data: data.map(d => d.certificates_nbr),
           backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -101,7 +101,6 @@ export class CategoryComponent implements AfterViewInit {
         },
         {
           type: 'bar', // Specify type here for combo chart
-
           label: 'Total Illness Days',
           data: data.map(d => d.illness_days_nbr),
           backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -148,4 +147,5 @@ export class CategoryComponent implements AfterViewInit {
       }
     };
   }
+
 }

@@ -57,5 +57,8 @@ export class ExaminitationService {
     //consultation/test?consultation_id=1&sort_by=Sexe/category/department
     return this.http.get<ExaminitionDepartment[]>(`${this.apiUrl}/consultation/test?consultation_id=${id_Examination}&sort_by=department`)
   }
+  searchEmployeeExamination(id_Examination: number, page = 1, search: string): Observable<EmployeeExaminition>{
+    return this.http.get<EmployeeExaminition>(`${this.apiUrl}/consultation/search?employee_id=${search}&consultation_id=${id_Examination}&page=${page}`)
+  }
 
 }

@@ -50,6 +50,9 @@ export class AddCertiicationComponent {
         });
     }
 
+  get nbDays() {
+    return this.form.get('nb_days')?.value ?? 0; // Default to 0 if null
+  }
     onSubmit(employeeId: Number) {
         console.log(this.form.value);
         var date = new Date();

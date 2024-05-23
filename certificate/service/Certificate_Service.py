@@ -1,5 +1,6 @@
 import calendar
-from datetime import date
+from datetime import date, datetime
+from typing import Optional
 
 from fastapi import Depends
 
@@ -14,38 +15,25 @@ class CertificateService:
     ) -> None:
         self.certificationRepository = certificationRepository
 
-    async def get_filtered_certificates(self, doctor_id: int = None,
-                                        manager_id: int = None,
-                                        from_date: str = None,
-                                        to_date: str = None,
-                                        nbr_days: int = None,
-                                        validation: str = None
-                                        ):
-        certificates = await self.certificationRepository.filter_certificates(doctor_id,
-                                                                              manager_id,
-                                                                              from_date,
-                                                                              to_date,
-                                                                              nbr_days,
-                                                                              validation)
-        return [
-            {
-                "id": cert.id,
-                "doctor_name": cert.doctor.name,
-                "nameEmployee": cert.employee.full_name(),
-                "department": cert.employee.department.name,
-                "job": cert.employee.job.name,
-                "date": cert.date,
-                "date_start": cert.date_start,
-                "date_end": cert.date_end,
-                "date_entry": cert.date_entry,
-                "validation": cert.validation,
-                "date_planned": cert.date_planned,
-                "nbr_expected": cert.nbr_expected,
-                "nbr_days": cert.nbr_days,
-                "nbr_gap": cert.nbr_gap
-            }
-            for cert in certificates
-        ]
+    async def get_filtered_certificates(self, doctor_id: Optional[int] = None,
+                                        manager_id: Optional[int] = None,
+                                        from_date: Optional[date] = None,
+                                        to_date: Optional[date] = None,
+                                        nbr_days: Optional[int] = None,
+                                        validation: Optional[str] = None,
+                                        year: Optional[int] = None,
+                                        include_today: bool = False):
+        certificates = await self.certificationRepository.filter_certificates(
+            doctor_id=doctor_id,
+            manager_id=manager_id,
+            from_date=from_date,
+            to_date=to_date,
+            nbr_days=nbr_days,
+            validation=validation,
+            year=year,
+            include_today=include_today
+        )
+        return certificates
 
     async def get_department_data(self, department_id: int = None, year: int = None, month: int = None):
         return await self.certificationRepository.get_certificates_by_department(department_id,
@@ -102,7 +90,6 @@ class CertificateService:
 
     async def analyze_certificates_by_gender_and_year(self, year: int):
         return await self.certificationRepository.analyze_certificates_by_gender_and_year(year=year)
+
     async def analyze_certificates_by_week_and_year(self, year: int, week: int):
         return await self.certificationRepository.analyze_certificates_by_week_and_year(year=year, week=week)
-
-

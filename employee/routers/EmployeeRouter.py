@@ -179,13 +179,14 @@ async def delete_certificate(
         raise HTTPException(status_code=500, detail="An internal server error occurred.")
 
 
-@EmployeeRouter.get("/{employee_id}/certificates")
+@EmployeeRouter.get("/{employee_id}/certificates/{year}")
 async def get_certificates_employee(
         employee_id: int,
+        year: int,
         employeeService: EmployeeRepo = Depends()
 ) -> Page[GetCertificateSchema]:
     try:
-        fetched_certificates = await employeeService.get_certificates_by_employee(employee_id)
+        fetched_certificates = await employeeService.get_certificates_by_employee(employee_id, year)
         certificates = [
             GetCertificateSchema(
                 id=certificate.id,
@@ -206,6 +207,15 @@ async def get_certificates_employee(
         return paginate(certificates)
     except Exception as e:
         return {"success": False, "error": str(e)}
+
+
+@EmployeeRouter.get("/{employee_id}/certificates/{year}/analyse")
+async def get_certificates_employee(
+        employee_id: int,
+        year: int,
+        employeeService: EmployeeRepo = Depends()
+):
+    return await employeeService.calculate_certificate_stats(employee_id,year)
 
 
 @EmployeeRouter.post("/visit/{current_year}")

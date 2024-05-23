@@ -280,16 +280,34 @@ class EmployeeRepo:
 
         return visits_by_month
 
-    async def get_certificates_by_employee(self, employee_id):
+    async def get_certificates_by_employee(self, employee_id, year: int):
         query = (
             select(Certificate)
             .join(Employee)
             .options(joinedload(Certificate.employee))
             .options(selectinload(Certificate.doctor))
             .where(Employee.id == employee_id)
+            .where(extract('year', Certificate.date) == year)
+
         )
         result = await self.db.execute(query)
         certificates = result.scalars().all()
         if not certificates:
             raise HTTPException(status_code=404, detail="No certificates found for this employee")
         return certificates
+
+    async def calculate_certificate_stats(self, employee_id: int, year: int):
+        certificates = await self.get_certificates_by_employee(employee_id, year)
+        certificates_nbr = len(certificates)
+        illness_days_nbr = sum(cert.nbr_days for cert in certificates)
+        average_illness_days = illness_days_nbr / certificates_nbr if certificates_nbr > 0 else 0
+        nb_day_abs = sum(cert.nb_day_abs for cert in certificates)
+
+        return [
+            {
+                "certificates_nbr": certificates_nbr,
+                "illness_days_nbr": illness_days_nbr,
+                "average_illness_days": average_illness_days,
+                "nb_day_abs": abs(nb_day_abs)
+            }
+        ]

@@ -22,3 +22,7 @@ class Certificate(EntityMeta):
 
     employee_id = Column(Integer, ForeignKey("Employees.id"))
     employee = relationship("Employee", back_populates="certificates")
+
+    @property
+    def nb_day_abs(self):
+        return (self.date_entry - self.date_planned).days if self.date_planned else 0

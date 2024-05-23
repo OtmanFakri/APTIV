@@ -1,4 +1,5 @@
 import calendar
+from datetime import date
 from typing import Optional
 
 from sqlalchemy import select, func, extract, distinct, case
@@ -28,14 +29,15 @@ class CertificateRepository:
     ) -> None:
         self.db = db
 
-    async def filter_certificates(self, doctor_id=None, manager_id=None, from_date=None, to_date=None, nbr_days=None,
-                                  validation=None):
+    async def filter_certificates(self, doctor_id: Optional[int] = None, manager_id: Optional[int] = None,
+                                  from_date: Optional[date] = None, to_date: Optional[date] = None,
+                                  nbr_days: Optional[int] = None, validation: Optional[str] = None,
+                                  year: Optional[int] = None, include_today: bool = False):
         async with self.db as session:
             query = select(Certificate).options(
                 joinedload(Certificate.doctor),
                 joinedload(Certificate.employee).joinedload(Employee.department),
                 joinedload(Certificate.employee).joinedload(Employee.job)
-                # Correct path through Employee to Department
             )
 
             # Filter by doctor_id if provided
@@ -50,6 +52,10 @@ class CertificateRepository:
             # Filter by date range if provided
             if from_date and to_date:
                 query = query.where(Certificate.date.between(from_date, to_date))
+            elif from_date:
+                query = query.where(Certificate.date >= from_date)
+            elif to_date:
+                query = query.where(Certificate.date <= to_date)
 
             # Filter by number of days if provided
             if nbr_days is not None:
@@ -58,6 +64,15 @@ class CertificateRepository:
             # Filter by validation status if provided
             if validation is not None:
                 query = query.where(Certificate.validation == validation)
+
+            # Filter by year if provided
+            if year is not None:
+                query = query.where(extract('year', Certificate.date) == year)
+
+            # Include certificates with date_entry equal to today if specified
+            if include_today:
+                today = date.today()
+                query = query.where(Certificate.date_entry == today)
 
             result = await session.execute(query)  # Execute the query asynchronously
             certificates = result.scalars().all()  # Fetch the results

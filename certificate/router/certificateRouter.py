@@ -11,7 +11,7 @@ from starlette.responses import JSONResponse
 
 from certificate.models.certificate import Certificate
 from certificate.schemas.CertificateSchema import GetCertificateSchema, FilterCertificatesRequest, \
-    DepartmentCertificates, MonthCertificates, CategoryCertificates, EmployeeVisit
+    DepartmentCertificates, MonthCertificates, CategoryCertificates, EmployeeVisit, GetCertificatesSchema
 from certificate.service.Certificate_Service import CertificateService
 from configs.Database import get_db_connection
 from helper.int_to_month import int_to_month
@@ -56,15 +56,38 @@ def get_certificates(db: Session = Depends(get_db_connection)) -> Page[GetCertif
 async def filter_certificates(
         filter_params: FilterCertificatesRequest,
         service: CertificateService = Depends(CertificateService)
-) -> Page[GetCertificateSchema]:
-    certificates = await service.get_filtered_certificates(filter_params.doctor_id,
-                                                           filter_params.manager_id,
-                                                           filter_params.from_date,
-                                                           filter_params.to_date,
-                                                           filter_params.nbr_days,
-                                                           filter_params.validation)
+) -> Page[GetCertificatesSchema]:
+    certificates = await service.get_filtered_certificates(
+        doctor_id=filter_params.doctor_id,
+        manager_id=filter_params.manager_id,
+        from_date=filter_params.from_date,
+        to_date=filter_params.to_date,
+        nbr_days=filter_params.nbr_days,
+        validation=filter_params.validation,
+        year=filter_params.year,
+        include_today=filter_params.include_today
+    )
 
-    return paginate(certificates)
+    return paginate([
+        GetCertificatesSchema(
+            id=certificate.id,
+            doctor_name=certificate.doctor.name,
+            employeeName=certificate.employee.full_name(),
+            employeeId=certificate.employee.id,
+            doctor_speciality=certificate.doctor.specialty,
+            date=certificate.date,
+            date_start=certificate.date_start,
+            date_end=certificate.date_end,
+            date_entry=certificate.date_entry,
+            validation=certificate.validation,
+            date_planned=certificate.date_planned,
+            nbr_expected=certificate.nbr_expected,
+            nbr_days=certificate.nbr_days,
+            nbr_gap=certificate.nbr_gap,
+        )
+
+        for certificate in certificates
+    ])
 
 
 @CertificateRouter.get("/by_department")

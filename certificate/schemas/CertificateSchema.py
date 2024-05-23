@@ -66,6 +66,11 @@ class GetCertificateSchema(BaseModel):
         orm_mode = True
         from_attributes = True
 
+class GetCertificatesSchema(GetCertificateSchema):
+    employeeName: str
+    employeeId: int
+
+
 class CertificateByDoctorSchema(BaseModel):
     id: Optional[int]
     date: date
@@ -89,6 +94,8 @@ class FilterCertificatesRequest(BaseModel):
     to_date: Optional[date] = Field(default=None, description="End date for filtering certificates")
     nbr_days: Optional[int] = Field(default=None, description="Number of days to filter certificates")
     validation: Optional[str] = Field(default=None, description="Validation status to filter certificates")
+    year: Optional[int] = Field(default=None, description="Year to filter certificates by")
+    include_today: Optional[bool] = Field(default=False, description="Include certificates with date_entry equal to today")
 
 class DepartmentCertificates(BaseModel):
     department: str

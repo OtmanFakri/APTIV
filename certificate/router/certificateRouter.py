@@ -65,15 +65,19 @@ async def filter_certificates(
         nbr_days=filter_params.nbr_days,
         validation=filter_params.validation,
         year=filter_params.year,
-        include_today=filter_params.include_today
+        include_today=filter_params.include_today,
+        exclude_date_planned=filter_params.exclude_date_planned
     )
+
+    if not certificates:
+        raise HTTPException(status_code=404, detail="No certificates found")
 
     return paginate([
         GetCertificatesSchema(
             id=certificate.id,
             doctor_name=certificate.doctor.name,
-            employeeName=certificate.employee.full_name(),
-            employeeId=certificate.employee.id,
+            employeeName=certificate.employee.full_name() if certificate.employee else "N/A",
+            employeeId=certificate.employee.id if certificate.employee else 0,
             doctor_speciality=certificate.doctor.specialty,
             date=certificate.date,
             date_start=certificate.date_start,
@@ -85,7 +89,6 @@ async def filter_certificates(
             nbr_days=certificate.nbr_days,
             nbr_gap=certificate.nbr_gap,
         )
-
         for certificate in certificates
     ])
 

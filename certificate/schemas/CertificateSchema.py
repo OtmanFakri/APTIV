@@ -39,7 +39,7 @@ class PostCertificateSchema(BaseModel):
         if date_start and date_end:
             nbr_expected = (date_end - date_start).days
             values['nbr_expected_days'] = nbr_expected
-            nbr_gap =  nbr_days - nbr_expected
+            nbr_gap = nbr_days - nbr_expected
             values['nbr_gap_days'] = nbr_gap
             values['date_entry'] = date_start + timedelta(days=nbr_days)
 
@@ -47,6 +47,7 @@ class PostCertificateSchema(BaseModel):
 
     class Config:
         allow_population_by_field_name = True
+
 
 class GetCertificateSchema(BaseModel):
     id: Optional[int]
@@ -57,7 +58,7 @@ class GetCertificateSchema(BaseModel):
     date_end: date
     date_entry: date
     validation: str = Field(..., max_length=255)
-    date_planned: date
+    date_planned: Optional[date] = None
     nbr_expected: int
     nbr_days: int
     nbr_gap: int
@@ -65,6 +66,7 @@ class GetCertificateSchema(BaseModel):
     class Config:
         orm_mode = True
         from_attributes = True
+
 
 class GetCertificatesSchema(GetCertificateSchema):
     employeeName: str
@@ -87,6 +89,7 @@ class CertificateByDoctorSchema(BaseModel):
         orm_mode = True
         from_attributes = True
 
+
 class FilterCertificatesRequest(BaseModel):
     doctor_id: Optional[int] = Field(default=None, description="ID of the doctor to filter by")
     manager_id: Optional[int] = Field(default=None, description="ID of the manager to filter by")
@@ -95,7 +98,11 @@ class FilterCertificatesRequest(BaseModel):
     nbr_days: Optional[int] = Field(default=None, description="Number of days to filter certificates")
     validation: Optional[str] = Field(default=None, description="Validation status to filter certificates")
     year: Optional[int] = Field(default=None, description="Year to filter certificates by")
-    include_today: Optional[bool] = Field(default=False, description="Include certificates with date_entry equal to today")
+    include_today: Optional[bool] = Field(default=False,
+                                          description="Include certificates with date_entry equal to today")
+    exclude_date_planned: Optional[bool] = Field(default=False,
+                                                 description="Exclude certificates with date_planned set")
+
 
 class DepartmentCertificates(BaseModel):
     department: str
@@ -107,7 +114,6 @@ class DepartmentCertificates(BaseModel):
 
     class Config:
         orm_mode = True
-
 
 
 class MonthCertificates(BaseModel):
@@ -122,6 +128,7 @@ class MonthCertificates(BaseModel):
     class Config:
         orm_mode = True
 
+
 class CategoryCertificates(BaseModel):
     category: str
     certificates_nbr: int
@@ -132,6 +139,7 @@ class CategoryCertificates(BaseModel):
 
     class Config:
         orm_mode = True
+
 
 class EmployeeVisit(BaseModel):
     month: str

@@ -22,7 +22,8 @@ class CertificateService:
                                         nbr_days: Optional[int] = None,
                                         validation: Optional[str] = None,
                                         year: Optional[int] = None,
-                                        include_today: bool = False):
+                                        include_today: bool = False,
+                                        exclude_date_planned: bool = False):
         certificates = await self.certificationRepository.filter_certificates(
             doctor_id=doctor_id,
             manager_id=manager_id,
@@ -31,7 +32,8 @@ class CertificateService:
             nbr_days=nbr_days,
             validation=validation,
             year=year,
-            include_today=include_today
+            include_today=include_today,
+            exclude_date_planned=exclude_date_planned
         )
         return certificates
 

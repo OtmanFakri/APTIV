@@ -2,7 +2,7 @@ import calendar
 from datetime import date
 from typing import Optional
 
-from sqlalchemy import select, func, extract, distinct, case
+from sqlalchemy import select, func, extract, distinct, case, and_
 
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -32,7 +32,8 @@ class CertificateRepository:
     async def filter_certificates(self, doctor_id: Optional[int] = None, manager_id: Optional[int] = None,
                                   from_date: Optional[date] = None, to_date: Optional[date] = None,
                                   nbr_days: Optional[int] = None, validation: Optional[str] = None,
-                                  year: Optional[int] = None, include_today: bool = False):
+                                  year: Optional[int] = None, include_today: bool = False,
+                                  exclude_date_planned: bool = False):
         async with self.db as session:
             query = select(Certificate).options(
                 joinedload(Certificate.doctor),
@@ -72,7 +73,11 @@ class CertificateRepository:
             # Include certificates with date_entry equal to today if specified
             if include_today:
                 today = date.today()
-                query = query.where(Certificate.date_entry == today)
+                query = query.where(and_(Certificate.date_entry == today))
+
+            # Exclude certificates where date_planned is set if specified
+            if exclude_date_planned:
+                query = query.where(Certificate.date_planned.is_(None))
 
             result = await session.execute(query)  # Execute the query asynchronously
             certificates = result.scalars().all()  # Fetch the results

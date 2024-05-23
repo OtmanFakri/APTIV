@@ -180,12 +180,12 @@ async def delete_certificate(
 
 
 @EmployeeRouter.get("/{employee_id}/certificate")
-def get_certificate_employee(
+async def get_certificate_employee(
         employee_id: int,
-        employeeService: EmployeeService = Depends()
+        employeeService: EmployeeRepo = Depends()
 ):
     try:
-        fetched_certificate = employeeService.get_certificate_employee(employee_id)
+        fetched_certificate = await employeeService.get_certificates_by_employee(employee_id)
         return fetched_certificate
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

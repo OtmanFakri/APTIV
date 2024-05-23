@@ -279,3 +279,9 @@ class EmployeeRepo:
             data["not_null_percentage"] = (data["not_null"] / total_visits * 100) if total_visits > 0 else 0
 
         return visits_by_month
+
+    async def get_certificates_by_employee(self,employee_id):
+        query = select(Employee).where(Employee.id == employee_id)
+        result = await self.db.execute(query)
+        employee = result.scalars().first()
+        return employee.certificates

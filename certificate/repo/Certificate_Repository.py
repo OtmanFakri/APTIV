@@ -232,3 +232,4 @@ class CertificateRepository:
         result_tuple = result.fetchall()
 
         return result_tuple
+

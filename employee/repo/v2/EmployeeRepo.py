@@ -9,7 +9,7 @@ from sqlalchemy import and_, delete, update, extract
 from sqlalchemy.future import select
 from datetime import date, timedelta
 
-from sqlalchemy.orm import selectinload
+from sqlalchemy.orm import selectinload, joinedload
 
 from Department.models.Department import Department
 from Department.models.Job import Job
@@ -280,8 +280,16 @@ class EmployeeRepo:
 
         return visits_by_month
 
-    async def get_certificates_by_employee(self,employee_id):
-        query = select(Employee).where(Employee.id == employee_id)
+    async def get_certificates_by_employee(self, employee_id):
+        query = (
+            select(Certificate)
+            .join(Employee)
+            .options(joinedload(Certificate.employee))
+            .options(selectinload(Certificate.doctor))
+            .where(Employee.id == employee_id)
+        )
         result = await self.db.execute(query)
-        employee = result.scalars().first()
-        return employee.certificates
+        certificates = result.scalars().all()
+        if not certificates:
+            raise HTTPException(status_code=404, detail="No certificates found for this employee")
+        return certificates

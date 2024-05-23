@@ -51,9 +51,7 @@ class PostCertificateSchema(BaseModel):
 class GetCertificateSchema(BaseModel):
     id: Optional[int]
     doctor_name: str
-    #nameEmployee: str
-    #department: str
-    #job: str
+    doctor_speciality: str
     date: date
     date_start: date
     date_end: date

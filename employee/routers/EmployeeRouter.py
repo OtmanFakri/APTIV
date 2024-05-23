@@ -179,39 +179,31 @@ async def delete_certificate(
         raise HTTPException(status_code=500, detail="An internal server error occurred.")
 
 
-@EmployeeRouter.get("/{employee_id}/certificate")
-async def get_certificate_employee(
+@EmployeeRouter.get("/{employee_id}/certificates")
+async def get_certificates_employee(
         employee_id: int,
         employeeService: EmployeeRepo = Depends()
-):
-    try:
-        fetched_certificate = await employeeService.get_certificates_by_employee(employee_id)
-        return fetched_certificate
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-@EmployeeRouter.get("/{employee_id}/certificates")
-def get_certificates_employee(
-        employee_id: int,
-        employeeService: EmployeeService = Depends()
 ) -> Page[GetCertificateSchema]:
     try:
-        fetched_certificate = employeeService.get_certificates_employee(employee_id)
-        return paginate([GetCertificateSchema(
-            id=certificate.id,
-
-            doctor_name=certificate.doctor.name,
-            date=certificate.date,
-            date_start=certificate.date_start,
-            date_end=certificate.date_end,
-            date_entry=certificate.date_entry,
-            validation=certificate.validation,
-            date_planned=certificate.date_planned,
-            nbr_expected=certificate.nbr_expected,
-            nbr_days=certificate.nbr_days,
-            nbr_gap=certificate.nbr_gap,
-        ) for certificate in fetched_certificate])
+        fetched_certificates = await employeeService.get_certificates_by_employee(employee_id)
+        certificates = [
+            GetCertificateSchema(
+                id=certificate.id,
+                doctor_name=certificate.doctor.name,
+                doctor_speciality=certificate.doctor.specialty,
+                date=certificate.date,
+                date_start=certificate.date_start,
+                date_end=certificate.date_end,
+                date_entry=certificate.date_entry,
+                validation=certificate.validation,
+                date_planned=certificate.date_planned,
+                nbr_expected=certificate.nbr_expected,
+                nbr_days=certificate.nbr_days,
+                nbr_gap=certificate.nbr_gap,
+            )
+            for certificate in fetched_certificates
+        ]
+        return paginate(certificates)
     except Exception as e:
         return {"success": False, "error": str(e)}
 

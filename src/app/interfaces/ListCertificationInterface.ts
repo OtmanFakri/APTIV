@@ -39,3 +39,9 @@ export interface CertificationsRequestInterface {
   nbr_days:     number | null;
 }
 
+export interface CertificationAnalysEmployee {
+  certificates_nbr:     number;
+  illness_days_nbr:     number;
+  average_illness_days: number;
+  nb_day_abs:           number;
+}

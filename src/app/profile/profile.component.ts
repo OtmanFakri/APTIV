@@ -26,6 +26,7 @@ import {NzNotificationComponent, NzNotificationService} from "ng-zorro-antd/noti
 export class ProfileComponent implements OnInit {
   userId: any;
   employeeProfile: ProfileEmployee | null = null;
+  baseUrl = 'http://127.0.0.1:8011/';
   @ViewChild(UpdateProfileComponent) OnSubmetUpdate!: UpdateProfileComponent;
   @ViewChild('notificationBtnTpl', {static: true}) btnDelete!: TemplateRef<{ $implicit: NzNotificationComponent }>;
 

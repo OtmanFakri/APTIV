@@ -11,6 +11,7 @@ export interface CertificateEmployee {
 export interface Item {
   id:           number;
   doctor_name:  string;
+  doctor_speciality: string;
   date:         Date;
   date_start:   Date;
   date_end:     Date;

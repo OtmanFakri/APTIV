@@ -46,7 +46,7 @@ import {AddCertiicationComponent} from "../list-certification/add-certiication/a
 })
 export class ListEmployeeComponent implements OnInit {
   @ViewChild(AddCertiicationComponent) FormSubmet!: AddCertiicationComponent;
-
+  baseUrl = 'http://127.0.0.1:8011/'
   listEmployee: ListEmployee | null = null;
   selectedEmployee_id: Number | null = null;
   currentPage: number = 1;

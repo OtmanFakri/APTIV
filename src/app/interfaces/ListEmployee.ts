@@ -8,6 +8,7 @@ export interface ListEmployee {
 
 export interface Item {
     id: number;
+    avatar: string | null;
     first_name: string;
     last_name: string;
     manager_name: string;

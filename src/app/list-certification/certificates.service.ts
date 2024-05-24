@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {CertificateEmployee} from "../interfaces/CertificateEmployee";
-import {CertificationsRequestInterface} from "../interfaces/ListCertificationInterface";
+import {CertificationAnalysEmployee, CertificationsRequestInterface} from "../interfaces/ListCertificationInterface";
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +12,14 @@ export class CertificatesService {
   private baseUrl = 'http://127.0.0.1:8011/employee'; // Base URL for the API
 
   constructor(private http: HttpClient) { }
-  getCertificates(employee_id: number, page: number = 1, size: number = 50): Observable<any> {
+  getCertificates(employee_id: number, page: number = 1, size: number = 50,year:number): Observable<any> {
     // Prepare HTTP parameters
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
     // Construct the URL
-    const url = `${this.baseUrl}/${employee_id}/certificates`;
+    const url = `${this.baseUrl}/${employee_id}/certificates/${year}`;
 
     // Make the GET request
     return this.http.get<CertificateEmployee>(url, { params });
@@ -49,5 +49,9 @@ export class CertificatesService {
 
     // Make the HTTP PUT request
     return this.http.put(url, data);
+  }
+
+  analyseEMployeeCertficaes(employeeId: number, year: number): Observable<CertificationAnalysEmployee[]> {
+    return this.http.get<CertificationAnalysEmployee[]>(`${this.baseUrl}/${employeeId}/certificates/${year}/analyse`);
   }
 }

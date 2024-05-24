@@ -129,11 +129,19 @@
             *ngFor="let user of listEmployee?.items">
             <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
               <div class="flex items-center">
-                <div class="h-11 w-11 flex-shrink-0"
-                     style="background-color:{{ getRandomColor(user?.first_name) }}">
-                  <div class="h-11 w-11 rounded-full flex items-center justify-center text-white">
-                    {{ user?.last_name?.substring(0, 2)?.toUpperCase() }}
-                  </div>
+                <div class="h-11 w-11 flex-shrink-0">
+                  <!-- Check if user avatar exists -->
+                  <ng-container *ngIf="user?.avatar; else noAvatar">
+                    <img [src]="baseUrl + user.avatar" alt="User Avatar" class="h-11 w-11 rounded-full" />
+                  </ng-container>
+                  <!-- Fallback for when user avatar is null -->
+                  <ng-template #noAvatar>
+                    <div class="h-11 w-11 flex-shrink-0" [style.backgroundColor]="getRandomColor(user?.first_name)">
+                      <div class="h-11 w-11 rounded-full flex items-center justify-center text-white">
+                        {{ user?.last_name?.substring(0, 2)?.toUpperCase() }}
+                      </div>
+                    </div>
+                  </ng-template>
                 </div>
 
                 <div class="ml-4">

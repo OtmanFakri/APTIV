@@ -1,5 +1,6 @@
 export interface ProfileEmployee {
   id:              number;
+  avatar:          string|null;
   category:        string;
   department_name: string;
   job_name:        string;

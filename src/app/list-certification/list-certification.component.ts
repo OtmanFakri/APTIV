@@ -50,22 +50,14 @@ interface ListCertification {
   templateUrl: './list-certification.component.html',
 })
 export class ListCertificationComponent {
-  searchTerm: string= '';
-  isFilterOpen: boolean = false;
-  dateCertification = null;
+
   isVisible: boolean = false;
-  isConfirmLoading = false;
   @ViewChild(AddCertiicationComponent) addCertificationComponent!: AddCertiicationComponent;
 
   dropdown?: number;
   show_row?: number;
   table_interact1: boolean = false;
-  table_interact2: boolean = false;
-  table_interact3: boolean = false;
-  table_interact4: boolean = false;
-  table_interact5: boolean = false;
-  table_interact6: boolean = false;
-  table_interact7: boolean = false;
+
   constructor() {}
 
   ngOnInit(): void {

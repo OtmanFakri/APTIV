@@ -1,203 +1,38 @@
-<div class="flex flex-col gap-32 items-center justify-center relative">
-  <div
-    class="w-full flex flex-row  items-start  justify-around"
-  >
-    <div
-      class="flex flex-col gap-2.5 items-start justify-start shrink-0  relative"
-    >
-      <div
-        class="flex flex-col gap-[5px] items-start justify-start self-stretch shrink-0 relative"
-      >
-        <div
-          class="text-gray-500 text-left font-body-2-regular-font-family text-body-2-regular-font-size leading-body-2-regular-line-height font-body-2-regular-font-weight relative self-stretch"
-        >
-          Date
-        </div>
-        <div
-          class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
-        >
-          {{item?.date}}
-        </div>
+
+<div class="container pt-6 mx-auto">
+  <div class="flex flex-wrap">
+    <div class="md:w-2/5 w-full pb-6 md:pb-0 md:pr-6">
+
+      <div class="rounded border-gray-300 dark:border-gray-700 border-dashed border-2 ">
+        <table class="min-w-full bg-white border border-gray-200">
+          <thead>
+          <tr>
+            <th class="py-2 px-4 border-b border-gray-200 text-left">Number of Certificates</th>
+            <th class="py-2 px-4 border-b border-gray-200 text-left">Total Illness Days</th>
+            <th class="py-2 px-4 border-b border-gray-200 text-left">Average Illness Days</th>
+            <th class="py-2 px-4 border-b border-gray-200 text-left">Number of Days Absent</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngIf="data && data.length > 0">
+            <td class="py-2 px-4 border-b border-gray-200">{{ data[0].certificates_nbr }}</td>
+            <td class="py-2 px-4 border-b border-gray-200">{{ data[0].illness_days_nbr }}</td>
+            <td class="py-2 px-4 border-b border-gray-200">{{ data[0].average_illness_days }}</td>
+            <td class="py-2 px-4 border-b border-gray-200">{{ data[0].nb_day_abs }}</td>
+          </tr>
+          <tr *ngIf="!data || data.length === 0">
+            <td class="py-2 px-4 border-b border-gray-200 text-center" colspan="4">No data available</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
-      <div
-        class="border-solid border-gray-gray-10percent border-t border-r-[0] border-b-[0] border-l-[0] self-stretch shrink-0 h-0 relative"
-      ></div>
     </div>
-    <div
-      class="flex flex-col gap-2.5 items-start justify-start shrink-0  relative"
-    >
-      <div
-        class="flex flex-col gap-[5px] items-start justify-start self-stretch shrink-0 relative"
-      >
-        <div
-          class="text-gray-500 text-left font-body-2-regular-font-family text-body-2-regular-font-size leading-body-2-regular-line-height font-body-2-regular-font-weight relative self-stretch"
-        >
-          Date début
-        </div>
-        <div
-          class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
-        >
-          {{item?.date_start}}
-        </div>
+    <div class="md:w-3/5 w-full">
+
+      <div class="rounded border-gray-300 dark:border-gray-700 border-dashed border-2 ">
+        <canvas #doughnutCanvas></canvas>
+
       </div>
-      <div
-        class="border-solid border-gray-gray-10percent border-t border-r-[0] border-b-[0] border-l-[0] self-stretch shrink-0 h-0 relative"
-      ></div>
-    </div>
-    <div
-      class="flex flex-col gap-2.5 items-start justify-start shrink-0  relative"
-    >
-      <div
-        class="flex flex-col gap-[5px] items-start justify-start self-stretch shrink-0 relative"
-      >
-        <div
-          class="text-gray-500 text-left font-body-2-regular-font-family text-body-2-regular-font-size leading-body-2-regular-line-height font-body-2-regular-font-weight relative self-stretch"
-        >
-          Date fin
-        </div>
-        <div
-          class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
-        >
-          {{item?.date_end}}
-        </div>
-      </div>
-      <div
-        class="border-solid border-gray-gray-10percent border-t border-r-[0] border-b-[0] border-l-[0] self-stretch shrink-0 h-0 relative"
-      ></div>
-    </div>
-  </div>
-  <div
-    class="flex flex-row w-full items-start justify-around  absolute "
-  >
-    <div
-      class="flex flex-col gap-2.5 items-start justify-start shrink-0  relative"
-    >
-      <div
-        class="flex flex-col gap-[5px] items-start justify-start self-stretch shrink-0 relative"
-      >
-        <div
-          class="text-gray-500 text-left font-body-2-regular-font-family text-body-2-regular-font-size leading-body-2-regular-line-height font-body-2-regular-font-weight relative self-stretch"
-        >
-          Nbr prevu
-        </div>
-        <div
-          class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
-        >
-          {{item?.nbr_expected}}
-        </div>
-      </div>
-      <div
-        class="border-solid border-gray-gray-10percent border-t border-r-[0] border-b-[0] border-l-[0] self-stretch shrink-0 h-0 relative"
-      ></div>
-    </div>
-    <div
-      class="flex flex-col gap-2.5 items-start justify-start shrink-0  relative"
-    >
-      <div
-        class="flex flex-col gap-[5px] items-start justify-start self-stretch shrink-0 relative"
-      >
-        <div
-          class="text-gray-500 text-left font-body-2-regular-font-family text-body-2-regular-font-size leading-body-2-regular-line-height font-body-2-regular-font-weight relative self-stretch"
-        >
-          Nb jour
-        </div>
-        <div
-          class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
-        >
-          {{item?.nbr_days}}
-        </div>
-      </div>
-      <div
-        class="border-solid border-gray-gray-10percent border-t border-r-[0] border-b-[0] border-l-[0] self-stretch shrink-0 h-0 relative"
-      ></div>
-    </div>
-    <div
-      class="flex flex-col gap-2.5 items-start justify-start shrink-0  relative"
-    >
-      <div
-        class="flex flex-col gap-[5px] items-start justify-start self-stretch shrink-0 relative"
-      >
-        <div
-          class="text-gray-500 text-left font-body-2-regular-font-family text-body-2-regular-font-size leading-body-2-regular-line-height font-body-2-regular-font-weight relative self-stretch"
-        >
-          Ecart
-        </div>
-        <div
-          class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
-        >
-          {{item?.nbr_gap}}
-        </div>
-      </div>
-      <div
-        class="border-solid border-gray-gray-10percent border-t border-r-[0] border-b-[0] border-l-[0] self-stretch shrink-0 h-0 relative"
-      ></div>
-    </div>
-  </div>
-  <div
-    class="flex flex-row w-full items-start justify-around shrink-0  relative"
-  >
-    <div
-      class="flex flex-col gap-2.5 items-start justify-start shrink-0  relative"
-    >
-      <div
-        class="flex flex-col gap-[5px] items-start justify-start self-stretch shrink-0 relative"
-      >
-        <div
-          class="text-gray-500 text-left font-body-2-regular-font-family text-body-2-regular-font-size leading-body-2-regular-line-height font-body-2-regular-font-weight relative self-stretch"
-        >
-          Médecine
-        </div>
-        <div
-          class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
-        >
-          {{item?.doctor_name}}
-        </div>
-      </div>
-      <div
-        class="border-solid border-gray-gray-10percent border-t border-r-[0] border-b-[0] border-l-[0] self-stretch shrink-0 h-0 relative"
-      ></div>
-    </div>
-    <div
-      class="flex flex-col gap-2.5 items-start justify-start shrink-0  relative"
-    >
-      <div
-        class="flex flex-col gap-[5px] items-start justify-start self-stretch shrink-0 relative"
-      >
-        <div
-          class="text-gray-500 text-left font-body-2-regular-font-family text-body-2-regular-font-size leading-body-2-regular-line-height font-body-2-regular-font-weight relative self-stretch"
-        >
-          Specialite
-        </div>
-        <div
-          class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
-        >
-          brooklyn_simmons
-        </div>
-      </div>
-      <div
-        class="border-solid border-gray-gray-10percent border-t border-r-[0] border-b-[0] border-l-[0] self-stretch shrink-0 h-0 relative"
-      ></div>
-    </div>
-    <div
-      class="flex flex-col gap-2.5 items-start justify-start shrink-0  relative"
-    >
-      <div
-        class="flex flex-col gap-[5px] items-start justify-start self-stretch shrink-0 relative"
-      >
-        <div
-          class="text-gray-500 text-left font-body-2-regular-font-family text-body-2-regular-font-size leading-body-2-regular-line-height font-body-2-regular-font-weight relative self-stretch"
-        >
-          Validation
-        </div>
-        <div
-          class="text-dark-500 text-left font-body-1-regular-font-family text-body-1-regular-font-size leading-body-1-regular-line-height font-body-1-regular-font-weight relative self-stretch"
-        >
-          {{item?.validation}}
-        </div>
-      </div>
-      <div
-        class="border-solid border-gray-gray-10percent border-t border-r-[0] border-b-[0] border-l-[0] self-stretch shrink-0 h-0 relative"
-      ></div>
     </div>
   </div>
 </div>

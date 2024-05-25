@@ -27,7 +27,10 @@ SessionLocal = sessionmaker(
 )
 # Async SessionLocal
 AsyncSessionLocal = sessionmaker(
-    autocommit=False, autoflush=False, bind=async_engine, class_=AsyncSession
+    autocommit=False,
+    autoflush=False,
+    bind=async_engine,
+    class_=AsyncSession
 )
 
 def get_db_connection():
@@ -39,5 +42,8 @@ def get_db_connection():
 
 async def get_db_connection_async():
     async with AsyncSessionLocal() as session:
-        async with session.begin():
             yield session
+
+async def get_db_connection_async2():
+    async with AsyncSessionLocal() as session:
+        yield session

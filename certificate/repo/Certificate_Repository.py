@@ -253,3 +253,4 @@ class CertificateRepository:
 
         return result_tuple
 
+

@@ -139,6 +139,7 @@ async def get_exmanination_by_id(examination_id: int,
         EmployeeInfoResponse(
             id=res.id,
             first_name=res.first_name,
+            avatar=res.profile_picture if res.profile_picture else None,
             last_name=res.last_name,
             manager_name=str(res.manager_id),
             category=res.department.category,
@@ -170,6 +171,7 @@ async def search_employee(
     return paginate([
         EmployeeInfoResponse(
             id=res.id,
+            avatar=res.avatar if res.avatar else None,
             first_name=res.first_name,
             last_name=res.last_name,
             manager_name=str(res.manager_id),

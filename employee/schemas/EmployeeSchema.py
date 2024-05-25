@@ -59,6 +59,7 @@ class EmployeeInfoResponse(BaseModel):
     category: CategoryEnum
     department_name: str
     job_name: str
+    avatar: Optional[str]
 
     class Config:
         orm_mode = True

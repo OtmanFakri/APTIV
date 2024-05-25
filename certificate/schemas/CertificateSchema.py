@@ -1,6 +1,7 @@
+from fastapi import UploadFile, File
 from pydantic import BaseModel, Field, validator, root_validator
 from datetime import date, timedelta, datetime
-from typing import Optional
+from typing import Optional, List
 
 from enum import Enum
 
@@ -13,7 +14,7 @@ class PostCertificateSchema(BaseModel):
     date_start: date
     date_end: date
     validation: str
-    date_planned: date
+    date_planned: Optional[date] = None
     nbr_days: int = Field(...)
     nbr_expected: int = Field(0, alias="nbr_expected_days")
     nbr_gap: int = Field(0, alias="nbr_gap_days")

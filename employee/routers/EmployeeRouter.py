@@ -43,10 +43,7 @@ def get_employee(
         fetched_employee = employeeService.get(employee_id)
 
         if fetched_employee:
-            # Convert fetched_employee dictionary to EmployeeInfoResponse
-            # employee_response = EmployeeInfoResponse(**fetched_employee)
 
-            #
             return fetched_employee
         else:
             return {"error": "Employee not found"}
@@ -122,6 +119,7 @@ async def filter_employee(employee_id: Optional[int] = None,
     return paginate([
         EmployeeInfoResponse(
             id=response.id,
+            avatar=response.profile_picture if response.profile_picture else None,
             first_name=response.first_name,
             last_name=response.last_name,
             manager_name=str(response.manager_id),
@@ -141,9 +139,9 @@ async def create_certificate(
 ):
     try:
         certificate = await employeeService.create_certificate(employee_id, certificate_info)
-        return {"success": True, "certificate": certificate}
+        return certificate
     except Exception as e:
-        return {"success": False, "error": str(e)}
+        return HTTPException(status_code=500, detail=str(e))
 
 
 @EmployeeRouter.put("/{employee_id}/certificate/{certificate_id}")
@@ -215,7 +213,7 @@ async def get_certificates_employee(
         year: int,
         employeeService: EmployeeRepo = Depends()
 ):
-    return await employeeService.calculate_certificate_stats(employee_id,year)
+    return await employeeService.calculate_certificate_stats(employee_id, year)
 
 
 @EmployeeRouter.post("/visit/{current_year}")
@@ -225,6 +223,16 @@ async def get_visit(
     is_null_visits = await employeeService.employee_visits(current_year=current_year)
 
     return is_null_visits
+
+
+@EmployeeRouter.get("/{employee_id}/certificate/{certificate_id}/planned")
+async def update_certificate_date_planned(
+        is_pressent: bool,
+        employee_id: int,
+        certificate_id: int,
+        employeeService: EmployeeRepo = Depends()
+):
+    return await employeeService.update_date_planned(employee_id, certificate_id, is_pressent)
 
 
 @EmployeeRouter.post("/exporation")

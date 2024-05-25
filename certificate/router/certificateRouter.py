@@ -2,14 +2,16 @@ import calendar
 from datetime import date
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File
 from fastapi.encoders import jsonable_encoder
 from fastapi_pagination import paginate, Page
 from numpy.distutils.misc_util import yellow_text
 from sqlalchemy.orm import Session, joinedload
+from starlette import status
 from starlette.responses import JSONResponse
 
 from certificate.models.certificate import Certificate
+from certificate.repo.imageCertificate import ImageCertificateRepo
 from certificate.schemas.CertificateSchema import GetCertificateSchema, FilterCertificatesRequest, \
     DepartmentCertificates, MonthCertificates, CategoryCertificates, EmployeeVisit, GetCertificatesSchema
 from certificate.service.Certificate_Service import CertificateService
@@ -223,3 +225,22 @@ async def analyze_certificates_by_week_and_year(year: int, week: int,
         }
         for row in results
     ]
+
+
+@CertificateRouter.post("/{certification_id}/uploading")
+async def imageuploading(
+        certification_id: int,
+        files: List[UploadFile] = File(...),
+        repository: ImageCertificateRepo = Depends()
+):
+    image_urls = []
+    for file in files:
+        contents = await file.read()
+        image_path = f"avatars/images/{file.filename}"
+        with open(image_path, "wb") as f:
+            f.write(contents)
+        image_urls.append(image_path)
+
+    saved_images = await repository.save_image_certifications(certification_id, image_urls)
+
+    return saved_images

@@ -1,5 +1,7 @@
 from sqlalchemy import Column, BigInteger, String, Date, Integer, ForeignKey
 from sqlalchemy.orm import relationship
+
+from certificate.models.ImagesUpload import ImagesUpload
 from certificate.models.doctor import Doctor
 from configs.BaseModel import EntityMeta
 
@@ -18,6 +20,7 @@ class Certificate(EntityMeta):
     nbr_days = Column(BigInteger, nullable=False)
     nbr_gap = Column(BigInteger, nullable=False)
     doctor = relationship(Doctor, back_populates='certificates')
+    images = relationship("ImagesUpload", order_by=ImagesUpload.id, back_populates="certificate")
 
 
     employee_id = Column(Integer, ForeignKey("Employees.id"))
@@ -26,3 +29,5 @@ class Certificate(EntityMeta):
     @property
     def nb_day_abs(self):
         return (self.date_entry - self.date_planned).days if self.date_planned else 0
+
+

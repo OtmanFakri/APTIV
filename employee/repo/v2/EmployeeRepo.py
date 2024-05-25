@@ -65,35 +65,38 @@ class EmployeeRepo:
         return result.scalars().all()
 
     async def create_certificate(self, employee_id: int, certificate_info: PostCertificateSchema):
-        employee = await self.db.get(Employee, employee_id)
+        async with self.db.begin():  # Ensure the transaction context is active
+            employee = await self.db.get(Employee, employee_id)
 
-        if not employee:
-            raise HTTPException(status_code=404, detail="Employee not found")
+            if not employee:
+                raise HTTPException(status_code=404, detail="Employee not found")
 
-        # Get_or_create the doctor
-        doctor = await self.DoctorService.get_or_create_doctor(
-            name=certificate_info.doctor.name,
-            specialty=certificate_info.doctor.specialty
-        )
+            # Get_or_create the doctor
+            doctor = await self.DoctorService.get_or_create_doctor(
+                name=certificate_info.doctor.name,
+                specialty=certificate_info.doctor.specialty
+            )
 
-        # Create the certificate object
-        certificate = Certificate(
-            doctor_id=doctor.id,
-            date=certificate_info.date,
-            date_start=certificate_info.date_start,
-            date_end=certificate_info.date_end,
-            date_entry=certificate_info.date_entry,
-            validation=certificate_info.validation,
-            date_planned=certificate_info.date_planned,
-            nbr_expected=certificate_info.nbr_expected,
-            nbr_days=certificate_info.nbr_days,
-            nbr_gap=certificate_info.nbr_gap,
-            employee_id=employee_id
-        )
+            # Create the certificate object
+            certificate = Certificate(
+                doctor_id=doctor.id,
+                date=certificate_info.date,
+                date_start=certificate_info.date_start,
+                date_end=certificate_info.date_end,
+                date_entry=certificate_info.date_entry,
+                validation=certificate_info.validation,
+                date_planned=certificate_info.date_planned,
+                nbr_expected=certificate_info.nbr_expected,
+                nbr_days=certificate_info.nbr_days,
+                nbr_gap=certificate_info.nbr_gap,
+                employee_id=employee_id
+            )
 
-        self.db.add(certificate)
-        await self.db.flush()  # Flush to get the generated ID
+            self.db.add(certificate)
+            await self.db.flush()  # Flush to get the generated ID
+
         await self.db.commit()  # Commit the changes
+        await self.db.refresh(certificate)  # Refresh to get the latest state if needed
 
         return certificate
 
@@ -311,3 +314,19 @@ class EmployeeRepo:
                 "nb_day_abs": abs(nb_day_abs)
             }
         ]
+
+    async def update_date_planned(self, employee_id: int, certificate_id: int, save_current_date: bool):
+        query = select(Certificate).where(Certificate.id == certificate_id, Certificate.employee_id == employee_id)
+        result = await self.db.execute(query)
+        certificate = result.scalar_one_or_none()
+
+        if certificate is None:
+            raise HTTPException(status_code=404, detail="Certificate not found")
+
+        if save_current_date:
+            certificate.date_planned = date.today()
+        else:
+            certificate.date_planned = None
+
+        await self.db.commit()
+        return {"message": "date_planned updated successfully"}

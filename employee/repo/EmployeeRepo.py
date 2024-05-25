@@ -63,6 +63,7 @@ class EmployeeRepo:
         if query:
             employee_data = {
                 "id": query.id,
+                "avater": query.profile_picture if query.profile_picture else None,
                 "category": query.department.category,
                 "department_name": query.department.name,  # Assuming Department has a 'name' attribute
                 "job_name": query.job.name,  # Assuming Job has a 'name' attribute

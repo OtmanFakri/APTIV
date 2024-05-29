@@ -40,28 +40,44 @@ export class CategoryComponent implements AfterViewInit {
   certificateTotolData?: CertificateAnalyseTotal;
   @Output() certificateTotolDataChange = new EventEmitter<CertificateAnalyseTotal>();
   selectedMonth: Date = new Date();
+  selectedYear: Date = new Date();
+  selectedOption: string = 'year'; // Default value
 
   constructor(private analyseService: CategoryAnalyseCertificationService,
-              private analyseCertitifcatesService :AnalyseCertitifcatesService) {}
+              private analyseCertitifcatesService: AnalyseCertitifcatesService) {}
 
   onMonthChange(date: Date): void {
     this.selectedMonth = date;
-    const year = this.selectedMonth.getFullYear();
-    const month = this.selectedMonth.getMonth() + 1; // JavaScript months are 0-indexed, add 1 for correct month
-    this.fetchData(year, month);
-  }
-
-  ngAfterViewInit() {
     const year = this.selectedMonth.getFullYear();
     const month = this.selectedMonth.getMonth() + 1;
     this.fetchData(year, month);
   }
 
-  fetchData(year: number, month: number): void {
-    this.analyseService.getCertificateAnalyseByCategory(year, month);
+  onYearChange(date: Date): void {
+    this.selectedYear = date;
+    const year = this.selectedYear.getFullYear();
+    this.fetchData(year);
+  }
+
+  ngAfterViewInit() {
+    const year = this.selectedYear.getFullYear();
+    if (this.selectedOption === 'year') {
+      this.fetchData(year);
+    } else {
+      const month = this.selectedMonth.getMonth() + 1;
+      this.fetchData(year, month);
+    }
+  }
+
+  fetchData(year: number, month?: number): void {
+    if (month !== undefined) {
+      this.analyseService.getCertificateAnalyseByCategory(year, month);
+    } else {
+      this.analyseService.getCertificateAnalyseByCategoryYear(year);
+    }
     this.analyseService.categoryListData.subscribe((data: CertificateAnalyseByCategory[]) => {
       this.dataList = data;
-      this.certificateTotolData = this.analyseCertitifcatesService.calculateTotals(data); // Update to calculate totals in the component
+      this.certificateTotolData = this.analyseCertitifcatesService.calculateTotals(data);
       this.certificateTotolDataChange.emit(this.certificateTotolData);
       if (this.chart) {
         this.updateChart(data);
@@ -92,7 +108,7 @@ export class CategoryComponent implements AfterViewInit {
       labels: data.map(d => d.category),
       datasets: [
         {
-          type: 'bar', // Specify type here for combo chart
+          type: 'bar',
           label: 'Number of Illness Certificates',
           data: data.map(d => d.certificates_nbr),
           backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -100,7 +116,7 @@ export class CategoryComponent implements AfterViewInit {
           borderWidth: 1
         },
         {
-          type: 'bar', // Specify type here for combo chart
+          type: 'bar',
           label: 'Total Illness Days',
           data: data.map(d => d.illness_days_nbr),
           backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -108,16 +124,16 @@ export class CategoryComponent implements AfterViewInit {
           borderWidth: 1
         },
         {
-          type: 'line', // Specify type here for combo chart
+          type: 'line',
           label: 'Certificate Rate (%)',
           data: data.map(d => d.certificate_rate),
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgba(75, 192, 192, 1)',
           borderWidth: 2,
-          fill: false // Typically set to false for line charts
+          fill: false
         },
         {
-          type: 'bar', // Specify type here for combo chart
+          type: 'bar',
           label: 'Average Illness Days',
           data: data.map(d => d.average_illness_days),
           backgroundColor: 'rgba(153, 102, 255, 0.2)',
@@ -147,5 +163,4 @@ export class CategoryComponent implements AfterViewInit {
       }
     };
   }
-
 }

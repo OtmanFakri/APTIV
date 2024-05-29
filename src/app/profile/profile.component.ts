@@ -30,6 +30,11 @@ export class ProfileComponent implements OnInit {
   @ViewChild(UpdateProfileComponent) OnSubmetUpdate!: UpdateProfileComponent;
   @ViewChild('notificationBtnTpl', {static: true}) btnDelete!: TemplateRef<{ $implicit: NzNotificationComponent }>;
 
+  get avatarUrl(): string {
+    return this.employeeProfile?.avater
+      ? `${this.baseUrl}${this.employeeProfile.avater}`
+      : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAr2409QmggQL6cHai_NgIVtmdGL7sMtJPPH83XJdq3w&s';
+  }
   constructor(private route: ActivatedRoute,
               private router: Router,
               private notification: NzNotificationService,

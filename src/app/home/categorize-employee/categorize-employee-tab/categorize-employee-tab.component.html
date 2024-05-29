@@ -1,0 +1,28 @@
+<div *ngIf="dataList">
+  <table>
+    <thead>
+    <tr>
+      <th>Category</th>
+      <th>Count</th>
+      <th>Percentage</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Red</td>
+      <td>{{ dataList?.red }}</td>
+      <td>{{ dataList?.red_percentage }}%</td>
+    </tr>
+    <tr>
+      <td>Yellow</td>
+      <td>{{ dataList?.yellow }}</td>
+      <td>{{ dataList?.yellow_percentage }}%</td>
+    </tr>
+    <tr>
+      <td>Green</td>
+      <td>{{ dataList?.green }}</td>
+      <td>{{ dataList?.green_percentage }}%</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

@@ -36,10 +36,7 @@ export class AnalyseCertitifcatesService {
     return this.http.get<ValidationHj[]>(url);
   }
 
-  getCertificateExamination(): Observable<Examiniation[]> {
-    const url = `http://127.0.0.1:8011/consultation/participation`;
-    return this.http.get<Examiniation[]>(url);
-  }
+
 
   getCertificate_NbExamination(): Observable<NbExaminiation[]> {
     const url = `http://127.0.0.1:8011/consultation/examination/1/employee`;

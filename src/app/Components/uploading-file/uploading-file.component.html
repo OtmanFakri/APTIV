@@ -1,0 +1,24 @@
+<div class="clearfix">
+  <nz-upload
+    nzListType="picture-card"
+    [(nzFileList)]="fileList"
+    [nzShowButton]="fileList.length < 8"
+    [nzPreview]="handlePreview"
+    (nzChange)="handleChange($event)"
+  >
+    <div>
+      <span>+</span>
+      <div style="margin-top: 8px">Upload</div>
+    </div>
+  </nz-upload>
+  <nz-modal
+    [nzVisible]="previewVisible"
+    [nzContent]="modalContent"
+    [nzFooter]="null"
+    (nzOnCancel)="previewVisible = false"
+  >
+    <ng-template #modalContent>
+      <img [src]="previewImage" [ngStyle]="{ width: '100%' }"  alt="file"/>
+    </ng-template>
+  </nz-modal>
+</div>

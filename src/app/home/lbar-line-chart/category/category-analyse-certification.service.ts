@@ -24,4 +24,11 @@ export class CategoryAnalyseCertificationService {
       (error) => console.error('Error fetching data', error)
     );
   }
+  getCertificateAnalyseByCategoryYear(year: number): void {
+    const params = {year: year.toString()};
+    this.http.get<CertificateAnalyseByCategory[]>(`${this.apiUrl}/by_category`, {params}).subscribe(
+      (data) => this.categoryListData.next(data),
+      (error) => console.error('Error fetching data', error)
+    );
+  }
 }

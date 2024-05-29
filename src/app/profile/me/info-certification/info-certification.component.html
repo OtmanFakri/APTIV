@@ -131,7 +131,20 @@
                                                                            class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100"
                                                                            placeholder="Enter Number of Days"/>
                                                                 </div>
+                                                                <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                                                                    <label for="NumberOfDays"
+                                                                           class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">Contre
+                                                                        visite</label>
+                                                                    <input [(ngModel)]="certificationsRequestInterface.is_visited"
+                                                                           type="checkbox" id="Visited"
+                                                                           name="Visited" required
+                                                                           class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100"
+                                                                    />
+                                                                </div>
+
                                                             </div>
+                                                            <app-uploading-file
+                                                                    (fileListChange)="onFileListChange($event)"></app-uploading-file>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -143,9 +156,13 @@
                                 <a
                                         (click)="open()"
                                         class="text-gray-600 p-2 ml-2 border-gray-200 dark:text-gray-400 border rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5"
+                                         stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z"/>
                                     </svg>
 
                                 </a>
@@ -159,8 +176,8 @@
                                 >
                                     <ng-container *nzDrawerContent>
                                         <app-show-certification
-                                        [date]="date"
-                                        [employee_id]="userId"
+                                                [date]="date"
+                                                [employee_id]="userId"
                                         />
                                     </ng-container>
                                 </nz-drawer>
@@ -329,7 +346,8 @@
                                                                 SPECIALITY
                                                                 NAME
                                                             </p>
-                                                            <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.doctor_speciality}}</h5>
+                                                            <h5
+                                                                    class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.doctor_speciality}}</h5>
                                                         </div>
                                                     </div>
                                                     <div class="flex items-start mt-6">
@@ -344,7 +362,8 @@
                                                             <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">
                                                                 NB
                                                                 EXECTED </p>
-                                                            <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.nbr_expected}}</h5>
+                                                            <h5
+                                                                    class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.nbr_expected}}</h5>
                                                         </div>
                                                         <div class="w-1/3">
                                                             <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">
@@ -355,59 +374,38 @@
                                                         </div>
                                                     </div>
                                                     <hr class="my-6 border-t border-gray-300 w-full"/>
-                                                    <h5 class="text-gray-600 dark:text-gray-400 text-xs mb-2 font-bold">
-                                                        Message</h5>
-                                                    <p class="text-gray-800 dark:text-gray-100 font-normal text-xs w-3/5 leading-6">
-                                                        But
-                                                        I must explain to you how all this mistaken idea of denouncing
-                                                        pleasure and
-                                                        praising pain was born and I will give you a complete account of
-                                                        the system, and
-                                                        expound the actual teachings of the great explorer of the truth,
-                                                        the
-                                                        master-builder of human happiness. No one rejects, dislikes, or
-                                                        avoids pleasure
-                                                        itself, because it is pleasure, but because those who do not
-                                                        know how to pursue
-                                                        pleasure rationally encounter consequences that are extremely
-                                                        painful</p>
                                                     <h5 class="text-indigo-700 text-xs mb-2 mt-12 font-bold">
                                                         Documents</h5>
-                                                    <div>
-                                                        <div
-                                                                class="flex justify-between items-center border border-gray-300 gap-4 rounded px-3 py-3 mt-4"
-                                                        >
-                                                            <div class="lg:flex md:block block gap-5 items-center">
-                                                                <p class="text-sm leading-none">
-                                                                    Drop your file(s) here or
-                                                                    <span class="text-indigo-700 font-medium cursor-pointer"
-                                                                    >Browse</span
-                                                                    >
-                                                                </p>
-                                                                <p class="text-xs leading-3 text-gray-500 lg:pt-0 md:pt-3 pt-3">
-                                                                    Max File Size: 20MB
-                                                                </p>
-                                                            </div>
-
-                                                            <div>
-                                                                <svg
-                                                                        width="22"
-                                                                        height="22"
-                                                                        viewBox="0 0 22 22"
-                                                                        fill="none"
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                >
-                                                                    <path
-                                                                            fill-rule="evenodd"
-                                                                            clip-rule="evenodd"
-                                                                            d="M18.3277 4.98261C18.6135 5.23264 18.6424 5.66698 18.3924 5.95273L8.7674 16.9527C8.6421 17.0959 8.46305 17.1808 8.27288 17.1871C8.08271 17.1935 7.89841 17.1207 7.76386 16.9861L3.63886 12.8611C3.37038 12.5927 3.37038 12.1574 3.63886 11.8889C3.90735 11.6204 4.34265 11.6204 4.61114 11.8889L8.21651 15.4942L17.3576 5.04729C17.6076 4.76154 18.042 4.73258 18.3277 4.98261Z"
-                                                                            fill="#22C55E"
-                                                                    />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
-
+                                                    <div *ngIf="!item.images; else imagesTemplate">
+                                                        <p>No document</p>
                                                     </div>
+                                                    <ng-template #imagesTemplate>
+                                                        <ul *ngIf="item.images && item.images.length" role="list"
+                                                            class="divide-y divide-gray-100 rounded-md border border-gray-200">
+                                                            <li *ngFor="let image of item.images; let i = index"
+                                                                class="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
+                                                                <div class="flex w-0 flex-1 items-center">
+                                                                    <svg class="h-5 w-5 flex-shrink-0 text-gray-400"
+                                                                         viewBox="0 0 20 20"
+                                                                         fill="currentColor"
+                                                                         aria-hidden="true">
+                                                                        <path fill-rule="evenodd"
+                                                                              d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z"
+                                                                              clip-rule="evenodd"/>
+                                                                    </svg>
+                                                                    <div class="ml-4 flex min-w-0 flex-1 gap-2">
+                                                                        <span class="truncate font-medium">{{ getFileName(image) }}</span>
+                                                                        <span class="flex-shrink-0 text-gray-400">{{ getFileSize(image) }}</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="ml-4 flex-shrink-0">
+                                                                    <a (click)="downloadFile(image)"
+                                                                       class="font-medium text-indigo-600 hover:text-indigo-500"
+                                                                       style="cursor: pointer;">Download</a>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </ng-template>
                                                 </div>
                                             </div>
                                         </div>

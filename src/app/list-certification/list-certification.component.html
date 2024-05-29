@@ -3,6 +3,8 @@
     <div class="w-full md:w-1/3 flex flex-col md:flex-row items-start md:items-center">
       <div class="flex items-center">
         <a
+          (click)="openModelDelete()"
+
           class="p-2 border-gray-200 text-gray-600 dark:text-gray-400 border rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-trash"
@@ -15,8 +17,13 @@
             <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/>
             <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/>
           </svg>
+          <ng-template #notificationBtnTpl let-notification>
+            <button nz-button nzType="primary" nzSize="small" (click)="ConfumeDelte()">Confirm
+            </button>
+          </ng-template>
         </a>
         <a
+          (click)="openToupdate()"
           class="text-gray-600 p-2 ml-2 border-gray-200 dark:text-gray-400 border rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-upload" width="20"
@@ -28,6 +35,19 @@
             <line x1="12" y1="4" x2="12" y2="16"/>
           </svg>
         </a>
+        <nz-drawer
+          [nzClosable]="false"
+          [nzVisible]="visibleToupdate"
+          nzPlacement="right"
+          nzTitle="Basic Drawer"
+          (nzOnClose)="closeToupdate()"
+        >
+          <ng-container *nzDrawerContent>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+          </ng-container>
+        </nz-drawer>
       </div>
     </div>
     <div class="w-full md:w-2/3 flex flex-col md:flex-row items-start md:items-center justify-end">
@@ -44,23 +64,98 @@
                                 </path>
                             </svg>
                         </span>
-            <span class="text-sm leading-tight tracking-normal">Filter</span>
+            <span
+              (click)="open()"
+              class="text-sm leading-tight tracking-normal">Filter</span>
           </div>
           <div class="absolute text-gray-600 dark:text-gray-400 flex items-center pl-3 h-full">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="16"
-                 height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z"></path>
-              <circle cx="10" cy="10" r="7"></circle>
-              <line x1="21" y1="21" x2="15" y2="15"></line>
-            </svg>
+            <a
+              (click)="openExportation()"
+              class="mx-2 my-2 flex items-center bg-gray-100 transition duration-150 ease-in-out hover:bg-gray-200 rounded border border-gray-300 text-gray-600 pl-3 pr-6 py-2 text-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-gray-600">
+                        <span class="h-4 w-4 mr-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                           width="20" height="20"
+                           x="0" y="0" viewBox="0 0 791.454 791.454" style="enable-background:new 0 0 512 512"
+                           xml:space="preserve" class=""><g><path fill="#00733b" fill-rule="evenodd" d="M202.63 0h264.877l224.149 233.97v454.364c0 56.904-45.927 103.12-102.831 103.12H202.63c-56.615 0-102.831-46.216-102.831-103.12V102.831C99.798 46.216 146.015 0 202.63 0z" clip-rule="evenodd" opacity="1" data-original="#00733b" class=""></path><g
+                        fill="#fff"><path fill-rule="evenodd" d="M467.218 0v231.948h224.438z" clip-rule="evenodd" opacity="1" fill="#ffffff302" data-original="#ffffff302" class=""></path><path
+                        d="M345.9 576.26h-38.417l-26.285-44.194-26.286 44.194h-38.706l45.639-76.835-40.15-66.725H260.4l20.797 34.662 20.508-34.662h38.706l-39.862 67.014zm13.576 0V432.7h36.684v112.363h62.392v31.196h-99.076zm159.735 1.733c-14.443 0-27.152-4.622-38.128-13.576-10.688-8.666-16.753-19.642-17.62-32.64l31.485-9.243c.867 6.932 3.755 12.998 8.666 17.62 5.199 4.622 10.976 6.932 17.331 6.932 5.199 0 9.532-1.155 12.998-3.466 3.177-2.311 4.91-5.488 4.91-9.243 0-3.177-1.444-5.777-4.044-8.088-2.6-2.022-6.066-3.755-10.11-5.199s-8.954-2.889-13.865-4.044c-5.199-1.444-10.399-3.177-15.309-5.488-5.199-2.022-9.821-4.622-13.865-7.799-4.333-2.889-7.51-7.221-10.11-12.71-2.6-5.199-4.044-11.554-4.044-18.775 0-11.843 4.91-21.664 15.02-29.463 10.11-8.088 22.242-11.843 36.395-11.843 14.154 0 26.574 3.466 36.973 10.11 10.399 6.932 17.042 15.887 19.642 26.863l-32.929 13.865c-1.444-6.066-4.333-10.976-8.377-14.731-4.044-3.466-9.243-5.488-15.309-5.488-4.622 0-8.088 1.155-10.976 2.889-2.6 1.733-3.755 4.333-3.755 7.51 0 2.889 1.733 5.488 5.199 7.51 3.466 1.733 8.088 3.177 13.287 4.044s10.976 2.311 17.042 4.333c6.355 2.311 11.843 4.622 17.331 7.799 5.199 2.889 9.532 7.799 12.998 14.154 3.755 6.644 5.488 14.443 5.488 23.397 0 13.287-5.199 24.264-15.598 32.351s-23.972 12.419-40.726 12.419z"
+                        fill="#ffffff" opacity="1" data-original="#ffffff"></path></g></g></svg>                        </span>
+              Button
+            </a>
           </div>
-          <label for="search"
-                 class="hidden text-gray-800 text-sm font-bold leading-tight tracking-normal mb-2"></label>
-          <input id="search"
-                 class="w-full text-gray-600 bg-transparent dark:bg-gray-800 dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 font-normal pl-8 pr-24 h-10 flex items-center text-sm border-gray-300 dark:border-gray-200 rounded border"
-                 placeholder="Search by project name or owner"/>
+          <nz-modal
+            [nzFooter]="modalFooter"
+            [(nzVisible)]="modelExportation" nzTitle="The first Modal" (nzOnCancel)="onCancelExportation()" (nzOnOk)="onOkExportation()">
+            <ng-container *nzModalContent >
+              <nz-date-picker nzMode="year" [(ngModel)]="dateExport" (ngModelChange)="onChangeDateExport($event)"></nz-date-picker>
+            </ng-container>
+
+            <ng-template #modalFooter>
+              <button nz-button nzType="default" (click)="onCancelExportation()">Custom Callback</button>
+              <button nz-button nzType="primary" (click)="onOkExportation()" [nzLoading]="isConfirmLoading">Custom Submit</button>
+            </ng-template>
+          </nz-modal>
         </div>
+        <nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="Filter Certificates"
+                   (nzOnClose)="close()">
+          <ng-container *nzDrawerContent>
+            <div class="p-4">
+              <form (ngSubmit)="applyFilter()" class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Doctor ID</label>
+                  <input type="number" [(ngModel)]="filterParams.doctor_id" name="doctor_id"
+                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"/>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">From Date</label>
+                  <input type="date" [(ngModel)]="filterParams.from_date" name="from_date"
+                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"/>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">To Date</label>
+                  <input type="date" [(ngModel)]="filterParams.to_date" name="to_date"
+                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"/>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Number of Days</label>
+                  <input type="number" [(ngModel)]="filterParams.nbr_days" name="nbr_days"
+                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"/>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Validation</label>
+                  <input type="text" [(ngModel)]="filterParams.validation" name="validation"
+                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"/>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Year</label>
+                  <input type="number" [(ngModel)]="filterParams.year" name="year"
+                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"/>
+                </div>
+                <div class="flex flex-row justify-between">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700">Include Today</label>
+                    <input type="checkbox" [(ngModel)]="filterParams.include_today"
+                           name="include_today"
+                           class="mt-1 block rounded-md border-gray-300 shadow-sm sm:text-sm"/>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700">Exclude Date
+                      Planned</label>
+                    <input type="checkbox" [(ngModel)]="filterParams.exclude_date_planned"
+                           name="exclude_date_planned"
+                           class="mt-1 block rounded-md border-gray-300 shadow-sm sm:text-sm"/>
+                  </div>
+                </div>
+                <div class="flex justify-end">
+                  <button type="submit"
+                          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Apply Filter
+                  </button>
+                </div>
+              </form>
+            </div>
+          </ng-container>
+        </nz-drawer>
       </div>
     </div>
   </div>
@@ -133,22 +228,24 @@
       </tr>
       </thead>
       <tbody>
-      <ng-container *ngFor="let item of date_certification.items; let i = index">
+      <ng-container *ngFor="let item of filteredItems?.items; let i = index">
 
         <tr
 
-          [ngClass]="table_interact1 ? 'border-b bg-gray-100 border-gray-300' : 'border-b border-gray-300 bg-white' ">
+          [ngClass]="selectedValues.includes(item.id) ? 'border-b bg-gray-100 border-gray-300' : 'border-b border-gray-300 bg-white'">
           <td class="pl-3 w-24 py-3">
             <div class="flex items-center">
               <input type="checkbox"
                      class="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-white outline-none"
-                     (click)="table_interact1=!table_interact1"/>
-              <a (click)="show_row===i ? (show_row=0):(show_row=i)"
+                     (click)="onChanegCheckBox(i)"/>
+              <a (click)="show_row===i ? (show_row=i):(show_row=i)"
                  class="focus:outline-none cursor-pointer text-gray-800 dark:text-gray-100 ml-2 lg:ml-4 mr-2 sm:mr-0 border border-transparent rounded focus:outline-none"
               >
                 <svg xmlns="http://www.w3.org/2000/svg"
-                     class="icon icon-tabler icon-tabler-chevron-down" width="16" height="16"
-                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                     class="icon icon-tabler icon-tabler-chevron-down" width="16"
+                     height="16"
+                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                     fill="none"
                      stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z"></path>
                   <polyline points="6 9 12 15 18 9"></polyline>
@@ -197,91 +294,101 @@
                   class="pl-10 w-full text-sm text-gray-800 dark:text-gray-100 py-3 bg-gray-100 dark:bg-gray-700">
                   CERTIFICATION DETAILS</h4>
                 <div class="bg-white dark:bg-gray-800 px-8 py-6">
-                  <div class="flex items-start">
+                  <div class="flex items-start ">
                     <div class="w-1/3">
-                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">ID
+                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">
+                        Name Employee</p>
+                      <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.employeeName}}
+                      </h5>
+                    </div>
+                    <div class="w-1/3">
+                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">
+                        ID
+                        Employee</p>
+                      <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.employeeId}}
+                      </h5>
+                    </div>
+                  </div>
+                  <div class="flex items-start mt-6">
+                    <div class="w-1/3">
+                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">
+                        ID
                         CERTIFICATION</p>
                       <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.id}}
                       </h5>
                     </div>
                     <div class="w-1/3">
-                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">DOCTORE
+                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">
+                        DOCTORE
                         NAME</p>
                       <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.doctor_name}}
                       </h5>
                     </div>
                     <div class="w-1/3">
-                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">SPECIALITY
+                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">
+                        SPECIALITY
                         NAME
                       </p>
-                      <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">1440 Hours,
-                        45 Mins</h5>
+                      <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.doctor_speciality}}</h5>
                     </div>
                   </div>
                   <div class="flex items-start mt-6">
                     <div class="w-1/3">
-                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">DATE
+                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">
+                        DATE
                         PLANAED</p>
                       <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.date_planned}}
                       </h5>
                     </div>
                     <div class="w-1/3">
-                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">NB
+                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">
+                        NB
                         EXECTED </p>
                       <h5 class="text-gray-800 dark:text-gray-100 font-normal text-xs">{{item.nbr_expected}}</h5>
                     </div>
                     <div class="w-1/3">
-                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">NB GAP
+                      <p class="text-gray-600 dark:text-gray-400 font-normal text-xs">
+                        NB GAP
                       </p>
                       <h5 class="text-indigo-700 font-normal text-xs">{{item.nbr_gap}}
                       </h5>
                     </div>
                   </div>
                   <hr class="my-6 border-t border-gray-300 w-full"/>
-                  <h5 class="text-gray-600 dark:text-gray-400 text-xs mb-2 font-bold">Message</h5>
-                  <p class="text-gray-800 dark:text-gray-100 font-normal text-xs w-3/5 leading-6">But
-                    I must explain to you how all this mistaken idea of denouncing pleasure and
-                    praising pain was born and I will give you a complete account of the system, and
-                    expound the actual teachings of the great explorer of the truth, the
-                    master-builder of human happiness. No one rejects, dislikes, or avoids pleasure
-                    itself, because it is pleasure, but because those who do not know how to pursue
-                    pleasure rationally encounter consequences that are extremely painful</p>
-                  <h5 class="text-indigo-700 text-xs mb-2 mt-12 font-bold">Documents</h5>
-                  <div>
-                    <div
-                      class="flex justify-between items-center border border-gray-300 gap-4 rounded px-3 py-3 mt-4"
-                    >
-                      <div class="lg:flex md:block block gap-5 items-center">
-                        <p class="text-sm leading-none">
-                          Drop your file(s) here or
-                          <span class="text-indigo-700 font-medium cursor-pointer"
-                          >Browse</span
-                          >
-                        </p>
-                        <p class="text-xs leading-3 text-gray-500 lg:pt-0 md:pt-3 pt-3">
-                          Max File Size: 20MB
-                        </p>
-                      </div>
 
-                      <div>
-                        <svg
-                          width="22"
-                          height="22"
-                          viewBox="0 0 22 22"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M18.3277 4.98261C18.6135 5.23264 18.6424 5.66698 18.3924 5.95273L8.7674 16.9527C8.6421 17.0959 8.46305 17.1808 8.27288 17.1871C8.08271 17.1935 7.89841 17.1207 7.76386 16.9861L3.63886 12.8611C3.37038 12.5927 3.37038 12.1574 3.63886 11.8889C3.90735 11.6204 4.34265 11.6204 4.61114 11.8889L8.21651 15.4942L17.3576 5.04729C17.6076 4.76154 18.042 4.73258 18.3277 4.98261Z"
-                            fill="#22C55E"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-
+                  <h5 class="text-indigo-700 text-xs mb-2 mt-12 font-bold">
+                    Documents</h5>
+                  <div *ngIf="!item.images; else imagesTemplate">
+                    <p>No document</p>
                   </div>
+                  <ng-template #imagesTemplate>
+                    <ul *ngIf="item.images && item.images.length" role="list"
+                        class="divide-y divide-gray-100 rounded-md border border-gray-200">
+                      <li *ngFor="let image of item.images; let i = index"
+                          class="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
+                        <div class="flex w-0 flex-1 items-center">
+                          <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20"
+                               fill="currentColor"
+                               aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                  d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z"
+                                  clip-rule="evenodd"/>
+                          </svg>
+                          <div class="ml-4 flex min-w-0 flex-1 gap-2">
+                            <span class="truncate font-medium">{{ getFileName(image) }}</span>
+                            <span class="flex-shrink-0 text-gray-400">{{ getFileSize(image) }}</span>
+                          </div>
+                        </div>
+                        <div class="ml-4 flex-shrink-0">
+                          <a (click)="downloadFile(image)"
+                             class="font-medium text-indigo-600 hover:text-indigo-500"
+                             style="cursor: pointer;">Download</a>
+                        </div>
+                      </li>
+                    </ul>
+                  </ng-template>
+
+
                 </div>
               </div>
             </div>
@@ -289,8 +396,12 @@
         </tr>
 
       </ng-container>
-
       </tbody>
     </table>
   </div>
+  <app-pagination [currentPage]="filteredItems?.page ?? 1" [totalPages]="filteredItems?.pages ?? 1"
+                  [size]="filteredItems?.size ?? 1" [total]="filteredItems?.total ?? 1"
+                  (pageChange)="onPageChange($event)">
+  </app-pagination>
+
 </div>

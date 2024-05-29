@@ -77,6 +77,7 @@ export class AddExaminiationComponent {
           'Examination has been created successfully.',
           {nzPlacement: 'bottomLeft'}
         );
+        this.examinitationService.GetConsulation().subscribe();
       },
       error: () => {
         this.notification.create(

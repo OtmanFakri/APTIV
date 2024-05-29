@@ -6,24 +6,10 @@
       Nombre des contres visites
     </h2>
     <div class="flex items-center space-x-4 ">
-      <nz-date-picker nzMode="year" ></nz-date-picker>
-      <nz-select
-        class="w-32"
-        nzPlaceHolder="Select users"
-        nzAllowClear
-        nzSize="default"
-        nzShowSearch
-        nzServerSearch
-        [(ngModel)]="selectedUser"
-      >
-        <ng-container *ngFor="let o of optionList">
-          <nz-option *ngIf="!isLoading" [nzValue]="o" [nzLabel]="o"></nz-option>
-        </ng-container>
-        <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-          <span nz-icon nzType="loading" class="loading-icon"></span>
-          Loading Data...
-        </nz-option>
-      </nz-select>
+      <nz-date-picker
+        [(ngModel)]="date"
+        (ngModelChange)="DateChnage($event)"
+        nzMode="year" ></nz-date-picker>
     </div>
   </div>
   <div class="mt-3 grid grid-cols-12">
@@ -45,11 +31,11 @@
         <tbody>
         <tr
           *ngFor="let data of sortTable.data">
-          <td>{{ data.month }}</td>
-          <td>{{ data.total_participations }}</td>
-          <td>{{ data.rest_participations }}</td>
-          <td>{{ data['Total CM'] | number:'1.2-2' }}</td>
-          <td>{{ data['%'] | number:'1.2-2' }}</td>
+          <td>{{ data.Month }}</td>
+          <td>{{ data.Sans }}</td>
+          <td>{{ data["Contres visites"] }}</td>
+          <td>{{ data["Total CM"] | number:'1.2-2' }}</td>
+          <td>{{ data["%"] | number:'1.2-2' }}</td>
         </tr>
         </tbody>
       </nz-table>

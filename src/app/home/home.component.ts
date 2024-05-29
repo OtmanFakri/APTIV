@@ -15,6 +15,10 @@ import {WeekComponent} from "./lbar-line-chart/months/week/week.component";
 import {TableWeekComponent} from "./lbar-line-chart/months/week/table-week/table-week.component";
 import {DepartmentTableComponent} from "./lbar-line-chart/department/department-table/department-table.component";
 import {CategoryTableComponent} from "./lbar-line-chart/category/category-table/category-table.component";
+import {CategorizeEmployeeComponent} from "./categorize-employee/categorize-employee.component";
+import {
+  CategorizeEmployeeTabComponent
+} from "./categorize-employee/categorize-employee-tab/categorize-employee-tab.component";
 
 @Component({
   selector: 'app-home',
@@ -34,7 +38,9 @@ import {CategoryTableComponent} from "./lbar-line-chart/category/category-table/
     WeekComponent,
     TableWeekComponent,
     DepartmentTableComponent,
-    CategoryTableComponent
+    CategoryTableComponent,
+    CategorizeEmployeeComponent,
+    CategorizeEmployeeTabComponent
   ],
   templateUrl: './home.component.html',
 })

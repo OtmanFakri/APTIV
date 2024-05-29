@@ -1,63 +1,80 @@
 <!-- Chart widget -->
 <div class="flex flex-col col-span-full xl:col-span-8 bg-white  rounded-sm border border-gray-200">
-    <header class="flex flex-row justify-between px-5 py-4 border-b border-gray-100  items-center">
-        <h2 class="font-semibold text-gray-800">Medical Certificates per Category</h2>
+  <header class="flex flex-row justify-between px-5 py-4 border-b border-gray-100  items-center">
+    <h2 class="font-semibold text-gray-800">Medical Certificates per Category</h2>
 
-        <div class="flex flex-row space-x-2">
-            <nz-date-picker
-                    nzMode="month"
-                    (ngModelChange)="onMonthChange($event)"
-                    [(ngModel)]="selectedMonth"
-            ></nz-date-picker>
-        </div>
-    </header>
-    <div class="px-5 py-1">
-        <div class="flex flex-wrap">
-            <!-- Unique Visitors -->
-            <div class="flex items-center py-2">
-                <div class="mr-5">
-                    <div class="flex items-center">
-                        <div class="text-3xl font-bold text-gray-800 mr-2">{{certificateTotolData?.total_certificates_nbr}}</div>
-                    </div>
-                    <div class="text-sm text-gray-500">Total Certificates Nbr</div>
-                </div>
-                <div class="hidden md:block w-px h-8 bg-gray-200 mr-5" aria-hidden="true"></div>
-            </div>
-            <!-- Total Pageviews -->
-            <div class="flex items-center py-2">
-                <div class="mr-5">
-                    <div class="flex items-center">
-                        <div class="text-3xl font-bold text-gray-800 mr-2">{{certificateTotolData?.total_average_illness_days}}</div>
-                    </div>
-                    <div class="text-sm text-gray-500">Total Average illness Nbr</div>
-                </div>
-                <div class="hidden md:block w-px h-8 bg-gray-200 mr-5" aria-hidden="true"></div>
-            </div>
-            <!-- Bounce Rate -->
-            <div class="flex items-center py-2">
-                <div class="mr-5">
-                    <div class="flex items-center">
-                        <div class="text-3xl font-bold text-gray-800 mr-2">{{certificateTotolData?.total_certificate_rate}}
-                            %
-                        </div>
-                    </div>
-                    <div class="text-sm text-gray-500">Total Certificate Rate</div>
-                </div>
-                <div class="hidden md:block w-px h-8 bg-gray-200 mr-5" aria-hidden="true"></div>
-            </div>
-            <!-- Visit Duration-->
-            <div class="flex items-center">
-                <div>
-                    <div class="flex items-center">
-                        <div class="text-3xl font-bold text-gray-800 mr-2">{{certificateTotolData?.total_illness_todays_nbr}}</div>
-                    </div>
-                    <div class="text-sm text-gray-500">Total illness days Nbr</div>
-                </div>
-            </div>
-        </div>
+    <div class="flex flex-row space-x-2">
+      <nz-select [(ngModel)]="selectedOption">
+        <nz-option nzValue="year" nzLabel="year"></nz-option>
+        <nz-option nzValue="month" nzLabel="month"></nz-option>
+      </nz-select>
+
+      <ng-container *ngIf="selectedOption === 'year'">
+        <nz-date-picker
+          nzMode="year"
+          (ngModelChange)="onYearChange($event)"
+          [(ngModel)]="selectedYear"
+        ></nz-date-picker>
+      </ng-container>
+
+      <ng-container *ngIf="selectedOption === 'month'">
+        <nz-date-picker
+          nzMode="month"
+          (ngModelChange)="onMonthChange($event)"
+          [(ngModel)]="selectedMonth"
+        ></nz-date-picker>
+      </ng-container>
     </div>
-    <!-- Chart built with Chart.js 3 -->
-    <canvas width="800" height="300" #categorytCanvas>{{ chart }}</canvas>
+
+  </header>
+  <div class="px-5 py-1">
+    <div class="flex flex-wrap">
+      <!-- Unique Visitors -->
+      <div class="flex items-center py-2">
+        <div class="mr-5">
+          <div class="flex items-center">
+            <div class="text-3xl font-bold text-gray-800 mr-2">{{certificateTotolData?.total_certificates_nbr}}</div>
+          </div>
+          <div class="text-sm text-gray-500">Total Certificates Nbr</div>
+        </div>
+        <div class="hidden md:block w-px h-8 bg-gray-200 mr-5" aria-hidden="true"></div>
+      </div>
+      <!-- Total Pageviews -->
+      <div class="flex items-center py-2">
+        <div class="mr-5">
+          <div class="flex items-center">
+            <div
+              class="text-3xl font-bold text-gray-800 mr-2">{{certificateTotolData?.total_average_illness_days}}</div>
+          </div>
+          <div class="text-sm text-gray-500">Total Average illness Nbr</div>
+        </div>
+        <div class="hidden md:block w-px h-8 bg-gray-200 mr-5" aria-hidden="true"></div>
+      </div>
+      <!-- Bounce Rate -->
+      <div class="flex items-center py-2">
+        <div class="mr-5">
+          <div class="flex items-center">
+            <div class="text-3xl font-bold text-gray-800 mr-2">{{certificateTotolData?.total_certificate_rate}}
+              %
+            </div>
+          </div>
+          <div class="text-sm text-gray-500">Total Certificate Rate</div>
+        </div>
+        <div class="hidden md:block w-px h-8 bg-gray-200 mr-5" aria-hidden="true"></div>
+      </div>
+      <!-- Visit Duration-->
+      <div class="flex items-center">
+        <div>
+          <div class="flex items-center">
+            <div class="text-3xl font-bold text-gray-800 mr-2">{{certificateTotolData?.total_illness_todays_nbr}}</div>
+          </div>
+          <div class="text-sm text-gray-500">Total illness days Nbr</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Chart built with Chart.js 3 -->
+  <canvas width="800" height="300" #categorytCanvas>{{ chart }}</canvas>
 </div>
 
 

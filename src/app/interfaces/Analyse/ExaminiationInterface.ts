@@ -47,3 +47,11 @@ export interface Participation {
   employee_id:        number;
   participation_date: Date;
 }
+
+export interface MonthlyCounterVisits {
+  Month:             string;
+  Sans:              number;
+  "Contres visites": number;
+  "%":               string;
+  "Total CM":        number;
+}

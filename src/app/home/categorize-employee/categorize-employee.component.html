@@ -1,0 +1,17 @@
+<div class="flex flex-col  xl:col-span-8 bg-white  rounded-sm border border-gray-200">
+  <header class="flex flex-row justify-between px-5 py-4 border-b border-gray-100  items-center">
+    <h2 class="font-semibold text-gray-800">Nombre des Certification par categorize</h2>
+
+    <div class="flex flex-row space-x-2">
+      <nz-date-picker
+        nzMode="year"
+        [(ngModel)]="date"
+        (ngModelChange)="onDateChange($event)"
+      ></nz-date-picker>
+    </div>
+  </header>
+  <div class="flex items-center justify-center h-80">
+    <canvas width="800" height="321" #employeeCanvas></canvas>
+
+  </div>
+</div>

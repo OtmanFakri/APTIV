@@ -20,7 +20,9 @@ export interface Item {
   date_planned: Date;
   nbr_expected: number;
   nbr_days:     number;
+  is_visited:   boolean;
   nbr_gap:      number;
+  images:        string[] | null;
 }
 
 

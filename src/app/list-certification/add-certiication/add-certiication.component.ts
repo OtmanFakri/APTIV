@@ -10,6 +10,9 @@ import {DoctorRequestInterface} from "../../interfaces/ListdoctorInterface";
 import {CertificatesService} from "../certificates.service";
 import {formatDate} from "../../helper/getCurrentFormattedDate";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {UploadingFileComponent} from "../../Components/uploading-file/uploading-file.component";
+import {NzUploadFile} from "ng-zorro-antd/upload";
+import {UploadingFileService} from "../../Components/uploading-file/uploading-file.service";
 
 @Component({
     selector: 'app-add-certiication',
@@ -23,6 +26,7 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
         NzAutocompleteComponent,
         NzSelectComponent,
         NzOptionComponent,
+        UploadingFileComponent,
     ],
     templateUrl: './add-certiication.component.html',
 })
@@ -33,10 +37,12 @@ export class AddCertiicationComponent {
     optionsSpecialties: string[] = [];
     date = null;
     private delayTimer?: number; // Timer to manage the delay
+    Listfile: File[] = [];
 
     constructor(private fb: FormBuilder,
                 public certificatesService: CertificatesService,
                 private notification: NzNotificationService,
+                private uploadingFileService: UploadingFileService,
                 public doctorService: DoctorService) {
         this.form = this.fb.group({
             employee_id: [null,],
@@ -46,20 +52,23 @@ export class AddCertiicationComponent {
             nb_days: [null,],
             date_start: [null],
             date_end: [null],
-            dateRange: [null,] // Handles both dates
+            dateRange: [null,],
+            is_visited: [null,],
+            // Handles both dates
         });
     }
 
-  get nbDays() {
-    return this.form.get('nb_days')?.value ?? 0; // Default to 0 if null
-  }
+    get nbDays() {
+        return this.form.get('nb_days')?.value ?? 0; // Default to 0 if null
+    }
+
     onSubmit(employeeId: Number) {
         console.log(this.form.value);
         var date = new Date();
 
         const doctorRequest: DoctorRequestInterface = {
-            name:  this.form.get('doctor_name')?.value,
-            specialty:  this.form.get('doctor_specialty')?.value,
+            name: this.form.get('doctor_name')?.value,
+            specialty: this.form.get('doctor_specialty')?.value,
         };
         const certificationRequest: CertificationsRequestInterface = {
             doctor: doctorRequest,
@@ -69,18 +78,43 @@ export class AddCertiicationComponent {
             validation: this.form.get('validation')?.value, // Use actual validation status here
             date_planned: formatDate(date), // Use actual planned date or null
             nbr_days: Number(this.form.get('nb_days')?.value), // Use actual number of days here
+            is_visited: this.form.get('is_visited')?.value ?? false, // Use actual is_visited status here
+
         }
         console.log(employeeId)
 
         this.certificatesService.createCertification(Number(employeeId), certificationRequest).subscribe({
             next: (response) => {
                 console.log('Certification created:', response);
+
                 this.notification.create(
                     "success",
                     'Certification created',
                     response.message,
                     {nzPlacement: "bottomLeft"}
                 );
+                if (this.Listfile.length > 0) {
+                    this.uploadingFileService.uploadWithCertificationId(response.id, this.Listfile).subscribe({
+                        next: (response) => {
+                            console.log('Files uploaded:', response);
+                            this.notification.create(
+                                "success",
+                                'Files uploaded',
+                                response.message,
+                                {nzPlacement: "bottomLeft"}
+                            );
+                        },
+                        error: (err) => {
+                            console.error('Error uploading files:', err);
+                            this.notification.create(
+                                "error",
+                                'Error uploading files',
+                                err.message,
+                                {nzPlacement: "bottomLeft"}
+                            );
+                        }
+                    });
+                }
             },
             error: (err) => {
                 console.error('Error creating certification:', err);
@@ -125,6 +159,12 @@ export class AddCertiicationComponent {
     onInputSpecialty(event: Event): void {
         const value = (event.target as HTMLInputElement).value;
         this.logChange(value, 'specialty');
+    }
+
+    onFileListChange(fileList: File[]): void {
+        this.Listfile = fileList;
+        console.log('Updated file list:', this.Listfile);
+
     }
 
     logChange(value: string, type: string) {

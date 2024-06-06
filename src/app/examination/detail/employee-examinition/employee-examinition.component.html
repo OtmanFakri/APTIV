@@ -1,100 +1,115 @@
 <div class="px-4 md:px-10 py-4 md:py-7">
-  <div class="lg:flex items-end justify-end">
-    <div class="md:flex items-center mt-6 lg:mt-0">
-      <div class="flex items-end">
-        <div class="flex items-center pl-3 bg-white border w-64 rounded border-gray-200">
-          <svg class="text-gray-500" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
-               fill="none">
-            <path
-              d="M8.33333 13.1667C11.555 13.1667 14.1667 10.555 14.1667 7.33333C14.1667 4.11167 11.555 1.5 8.33333 1.5C5.11167 1.5 2.5 4.11167 2.5 7.33333C2.5 10.555 5.11167 13.1667 8.33333 13.1667Z"
-              stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
-            <path d="M17.5 17.5L12.5 12.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-          </svg>
-          <input type="text"
-                 [(ngModel)]="searchValue"
-                 (ngModelChange)="onSearchChange($event)"
-                 class="py-2.5 pl-1 w-full focus:outline-none text-sm rounded text-gray-600 placeholder-gray-500"
-                 placeholder="Search"/>
-        </div>
-      </div>
-      <div class="w-40 py-2 px-3 bg-white lg:ml-3 border rounded border-gray-200">
-        <select class="w-full text-sm leading-3 text-gray-500 focus:outline-none"
-                [(ngModel)]="selectedValue"
-                (change)="onDropdownChange($event)">
-          <option [value]="true">True</option>
-          <option [value]="false">False</option>
-        </select>
-      </div>
+    <div class="lg:flex items-end justify-end">
+        <div class="md:flex items-center mt-6 lg:mt-0">
+            <div class="flex items-end">
+                <div class="flex items-center pl-3 bg-white border w-64 rounded border-gray-200">
+                    <svg class="text-gray-500" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                         viewBox="0 0 20 20"
+                         fill="none">
+                        <path
+                                d="M8.33333 13.1667C11.555 13.1667 14.1667 10.555 14.1667 7.33333C14.1667 4.11167 11.555 1.5 8.33333 1.5C5.11167 1.5 2.5 4.11167 2.5 7.33333C2.5 10.555 5.11167 13.1667 8.33333 13.1667Z"
+                                stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        <path d="M17.5 17.5L12.5 12.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
+                              stroke-linejoin="round"></path>
+                    </svg>
+                    <input type="text"
+                           [(ngModel)]="searchValue"
+                           (ngModelChange)="onSearchChange($event)"
+                           class="py-2.5 pl-1 w-full focus:outline-none text-sm rounded text-gray-600 placeholder-gray-500"
+                           placeholder="Search"/>
+                </div>
+            </div>
+            <div class="w-40 py-2 px-3 bg-white lg:ml-3 border rounded border-gray-200">
+                <select class="w-full text-sm leading-3 text-gray-500 focus:outline-none"
+                        [(ngModel)]="selectedValue"
+                        (change)="onDropdownChange($event)">
+                    <option [value]="true">True</option>
+                    <option [value]="false">False</option>
+                </select>
+            </div>
 
+        </div>
     </div>
-  </div>
 </div>
 <div class="bg-white  overflow-x-auto">
-  <div class="inline-block min-w-full  align-middle ">
-    <nz-table
-      nzShowPagination="false"
-      [nzData]="employeeExaminations?.items ?? []" [nzScroll]="{ y: '400px' }">
-      <thead>
-      <tr>
-        <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
-          Nom
-        </th>
-        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Titre</th>
-        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Category</th>
-        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Contre
-          maitre
-        </th>
-        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Action</th>
+    <div class="inline-block min-w-full  align-middle ">
+        <nz-table
+                nzShowPagination="false"
+                [nzData]="employeeExaminations?.items ?? []" [nzScroll]="{ y: '400px' }">
+            <thead>
+            <tr>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                    Nom
+                </th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Titre</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Category</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Contre
+                    maitre
+                </th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Action</th>
 
-      </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-200 bg-white">
-      <tr
-        class="cursor-pointer"
-        *ngFor="let user of employeeExaminations?.items">
-        <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
-          <div class="flex items-center">
-            <div class="h-11 w-11 flex-shrink-0"
-                 style="">
-              <div class="h-11 w-11 rounded-full flex items-center justify-center text-white">
-                {{ user?.last_name?.substring(0, 2)?.toUpperCase() }}
-                {{ user?.last_name?.substring(0, 2)?.toUpperCase() }}
-              </div>
-            </div>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+            <tr
+                    class="cursor-pointer"
+                    *ngFor="let user of employeeExaminations?.items">
+                <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
+                    <div class="flex items-center">
+                        <div class="h-11 w-11 flex-shrink-0"
+                             style="">
+                            <div class="h-11 w-11 rounded-full flex items-center justify-center text-white">
+                                {{ user?.last_name?.substring(0, 2)?.toUpperCase() }}
+                                {{ user?.last_name?.substring(0, 2)?.toUpperCase() }}
+                            </div>
+                        </div>
 
-            <div class="ml-4">
-              <div
-                [routerLink]="['/Employee', user.id]"
-                class="font-medium text-gray-900">{{ user?.first_name }} {{ user?.last_name }}</div>
-              <div class="mt-1 text-gray-500">{{ user?.id }}</div>
-            </div>
-          </div>
-        </td>
-        <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-          <div class="text-gray-900">{{user?.job_name}}</div>
-          <div class="mt-1 text-gray-500">{{ user?.department_name }}</div>
-        </td>
-        <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                        <div class="ml-4">
+                            <div
+                                    [routerLink]="['/Employee', user.id]"
+                                    class="font-medium text-gray-900">{{ user?.first_name }} {{ user?.last_name }}</div>
+                            <div class="mt-1 text-gray-500">{{ user?.id }}</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                    <div class="text-gray-900">{{user?.job_name}}</div>
+                    <div class="mt-1 text-gray-500">{{ user?.department_name }}</div>
+                </td>
+                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
               <span
-                class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ user?.category }}</span>
-        </td>
-        <td
-          class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ user?.manager_name }}</td>
-        <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-          <select class="w-full text-sm leading-3 text-gray-500 focus:outline-none"
-                  (change)="onDropdownChangeExaminition($event, user?.id)">
-            <option [value]="false">False</option>
-            <option [value]="true">True</option>
-          </select>
-        </td>
-      </tr>
-      </tbody>
-    </nz-table>
-    <app-pagination [currentPage]="employeeExaminations?.page ?? 1" [totalPages]="employeeExaminations?.pages ?? 1"
-                    [size]="employeeExaminations?.size ?? 1" [total]="employeeExaminations?.total ?? 1"
-                    (pageChange)="onPageChange($event)"></app-pagination>
-  </div>
+                      class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ user?.category }}</span>
+                </td>
+                <td
+                        class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ user?.manager_name }}</td>
+                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                    <select class="w-full text-sm leading-3 text-gray-500 focus:outline-none"
+                            (change)="onDropdownChangeExaminition($event, user?.id)">
+                        <option [value]="false">False</option>
+                        <option [value]="true">True</option>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </nz-table>
+        <nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()"
+                  (nzOnOk)="handleOk()">
+            <ng-container *nzModalContent>
+              <div>
+                <label for="comment" class="block text-sm font-medium leading-6 text-gray-900">Add your Description</label>
+                <div class="mt-2">
+                  <textarea
+                          [(ngModel)]="comment"
+                          rows="4" name="comment" id="comment" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+                </div>
+              </div>
+            </ng-container>
+        </nz-modal>
+        <app-pagination [currentPage]="employeeExaminations?.page ?? 1" [totalPages]="employeeExaminations?.pages ?? 1"
+                        [size]="employeeExaminations?.size ?? 1" [total]="employeeExaminations?.total ?? 1"
+                        (pageChange)="onPageChange($event)"></app-pagination>
+    </div>
 
 
 </div>

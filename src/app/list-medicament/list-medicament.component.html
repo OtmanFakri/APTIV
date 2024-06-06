@@ -1,0 +1,89 @@
+<div class="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
+  <h3 class="text-base font-semibold leading-6 text-gray-900">Medicaments</h3>
+  <div class="mt-3 sm:ml-4 sm:mt-0">
+    <label for="mobile-search-candidate" class="sr-only">Search</label>
+    <label for="desktop-search-candidate" class="sr-only">Search</label>
+    <div class="flex rounded-md shadow-sm">
+      <div class="relative flex-grow focus-within:z-10">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd"
+                  d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                  clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <input type="text" name="mobile-search-candidate" id="mobile-search-candidate"
+               class="block w-full rounded-none rounded-l-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:hidden"
+               placeholder="Search">
+        <input type="text" name="desktop-search-candidate" id="desktop-search-candidate"
+               class="hidden w-full rounded-none rounded-l-md border-0 py-1.5 pl-10 text-sm leading-6 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:block"
+               placeholder="Search candidates">
+      </div>
+      <button type="button"
+              (click)="CreateshowModal()"
+              class="relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" x="0"
+             y="0"
+             viewBox="0 0 25 25" style="enable-background:new 0 0 512 512" xml:space="preserve" class="h-5 w-5"><g>
+          <path
+            d="M20.5 4h-16a.5.5 0 0 0-.5.5v16a.5.5 0 0 0 .5.5h16a.5.5 0 0 0 .5-.5v-16a.5.5 0 0 0-.5-.5zM20 20H5V5h15z"
+            fill="#000000" opacity="1" data-original="#000000" class=""></path><path
+          d="M8.5 13H12v3.5a.5.5 0 0 0 1 0V13h3.5a.5.5 0 0 0 0-1H13V8.5a.5.5 0 0 0-1 0V12H8.5a.5.5 0 0 0 0 1z"
+          fill="#000000" opacity="1" data-original="#000000" class=""></path></g></svg>
+        New
+      </button>
+    </div>
+    <nz-modal [(nzVisible)]="CreateisVisible" nzTitle="Create a new Medicament"
+              (nzOnCancel)="CreatehandleCancel()"
+              (nzOnOk)="CreatehandleOk()">
+      <ng-container *nzModalContent>
+        <app-create-medicament/>
+      </ng-container>
+    </nz-modal>
+
+  </div>
+</div>
+<div class="container mx-auto p-4">
+  <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-6">
+    <nz-card *ngFor="let drug of listMedicament" style="width:300px;"
+             [nzCover]="drug.cover"
+             [nzActions]="[actionEdit, actionEllipsis,actionAnalyse]">
+      <nz-card-meta
+        [nzTitle]="drug.name"
+        nzDescription="This is the description">
+      </nz-card-meta>
+      <ng-template #actionEdit>
+        <span nz-icon nzType="edit"></span>
+      </ng-template>
+      <ng-template #actionAnalyse>
+        <span nz-icon nzType="line-chart" nzTheme="outline"></span>
+      </ng-template>
+      <ng-template #actionEllipsis>
+        <span (click)="Detailopen(drug)" nz-icon nzType="eye"></span>
+      </ng-template>
+
+    </nz-card>
+  </div>
+
+  <nz-drawer
+    [nzClosable]="false"
+    [nzVisible]="Detailvisible"
+    nzWidth="35%"
+    nzPlacement="right"
+    nzTitle="{{titleDrawwe}}"
+    (nzOnClose)="Detailclose()"
+  >
+    <ng-container *nzDrawerContent>
+      <div class="px-4 py-5 sm:px-0 sm:py-0">
+        <dl class="space-y-8 sm:space-y-0 sm:divide-y sm:divide-gray-200">
+          <div class="sm:flex sm:px-6 sm:py-5" *ngFor="let detail of DetailMedicament.details">
+            <dt class="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">{{ detail.label }}</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:ml-6 sm:mt-0">{{ detail.value }}</dd>
+          </div>
+        </dl>
+      </div>
+    </ng-container>
+  </nz-drawer>
+
+</div>
+

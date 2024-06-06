@@ -1,31 +1,75 @@
-<nz-table #headerTable [nzData]="listOfData" [nzPageSize]="50" [nzScroll]="{ y: '455px' }">
-  <thead>
-  <tr>
-    <th>Name</th>
-    <th>Specialty</th>
-    <th>ID</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr
-    (click)="open()"
-    *ngFor="let data of headerTable.data">
-    <td>{{ data.name }}</td>
-    <td>{{ data.specialty }}</td>
-    <td>{{ data.id }}</td>
-  </tr>
-  <nz-drawer
-    [nzClosable]="false"
-    [nzVisible]="visible"
-    nzPlacement="right"
-    nzTitle="Basic Drawer"
-    (nzOnClose)="close()"
-  >
-    <ng-container *nzDrawerContent>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-    </ng-container>
-  </nz-drawer>
-  </tbody>
-</nz-table>
+<nz-tabset
+        [nzTabBarExtraContent]="extraTemplate"
+        (nzSelectChange)="onChnageTab($event)">
+    <nz-tab nzTitle="Doctor List">
+
+        <nz-table
+
+                [nzShowPagination]="false"
+                [nzData]="listOfData?.items ?? []"
+                [nzPageSize]="50" [nzScroll]="{ y: '455px' }">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Specialty</th>
+                <th>ID</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr
+                    (click)="open()"
+                    *ngFor="let data of listOfData?.items">
+                <td>{{ data.name }}</td>
+                <td>{{ data.specialty }}</td>
+                <td>{{ data.id }}</td>
+            </tr>
+            <nz-drawer
+                    [nzClosable]="false"
+                    [nzVisible]="visible"
+                    nzPlacement="right"
+                    nzTitle="Basic Drawer"
+                    (nzOnClose)="close()"
+            >
+                <ng-container *nzDrawerContent>
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                </ng-container>
+            </nz-drawer>
+            </tbody>
+        </nz-table>
+        <app-pagination [currentPage]="listOfData?.page ?? 1" [totalPages]="listOfData?.pages ?? 1"
+                        [size]="listOfData?.size ?? 1" [total]="listOfData?.total ?? 1"
+                        (pageChange)="onPageChange($event)">
+        </app-pagination>
+    </nz-tab>
+    <nz-tab nzTitle="Analyse">
+
+        <div class="container mx-auto grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 pt-6 gap-8">
+            <!-- Remove class [ h-24 ] when adding a card block -->
+            <!-- Remove class [ border-gray-300  dark:border-gray-700 border-dashed border-2 ] to remove dotted border -->
+            <div class="rounded border-gray-300 dark:border-gray-700 border-dashed border-2">
+                <app-by-gendre
+                        [data]="distribution_gendre"
+                />
+            </div>
+            <!-- Remove class [ h-24 ] when adding a card block -->
+            <!-- Remove class [ border-gray-300  dark:border-gray-700 border-dashed border-2 ] to remove dotted border -->
+            <div class="rounded border-gray-300 dark:border-gray-700 border-dashed border-2">
+                <app-by-category
+                        [data]="distribution_category"
+                />
+            </div>
+            <!-- Remove class [ h-24 ] when adding a card block -->
+            <!-- Remove class [ border-gray-300  dark:border-gray-700 border-dashed border-2 ] to remove dotted border -->
+            <div class="rounded border-gray-300 dark:border-gray-700 border-dashed border-2">
+                <app-by-department
+                        [data]="distribution_department"
+                />
+            </div>
+        </div>
+    </nz-tab>
+    <ng-template #extraTemplate>
+        <nz-date-picker nzMode="year" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+    </ng-template>
+</nz-tabset>

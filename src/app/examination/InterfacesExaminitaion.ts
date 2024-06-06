@@ -1,7 +1,7 @@
-import {Item} from "../interfaces/ListEmployee";
+import {Item as employee} from "../interfaces/ListEmployee";
 
 export interface EmployeeExaminition {
-  items: Item[];
+  items: employee[];
   total: number;
   page:  number;
   size:  number;
@@ -27,8 +27,8 @@ export interface ExaminitionGendre {
   total_non_participating:     number;
   "Total CM":                  number;
   "%":                         number;
-  participating_employees:     Item[];
-  non_participating_employees: Item[];
+  participating_employees:     employee[];
+  non_participating_employees: employee[];
 }
 export interface ExaminitionDepartment {
   department:                  string;
@@ -36,8 +36,8 @@ export interface ExaminitionDepartment {
   total_non_participating:     number;
   "Total CM":                  number;
   "%":                         number;
-  participating_employees:     Item[];
-  non_participating_employees: Item[];
+  participating_employees:     employee[];
+  non_participating_employees: employee[];
 }
 export interface ExaminitionCategory {
   category:                    string;
@@ -45,6 +45,32 @@ export interface ExaminitionCategory {
   total_non_participating:     number;
   "Total CM":                  number;
   "%":                         number;
-  participating_employees:     Item[];
-  non_participating_employees: Item[];
+  participating_employees:     employee[];
+  non_participating_employees: employee[];
+}
+
+export interface ExaminitionRespence {
+  items: Item[];
+  total: number;
+  page:  number;
+  size:  number;
+  pages: number;
+}
+
+export interface Item {
+  id:                      number;
+  name:                    string;
+  seniority:               number;
+  category:                Category[];
+  date_start:              Date;
+  date_end:                Date;
+  departments:             any[];
+  total_participating:     number;
+  total_non_participating: number;
+}
+
+export enum Category {
+  Dh = "DH",
+  Ih = "IH",
+  Is = "IS",
 }

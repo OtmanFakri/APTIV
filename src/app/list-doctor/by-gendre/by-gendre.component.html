@@ -1,0 +1,31 @@
+<div class="p-4">
+    <label for="gendreSelect" class="block mb-2 text-sm font-medium text-gray-700">Select Gender</label>
+    <select id="gendreSelect"
+            class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            [(ngModel)]="selectedGendre" (change)="filterData()">
+        <option *ngFor="let item of data" [value]="item.gendre">{{ item.gendre }}</option>
+    </select>
+
+    <table class="min-w-full divide-y divide-gray-200 mt-4">
+        <thead class="bg-gray-50">
+        <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Specialty
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Certification Count
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Doctors Count
+            </th>
+        </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+        <tr *ngFor="let specialty of filteredData">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ specialty.specialty }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ specialty.certification_count }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ specialty.doctors_count }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

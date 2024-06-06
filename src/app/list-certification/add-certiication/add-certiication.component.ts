@@ -76,7 +76,7 @@ export class AddCertiicationComponent {
             date_start: formatDate(this.form.get('date_start')?.value), // Use actual start date here
             date_end: formatDate(this.form.get('date_end')?.value), // Use actual end date here
             validation: this.form.get('validation')?.value, // Use actual validation status here
-            date_planned: formatDate(date), // Use actual planned date or null
+            date_planned: null, // Use actual planned date or null
             nbr_days: Number(this.form.get('nb_days')?.value), // Use actual number of days here
             is_visited: this.form.get('is_visited')?.value ?? false, // Use actual is_visited status here
 

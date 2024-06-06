@@ -19,6 +19,7 @@ import {ExaminitationService} from "./examinitation.service";
 import {NzTagComponent} from "ng-zorro-antd/tag";
 import {NzDrawerModule} from 'ng-zorro-antd/drawer';
 import {Router} from "@angular/router";
+import {ExaminitionRespence} from "./InterfacesExaminitaion";
 
 
 @Component({
@@ -57,7 +58,7 @@ import {Router} from "@angular/router";
 export class ExaminationComponent implements OnInit {
 
   @ViewChild(AddExaminiationComponent) addExaminiationComponent!: AddExaminiationComponent;
-  data: any[] = [];
+  data!: ExaminitionRespence ;
 
 
   constructor(private examinitationService: ExaminitationService,
@@ -65,14 +66,10 @@ export class ExaminationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.examinitationService.GetConsulation().subscribe(
-      (data: any[]) => {
-        this.data = data
-      },
-      (error) => {
-        console.error('Error fetching consultation data:', error);
-      }
-    );
+    this.examinitationService.GetConsulation().subscribe(data => {
+      this.data = data;
+    });
+
   }
 
 
@@ -102,7 +99,7 @@ export class ExaminationComponent implements OnInit {
 
   protected readonly console = console;
 
-  viewProjectDetails(item: any) {
-    this.router.navigate(['/examination', item.id]);
+  viewProjectDetails(id: any) {
+    this.router.navigate(['/examination', id]);
   }
 }

@@ -33,6 +33,7 @@
         New
       </button>
       <div
+        (click)="open()"
         class="pl-2"
       >Filter
       </div>
@@ -44,5 +45,97 @@
         <app-create-soin/>
       </ng-container>
     </nz-modal>
+    <nz-drawer
+      [nzClosable]="false"
+      [nzVisible]="visible"
+      nzPlacement="right"
+      nzTitle="Basic Drawer"
+      (nzOnClose)="close()"
+    >
+      <ng-container *nzDrawerContent>
+        <nz-space>
+          <nz-select *nzSpaceItem [(ngModel)]="mode" (ngModelChange)="onModeChange($event)">
+            <nz-option nzValue="date" nzLabel="Date"></nz-option>
+            <nz-option nzValue="month" nzLabel="Month"></nz-option>
+            <nz-option nzValue="year" nzLabel="Year"></nz-option>
+          </nz-select>
+          <nz-date-picker
+            *nzSpaceItem [nzMode]="mode" [(ngModel)]="selectedDate"
+            (ngModelChange)="onDateChange($event)"></nz-date-picker>
+        </nz-space>
+      </ng-container>
+    </nz-drawer>
+
   </div>
 </div>
+<div class="container mx-auto p-4">
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+      <tr>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Employee ID
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Created At
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Diagnostic
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Soins
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Soins Poste De Garde
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Medicament Associations
+        </th>
+
+      </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+      <tr
+        *ngFor="let item of items.items"
+        (click)="updateItem(item)"
+      >
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ item.employee_id }}</td>
+        <td
+          class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ item.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold">{{ item.diagnostic.join(', ') }}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold">{{ item.soins.join(', ') }}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ item.soins_poste_de_garde }}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+          <div *ngFor="let assoc of item.medicament_associations">
+            {{ assoc.medicament.name }} (Quantité: {{ assoc.quantite }})
+          </div>
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
+    <nz-drawer
+      [nzClosable]="false"
+      [nzVisible]="Updatevisible"
+      nzPlacement="right"
+      nzTitle="Basic Drawer"
+      [nzFooter]="footerTpl"
+      (nzOnClose)="UpdatehandleCancel()"
+    >
+      <ng-container *nzDrawerContent>
+        <app-update-soin
+          [soin]="selectedItem"/>
+      </ng-container>
+      <ng-template #footerTpl>
+        <div style="float: right">
+          <button nz-button style="margin-right: 8px;" (click)="UpdatehandleCancel()">Cancel</button>
+          <button nz-button nzType="primary" (click)="UpdatehandleOk()">Submit</button>
+        </div>
+      </ng-template>
+    </nz-drawer>
+  </div>
+</div>
+
+
+

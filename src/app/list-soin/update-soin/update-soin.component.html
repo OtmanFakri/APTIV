@@ -1,1 +1,71 @@
-<p>update-soin works!</p>
+<form [formGroup]="soinForm" (ngSubmit)="onSubmit()">
+  <div class="mb-4">
+    <label class="block text-gray-700">Employee ID</label>
+    <app-employee-id-input
+      [employeeId]="soinForm.get('employee_id')?.value"
+      (employeeSelected)="onEmployeeSelected($event)"
+    ></app-employee-id-input>
+  </div>
+
+  <div class="mb-4">
+    <label for="diagnostic" class="block text-gray-700">Diagnostic</label>
+    <nz-select
+      id="diagnostic"
+      class="w-full"
+      nzMode="tags"
+      nzPlaceHolder="Tag Mode"
+      formControlName="diagnostic"
+    >
+      <nz-option *ngFor="let option of soinForm.get('diagnostic')?.value" [nzLabel]="option"
+                 [nzValue]="option"></nz-option>
+    </nz-select>
+  </div>
+
+  <div class="mb-4">
+    <label for="soins" class="block text-gray-700">Soins</label>
+    <nz-select
+      id="soins"
+      class="w-full"
+      nzMode="tags"
+      nzPlaceHolder="Tag Mode"
+      formControlName="soins">
+      <nz-option *ngFor="let option of soinForm.get('soins')?.value" [nzLabel]="option" [nzValue]="option"></nz-option>
+    </nz-select>
+  </div>
+
+  <div class="mb-4">
+    <label for="soins_poste_de_garde" class="block text-gray-700">Soins Poste de Garde</label>
+    <textarea
+      id="soins_poste_de_garde"
+      class="w-full mt-2 p-2 border border-gray-300 rounded"
+      formControlName="soins_poste_de_garde"
+    ></textarea>
+  </div>
+
+  <div class="mb-4" formArrayName="medicament_associations">
+    <label class="block text-gray-700">Medicament Associations</label>
+    <div *ngFor="let medicamentForm of medicamentAssociations.controls; let i = index" [formGroupName]="i"
+         class="flex items-center mb-2">
+      <app-select-medicament
+        class="flex-auto"
+        [searchTerm]="medicamentForm.get('medicament')?.value.name"
+        (medicationSelected)="medicamentSelect($event, i)"
+      ></app-select-medicament>
+      <input type="number" formControlName="quantite" placeholder="Quantity"
+             class="flex-none w-1/3 px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"/>
+      <button
+        *ngIf="medicamentAssociations.length > 1"
+        type="button" (click)="removeMedicament(i)"
+        class="flex-none px-3 py-2 bg-red-500 text-white rounded-md">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+             class="h-6 w-6">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+        </svg>
+      </button>
+    </div>
+    <button type="button" (click)="addMedicament()" class="px-4 py-2 bg-green-500 text-white rounded-md">Add
+      Medicament
+    </button>
+  </div>
+</form>

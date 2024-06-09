@@ -59,6 +59,25 @@ export class EmployeeService {
     return this.http.post<ListEmployee>(this.baseUrl, requestBody, options);
   }
 
+  filterEmployeesById(employee_id: number): Observable<ListEmployee> {
+    const requestBody = {
+      employee_id,
+      page: 1,
+      size: 50
+    };
+
+    const queryParams = new HttpParams()
+      .set('employee_id', employee_id.toString())
+      .set('page', '1')
+      .set('size', '50');
+
+    const options = {
+      headers: {'Content-Type': 'application/json'},
+      params: queryParams
+    };
+
+    return this.http.post<ListEmployee>(this.baseUrl, requestBody, options);
+  }
 
 
   GETRegions(page: number = 1, size: number = 50): Observable<RegionsResponse> {
@@ -70,13 +89,15 @@ export class EmployeeService {
 
     return this.http.get<RegionsResponse>(`${apiUrl}`, {params});
   }
-  GETCityByRegion(region_id:Number): Observable<City[]> {
+
+  GETCityByRegion(region_id: Number): Observable<City[]> {
     let apiUrl = `http://127.0.0.1:8011/address/region/${region_id}`;
     return this.http.get<City[]>(`${apiUrl}`);
   }
-  GETSERACHMANGER(query:string):Observable<SearchManger[]> {
+
+  GETSERACHMANGER(query: string): Observable<SearchManger[]> {
     let apiUrl = 'http://127.0.0.1:8011'
     const params = new HttpParams().set('search', query);
-    return this.http.post<SearchManger[]>(`${apiUrl}/employee/search?search=${query}`, { params });
+    return this.http.post<SearchManger[]>(`${apiUrl}/employee/search?search=${query}`, {params});
   }
 }

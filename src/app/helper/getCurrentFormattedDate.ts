@@ -28,3 +28,18 @@ export function dateRangeValidator(startControlName: string, endControlName: str
     return null;  // No error
   };
 }
+
+//
+export function extractDateComponents(date: Date | null, mode: 'date' | 'week' | 'month' | 'year'): {
+  year: number | null,
+  month: number | null,
+  day: number | null
+} {
+  if (!date) return {year: null, month: null, day: null};
+
+  const year = date.getFullYear();
+  const month = mode === 'month' || mode === 'date' ? date.getMonth() + 1 : null;
+  const day = mode === 'date' ? date.getDate() : null;
+
+  return {year, month, day};
+}

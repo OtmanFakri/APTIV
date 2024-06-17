@@ -18,11 +18,13 @@ import {AddCertiicationComponent} from "./list-certification/add-certiication/ad
 import {DetailComponent} from "./examination/detail/detail.component";
 import {ListMedicamentComponent} from "./list-medicament/list-medicament.component";
 import {ListSoinComponent} from "./list-soin/list-soin.component";
+import {AuthGuard} from "./auth/AuthGuard";
 
 export const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
+    canActivate: [AuthGuard],
     children: [
       {path: '', component: HomeComponent},
       {path: 'Employee', component: ListEmployeeComponent},

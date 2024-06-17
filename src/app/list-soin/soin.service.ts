@@ -37,7 +37,8 @@ export class SoinService {
   Last10soinAndDig(): Observable<Last10> {
     return this.http.post<Last10>(`${this.apiUrl}/last-10-soins-and-diagnostics`, {});
   }
-  UpdateSoin(id: number,soinData: CreateSoin): Observable<any> {
+
+  UpdateSoin(id: number, soinData: CreateSoin): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, soinData);
   }
 }

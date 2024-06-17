@@ -4,7 +4,7 @@ import {NzModalComponent} from "ng-zorro-antd/modal";
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {CreateSoinComponent} from "./create-soin/create-soin.component";
 import {NzSelectModule} from 'ng-zorro-antd/select';
-import {DatePipe, NgForOf} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {Item, ReadSoinInterface} from "./InterfaceSoin";
 import {SoinService} from "./soin.service";
 import {NzDrawerModule} from 'ng-zorro-antd/drawer';
@@ -14,6 +14,9 @@ import {NzSpaceComponent, NzSpaceItemDirective} from "ng-zorro-antd/space";
 import {extractDateComponents} from "../helper/getCurrentFormattedDate";
 import {UpdateSoinComponent} from "./update-soin/update-soin.component";
 import {NzButtonComponent} from "ng-zorro-antd/button";
+import {NzTabsModule} from 'ng-zorro-antd/tabs';
+import {MedicamentKpiCategoryComponent} from "./kpi/medicament-kpi-category/medicament-kpi-category.component";
+import {KpiComponent} from "./kpi/kpi.component";
 
 @Component({
   selector: 'app-list-soin',
@@ -32,7 +35,11 @@ import {NzButtonComponent} from "ng-zorro-antd/button";
     NzSpaceComponent,
     DatePipe,
     UpdateSoinComponent,
-    NzButtonComponent
+    NzButtonComponent,
+    NzTabsModule,
+    NgIf,
+    MedicamentKpiCategoryComponent,
+    KpiComponent
   ],
   templateUrl: './list-soin.component.html',
 })
@@ -45,6 +52,9 @@ export class ListSoinComponent implements OnInit {
   CreateisVisible = false;
   mode: 'date' | 'month' | 'year' = 'date';
   selectedDate: Date | null = new Date();
+  indexTabs = 0;
+
+  KpiDate = new Date();
 
   constructor(private soinService: SoinService) {
   }
@@ -64,10 +74,7 @@ export class ListSoinComponent implements OnInit {
   }
 
   fetachSoin(year?: number, month?: number, day?: number): void {
-    console.log("fetachSoin:", year, month, day);
     this.soinService.ReadSoin({year: year, month: month, day: day}).subscribe((data: ReadSoinInterface) => {
-      console.log("fetachSoin21:", year, month, day);
-      console.log(data);
       this.items = data;
     });
   }
@@ -113,9 +120,20 @@ export class ListSoinComponent implements OnInit {
 
   onDateChange(date: Date | null): void {
     const {year, month, day} = extractDateComponents(date, this.mode);
-    console.log(year, month, day);
     this.fetachSoin(Number(year), Number(month), Number(day));
   }
 
 
+  onTabChange($event: number) {
+    this.indexTabs = $event
+  }
+
+  onKpiDateChange($event: any) {
+    this.KpiDate = $event;
+  }
+
+  onKpiModeChange($event: any) {
+    this.mode = $event;
+    console.log("modechange  : " , $event)
+  }
 }

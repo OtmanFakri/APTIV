@@ -2,6 +2,7 @@
   nzPlaceHolder="Select managers"
   nzAllowClear
   nzShowSearch
+  class="w-full"
   nzServerSearch
   [formControl]="control"
   [ngClass]="{'border-red-400': control.invalid && (control.dirty || control.touched), 'border-gray-300': !(control.invalid && (control.dirty || control.touched))}"

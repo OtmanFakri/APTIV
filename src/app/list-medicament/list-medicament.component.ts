@@ -42,7 +42,7 @@ export class ListMedicamentComponent implements OnInit {
   async fetchMedicament() {
     this.medicamentService.readMedicament().subscribe((data: any) => {
       // Ensure your data has the required structure
-      this.listMedicament = data.map((item: any) => ({
+      this.listMedicament = data.items.map((item: any) => ({
         name: item.name,
         id: item.id,
         id_product: item.id_product,

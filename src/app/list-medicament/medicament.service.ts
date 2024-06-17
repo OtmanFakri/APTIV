@@ -23,8 +23,8 @@ export class MedicamentService {
     return this.http.put<MedicamentCreate>(`${this.apiUrl}${id}`, medicament);
   }
 
-  readMedicament() {
-    return this.http.get(`${this.apiUrl}/medicaments`);
+  readMedicament(page: number = 1) {
+    return this.http.get(`${this.apiUrl}/medicaments/?page=${page}`);
   }
 
   autocomplete(keyword: string, comparison: string = 'contains'): Observable<autocompleteMedicament> {

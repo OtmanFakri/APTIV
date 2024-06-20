@@ -1,0 +1,48 @@
+<div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+  <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Sign Up</h2>
+  <form (ngSubmit)="onSubmit()" #signupForm="ngForm" class="space-y-4">
+    <div>
+      <label for="employeeId" class="block text-sm font-medium text-gray-700 mb-1">Employee ID</label>
+      <input
+        type="number"
+        id="employeeId"
+        name="employeeId"
+        [(ngModel)]="employeeId"
+        required
+        #employeeIdInput="ngModel"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <div *ngIf="employeeIdInput.invalid && (employeeIdInput.dirty || employeeIdInput.touched)" class="mt-1">
+        <small class="text-red-500" *ngIf="employeeIdInput.errors?.['required']">Employee ID is required</small>
+      </div>
+    </div>
+
+    <div>
+      <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        [(ngModel)]="password"
+        required
+        minlength="6"
+        #passwordInput="ngModel"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="mt-1">
+        <small class="text-red-500" *ngIf="passwordInput.errors?.['required']">Password is required</small>
+        <small class="text-red-500" *ngIf="passwordInput.errors?.['minlength']">Password must be at least 6 characters long</small>
+      </div>
+    </div>
+
+    <div>
+      <button
+        type="submit"
+        [disabled]="!signupForm.form.valid"
+        class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Sign Up
+      </button>
+    </div>
+  </form>
+</div>

@@ -43,7 +43,7 @@
         </svg>
       </span>
       <div class="flex items-center">
-        <span class="mx-4">{{ loggedUser?.fullName ?? 'N/A' }}</span>
+        <span class="mx-4">{{ loggedUser.employee_id ?? 'N/A' }}</span>
         <button nz-button nzType="primary" (click)="logout()">Logout</button>
       </div>
     </nz-header>

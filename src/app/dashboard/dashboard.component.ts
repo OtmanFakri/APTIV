@@ -101,6 +101,7 @@ export class DashboardComponent implements OnInit {
               private authService: AuthentificatinService,
               private sanitizer: DomSanitizer) {
     this.loggedUser = this.authService.getLoggedUser();
+    console.log("test loggedUser ",this.loggedUser)
 
   }
 

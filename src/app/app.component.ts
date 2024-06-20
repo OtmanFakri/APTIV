@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, inject, OnInit} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {NgIf} from "@angular/common";
 import {DashboardComponent} from "./dashboard/dashboard.component";
@@ -7,6 +7,10 @@ import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {TokenInterceptor} from "./auth/TokenInterceptor";
 import {AuthentificatinService} from "./auth/authentificatin.service";
 import {jwtDecode} from "jwt-decode";
+import {initializeApp} from "firebase/app";
+import {environment} from "./configuration/environment";
+import {getMessaging, getToken} from "firebase/messaging";
+import {Messaging, onMessage} from "@angular/fire/messaging";
 
 @Component({
   selector: 'app-root',
@@ -20,16 +24,33 @@ export class AppComponent implements OnInit {
   title = 'APTIV-Front';
   toggle_profile: boolean = false;
   close_side_bar: boolean = false;
-
+  private readonly _messaging = inject(Messaging);
   constructor(private router: Router,
               private authService: AuthentificatinService) {
   }
 
   ngOnInit(): void {
     this.checkTokenExpiration();
-    console.log('sssssssssssssssssssssssssstart')
+    this._getDeviceToken();
+    this._onMessage();
   }
 
+  private _getDeviceToken(): void {
+    getToken(this._messaging, { vapidKey: environment.vapidKey })
+      .then((token) => {
+        console.log(token);
+        // save the token in the server, or do whathever you want
+      })
+      .catch((error) => console.log('Token error', error));
+  }
+
+  private _onMessage(): void {
+    onMessage(this._messaging, {
+      next: (payload) => console.log('Message', payload),
+      error: (error) => console.log('Message error', error),
+      complete: () => console.log('Done listening to messages'),
+    });
+  }
   private checkTokenExpiration(): void {
     const token = this.authService.getJwtToken();
     if (token) {

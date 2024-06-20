@@ -19,6 +19,7 @@ import {DetailComponent} from "./examination/detail/detail.component";
 import {ListMedicamentComponent} from "./list-medicament/list-medicament.component";
 import {ListSoinComponent} from "./list-soin/list-soin.component";
 import {AuthGuard} from "./auth/AuthGuard";
+import {SingupComponent} from "./auth/singup/singup.component";
 
 export const routes: Routes = [
   {
@@ -30,7 +31,6 @@ export const routes: Routes = [
       {path: 'Employee', component: ListEmployeeComponent},
       {path: 'Departments', component: ListDepartmentComponent},
       {path: 'Employee/new', component: AddProfileComponent},
-
       {
         path: 'Employee/:id',
         component: ProfileComponent,
@@ -48,8 +48,7 @@ export const routes: Routes = [
       {path: 'certifications', component: ListCertificationComponent},
       {path: 'medicament', component: ListMedicamentComponent},
       {path: 'soins', component: ListSoinComponent},
-
-
+      {path: 'singup', component: SingupComponent}
     ]
   },
   {path: 'login', component: LoginComponent}

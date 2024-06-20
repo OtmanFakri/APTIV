@@ -2,21 +2,23 @@ import {Injectable} from "@angular/core";
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {AuthentificatinService} from "./authentificatin.service";
 import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from "rxjs";
+import {error} from "@angular/compiler-cli/src/transformers/util";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(public authService: AuthentificatinService) { }
+  constructor(private authService: AuthentificatinService, private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.authService.getJwtToken()) {
-      request = this.addToken(request, this.authService.getJwtToken());
+    const token = this.authService.getJwtToken();
+    if (token !== null) { // Add a type guard
+      request = this.addToken(request, token);
     }
 
     return next.handle(request).pipe(
       catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
-          this.handle401Error();
-          return throwError(error);
+          return this.handle401Error(request, next);
         } else {
           return throwError(error);
         }
@@ -32,11 +34,12 @@ export class TokenInterceptor implements HttpInterceptor {
     });
   }
 
-  private handle401Error() {
-    // Perform any necessary actions when a 401 error occurs
-    // For example, you can redirect the user to the login page
+  private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.authService.removeTokens();
     this.authService.logoutUser();
-    // Optionally, you can navigate to the login page
-    // this.router.navigate(['/login']);
+    this.router.navigate(['/login']);
+
+    // Optionally, you can retry the request after refreshing the token if you have a refresh token mechanism
+    return throwError(() => new Error('Unauthorized'));
   }
 }

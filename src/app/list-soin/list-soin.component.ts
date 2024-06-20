@@ -17,6 +17,8 @@ import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzTabsModule} from 'ng-zorro-antd/tabs';
 import {MedicamentKpiCategoryComponent} from "./kpi/medicament-kpi-category/medicament-kpi-category.component";
 import {KpiComponent} from "./kpi/kpi.component";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {TokenInterceptor} from "../auth/TokenInterceptor";
 
 @Component({
   selector: 'app-list-soin',

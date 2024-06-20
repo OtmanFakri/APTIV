@@ -7,6 +7,8 @@ import {NzContentComponent, NzHeaderComponent, NzLayoutComponent, NzSiderCompone
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzMenuDirective, NzMenuItemComponent, NzSubMenuComponent} from "ng-zorro-antd/menu";
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import {NzButtonComponent} from "ng-zorro-antd/button";
+import {AuthentificatinService} from "../auth/authentificatin.service";
 
 
 interface MenuItem {
@@ -18,7 +20,7 @@ interface MenuItem {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterOutlet, NgIf, DashboardComponent, RouterLink, RouterLinkActive, NzDrawerComponent, NzDrawerContentDirective, NgClass, NzBreadCrumbComponent, NzBreadCrumbItemComponent, NzHeaderComponent, NzLayoutComponent, NzIconDirective, NzMenuItemComponent, NzSiderComponent, NzMenuDirective, NzSubMenuComponent, NzContentComponent, NgForOf],
+  imports: [RouterOutlet, NgIf, DashboardComponent, RouterLink, RouterLinkActive, NzDrawerComponent, NzDrawerContentDirective, NgClass, NzBreadCrumbComponent, NzBreadCrumbItemComponent, NzHeaderComponent, NzLayoutComponent, NzIconDirective, NzMenuItemComponent, NzSiderComponent, NzMenuDirective, NzSubMenuComponent, NzContentComponent, NgForOf, NzButtonComponent],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
@@ -93,27 +95,57 @@ export class DashboardComponent implements OnInit {
       label: 'Soins'
     },
   ];
-
+  loggedUser: any; // Replace with the appropriate user interface
 
   constructor(private router: Router,
+              private authService: AuthentificatinService,
               private sanitizer: DomSanitizer) {
-  }
-
-  ngOnInit(): void {
+    this.loggedUser = this.authService.getLoggedUser();
 
   }
 
-  isActive(route: string): boolean {
+  logout() {
+    this.authService.logout().subscribe(
+      (success) => {
+        if (success) {
+          this.router.navigate(['/login']); // Redirect to the login page or any other page
+        } else {
+          console.error('Logout failed');
+        }
+      },
+      (error) => {
+        console.error('Logout error', error);
+      }
+    );
+  }
+
+  // Optionally, you can navigate to the login page or perform any other actions
+
+  ngOnInit()
+    :
+    void {
+  }
+
+
+  isActive(route
+             :
+             string
+  ):
+    boolean {
     return this.router.isActive(route, true);
   }
 
   visible = false;
 
-  open(): void {
+  open()
+    :
+    void {
     this.visible = true;
   }
 
-  close(): void {
+  close()
+    :
+    void {
     this.visible = false;
   }
 
@@ -122,7 +154,10 @@ export class DashboardComponent implements OnInit {
   }
 
   @HostListener('document:click', ['$event'])
-  clickOutside(event: Event) {
+  clickOutside(event
+                 :
+                 Event
+  ) {
     if (this.toggle_profile) {
       const target = event.target as HTMLElement;
       if (!target.closest('.relative')) {
@@ -137,7 +172,11 @@ export class DashboardComponent implements OnInit {
     this.showMenu = !this.showMenu;
   }
 
-  isSelected(route: string): boolean {
+  isSelected(route
+               :
+               string
+  ):
+    boolean {
     return route === this.router.url;
   }
 

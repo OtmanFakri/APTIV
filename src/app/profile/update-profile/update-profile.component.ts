@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {City, NewEmployee, RegionsResponse, SearchManger} from "../../interfaces/ListEmployee";
 import {ProfileEmployee} from "../../interfaces/profileEmployee";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -44,16 +44,15 @@ export class UpdateProfileComponent implements OnInit {
   categories: CategoryInfo[] = [];
   filteredDepartments: Department[] = [];
   filteredJobs: Job[] = [];
-  regions: any = [];
-  cities: { id: number, name: string }[] = [];
   isLoading = false;
-  managers: EmployeeDetailsManager[] = []; // Add managers array
+  cities: any;
 
   constructor(
     private fb: FormBuilder,
     private notification: NzNotificationService,
     private departmentService: DepartmentService,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private cdr: ChangeDetectorRef
   ) {
     this.profileForm = this.fb.group({
       id: [{value: '', disabled: true}],
@@ -76,6 +75,45 @@ export class UpdateProfileComponent implements OnInit {
     });
   }
 
+  ngOnInit(): void {
+    this.isLoading = true;
+    this.loadDepartments().then(() => {
+      if (this.profile) {
+        this.updateForm(this.profile);
+      }
+      this.isLoading = false;
+    });
+  }
+
+  loadDepartments(): Promise<void> {
+    return new Promise((resolve) => {
+      this.departmentService.getDepartmentsIndex().subscribe(
+        (data: CategoryInfo[]) => {
+          this.categories = data;
+          resolve();
+        },
+        error => {
+          console.error('Error loading departments', error);
+          resolve();
+        }
+      );
+    });
+  }
+
+  onCategoryChange(category: string): void {
+    const selectedCategory = this.categories.find(c => c.category === category);
+    this.filteredDepartments = selectedCategory ? selectedCategory.departments : [];
+    this.profileForm.get('department_id')?.setValue(null);
+    this.profileForm.get('job_id')?.setValue(null);
+    this.filteredJobs = [];
+  }
+
+  onDepartmentChange(departmentId: number): void {
+    const selectedDepartment = this.filteredDepartments.find(d => d.id === departmentId);
+    this.filteredJobs = selectedDepartment ? selectedDepartment.jobs : [];
+    this.profileForm.get('job_id')?.setValue(null);
+  }
+
   onManagerSelected(manager: SearchManger) {
     // Check if manager.id is not undefined and not null
     if (manager.id !== undefined && manager.id !== null) {
@@ -85,23 +123,10 @@ export class UpdateProfileComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.isLoading = true;
-    if (this.profile) {
-      this.updateForm(this.profile);
-    }
-  }
-
-
   private updateForm(profile: EmployeeDetails): void {
-    const category = this.categories.find(cat => cat.category === profile.department.category)?.category;
-
     this.profileForm.patchValue({
       id: profile.id,
-      category: category,
-      department_id: profile.department.id,
-      job_id: profile.job.id,
-      manager_id: profile.manager,
+      category: profile.department.category,
       first_name: profile.first_name,
       last_name: profile.last_name,
       cin: profile.cin,
@@ -115,6 +140,7 @@ export class UpdateProfileComponent implements OnInit {
       date_visit: profile.date_visit,
       date_end: profile.date_end
     });
+
     if (profile.manager) {
       const managerValue: SearchManger = {
         id: profile.manager.id,
@@ -123,8 +149,19 @@ export class UpdateProfileComponent implements OnInit {
       this.profileForm.get('manager_id')?.setValue(managerValue);
     }
 
-  }
+    // Set category and trigger change to populate departments
+    this.profileForm.get('category')?.setValue(profile.department.category);
+    this.onCategoryChange(profile.department.category);
 
+    // Set department and trigger change to populate jobs
+    this.profileForm.get('department_id')?.setValue(profile.department.id);
+    this.onDepartmentChange(profile.department.id);
+
+    // Set job
+    this.profileForm.get('job_id')?.setValue(profile.job.id);
+
+    this.cdr.detectChanges();
+  }
 
   submitForm(): void {
     if (this.profileForm.valid) {
@@ -132,7 +169,7 @@ export class UpdateProfileComponent implements OnInit {
       const updatedProfile: EmployeeUpdate = {
         department_id: formValue.department_id,
         job_id: formValue.job_id,
-        manager_id: formValue.manager_id,
+        manager_id: formValue.manager_id?.id,
         first_name: formValue.first_name,
         last_name: formValue.last_name,
         cin: formValue.cin,
@@ -146,6 +183,8 @@ export class UpdateProfileComponent implements OnInit {
         date_visit: formValue.date_visit,
         date_end: formValue.date_end
       };
+      console.log(updatedProfile);
+      // Here you would typically call a service method to update the profile
     }
   }
 }

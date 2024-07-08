@@ -7,6 +7,34 @@
     >
   </div>
 
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">category</label>
+    <nz-select
+      class="w-64"
+      formControlName="category" (ngModelChange)="onCategoryChange($event)">
+      <nz-option *ngFor="let cat of categories" [nzValue]="cat.category" [nzLabel]="cat.category"></nz-option>
+    </nz-select>
+  </div>
+
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">department</label>
+    <nz-select
+      class="w-64"
+      formControlName="department_id"
+      (ngModelChange)="onDepartmentChange($event)">
+      <nz-option *ngFor="let dept of filteredDepartments" [nzValue]="dept.id" [nzLabel]="dept.name"></nz-option>
+    </nz-select>
+  </div>
+
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">job</label>
+    <nz-select
+      class="w-64"
+      formControlName="job_id">
+      <nz-option *ngFor="let job of filteredJobs" [nzValue]="job.id" [nzLabel]="job.name"></nz-option>
+    </nz-select>
+  </div>
+
 
   <div class="flex justify-between items-center py-3 text-sm font-medium">
     <label class="text-gray-500">Manager Name</label>

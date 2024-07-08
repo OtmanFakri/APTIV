@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ProfileService} from "../../profile/profile.service";
 import {ProfileEmployee} from "../../interfaces/profileEmployee";
+import {EmployeeDetails} from "../../profile/Interfaces";
 
 @Component({
     selector: 'app-info-employee',
@@ -12,7 +13,7 @@ import {ProfileEmployee} from "../../interfaces/profileEmployee";
 export class InfoEmployeeComponent implements OnInit {
 
     @Input() employee_id: any;
-    employee_info!: ProfileEmployee;
+    employee_info!: EmployeeDetails;
 
     constructor(private profileService: ProfileService) {
     }

@@ -25,18 +25,19 @@ export class AppComponent implements OnInit {
   toggle_profile: boolean = false;
   close_side_bar: boolean = false;
   private readonly _messaging = inject(Messaging);
+
   constructor(private router: Router,
               private authService: AuthentificatinService) {
   }
 
   ngOnInit(): void {
     this.checkTokenExpiration();
-    this._getDeviceToken();
-    this._onMessage();
+    //this._getDeviceToken();
+    //this._onMessage();
   }
 
   private _getDeviceToken(): void {
-    getToken(this._messaging, { vapidKey: environment.vapidKey })
+    getToken(this._messaging, {vapidKey: environment.vapidKey})
       .then((token) => {
         console.log(token);
         // save the token in the server, or do whathever you want
@@ -51,6 +52,7 @@ export class AppComponent implements OnInit {
       complete: () => console.log('Done listening to messages'),
     });
   }
+
   private checkTokenExpiration(): void {
     const token = this.authService.getJwtToken();
     if (token) {

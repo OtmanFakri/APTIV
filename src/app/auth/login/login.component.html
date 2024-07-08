@@ -13,7 +13,7 @@
             <div class="mt-2">
               <input id="employee_id" name="employee_id" type="text" autocomplete="employee_id"
                      formControlName="employee_id" required
-                     class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                     class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
                      [ngClass]="{'ring-red-500': loginForm.controls['employee_id'].invalid && (loginForm.controls['employee_id'].dirty || loginForm.controls['employee_id'].touched)}">
               <div
                 *ngIf="loginForm.controls['employee_id'].invalid && (loginForm.controls['employee_id'].dirty || loginForm.controls['employee_id'].touched)"
@@ -29,7 +29,7 @@
               <input id="password" name="password" [type]="showPassword ? 'text' : 'password'"
                      formControlName="hashed_password"
                      autocomplete="current-password" required
-                     class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                     class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
                      [ngClass]="{'ring-red-500': loginForm.controls['hashed_password'].invalid && (loginForm.controls['hashed_password'].dirty || loginForm.controls['hashed_password'].touched)}">
               <span class="absolute inset-y-0 right-0 flex items-center pr-3">
           <button type="button"

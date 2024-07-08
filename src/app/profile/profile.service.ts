@@ -1,47 +1,60 @@
 import {Injectable} from '@angular/core';
 import {PersonInformation, ProfessionalInformation} from "./profile.module";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, catchError, Observable, of, tap} from "rxjs";
 import {ProfileEmployee} from "../interfaces/profileEmployee";
 import {NewEmployee} from "../interfaces/ListEmployee";
+import {EmployeeDetails, EmployeeUpdate} from "./Interfaces";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProfileService {
-
     private baseUrl = 'http://127.0.0.1:8011/employee';
+
+    private employeeProfileSource = new BehaviorSubject<EmployeeDetails | null>(null);
+    employeeProfile$ = this.employeeProfileSource.asObservable();
 
     constructor(private http: HttpClient) {
     }
 
-    getEmployeeProfile(employeeId: number): Observable<ProfileEmployee> {
+    loadEmployeeProfile(employeeId: number): void {  // Default ID for testing
+        this.getEmployeeProfile(employeeId).pipe(
+            tap(profile => console.log("Fetched profile:", profile)),
+            catchError(error => {
+                console.error("Error fetching employee profile:", error);
+                return of(null);
+            })
+        ).subscribe(profile => {
+            this.employeeProfileSource.next(profile);
+        });
+    }
+
+    getEmployeeProfile(employeeId: number): Observable<EmployeeDetails> {
         const url = `${this.baseUrl}/${employeeId}`;
-        return this.http.get<ProfileEmployee>(url);
+        return this.http.get<EmployeeDetails>(url);
     }
 
-    // Observable source
-    private employeeProfileSource = new BehaviorSubject<ProfileEmployee | null>(null);
-    // Observable stream
-    employeeProfile$ = this.employeeProfileSource.asObservable();
-
-    // Method to update employee profile
-    updateEmployeeProfile(profile: ProfileEmployee | null) {
-        this.employeeProfileSource.next(profile);
+    updateEmployeeProfile(profile: EmployeeUpdate, employeeId: number): Observable<any> {
+        const url = `${this.baseUrl}/${employeeId}`;
+        return this.http.put(url, profile);
     }
 
-    deleteEmployee(emp_id:number){
-      return this.http.delete(`${this.baseUrl}/${emp_id}`)
+    deleteEmployee(empId: number): Observable<any> {
+        return this.http.delete(`${this.baseUrl}/${empId}`);
     }
 
-    addProfile(employee: NewEmployee) {
+    addProfile(employee: NewEmployee): Observable<any> {
         const formData: FormData = new FormData();
-        formData.append('uploaded_file', employee.avatar || '');
-        let params = new HttpParams()
-            .set('id', employee.id?.toString() || '')
+        if (employee.avatar) {
+            formData.append('uploaded_file', employee.avatar);
+        }
+
+        const params = new HttpParams()
+            .set('id', employee.id?.toString() ?? '')
             .set('department_id', employee.department_id.toString())
             .set('job_id', employee.job_id.toString())
-            .set('manager_id', employee.manager_id?.toString() || '')
+            .set('manager_id', employee.manager_id?.toString() ?? '')
             .set('first_name', employee.first_name)
             .set('last_name', employee.last_name)
             .set('cin', employee.cin)
@@ -52,10 +65,12 @@ export class ProfileService {
             .set('city_id', employee.city_id.toString())
             .set('date_start', employee.date_start)
             .set('date_hiring', employee.date_hiring)
-            .set('date_visit', employee.date_visit || '')
-            .set('date_end', employee.date_end || '');
+            .set('date_visit', employee.date_visit ?? '')
+            .set('date_end', employee.date_end ?? '');
+
         const headers = new HttpHeaders();
-        headers.append('Content-Type', 'multipart/form-data');
-      return this.http.post<any>(`${this.baseUrl}/create`, formData, { params });
+        // Note: You don't need to set Content-Type for FormData, browser will set it automatically
+
+        return this.http.post<any>(`${this.baseUrl}/create`, formData, {params, headers});
     }
 }

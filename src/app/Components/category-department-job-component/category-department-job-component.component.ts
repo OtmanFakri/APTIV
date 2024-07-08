@@ -37,10 +37,8 @@ export class CategoryDepartmentJobComponentComponent implements OnInit, ControlV
   @Output() selectionChange = new EventEmitter<{ categories: number[], departments: number[], jobs: number[] }>();
 
   // ControlValueAccessor Interface
-  onChange: any = () => {
-  };
-  onTouched: any = () => {
-  };
+  onChange: any = () => { };
+  onTouched: any = () => { };
 
   constructor(private fb: FormBuilder, private dataService: DepartmentService) {
     this.form = this.fb.group({
@@ -52,24 +50,26 @@ export class CategoryDepartmentJobComponentComponent implements OnInit, ControlV
 
   ngOnInit(): void {
     this.dataService.getDepartments().subscribe(categories => {
-      this.categories = categories;
+      this.categories = this.removeDuplicates(categories, 'name');
     });
 
     this.form.get('categories')!.valueChanges.subscribe(categoryKeys => {
       // Find all departments associated with selected categories
-      this.selectableDepartments = this.categories
+      const departments = this.categories
         .filter(category => categoryKeys.includes(category.key))
         .flatMap(category => category.departments);
-      this.form.patchValue({departments: [], jobs: []}, {emitEvent: false});
+      this.selectableDepartments = this.removeDuplicates(departments, 'name');
+      this.form.patchValue({ departments: [], jobs: [] }, { emitEvent: false });
       this.selectableJobs = [];
     });
 
     this.form.get('departments')!.valueChanges.subscribe(departmentKeys => {
       // Find all jobs associated with selected departments
-      this.selectableJobs = this.selectableDepartments
+      const jobs = this.selectableDepartments
         .filter(department => departmentKeys.includes(department.key))
         .flatMap(department => department.jobs);
-      this.form.patchValue({jobs: []}, {emitEvent: false});
+      this.selectableJobs = this.removeDuplicates(jobs, 'name');
+      this.form.patchValue({ jobs: [] }, { emitEvent: false });
     });
 
     this.form.valueChanges.subscribe(value => {
@@ -82,9 +82,15 @@ export class CategoryDepartmentJobComponentComponent implements OnInit, ControlV
     });
   }
 
+  removeDuplicates<T extends { [key: string]: any }>(array: T[], key: string): T[] {
+    return array.filter((item, index, self) =>
+      index === self.findIndex((t) => t[key] === item[key])
+    );
+  }
+
   writeValue(value: any): void {
     if (value) {
-      this.form.setValue(value, {emitEvent: false});
+      this.form.setValue(value, { emitEvent: false });
     }
   }
 
@@ -107,28 +113,28 @@ export class CategoryDepartmentJobComponentComponent implements OnInit, ControlV
   // Select All Operations
   selectAllCategories() {
     const allCategoryKeys = this.categories.map(c => c.key);
-    this.form.patchValue({categories: allCategoryKeys});
+    this.form.patchValue({ categories: allCategoryKeys });
   }
 
   deselectAllCategories() {
-    this.form.patchValue({categories: []});
+    this.form.patchValue({ categories: [] });
   }
 
   selectAllDepartments() {
     const allDepartmentKeys = this.selectableDepartments.map(d => d.key);
-    this.form.patchValue({departments: allDepartmentKeys});
+    this.form.patchValue({ departments: allDepartmentKeys });
   }
 
   deselectAllDepartments() {
-    this.form.patchValue({departments: []});
+    this.form.patchValue({ departments: [] });
   }
 
   selectAllJobs() {
     const allJobIds = this.selectableJobs.map(j => j.id);
-    this.form.patchValue({jobs: allJobIds});
+    this.form.patchValue({ jobs: allJobIds });
   }
 
   deselectAllJobs() {
-    this.form.patchValue({jobs: []});
+    this.form.patchValue({ jobs: [] });
   }
 }

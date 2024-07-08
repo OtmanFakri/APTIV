@@ -1,4 +1,4 @@
-import {Component, EventEmitter, forwardRef, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule} from "@angular/forms";
 import {SearchManger} from "../../interfaces/ListEmployee";
 import {catchError, debounceTime, delay, distinctUntilChanged, startWith, switchMap, tap} from "rxjs";
@@ -22,7 +22,6 @@ import {NzIconDirective} from "ng-zorro-antd/icon";
     NgIf
   ],
   templateUrl: './manager-select.component.html',
-  styleUrl: './manager-select.component.css',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -35,12 +34,16 @@ export class ManagerSelectComponent implements OnInit, ControlValueAccessor {
   optionList: SearchManger[] = [];
   isLoading = false;
   control = new FormControl();
-  onChange: any = () => {};
-  onTouch: any = () => {};
+  onChange: any = () => {
+  };
+  onTouch: any = () => {
+  };
 
   @Output() managerSelected = new EventEmitter<SearchManger>();
 
-  constructor(private employeeService: EmployeeService) {}
+  constructor(private employeeService: EmployeeService) {
+  }
+
 
   ngOnInit(): void {
     this.control.valueChanges.pipe(
@@ -58,6 +61,7 @@ export class ManagerSelectComponent implements OnInit, ControlValueAccessor {
       })
     ).subscribe();
   }
+
 
   onSearch(query: string): void {
     if (query) {
@@ -77,9 +81,12 @@ export class ManagerSelectComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  writeValue(value: any): void {
-    if (value !== undefined) {
+  writeValue(value: SearchManger | null): void {
+    if (value) {
       this.control.setValue(value);
+      this.optionList = [value]; // Add the default value to the option list
+    } else {
+      this.control.setValue(null);
     }
   }
 
@@ -93,7 +100,7 @@ export class ManagerSelectComponent implements OnInit, ControlValueAccessor {
 
   selectManager(manager: SearchManger): void {
     this.managerSelected.emit(manager);
-    this.onChange(manager.id);
+    this.onChange(manager);
     this.onTouch();
   }
 }

@@ -55,6 +55,7 @@ export interface RegionsResponse {
 }
 
 export interface Region {
+
     name: string;
 }
 

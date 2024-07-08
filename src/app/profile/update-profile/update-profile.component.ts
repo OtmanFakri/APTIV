@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {City, NewEmployee, RegionsResponse} from "../../interfaces/ListEmployee";
+import {City, NewEmployee, RegionsResponse, SearchManger} from "../../interfaces/ListEmployee";
 import {ProfileEmployee} from "../../interfaces/profileEmployee";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NzUploadComponent, NzUploadFile} from "ng-zorro-antd/upload";
@@ -8,7 +8,11 @@ import {DepartmentService} from "../../list-department/department.service";
 import {EmployeeService} from "../../list-employee/employee.service";
 import {CategoryItemData, DepartmentItemData, JobItemData} from "../../interfaces/ListDeprtemnt";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
-import {NgClass, NgForOf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {CategoryInfo, Department, EmployeeDetails, EmployeeDetailsManager, EmployeeUpdate, Job} from "../Interfaces";
+import {Category} from "../../examination/InterfacesExaminitaion";
+import {NzEmptyComponent} from "ng-zorro-antd/empty";
+import {ManagerSelectComponent} from "../../Components/manager-select/manager-select.component";
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
   new Promise((resolve, reject) => {
@@ -27,49 +31,36 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
     NzSelectComponent,
     NzOptionComponent,
     NgForOf,
-    NgClass
+    NgClass,
+    NgIf,
+    NzEmptyComponent,
+    ManagerSelectComponent
   ],
   templateUrl: './update-profile.component.html',
 })
 export class UpdateProfileComponent implements OnInit {
-  @Input() profile: ProfileEmployee | null = null;
+  @Input() profile: EmployeeDetails | null = null;
   profileForm: FormGroup;
-  fileList: NzUploadFile[] = [];
-  previewImage: string | undefined = '';
-  previewVisible = false;
-  categories: CategoryItemData[] = [];
-  filteredDepartments: DepartmentItemData[] = [];
-  filteredJobs: JobItemData[] = [];
-  regions?: RegionsResponse;
-  cities: City[] = [];
-  handlePreview = async (file: NzUploadFile): Promise<void> => {
-    if (!file.url && !file['preview']) {
-      file['preview'] = await getBase64(file.originFileObj!);
-    }
-    this.previewImage = file.url || file['preview'];
-    this.previewVisible = true;
-  };
+  categories: CategoryInfo[] = [];
+  filteredDepartments: Department[] = [];
+  filteredJobs: Job[] = [];
+  regions: any = [];
+  cities: { id: number, name: string }[] = [];
+  isLoading = false;
+  managers: EmployeeDetailsManager[] = []; // Add managers array
 
-  handleChange = (fileList: NzUploadFile[]): void => {
-    if (fileList.length >= 1) {
-      this.fileList = [fileList[fileList.length - 1]]; // keep only the latest file
-      //this.profile.get('avatar')?.setValue(this.fileList[0].originFileObj);
-    } else {
-      this.fileList = fileList;
-    }
-
-  };
-
-  constructor(private fb: FormBuilder,
-              private notification: NzNotificationService,
-              private departmentService: DepartmentService,
-              private employeeService: EmployeeService) {
+  constructor(
+    private fb: FormBuilder,
+    private notification: NzNotificationService,
+    private departmentService: DepartmentService,
+    private employeeService: EmployeeService
+  ) {
     this.profileForm = this.fb.group({
       id: [{value: '', disabled: true}],
       category: ['', Validators.required],
-      department_name: ['', Validators.required],
-      job_name: ['', Validators.required],
-      manager_name: [''],
+      department_id: ['', Validators.required],
+      job_id: ['', Validators.required],
+      manager_id: [null],
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
       cin: ['', Validators.required],
@@ -77,40 +68,40 @@ export class UpdateProfileComponent implements OnInit {
       phone_number: ['', Validators.required],
       birth_date: ['', Validators.required],
       Sexe: ['', Validators.required],
-      city_name: ['', Validators.required],
-      region_name: ['', Validators.required],
+      city_id: ['', Validators.required],
       date_start: ['', Validators.required],
       date_hiring: ['', Validators.required],
-      date_visit: ['']
+      date_visit: [''],
+      date_end: ['']
     });
   }
 
+  onManagerSelected(manager: SearchManger) {
+    // Check if manager.id is not undefined and not null
+    if (manager.id !== undefined && manager.id !== null) {
+      console.log('Selected Manager:', manager);
+    } else {
+      console.log('Manager ID is undefined or null');
+    }
+  }
+
   ngOnInit(): void {
-    // Initial form setup if needed
-    this.departmentService.getDepartments().subscribe(data => {
-      this.categories = data;
-    });
-
-    this.profileForm.get('category')!.valueChanges.subscribe(category => {
-      this.filterDepartments(category);
-    });
-
-    this.profileForm.get('department_name')!.valueChanges.subscribe(department => {
-      this.filterJobs(department);
-    });
+    this.isLoading = true;
     if (this.profile) {
       this.updateForm(this.profile);
     }
   }
 
 
-  private updateForm(profile: ProfileEmployee) {
+  private updateForm(profile: EmployeeDetails): void {
+    const category = this.categories.find(cat => cat.category === profile.department.category)?.category;
+
     this.profileForm.patchValue({
       id: profile.id,
-      category: profile.category,
-      department_name: profile.department_name,
-      job_name: profile.job_name,
-      manager_name: profile.manager_name,
+      category: category,
+      department_id: profile.department.id,
+      job_id: profile.job.id,
+      manager_id: profile.manager,
       first_name: profile.first_name,
       last_name: profile.last_name,
       cin: profile.cin,
@@ -118,79 +109,43 @@ export class UpdateProfileComponent implements OnInit {
       phone_number: profile.phone_number,
       birth_date: profile.birth_date,
       Sexe: profile.Sexe,
-      city_name: profile.city_name,
-      region_name: profile.region_name,
+      city_id: profile.city.id,
       date_start: profile.date_start,
       date_hiring: profile.date_hiring,
-      date_visit: profile.date_visit
+      date_visit: profile.date_visit,
+      date_end: profile.date_end
     });
+    if (profile.manager) {
+      const managerValue: SearchManger = {
+        id: profile.manager.id,
+        full_name: profile.manager.full_name
+      };
+      this.profileForm.get('manager_id')?.setValue(managerValue);
+    }
+
   }
+
 
   submitForm(): void {
     if (this.profileForm.valid) {
-      this.notification.create('success', 'Success', 'Form submitted successfully', {nzPlacement: 'bottomLeft'});
-      console.log('Form submitted', this.profileForm.value);
-    } else {
-      this.notification.create('error', 'Error', 'Please fill all the required fields', {nzPlacement: 'bottomLeft'});
+      const formValue = this.profileForm.value;
+      const updatedProfile: EmployeeUpdate = {
+        department_id: formValue.department_id,
+        job_id: formValue.job_id,
+        manager_id: formValue.manager_id,
+        first_name: formValue.first_name,
+        last_name: formValue.last_name,
+        cin: formValue.cin,
+        cnss: formValue.cnss,
+        phone_number: formValue.phone_number,
+        birth_date: formValue.birth_date,
+        Sexe: formValue.Sexe,
+        city_id: formValue.city_id,
+        date_start: formValue.date_start,
+        date_hiring: formValue.date_hiring,
+        date_visit: formValue.date_visit,
+        date_end: formValue.date_end
+      };
     }
-  }
-
-  onCategoryChange(category: string): void {
-    this.filterDepartments(category);
-    this.profileForm.get('department_name')!.setValue(null);  // Reset department when category changes
-    this.profileForm.get('job_name')!.setValue(null);  // Reset job when category changes
-  }
-
-  onDepartmentChange(department: any): void {
-    this.filterJobs(department.jobs);
-    this.profileForm.get('job_name')!.setValue(null);  // Reset job when department changes
-    this.profileForm.get('department_name')!.setValue(department.key);
-
-  }
-
-  filterDepartments(category: string): void {
-    const selectedCategory = this.categories.find(cat => cat.category === category);
-    this.filteredDepartments = selectedCategory ? selectedCategory.departments : [];
-  }
-
-  filterJobs(department: string): void {
-    const selectedDepartment = this.filteredDepartments.find(dept => dept.department === department);
-    this.filteredJobs = selectedDepartment ? selectedDepartment.jobs : [];
-  }
-  onOpen(open: boolean) {
-    if (open && !this.regions) {
-      this.fetchRegions();
-    }
-  }
-
-  fetchRegions() {
-    this.employeeService.GETRegions().subscribe(
-      (data: RegionsResponse) => {
-        this.regions = data;
-      },
-      error => {
-        console.error('Error fetching regions', error);
-      }
-    );
-  }
-
-  onRegionSelect(regionName: string) {
-    const selectedRegion = this.regions?.items.find(region => region.name === regionName);
-    if (selectedRegion) {
-      // Assuming region IDs are based on index+1
-      const regionId = (this.regions?.items?.indexOf(selectedRegion) ?? -1) + 1;
-      this.fetchCities(regionId);
-    }
-  }
-
-  fetchCities(regionId: number) {
-    this.employeeService.GETCityByRegion(regionId).subscribe(
-      (data: City[]) => {
-        this.cities = data;
-      },
-      error => {
-        console.error('Error fetching cities', error);
-      }
-    );
   }
 }

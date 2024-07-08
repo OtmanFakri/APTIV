@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {City, NewEmployee, RegionsResponse, SearchManger} from "../../interfaces/ListEmployee";
+import {City, NewEmployee, Region, RegionsResponse, SearchManger} from "../../interfaces/ListEmployee";
 import {ProfileEmployee} from "../../interfaces/profileEmployee";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NzUploadComponent, NzUploadFile} from "ng-zorro-antd/upload";
@@ -44,8 +44,9 @@ export class UpdateProfileComponent implements OnInit {
   categories: CategoryInfo[] = [];
   filteredDepartments: Department[] = [];
   filteredJobs: Job[] = [];
+  regions: Region[] = [];
+  cities: City[] = [];
   isLoading = false;
-  cities: any;
 
   constructor(
     private fb: FormBuilder,
@@ -67,6 +68,7 @@ export class UpdateProfileComponent implements OnInit {
       phone_number: ['', Validators.required],
       birth_date: ['', Validators.required],
       Sexe: ['', Validators.required],
+      region_id: ['', Validators.required], // Add this
       city_id: ['', Validators.required],
       date_start: ['', Validators.required],
       date_hiring: ['', Validators.required],
@@ -77,7 +79,10 @@ export class UpdateProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.loadDepartments().then(() => {
+    Promise.all([
+      this.loadDepartments(),
+      this.loadRegions()
+    ]).then(() => {
       if (this.profile) {
         this.updateForm(this.profile);
       }
@@ -100,6 +105,21 @@ export class UpdateProfileComponent implements OnInit {
     });
   }
 
+  loadRegions(): Promise<void> {
+    return new Promise((resolve) => {
+      this.employeeService.GETRegions().subscribe(
+        (response) => {
+          this.regions = response.items;
+          resolve();
+        },
+        error => {
+          console.error('Error loading regions', error);
+          resolve();
+        }
+      );
+    });
+  }
+
   onCategoryChange(category: string): void {
     const selectedCategory = this.categories.find(c => c.category === category);
     this.filteredDepartments = selectedCategory ? selectedCategory.departments : [];
@@ -114,13 +134,17 @@ export class UpdateProfileComponent implements OnInit {
     this.profileForm.get('job_id')?.setValue(null);
   }
 
-  onManagerSelected(manager: SearchManger) {
-    // Check if manager.id is not undefined and not null
-    if (manager.id !== undefined && manager.id !== null) {
-      console.log('Selected Manager:', manager);
-    } else {
-      console.log('Manager ID is undefined or null');
-    }
+  onRegionChange(regionId: number): void {
+    this.profileForm.get('city_id')?.setValue(null);
+    this.employeeService.GETCityByRegion(regionId).subscribe(
+      (cities: City[]) => {
+        this.cities = cities;
+        this.cdr.detectChanges();
+      },
+      error => {
+        console.error('Error loading cities', error);
+      }
+    );
   }
 
   private updateForm(profile: EmployeeDetails): void {
@@ -134,6 +158,7 @@ export class UpdateProfileComponent implements OnInit {
       phone_number: profile.phone_number,
       birth_date: profile.birth_date,
       Sexe: profile.Sexe,
+      region_id: profile.city.region.id, // Add this
       city_id: profile.city.id,
       date_start: profile.date_start,
       date_hiring: profile.date_hiring,
@@ -160,6 +185,20 @@ export class UpdateProfileComponent implements OnInit {
     // Set job
     this.profileForm.get('job_id')?.setValue(profile.job.id);
 
+    // Load cities for the selected region
+    this.onRegionChange(profile.city.region.id);
+    this.employeeService.GETCityByRegion(profile.city.region.id).subscribe(
+      (cities: City[]) => {
+        this.cities = cities;
+        // Now that we have the cities, we can set the city_id
+        this.profileForm.get('city_id')?.setValue(profile.city.id);
+        this.cdr.detectChanges();
+      },
+      error => {
+        console.error('Error loading cities', error);
+      }
+    );
+
     this.cdr.detectChanges();
   }
 
@@ -178,6 +217,7 @@ export class UpdateProfileComponent implements OnInit {
         birth_date: formValue.birth_date,
         Sexe: formValue.Sexe,
         city_id: formValue.city_id,
+        region_id: formValue.region_id,
         date_start: formValue.date_start,
         date_hiring: formValue.date_hiring,
         date_visit: formValue.date_visit,

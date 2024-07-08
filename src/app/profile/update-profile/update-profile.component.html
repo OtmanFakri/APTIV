@@ -42,7 +42,6 @@
     <app-manager-select
       class="w-64"
       formControlName="manager_id"
-      (managerSelected)="onManagerSelected($event)"
     ></app-manager-select>
 
   </div>
@@ -105,7 +104,20 @@
   </div>
 
   <div class="flex justify-between items-center py-3 text-sm font-medium">
-    <label class="text-gray-500">City Name</label>
+    <label class="text-gray-500">Region</label>
+    <nz-select
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Select a region"
+      formControlName="region_id"
+      (ngModelChange)="onRegionChange($event)"
+      class="w-64 h-10">
+      <nz-option *ngFor="let region of regions" [nzLabel]="region.name" [nzValue]="region.id"></nz-option>
+    </nz-select>
+  </div>
+
+  <div class="flex justify-between items-center py-3 text-sm font-medium">
+    <label class="text-gray-500">City</label>
     <nz-select
       nzShowSearch
       nzAllowClear

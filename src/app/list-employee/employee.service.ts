@@ -9,6 +9,7 @@ import {
   SearchManger
 } from "../interfaces/ListEmployee";
 import {Observable} from "rxjs";
+import {EmployeeUpdate} from "../profile/Interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,11 @@ export class EmployeeService {
   private baseUrl = 'http://127.0.0.1:8011/employee/filter';
 
   constructor(private http: HttpClient) {
+  }
+
+  updateEmployeeProfile(profile: EmployeeUpdate, employeeId: number): Observable<any> {
+    const url = `http://127.0.0.1:8011/employee/${employeeId}`;
+    return this.http.put(url, profile);
   }
 
   filterEmployees(filterEmployee: FilterEmployee,
@@ -58,6 +64,7 @@ export class EmployeeService {
 
     return this.http.post<ListEmployee>(this.baseUrl, requestBody, options);
   }
+
 
   filterEmployeesById(employee_id: number): Observable<ListEmployee> {
     const requestBody = {

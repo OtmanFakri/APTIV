@@ -1,0 +1,142 @@
+<div>
+    <form [formGroup]="certificationForm" id="form" class="mx-auto bg-white">
+        <div class="w-11/12 mx-auto">
+            <div class="container mx-auto">
+                <div class="my-8 mx-auto xl:w-full xl:mx-0">
+                    <div class="xl:flex lg:flex md:flex flex-wrap justify-between">
+
+                        <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                            <label for="DoctorName" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">Doctor's
+                                Name</label>
+                            <input formControlName="doctor_name" type="text" id="DoctorName" name="name" required
+                                   class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100"
+                                   placeholder="Enter Doctor's Name"/>
+                            <div *ngIf="certificationForm.get('doctor_name')?.invalid && (certificationForm.get('doctor_name')?.dirty || certificationForm.get('doctor_name')?.touched)"
+                                 class="text-red-500 text-xs mt-1">
+                                <div *ngIf="certificationForm.get('doctor_name')?.errors?.['required']">Doctor's name is
+                                    required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                            <label for="Specialty" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">Specialty</label>
+                            <input formControlName="doctor_speciality" type="text" id="Specialty" name="specialty"
+                                   required
+                                   class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100"
+                                   placeholder="Enter Specialty"/>
+                            <div *ngIf="certificationForm.get('doctor_speciality')?.invalid && (certificationForm.get('doctor_speciality')?.dirty || certificationForm.get('doctor_speciality')?.touched)"
+                                 class="text-red-500 text-xs mt-1">
+                                <div *ngIf="certificationForm.get('doctor_speciality')?.errors?.['required']">Specialty
+                                    is required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                            <label class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">Validation</label>
+                            <nz-select nzBorderless formControlName="validation"
+                                       class="w-full p-3 mt-2 border border-gray-300 rounded outline-none focus:bg-gray-50"
+                                       nzShowSearch nzAllowClear nzPlaceHolder="Select a validation type">
+                                <nz-option nzLabel="ITT DE {{get_nb_certificationvalidation}} JRS"
+                                           nzValue="ITT"></nz-option>
+                                <nz-option nzLabel="VALID" nzValue="VALID"></nz-option>
+                                <nz-option nzLabel="VALID PAR HUISSIER DE JUSTICE" nzValue="VHJ"></nz-option>
+                                <nz-option nzLabel="VPO" nzValue="VPO"></nz-option>
+                            </nz-select>
+                            <div *ngIf="certificationForm.get('validation')?.invalid && (certificationForm.get('validation')?.dirty || certificationForm.get('validation')?.touched)"
+                                 class="text-red-500 text-xs mt-1">
+                                <div *ngIf="certificationForm.get('validation')?.errors?.['required']">Validation is
+                                    required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6"
+                             *ngIf="certificationForm.get('validation')?.value === 'VPO'">
+                            <label class="block text-base font-medium leading-none text-gray-800">VPO Details</label>
+                            <app-manager-select
+                                    class="w-full p-3 mt-2 border border-gray-300 rounded outline-none focus:bg-gray-50"
+                                    formControlName="confirmed"></app-manager-select>
+                        </div>
+
+                        <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                            <label for="DatePlanned" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">Planned
+                                Date</label>
+                            <input formControlName="date_planned" type="date" id="DatePlanned" name="date_planned"
+
+                                   class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100"/>
+
+                        </div>
+
+                        <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                            <div class="flex-1">
+                                <label class="block text-base font-medium leading-none text-gray-800">Shift</label>
+                                <nz-select nzBorderless formControlName="shift"
+                                           class="w-full p-3 mt-2 border border-gray-300 rounded outline-none focus:bg-gray-50"
+                                           nzShowSearch nzAllowClear nzPlaceHolder="Select shift">
+                                    <nz-option *ngFor="let shift of shiftOptions" [nzValue]="shift.value"
+                                               [nzLabel]="shift.label"></nz-option>
+                                </nz-select>
+                                <div *ngIf="certificationForm.get('shift')?.invalid && (certificationForm.get('shift')?.dirty || certificationForm.get('shift')?.touched)"
+                                     class="text-red-500 text-xs mt-1">
+                                    <div *ngIf="certificationForm.get('shift')?.errors?.['required']">Shift is
+                                        required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                            <label for="DateStart" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">Start
+                                Date</label>
+                            <input formControlName="date_start" type="date" id="DateStart" name="date_start" required
+                                   class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100"/>
+                            <div *ngIf="certificationForm.get('date_start')?.invalid && (certificationForm.get('date_start')?.dirty || certificationForm.get('date_start')?.touched)"
+                                 class="text-red-500 text-xs mt-1">
+                                <div *ngIf="certificationForm.get('date_start')?.errors?.['required']">Start date is
+                                    required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                            <label for="DateEnd" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">End
+                                Date</label>
+                            <input formControlName="date_end" type="date" id="DateEnd" name="date_end" required
+                                   class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100"/>
+                            <div *ngIf="certificationForm.get('date_end')?.invalid && (certificationForm.get('date_end')?.dirty || certificationForm.get('date_end')?.touched)"
+                                 class="text-red-500 text-xs mt-1">
+                                <div *ngIf="certificationForm.get('date_end')?.errors?.['required']">End date is
+                                    required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                            <label for="NumberOfDays" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">Number
+                                of Days</label>
+                            <input formControlName="nbr_days" type="number" id="NumberOfDays" name="nbr_days" required
+                                   class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100"
+                                   placeholder="Enter Number of Days"/>
+                            <div *ngIf="certificationForm.get('nbr_days')?.invalid && (certificationForm.get('nbr_days')?.dirty || certificationForm.get('nbr_days')?.touched)"
+                                 class="text-red-500 text-xs mt-1">
+                                <div *ngIf="certificationForm.get('nbr_days')?.errors?.['required']">Number of days is
+                                    required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6">
+                            <label for="Visited" class="pb-2 text-sm font-bold text-gray-800 dark:text-gray-100">Contre
+                                visite</label>
+                            <input formControlName="is_visited" type="checkbox" id="Visited" name="Visited"
+                                   class="border border-gray-300 dark:border-gray-700 pl-3 py-3 shadow-sm rounded text-sm focus:outline-none bg-transparent focus:border-indigo-700 text-gray-800 dark:text-gray-100"/>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

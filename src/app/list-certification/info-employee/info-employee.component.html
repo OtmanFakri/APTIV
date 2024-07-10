@@ -1,56 +1,57 @@
 <div class="divide-y divide-gray-200">
-  <div class="pb-6">
-    <div class="h-24 bg-indigo-700 sm:h-20 lg:h-28"></div>
-    <div class="lg:-mt-15 -mt-12 flow-root px-4 sm:-mt-8 sm:flex sm:items-end sm:px-6">
-      <div>
-        <div class="-m-1 flex">
-          <div class="inline-flex overflow-hidden rounded-lg border-4 border-white">
-            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="256"
-                 height="256" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512"
-                 xml:space="preserve" class=""><rect width="24" height="24" fill="#ffffff" shape="square"></rect>
-              <g transform="matrix(0.7,0,0,0.7,3.600000000000005,3.600000000000005)"><g fill="#000"><path d="M12 12.75c-3.17 0-5.75-2.58-5.75-5.75S8.83 1.25 12 1.25 17.75 3.83 17.75 7s-2.58 5.75-5.75 5.75zm0-10C9.66 2.75 7.75 4.66 7.75 7s1.91 4.25 4.25 4.25S16.25 9.34 16.25 7 14.34 2.75 12 2.75zM20.59 22.75c-.41 0-.75-.34-.75-.75 0-3.45-3.52-6.25-7.84-6.25S4.16 18.55 4.16 22c0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-4.27 4.19-7.75 9.34-7.75 5.15 0 9.34 3.48 9.34 7.75 0 .41-.34.75-.75.75z" fill="#000000" opacity="1" data-original="#000000" class=""></path></g></g></svg>
-          </div>
-        </div>
-      </div>
-      <div class="mt-6 sm:ml-6 sm:flex-1">
-        <div>
-          <div class="flex items-center">
-            <h3
-              class="text-xl font-bold text-gray-900 sm:text-2xl">{{employee_info.first_name}} {{employee_info.last_name}}</h3>
-            <span class="ml-2.5 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-green-400">
+    <div class="pb-6">
+        <div class="h-24 bg-indigo-700 sm:h-20 lg:h-28"></div>
+        <div class="lg:-mt-15 -mt-12 flow-root px-4 sm:-mt-8 sm:flex sm:items-end sm:px-6">
+            <div>
+                <div class="-m-1 flex">
+                    <div class="inline-flex overflow-hidden rounded-lg border-4 border-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                             width="256"
+                             height="256" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512"
+                             xml:space="preserve" class=""><rect width="24" height="24" fill="#ffffff" shape="square"></rect>
+                            <g transform="matrix(0.7,0,0,0.7,3.600000000000005,3.600000000000005)"><g fill="#000"><path d="M12 12.75c-3.17 0-5.75-2.58-5.75-5.75S8.83 1.25 12 1.25 17.75 3.83 17.75 7s-2.58 5.75-5.75 5.75zm0-10C9.66 2.75 7.75 4.66 7.75 7s1.91 4.25 4.25 4.25S16.25 9.34 16.25 7 14.34 2.75 12 2.75zM20.59 22.75c-.41 0-.75-.34-.75-.75 0-3.45-3.52-6.25-7.84-6.25S4.16 18.55 4.16 22c0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-4.27 4.19-7.75 9.34-7.75 5.15 0 9.34 3.48 9.34 7.75 0 .41-.34.75-.75.75z" fill="#000000" opacity="1" data-original="#000000" class=""></path></g></g></svg>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 sm:ml-6 sm:flex-1">
+                <div>
+                    <div class="flex items-center">
+                        <h3
+                                class="text-xl font-bold text-gray-900 sm:text-2xl">{{employee_info.first_name}} {{employee_info.last_name}}</h3>
+                        <span class="ml-2.5 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-green-400">
                           <span class="sr-only">Online</span>
                         </span>
-          </div>
-          <p class="text-sm text-gray-500">{{employee_id}}</p>
+                    </div>
+                    <p class="text-sm text-gray-500">{{employee_id}}</p>
+                </div>
+
+            </div>
         </div>
-
-      </div>
     </div>
-  </div>
-  <div class="px-4 py-5 sm:px-0 sm:py-0">
-    <dl class="space-y-8 sm:space-y-0 sm:divide-y sm:divide-gray-200">
-      <div class="sm:flex sm:px-6 sm:py-5">
-        <dt class="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">Category</dt>
-        <dd
-          class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:ml-6 sm:mt-0">{{ employee_info?.department?.category || "N/A" }}</dd>
-      </div>
-      <div class="sm:flex sm:px-6 sm:py-5">
-        <dt class="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">Department</dt>
-        <dd
-          class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:ml-6 sm:mt-0">{{ employee_info?.department?.name || "N/A"  }}</dd>
-      </div>
-      <div class="sm:flex sm:px-6 sm:py-5">
-        <dt class="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">Job</dt>
-        <dd
-          class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:ml-6 sm:mt-0">{{ employee_info?.job?.name || "N/A" }}</dd>
-      </div>
-      <div class="sm:flex sm:px-6 sm:py-5">
-        <dt class="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">Manager</dt>
-        <dd
-          class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:ml-6 sm:mt-0">{{ employee_info?.manager?.full_name || 'N/A' }}</dd>
-      </div>
-    </dl>
+    <div class="px-4 py-5 sm:px-0 sm:py-0">
+        <dl class="space-y-8 sm:space-y-0 sm:divide-y sm:divide-gray-200">
+            <div class="sm:flex sm:px-6 sm:py-5">
+                <dt class="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">Category</dt>
+                <dd
+                        class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:ml-6 sm:mt-0">{{ employee_info?.department?.category || "N/A" }}</dd>
+            </div>
+            <div class="sm:flex sm:px-6 sm:py-5">
+                <dt class="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">Department</dt>
+                <dd
+                        class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:ml-6 sm:mt-0">{{ employee_info?.department?.name || "N/A"  }}</dd>
+            </div>
+            <div class="sm:flex sm:px-6 sm:py-5">
+                <dt class="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">Job</dt>
+                <dd
+                        class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:ml-6 sm:mt-0">{{ employee_info?.job?.name || "N/A" }}</dd>
+            </div>
+            <div class="sm:flex sm:px-6 sm:py-5">
+                <dt class="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">Manager</dt>
+                <dd
+                        class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:ml-6 sm:mt-0">{{ employee_info?.manager?.full_name || 'N/A' }}</dd>
+            </div>
+        </dl>
 
-  </div>
+    </div>
 </div>
 

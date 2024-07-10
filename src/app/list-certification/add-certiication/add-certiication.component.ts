@@ -13,6 +13,9 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
 import {UploadingFileComponent} from "../../Components/uploading-file/uploading-file.component";
 import {NzUploadFile} from "ng-zorro-antd/upload";
 import {UploadingFileService} from "../../Components/uploading-file/uploading-file.service";
+import {ShiftEnum} from "../../enum/ShiftEnum";
+import {NgForOf, NgIf} from "@angular/common";
+import {ManagerSelectComponent} from "../../Components/manager-select/manager-select.component";
 
 @Component({
     selector: 'app-add-certiication',
@@ -27,6 +30,9 @@ import {UploadingFileService} from "../../Components/uploading-file/uploading-fi
         NzSelectComponent,
         NzOptionComponent,
         UploadingFileComponent,
+        NgForOf,
+        NgIf,
+        ManagerSelectComponent,
     ],
     templateUrl: './add-certiication.component.html',
 })
@@ -38,6 +44,8 @@ export class AddCertiicationComponent {
     date = null;
     private delayTimer?: number; // Timer to manage the delay
     Listfile: File[] = [];
+    shiftEnumEntries: [string, string][];
+
 
     constructor(private fb: FormBuilder,
                 public certificatesService: CertificatesService,
@@ -45,21 +53,31 @@ export class AddCertiicationComponent {
                 private uploadingFileService: UploadingFileService,
                 public doctorService: DoctorService) {
         this.form = this.fb.group({
-            employee_id: [null,],
-            doctor_name: [null,],
-            doctor_specialty: [null,],
-            validation: [null,],
-            nb_days: [null,],
-            date_start: [null],
-            date_end: [null],
-            dateRange: [null,],
+            employee_id: [null, Validators.required],
+            doctor_name: [null, Validators.required],
+            doctor_specialty: [null, Validators.required],
+            validation: [null, Validators.required],
+            nb_days: [null, Validators.required],
+            date_start: [null, Validators.required],
+            date_end: [null, Validators.required],
+            dateRange: [null, Validators.required],
             is_visited: [null,],
+            shift: [null, Validators.required],
+            confirmred_id: [null,]
             // Handles both dates
         });
+        this.shiftEnumEntries = Object.entries(ShiftEnum);
+
     }
 
     get nbDays() {
         return this.form.get('nb_days')?.value ?? 0; // Default to 0 if null
+    }
+
+    onValidationChange(value: string): void {
+        if (value !== 'VPO') {
+            this.form.get('vpoDetails')?.reset();
+        }
     }
 
     onSubmit(employeeId: Number) {
@@ -79,7 +97,8 @@ export class AddCertiicationComponent {
             date_planned: null, // Use actual planned date or null
             nbr_days: Number(this.form.get('nb_days')?.value), // Use actual number of days here
             is_visited: this.form.get('is_visited')?.value ?? false, // Use actual is_visited status here
-
+            shift: this.form.get('shift')?.value,
+            confirmed_id: this.form.get('confirmred_id')?.value ?? null
         }
         console.log(employeeId)
 

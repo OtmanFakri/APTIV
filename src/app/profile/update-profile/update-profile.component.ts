@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {City, NewEmployee, Region, RegionsResponse, SearchManger} from "../../interfaces/ListEmployee";
 import {ProfileEmployee} from "../../interfaces/profileEmployee";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -13,6 +13,7 @@ import {CategoryInfo, Department, EmployeeDetails, EmployeeDetailsManager, Emplo
 import {Category} from "../../examination/InterfacesExaminitaion";
 import {NzEmptyComponent} from "ng-zorro-antd/empty";
 import {ManagerSelectComponent} from "../../Components/manager-select/manager-select.component";
+import {Observable} from 'rxjs';
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
   new Promise((resolve, reject) => {
@@ -46,7 +47,7 @@ export class UpdateProfileComponent implements OnInit {
   filteredJobs: Job[] = [];
   regions: Region[] = [];
   cities: City[] = [];
-  isLoading = false;
+  @Output() updateSuccess = new EventEmitter<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -78,7 +79,9 @@ export class UpdateProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isLoading = true;
+
+    console.log("profile :: ", this.profile)
+
     Promise.all([
       this.loadDepartments(),
       this.loadRegions()
@@ -86,7 +89,6 @@ export class UpdateProfileComponent implements OnInit {
       if (this.profile) {
         this.updateForm(this.profile);
       }
-      this.isLoading = false;
     });
   }
 
@@ -136,21 +138,28 @@ export class UpdateProfileComponent implements OnInit {
 
   onRegionChange(regionId: number): void {
     this.profileForm.get('city_id')?.setValue(null);
-    this.employeeService.GETCityByRegion(regionId).subscribe(
-      (cities: City[]) => {
-        this.cities = cities;
-        this.cdr.detectChanges();
-      },
-      error => {
-        console.error('Error loading cities', error);
-      }
-    );
+    if (this.profile?.city) {
+      this.employeeService.GETCityByRegion(regionId).subscribe(
+        (cities: City[]) => {
+          this.cities = cities;
+          this.cdr.detectChanges();
+        },
+        error => {
+          console.error('Error loading cities', error);
+        }
+      );
+    }
   }
 
   private updateForm(profile: EmployeeDetails): void {
+    if (!profile) {
+      console.error('Profile is null or undefined');
+      return;
+    }
+
     this.profileForm.patchValue({
       id: profile.id,
-      category: profile.department.category,
+      category: profile.department?.category,
       first_name: profile.first_name,
       last_name: profile.last_name,
       cin: profile.cin,
@@ -158,8 +167,8 @@ export class UpdateProfileComponent implements OnInit {
       phone_number: profile.phone_number,
       birth_date: profile.birth_date,
       Sexe: profile.Sexe,
-      region_id: profile.city.region.id, // Add this
-      city_id: profile.city.id,
+      region_id: profile.city?.region?.id,
+      city_id: profile.city?.id,
       date_start: profile.date_start,
       date_hiring: profile.date_hiring,
       date_visit: profile.date_visit,
@@ -175,35 +184,45 @@ export class UpdateProfileComponent implements OnInit {
     }
 
     // Set category and trigger change to populate departments
-    this.profileForm.get('category')?.setValue(profile.department.category);
-    this.onCategoryChange(profile.department.category);
+    if (profile.department?.category) {
+      this.profileForm.get('category')?.setValue(profile.department.category);
+      this.onCategoryChange(profile.department.category);
+    }
 
     // Set department and trigger change to populate jobs
-    this.profileForm.get('department_id')?.setValue(profile.department.id);
-    this.onDepartmentChange(profile.department.id);
+    if (profile.department?.id) {
+      this.profileForm.get('department_id')?.setValue(profile.department.id);
+      this.onDepartmentChange(profile.department.id);
+    }
 
     // Set job
-    this.profileForm.get('job_id')?.setValue(profile.job.id);
+    if (profile.job?.id) {
+      this.profileForm.get('job_id')?.setValue(profile.job.id);
+    }
 
     // Load cities for the selected region
-    this.onRegionChange(profile.city.region.id);
-    this.employeeService.GETCityByRegion(profile.city.region.id).subscribe(
-      (cities: City[]) => {
-        this.cities = cities;
-        // Now that we have the cities, we can set the city_id
-        this.profileForm.get('city_id')?.setValue(profile.city.id);
-        this.cdr.detectChanges();
-      },
-      error => {
-        console.error('Error loading cities', error);
-      }
-    );
+    if (profile.city?.region?.id) {
+      this.onRegionChange(profile.city.region.id);
+      this.employeeService.GETCityByRegion(profile.city.region.id).subscribe(
+        (cities: City[]) => {
+          this.cities = cities;
+          // Now that we have the cities, we can set the city_id
+          if (profile.city?.id) {
+            this.profileForm.get('city_id')?.setValue(profile.city.id);
+          }
+          this.cdr.detectChanges();
+        },
+        error => {
+          console.error('Error loading cities', error);
+        }
+      );
+    }
 
     this.cdr.detectChanges();
   }
 
-  submitForm(): void {
-    if (this.profileForm.valid) {
+  submitForm(): Observable<any> {
+    if (this.profileForm.valid && this.profile?.id !== undefined) {
       const formValue = this.profileForm.value;
       const updatedProfile: EmployeeUpdate = {
         department_id: formValue.department_id,
@@ -223,8 +242,39 @@ export class UpdateProfileComponent implements OnInit {
         date_visit: formValue.date_visit,
         date_end: formValue.date_end
       };
-      console.log(updatedProfile);
-      // Here you would typically call a service method to update the profile
+
+      return this.employeeService.updateEmployeeProfile(updatedProfile, this.profile.id);
+    } else {
+      return new Observable(observer => {
+        let errorMessage = 'Unable to submit form: ';
+        if (!this.profileForm.valid) {
+          errorMessage += 'Form is invalid. ';
+        }
+        if (this.profile?.id === undefined) {
+          errorMessage += 'Profile ID is undefined.';
+        }
+        observer.error(new Error(errorMessage));
+        observer.complete();
+      });
     }
+  }
+
+  handleUpdateSuccess(): void {
+    this.notification.success(
+      'Success',
+      'Employee profile updated successfully',
+      {nzPlacement: "bottomLeft"}
+    );
+    this.updateSuccess.emit();
+  }
+
+  handleUpdateError(error: any): void {
+    const errorMessage = error.error?.detail || 'Failed to update employee profile';
+    this.notification.error(
+      'Error',
+      errorMessage,
+      {nzPlacement: "bottomLeft"}
+    );
+    console.error('Error updating employee profile:', error);
   }
 }

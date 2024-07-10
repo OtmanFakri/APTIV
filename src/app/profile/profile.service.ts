@@ -35,10 +35,7 @@ export class ProfileService {
         return this.http.get<EmployeeDetails>(url);
     }
 
-    updateEmployeeProfile(profile: EmployeeUpdate, employeeId: number): Observable<any> {
-        const url = `${this.baseUrl}/${employeeId}`;
-        return this.http.put(url, profile);
-    }
+
 
     deleteEmployee(empId: number): Observable<any> {
         return this.http.delete(`${this.baseUrl}/${empId}`);

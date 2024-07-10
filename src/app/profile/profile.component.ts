@@ -44,17 +44,18 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('id');
+    this.employeeLoading()
+  }
+
+  employeeLoading() {
     this.profileService.getEmployeeProfile(this.userId).subscribe({
       next: (data) => {
         this.employeeProfile = data;
-        //this.profileService.updateEmployeeProfile(data);
-
       },
       error: (error) => {
         console.error('There was an error!', error);
       }
     });
-
 
   }
 
@@ -73,7 +74,20 @@ export class ProfileComponent implements OnInit {
   }
 
   OnUpdate() {
-    this.OnSubmetUpdate.submitForm();
+    if (this.OnSubmetUpdate) {
+      this.OnSubmetUpdate.submitForm().subscribe({
+        next: () => {
+          this.OnSubmetUpdate.handleUpdateSuccess();
+          this.employeeLoading();
+          this.closeUpdate();
+        },
+        error: (error) => {
+          this.OnSubmetUpdate.handleUpdateError(error);
+        }
+      });
+    }
+
+    this.employeeLoading()
   }
 
   Delete() {

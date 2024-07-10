@@ -23,6 +23,8 @@ export interface Item {
   is_visited:   boolean;
   nbr_gap:      number;
   images:        string[] | null;
+  shift:      string;
+  confirmred_id: number | null;
 }
 
 

@@ -54,7 +54,8 @@
 
                         <div class="xl:w-2/5 lg:w-2/5 md:w-2/5 flex flex-col mb-6"
                              *ngIf="certificationForm.get('validation')?.value === 'VPO'">
-                            <label class="block text-base font-medium leading-none text-gray-800">VPO Details</label>
+                            <label class="block text-base font-medium leading-none text-gray-800">VPO
+                                Details {{this.certification.confirmed ?? 'N/A'}}</label>
                             <app-manager-select
                                     class="w-full p-3 mt-2 border border-gray-300 rounded outline-none focus:bg-gray-50"
                                     formControlName="confirmed"></app-manager-select>

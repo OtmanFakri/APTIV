@@ -60,6 +60,8 @@ import {
     templateUrl: './info-certification.component.html',
 })
 export class InfoCertificationComponent implements OnInit {
+    @ViewChild(UpdateCertificationComponent) updateCertificationComponent!: UpdateCertificationComponent;
+
     userId: any;
     certificates!: CertificationsResponseInterface;
     currentPage: number = 1;
@@ -252,8 +254,7 @@ export class InfoCertificationComponent implements OnInit {
 
     }
 
-
     handleOk() {
-        this.notification.create('success', 'Success', 'Certificate updated successfully', {nzPlacement: "bottomLeft"});
+        this.updateCertificationComponent.handleOk()
     }
 }

@@ -83,6 +83,7 @@ export class ListCertificationComponent implements OnInit {
 
     OkToupdate() {
         this.updateCertificationComponent.handleOk()
+        this.applyFilter()
     }
 
     closeToupdate(): void {

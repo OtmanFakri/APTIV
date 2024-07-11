@@ -1,56 +1,65 @@
 <nz-layout>
-  <nz-sider
-    class="bg-white h-screen"
-    nzCollapsible
-    [(nzCollapsed)]="isCollapsed"
-    [nzTrigger]="null"
-  >
-    <div class="h-8 bg-white bg-opacity-20 m-4"></div>
-    <!-- Logo with Tailwind classes -->
-    <ul nz-menu nzTheme="light" nzMode="inline">
-      <li
-        *ngFor="let item of menuItems"
-        nz-menu-item
-        [nzSelected]="isSelected(item.routerLink)"
-        [routerLink]="item.routerLink"
-      >
-        <span nz-icon [innerHTML]="item.icon"></span>
-        <span>{{ item.label }}</span>
-      </li>
-    </ul>
-  </nz-sider>
-  <nz-layout class="bg-white">
-    <nz-header class="bg-white p-0 flex justify-between items-center">
+    <nz-sider
+            class="bg-white h-screen"
+            nzCollapsible
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null"
+    >
+        <div class="h-8 bg-white bg-opacity-20 m-4"></div>
+        <!-- Logo with Tailwind classes -->
+        <ul nz-menu nzTheme="light" nzMode="inline">
+            <li
+                    *ngFor="let item of menuItems"
+                    nz-menu-item
+                    [nzSelected]="isSelected(item.routerLink)"
+                    [routerLink]="item.routerLink"
+            >
+                <span nz-icon [innerHTML]="item.icon"></span>
+                <span>{{ item.label }}</span>
+            </li>
+        </ul>
+    </nz-sider>
+    <nz-layout class="bg-white">
+        <nz-header class="bg-white p-0 flex justify-between items-center">
       <span
-        class="trigger text-xl leading-[64px] px-6 cursor-pointer transition-colors duration-300 hover:text-blue-600"
-        nz-icon
-        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-        (click)="isCollapsed = !isCollapsed"
+              class="trigger text-xl leading-[64px] px-6 cursor-pointer transition-colors duration-300 hover:text-blue-600"
+              nz-icon
+              [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+              (click)="isCollapsed = !isCollapsed"
       >
         <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-6 h-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
         >
           <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"
           />
         </svg>
       </span>
-      <div class="flex items-center">
-        <span class="mx-4">{{ loggedUser.employee_id ?? 'N/A' }}</span>
-        <button nz-button nzType="primary" (click)="logout()">Logout</button>
-      </div>
-    </nz-header>
-    <nz-content class="m-4">
-      <div class="inner-content p-6 bg-white">
-        <router-outlet></router-outlet>
-      </div>
-    </nz-content>
-  </nz-layout>
+            <div class="flex items-center">
+                <div class="flex items-center space-x-5 rtl:space-x-reverse rtl:space-x-0">
+                    <nz-badge [nzDot]="dot">
+                        <a class="inline-block align-middle flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                          </svg>
+                        </a>
+                    </nz-badge>
+                </div>
+                <span class="mx-4">{{ loggedUser.employee_id ?? 'N/A' }}</span>
+                <button nz-button nzType="primary" (click)="logout()">Logout</button>
+            </div>
+        </nz-header>
+        <nz-content class="m-4">
+            <div class="inner-content p-6 bg-white">
+                <router-outlet></router-outlet>
+            </div>
+        </nz-content>
+    </nz-layout>
 </nz-layout>

@@ -63,21 +63,25 @@ export class CreateMedicamentComponent {
         this.visibleMoreDetail = false;
     }
 
-    onSubmit() {
+    onSubmit(callback?: () => void) {
         if (this.medicamentForm.valid) {
             this.medicamentService.createMedicament(this.medicamentForm.value).subscribe(response => {
                 console.log('Medicament created:', response);
                 this.notification.success('Success',
                     'Medicament created successfully!',
-                    {nzPlacement: 'bottomRight'});
+                    {nzPlacement: 'bottomLeft'});
+                if (callback) {
+                    callback();
+                }
             }, error => {
                 console.error('Error creating medicament:', error);
                 this.notification.error('Error',
                     'Failed to create medicament.',
-                    {nzPlacement: 'bottomRight'});
+                    {nzPlacement: 'bottomLeft'});
             });
         }
     }
+
 
     extractNumberFromSnapshot(): void {
         if (this.selectedValues && this.selectedValues.snapshot &&

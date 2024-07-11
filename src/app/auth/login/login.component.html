@@ -1,37 +1,43 @@
 <div class="flex min-h-full">
-  <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-    <div class="mx-auto w-full max-w-sm lg:w-96">
-      <div>
-        <img class="h-10 w-auto" src="https://www.aptiv.com/images/default-source/email-campaigns/aptiv_logo_color_rgb.png"
-             alt="Your Company">
-        <h2 class="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
-      </div>
-      <div>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
-          <div>
-            <label for="employee_id" class="block text-sm font-medium leading-6 text-gray-900">Employee_id</label>
-            <div class="mt-2">
-              <input id="employee_id" name="employee_id" type="text" autocomplete="employee_id"
-                     formControlName="employee_id" required
-                     class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
-                     [ngClass]="{'ring-red-500': loginForm.controls['employee_id'].invalid && (loginForm.controls['employee_id'].dirty || loginForm.controls['employee_id'].touched)}">
-              <div
-                *ngIf="loginForm.controls['employee_id'].invalid && (loginForm.controls['employee_id'].dirty || loginForm.controls['employee_id'].touched)"
-                class="text-red-500 text-sm mt-1">
-                <div *ngIf="loginForm.controls['employee_id'].errors?.['required']">Employee ID is required.</div>
-                <div *ngIf="loginForm.controls['employee_id'].errors?.['pattern']">Employee ID must be a number.</div>
-              </div>
+    <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div class="mx-auto w-full max-w-sm lg:w-96">
+            <div>
+                <img class="h-10 w-auto"
+                     src="https://www.aptiv.com/images/default-source/email-campaigns/aptiv_logo_color_rgb.png"
+                     alt="Your Company">
+                <h2 class="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
             </div>
-          </div>
-          <div>
-            <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-            <div class="mt-2 relative">
-              <input id="password" name="password" [type]="showPassword ? 'text' : 'password'"
-                     formControlName="hashed_password"
-                     autocomplete="current-password" required
-                     class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
-                     [ngClass]="{'ring-red-500': loginForm.controls['hashed_password'].invalid && (loginForm.controls['hashed_password'].dirty || loginForm.controls['hashed_password'].touched)}">
-              <span class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <div>
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+                    <div>
+                        <label for="employee_id"
+                               class="block text-sm font-medium leading-6 text-gray-900">Employee_id</label>
+                        <div class="mt-2">
+                            <input id="employee_id" name="employee_id" type="text" autocomplete="employee_id"
+                                   formControlName="employee_id" required
+                                   class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
+                                   [ngClass]="{'ring-red-500': loginForm.controls['employee_id'].invalid && (loginForm.controls['employee_id'].dirty || loginForm.controls['employee_id'].touched)}">
+                            <div
+                                    *ngIf="loginForm.controls['employee_id'].invalid && (loginForm.controls['employee_id'].dirty || loginForm.controls['employee_id'].touched)"
+                                    class="text-red-500 text-sm mt-1">
+                                <div *ngIf="loginForm.controls['employee_id'].errors?.['required']">Employee ID is
+                                    required.
+                                </div>
+                                <div *ngIf="loginForm.controls['employee_id'].errors?.['pattern']">Employee ID must be a
+                                    number.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                        <div class="mt-2 relative">
+                            <input id="password" name="password" [type]="showPassword ? 'text' : 'password'"
+                                   formControlName="hashed_password"
+                                   autocomplete="current-password" required
+                                   class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
+                                   [ngClass]="{'ring-red-500': loginForm.controls['hashed_password'].invalid && (loginForm.controls['hashed_password'].dirty || loginForm.controls['hashed_password'].touched)}">
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-3">
           <button type="button"
                   aria-label="Toggle password visibility"
                   (click)="togglePasswordVisibility()"
@@ -46,29 +52,36 @@
             </svg>
           </button>
         </span>
-              <div
-                *ngIf="loginForm.controls['hashed_password'].invalid && (loginForm.controls['hashed_password'].dirty || loginForm.controls['hashed_password'].touched)"
-                class="text-red-500 text-sm mt-1">
-                <div *ngIf="loginForm.controls['hashed_password'].errors?.['required']">Password is required.</div>
-                <div *ngIf="loginForm.controls['hashed_password'].errors?.['minlength']">Password must be at least 6
-                  characters long.
-                </div>
-              </div>
+                            <div
+                                    *ngIf="loginForm.controls['hashed_password'].invalid && (loginForm.controls['hashed_password'].dirty || loginForm.controls['hashed_password'].touched)"
+                                    class="text-red-500 text-sm mt-1">
+                                <div *ngIf="loginForm.controls['hashed_password'].errors?.['required']">Password is
+                                    required.
+                                </div>
+                                <div *ngIf="loginForm.controls['hashed_password'].errors?.['minlength']">Password must
+                                    be at least 6
+                                    characters long.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button
+                                nz-button nzType="primary"
+                                class="w-full"
+                                [nzLoading]="is_loading"
+                                type="submit" [disabled]="loginForm.invalid"
+                        >
+                            Sign in
+                        </button>
+                    </div>
+                </form>
             </div>
-          </div>
-          <div>
-            <button type="submit" [disabled]="loginForm.invalid"
-                    class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-400 disabled:cursor-not-allowed">
-              Sign in
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
-  <div class="relative hidden w-0 flex-1 lg:block">
-    <img class="absolute inset-0 h-full w-full object-cover"
-         src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
-         alt="">
-  </div>
+    <div class="relative hidden w-0 flex-1 lg:block">
+        <img class="absolute inset-0 h-full w-full object-cover"
+             src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+             alt="">
+    </div>
 </div>

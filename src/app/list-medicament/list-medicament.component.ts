@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, viewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild, viewChild} from '@angular/core';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {CreateMedicamentComponent} from "./create-medicament/create-medicament.component";
 import {MedicamentService} from "./medicament.service";
@@ -7,81 +7,155 @@ import {NzCardModule} from 'ng-zorro-antd/card';
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzDrawerModule} from 'ng-zorro-antd/drawer';
 import {MedicamentDetail} from "./InterfacesMedicaments";
+import {NzNotificationComponent, NzNotificationModule, NzNotificationService} from 'ng-zorro-antd/notification';
+import {NzButtonComponent} from "ng-zorro-antd/button";
+import {PaginationComponent} from "../Components/pagination/pagination.component";
+import {ListMedicaments} from "./InteracesMedicaments";
+import {FormsModule} from "@angular/forms";
+import {debounceTime, distinctUntilChanged, Subject} from "rxjs";
 
 @Component({
-  selector: 'app-list-medicament',
-  standalone: true,
-  imports: [
-    NzModalModule,
-    CreateMedicamentComponent,
-    NgForOf,
-    NzCardModule,
-    NzIconDirective,
-    NzDrawerModule,
-    NgTemplateOutlet,
-    JsonPipe,
-  ],
-  templateUrl: './list-medicament.component.html',
+    selector: 'app-list-medicament',
+    standalone: true,
+    imports: [
+        NzModalModule,
+        CreateMedicamentComponent,
+        NgForOf,
+        NzCardModule,
+        NzIconDirective,
+        NzDrawerModule,
+        NgTemplateOutlet,
+        JsonPipe,
+        NzButtonComponent,
+        PaginationComponent,
+        FormsModule,
+    ],
+    templateUrl: './list-medicament.component.html',
 
 })
 export class ListMedicamentComponent implements OnInit {
-  @ViewChild(CreateMedicamentComponent) childComponent!: CreateMedicamentComponent;
-  listMedicament: any = [];
-  CreateisVisible = false;
-  titleDrawwe = '';
-  DetailMedicament!: MedicamentDetail;
+    @ViewChild(CreateMedicamentComponent) childComponent!: CreateMedicamentComponent;
+    @ViewChild('notificationBtnTpl', {static: true}) btnConfrmationDelete!: TemplateRef<{
+        $implicit: NzNotificationComponent
+    }>;
+    searchTerm = '';
+    listMedicament!: ListMedicaments;
+    CreateisVisible = false;
 
-  constructor(private medicamentService: MedicamentService) {
-  }
+    titleDrawwe = '';
+    private searchTerms = new Subject<string>();
 
+    DetailMedicament!: MedicamentDetail;
+    private drugToDelete: any;
+    isConfirmLoading = false;
 
-  ngOnInit(): void {
-    this.fetchMedicament();
-  }
-
-  async fetchMedicament() {
-    this.medicamentService.readMedicament().subscribe((data: any) => {
-      // Ensure your data has the required structure
-      this.listMedicament = data.items.map((item: any) => ({
-        name: item.name,
-        id: item.id,
-        id_product: item.id_product,
-        cover: "https://cdn-icons-png.flaticon.com/512/4320/4320344.png" // Ensure this matches your actual data field
-      }));
-    });
-  }
-
-  CreateshowModal(): void {
-    this.CreateisVisible = true;
-  }
-
-  CreatehandleOk(): void {
-    if (this.childComponent) {
-      this.childComponent.onSubmit();
-      this.fetchMedicament();
+    constructor(private medicamentService: MedicamentService,
+                private notification: NzNotificationService) {
     }
-    this.fetchMedicament();
 
-    this.CreateisVisible = false;
-  }
+    ngOnInit(): void {
+        this.initializeSearch();
+        this.fetchMedicament();
+    }
 
-  CreatehandleCancel(): void {
-    this.CreateisVisible = false;
-  }
+    initializeSearch() {
+        this.searchTerms.pipe(
+            debounceTime(300),
+            distinctUntilChanged()
+        ).subscribe(term => {
+            this.fetchMedicament(1, term);
+        });
+    }
 
-  Detailvisible = false;
+    onSearchChange(term: string) {
+        this.searchTerms.next(term);
+    }
 
-  Detailopen(drug: any): void {
-    this.Detailvisible = true;
-    this.titleDrawwe = drug.name;
-    this.medicamentService.informationMedicament(drug.id_product).subscribe(response => {
-      this.DetailMedicament = response;
-    });
+    fetchMedicament(page: number = 1, term: string = this.searchTerm): void {
+        this.medicamentService.readMedicament(page, term).subscribe((data: any) => {
+            this.listMedicament = data;
+        });
+    }
 
-  }
+    CreateshowModal(): void {
+        this.CreateisVisible = true;
+    }
 
-  Detailclose(): void {
-    this.Detailvisible = false;
-  }
+    CreatehandleOk(): void {
+        if (this.childComponent) {
+            this.isConfirmLoading = true;
+            this.childComponent.onSubmit(() => {
+                this.fetchMedicament();
+                this.CreateisVisible = false;
+                this.isConfirmLoading = false;
+            });
+        } else {
+            this.isConfirmLoading = true;
+            this.fetchMedicament();
+            this.CreateisVisible = false;
+            this.isConfirmLoading = false;
+        }
+    }
 
+    CreatehandleCancel(): void {
+        this.CreateisVisible = false;
+    }
+
+    Detailvisible = false;
+
+    Detailopen(drug: any): void {
+        this.Detailvisible = true;
+        this.titleDrawwe = drug.name;
+        this.medicamentService.informationMedicament(drug.id_product).subscribe(response => {
+            this.DetailMedicament = response;
+        });
+    }
+
+    Detailclose(): void {
+        this.Detailvisible = false;
+    }
+
+    onDelete(): void {
+        if (this.drugToDelete && this.drugToDelete.id) {
+            this.isConfirmLoading = true;
+            this.medicamentService.DeleteMedicament(this.drugToDelete.id).subscribe({
+                next: () => {
+                    this.fetchMedicament();
+                    this.notification.success('Success', 'Medicament deleted successfully', {
+                        nzPlacement: 'bottomLeft'
+                    });
+                },
+                error: (error) => {
+                    console.error('Error deleting medicament:', error);
+                    this.notification.error('Error', 'Failed to delete medicament', {
+                        nzPlacement: 'bottomLeft'
+                    });
+                },
+                complete: () => {
+                    this.isConfirmLoading = false;
+                }
+            });
+        } else {
+            console.error('No drug selected for deletion');
+            this.notification.warning('Warning', 'No drug selected for deletion', {
+                nzPlacement: 'bottomLeft'
+            });
+        }
+    }
+
+    openNotification(drug: any): void {
+        this.drugToDelete = drug;
+        this.notification.blank(
+            'Confirm Delete',
+            'Are you sure you want to delete this drug?',
+            {
+                nzPlacement: 'bottomLeft',
+                nzButton: this.btnConfrmationDelete
+            }
+        );
+    }
+
+    onPageChange(page: number) {
+        this.fetchMedicament(page)
+    }
 }

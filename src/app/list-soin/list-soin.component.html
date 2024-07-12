@@ -65,7 +65,7 @@
           </ng-container>
           <ng-template #footerTpl>
             <div style="float: right">
-              <button nz-button style="margin-right: 8px;" (click)="UpdatehandleCancel()">Cancel</button>
+              <button nz-button style="margin-right: 8px;" (click)="deleteItem()" nzDanger>Delete</button>
               <button nz-button nzType="primary" (click)="UpdatehandleOk()">Submit</button>
             </div>
           </ng-template>
@@ -75,9 +75,9 @@
   </nz-tab>
   <nz-tab nzTitle="Tab 2">
     <app-kpi
-    [selectedDate]="KpiDate"
-    [indexTabs]="indexTabs"
-    [mode]="mode"
+      [selectedDate]="KpiDate"
+      [indexTabs]="indexTabs"
+      [mode]="mode"
     />
   </nz-tab>
 </nz-tabset>
@@ -122,11 +122,19 @@
         </div>
 
       </div>
-      <nz-modal [(nzVisible)]="CreateisVisible" nzTitle="The first Modal" (nzOnCancel)="CreatehandleCancel()"
+      <nz-modal [(nzVisible)]="CreateisVisible"
+                nzTitle="The first Modal"
+                [nzFooter]="modalFooter"
+                (nzOnCancel)="CreatehandleCancel()"
                 (nzOnOk)="CreatehandleOk()">
         <ng-container *nzModalContent>
           <app-create-soin/>
         </ng-container>
+        <ng-template #modalFooter>
+          <button nz-button nzType="default" (click)="CreatehandleCancel()">Custom Callback</button>
+          <button nz-button nzType="primary" (click)="CreatehandleOk()" [nzLoading]="isCreating">Custom Submit
+          </button>
+        </ng-template>
       </nz-modal>
       <nz-drawer
         [nzClosable]="false"

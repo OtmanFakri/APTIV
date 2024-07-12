@@ -1,6 +1,6 @@
 <form [formGroup]="soinForm" (ngSubmit)="onSubmit()">
   <div class="mb-4">
-    <label class="block text-gray-700">Employee ID</label>
+    <label class="block text-gray-700">Employee ID {{soinForm.get('employee_id')?.value}}</label>
     <app-employee-id-input
       [employeeId]="soinForm.get('employee_id')?.value"
       (employeeSelected)="onEmployeeSelected($event)"
@@ -48,9 +48,11 @@
          class="flex items-center mb-2">
       <app-select-medicament
         class="flex-auto"
-        [searchTerm]="medicamentForm.get('medicament')?.value.name"
+        [searchTerm]="medicamentForm.get('medicament')?.value?.name"
+        [selectedMedicament]="medicamentForm.get('medicament')?.value"
         (medicationSelected)="medicamentSelect($event, i)"
       ></app-select-medicament>
+
       <input type="number" formControlName="quantite" placeholder="Quantity"
              class="flex-none w-1/3 px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"/>
       <button

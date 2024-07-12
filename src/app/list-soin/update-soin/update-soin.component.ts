@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Item, Medicament, MedicamentAssociation} from "../InterfaceSoin";
+import {CreateSoin, Item, Medicament, MedicamentAssociation} from "../InterfaceSoin";
 import {FormArray, FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgForOf, NgIf} from "@angular/common";
 import {EmployeeIdInputComponent} from "../../Components/employee-id-input/employee-id-input.component";
@@ -86,41 +86,64 @@ export class UpdateSoinComponent implements OnInit {
     const medicamentControl = this.medicamentAssociations.at(index).get('medicament');
     if (medicamentControl) {
       medicamentControl.setValue(medication);
+      medicamentControl.markAsDirty();
+      medicamentControl.updateValueAndValidity();
     }
   }
 
   onEmployeeSelected(employee: any) {
-    this.soinForm.patchValue({employee_id: employee.id});
-  }
-
-  onSubmit() {
-    if (this.soinForm.valid && this.soin) {
-      const formValue = this.soinForm.value;
-      console.log('Form submitted', formValue);
-      this.soinService.UpdateSoin(this.soin.id, formValue).subscribe(
-        response => {
-          console.log('Form submission successful:', response);
-          this.notification.success(
-            'Form Submission Successful',
-            'Your form has been submitted successfully.',
-            {nzPlacement: 'bottomLeft'}
-          );
-        },
-        error => {
-          this.notification.error(
-            'Form Submission Failed',
-            'An error occurred while submitting your form.',
-            {nzPlacement: 'bottomLeft'}
-          );
-          console.error('Error submitting form:', error);
-        }
-      );
+    if (employee) {
+      this.soinForm.patchValue({employee_id: employee.id});
     } else {
-      // Mark all fields as touched to show validation errors
-      Object.values(this.soinForm.controls).forEach(control => {
-        control.markAsTouched();
-        control.updateValueAndValidity();
-      });
+      this.soinForm.patchValue({employee_id: null});
     }
   }
+
+  onSubmit(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.soinForm.valid && this.soin) {
+        const soinData: CreateSoin = {
+          employee_id: this.soinForm.value.employee_id,
+          diagnostic: this.soinForm.value.diagnostic,
+          soins: this.soinForm.value.soins,
+          soins_poste_de_garde: this.soinForm.value.soins_poste_de_garde,
+          medicaments: this.soinForm.value.medicament_associations.map((assoc: any) => ({
+            medicament_id: assoc.medicament.id,
+            quantite: assoc.quantite
+          }))
+        };
+
+        this.soinService.UpdateSoin(this.soin.id, soinData).subscribe(
+          response => {
+            this.notification.create(
+              'success',
+              'Form Update Successful',
+              'Your form has been updated successfully.',
+              {nzPlacement: 'bottomLeft'}
+            );
+            resolve();
+          },
+          error => {
+            this.notification.create(
+              'error',
+              'Form Update Failed',
+              'There was an error updating your form. Please try again.',
+              {nzPlacement: 'bottomLeft'}
+            );
+            console.error(error);
+            reject(error);
+          }
+        );
+      } else {
+        this.notification.create(
+          'error',
+          'Form Validation Error',
+          'Please fill in all required fields before submitting the form.',
+          {nzPlacement: 'bottomLeft'}
+        );
+        reject(new Error('Form validation failed'));
+      }
+    });
+  }
 }
+

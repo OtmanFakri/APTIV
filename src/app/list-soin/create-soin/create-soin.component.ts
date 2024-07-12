@@ -90,50 +90,62 @@ export class CreateSoinComponent {
   }
 
 
-  onSubmit() {
-    if (this.medicalForm.valid) {
-      const soinData: CreateSoin = {
-        ...this.medicalForm.value,
-        diagnostic: this.diagnostic.controls.flatMap(control => control.value),
-        soins: this.soins.controls.flatMap(control => control.value)
-      };
-      this.soinService.CreateSoin(soinData).subscribe(
-        response => {
-          this.notification.create(
-            'success',
-            'Form Submission Successful',
-            'Your form has been submitted successfully.',
-            {nzPlacement: 'bottomLeft'}
-          );
-          // You can handle the response here
-          console.log(response);
-        },
-        error => {
-          this.notification.create(
-            'error',
-            'Form Submission Failed',
-            'There was an error submitting your form. Please try again.',
-            {nzPlacement: 'bottomLeft'}
-          );
-          // You can handle the error here
-          console.error(error);
-        }
-      );
-    } else {
-      this.notification.create(
-        'error',
-        'Form Validation Error',
-        'Please fill in all required fields before submitting the form.',
-        {nzPlacement: 'bottomLeft'}
-      );
-    }
+  onSubmit(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.medicalForm.valid) {
+        const soinData: CreateSoin = {
+          ...this.medicalForm.value,
+          diagnostic: this.diagnostic.controls.flatMap(control => control.value),
+          soins: this.soins.controls.flatMap(control => control.value)
+        };
+        this.soinService.CreateSoin(soinData).subscribe(
+          response => {
+            this.notification.create(
+              'success',
+              'Form Submission Successful',
+              'Your form has been submitted successfully.',
+              {nzPlacement: 'bottomLeft'}
+            );
+            resolve();
+          },
+          error => {
+            this.notification.create(
+              'error',
+              'Form Submission Failed',
+              'There was an error submitting your form. Please try again.',
+              {nzPlacement: 'bottomLeft'}
+            );
+            console.error(error);
+            reject(error);
+          }
+        );
+      } else {
+        this.notification.create(
+          'error',
+          'Form Validation Error',
+          'Please fill in all required fields before submitting the form.',
+          {nzPlacement: 'bottomLeft'}
+        );
+        reject(new Error('Form validation failed'));
+      }
+    });
   }
 
   getEmployee($event: any) {
-    this.employee_selected = $event;
-    this.medicalForm.patchValue({
-      employee_id: $event.id
-    })
+    if ($event && $event.id) {
+      this.employee_selected = $event;
+      this.medicalForm.patchValue({
+        employee_id: $event.id
+      });
+    } else {
+      // Optionally, you can show a notification to the user
+      this.notification.create(
+        'warning',
+        'Invalid Employee Data',
+        'The selected employee data is invalid or incomplete.',
+        {nzPlacement: 'bottomLeft'}
+      );
+    }
   }
 
   employeeDetail() {

@@ -39,6 +39,11 @@ export class SoinService {
   }
 
   UpdateSoin(id: number, soinData: CreateSoin): Observable<any> {
+    console.log("soinDate : ", soinData)
     return this.http.put(`${this.apiUrl}/${id}`, soinData);
+  }
+
+  DelateSoin(id: number) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

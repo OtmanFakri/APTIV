@@ -67,23 +67,7 @@ export class EmployeeService {
 
 
   filterEmployeesById(employee_id: number): Observable<ListEmployee> {
-    const requestBody = {
-      employee_id,
-      page: 1,
-      size: 50
-    };
-
-    const queryParams = new HttpParams()
-      .set('employee_id', employee_id.toString())
-      .set('page', '1')
-      .set('size', '50');
-
-    const options = {
-      headers: {'Content-Type': 'application/json'},
-      params: queryParams
-    };
-
-    return this.http.post<ListEmployee>(this.baseUrl, requestBody, options);
+    return this.http.post<ListEmployee>(`http://127.0.0.1:8011/employee/filter?employee_id=${employee_id}`, {});
   }
 
 

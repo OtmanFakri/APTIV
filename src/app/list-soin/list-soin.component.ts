@@ -58,6 +58,10 @@ export class ListSoinComponent implements OnInit {
 
   KpiDate = new Date();
 
+  isCreating = false;
+  isUpdating = false;
+  isDeleting = false;
+
   constructor(private soinService: SoinService) {
   }
 
@@ -70,15 +74,31 @@ export class ListSoinComponent implements OnInit {
   }
 
   CreatehandleOk(): void {
-    this.CreateisVisible = false;
-    this.createSoinComponent.onSubmit();
-    this.onDateChange(this.selectedDate);
+    this.isCreating = true;
+    this.createSoinComponent.onSubmit().then(() => {
+      this.CreateisVisible = false;
+      this.refreshList();
+      this.isCreating = false;
+    }).catch((error) => {
+      this.isCreating = false;
+      console.error('Error creating soin:', error);
+    });
+  }
+
+  refreshList(): void {
+    const {year, month, day} = extractDateComponents(this.selectedDate, this.mode);
+    this.fetachSoin(Number(year), Number(month), Number(day));
   }
 
   fetachSoin(year?: number, month?: number, day?: number): void {
-    this.soinService.ReadSoin({year: year, month: month, day: day}).subscribe((data: ReadSoinInterface) => {
-      this.items = data;
-    });
+    this.soinService.ReadSoin({year, month, day}).subscribe(
+      (data: ReadSoinInterface) => {
+        this.items = data;
+      },
+      (error) => {
+        console.error('Error fetching data:', error);
+      }
+    );
   }
 
   CreatehandleCancel(): void {
@@ -99,20 +119,35 @@ export class ListSoinComponent implements OnInit {
   selectedItem!: Item;
 
   updateItem(item: Item): void {
+    console.info('Update item:', item)
     this.Updatevisible = true;
     this.selectedItem = item;
   }
 
   UpdatehandleOk(): void {
-    this.updateSoinComponent.onSubmit();
+    this.isUpdating = true;
+    this.updateSoinComponent.onSubmit().then(() => {
+      this.isUpdating = false;
+      this.Updatevisible = false;
+      this.refreshList();
+    }).catch(() => {
+      this.isUpdating = false;
+    });
   }
 
-  UpdatehandleCancel(): void {
-    this.Updatevisible = false;
-  }
-
-  deleteItem(id: number): void {
-    // Implement the delete functionality here
+  deleteItem(): void {
+    this.isDeleting = true;
+    this.soinService.DelateSoin(this.selectedItem.id).subscribe(
+      () => {
+        this.refreshList();
+        this.Updatevisible = false;
+        this.isDeleting = false;
+      },
+      (error) => {
+        console.error('Error deleting item:', error);
+        this.isDeleting = false;
+      }
+    );
   }
 
   onModeChange(mode: 'date' | 'month' | 'year'): void {
@@ -125,7 +160,6 @@ export class ListSoinComponent implements OnInit {
     this.fetachSoin(Number(year), Number(month), Number(day));
   }
 
-
   onTabChange($event: number) {
     this.indexTabs = $event
   }
@@ -136,6 +170,10 @@ export class ListSoinComponent implements OnInit {
 
   onKpiModeChange($event: any) {
     this.mode = $event;
-    console.log("modechange  : " , $event)
   }
+
+  UpdatehandleCancel() {
+    this.Updatevisible = false;
+  }
+
 }

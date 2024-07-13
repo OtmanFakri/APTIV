@@ -20,6 +20,7 @@ import {ListMedicamentComponent} from "./list-medicament/list-medicament.compone
 import {ListSoinComponent} from "./list-soin/list-soin.component";
 import {AuthGuard} from "./auth/AuthGuard";
 import {SingupComponent} from "./auth/singup/singup.component";
+import {ListUsersComponent} from "./list-users/list-users.component";
 
 export const routes: Routes = [
   {
@@ -48,6 +49,7 @@ export const routes: Routes = [
       {path: 'certifications', component: ListCertificationComponent},
       {path: 'medicament', component: ListMedicamentComponent},
       {path: 'soins', component: ListSoinComponent},
+      {path: 'users', component: ListUsersComponent},
       {path: 'singup', component: SingupComponent}
     ]
   },

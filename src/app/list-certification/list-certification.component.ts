@@ -22,6 +22,8 @@ import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
 import {NzSpaceComponent, NzSpaceItemDirective} from "ng-zorro-antd/space";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
 import {UpdateCertificationComponent} from "./update-certification/update-certification.component";
+import {ValidationComponent} from "../Components/validation/validation.component";
+import {FilterParams} from "./Interafces/filter";
 
 
 @Component({
@@ -52,7 +54,8 @@ import {UpdateCertificationComponent} from "./update-certification/update-certif
         NzSelectComponent,
         NzOptionComponent,
         NzSpaceItemDirective,
-        UpdateCertificationComponent
+        UpdateCertificationComponent,
+        ValidationComponent
     ],
     templateUrl: './list-certification.component.html',
 })
@@ -90,16 +93,17 @@ export class ListCertificationComponent implements OnInit {
         this.visibleToupdate = false;
     }
 
-    filterParams = {
+    filterParams: FilterParams = {
         doctor_id: null,
         manager_id: null,
         mode_date: 'date',
         nbr_days: null,
-        validation: null,
+        validation: null, // Initially setting it to null
         year: new Date(),
         exclude_date_planned: false,
         page: 1
     };
+
 
     constructor(
         private certificatesService: CertificatesService,
@@ -168,7 +172,7 @@ export class ListCertificationComponent implements OnInit {
         return 'unknown';
     }
 
-    filterCertificates(filterParams: any, page: number = 1): void {
+    filterCertificates(filterParams: FilterParams, page: number = 1): void {
         console.log('Filtering certificates with params:', filterParams);
         console.log('formatFilterParams:', this.formatFilterParams(filterParams));
         const formattedParams = this.formatFilterParams(filterParams);
@@ -308,5 +312,9 @@ export class ListCertificationComponent implements OnInit {
 
     closeemployeeInfo(): void {
         this.visiblemployeeInfo = false;
+    }
+
+    onValidationTypeChange($event: string) {
+        this.filterParams.validation = $event;
     }
 }

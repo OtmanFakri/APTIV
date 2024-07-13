@@ -7,6 +7,7 @@ import {
     CertificationsRequestInterface,
     CertificationsResponseInterface
 } from "../interfaces/ListCertificationInterface";
+import {FilterParams} from "./Interafces/filter";
 
 @Injectable({
     providedIn: 'root'
@@ -60,7 +61,7 @@ export class CertificatesService {
         return this.http.get<CertificationAnalysEmployee[]>(`${this.baseUrl}/${employeeId}/certificates/${year}/analyse`);
     }
 
-    FilterCertificates(filterParams: any, page: number = 1): Observable<CertificationsResponseInterface> {
+    FilterCertificates(filterParams: FilterParams, page: number = 1): Observable<CertificationsResponseInterface> {
         return this.http.post<CertificationsResponseInterface>(`http://127.0.0.1:8011/certificate/filter?page=${page}`, filterParams);
     }
 

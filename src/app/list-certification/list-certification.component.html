@@ -125,9 +125,12 @@
                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"/>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Validation</label>
-                                    <input type="text" [(ngModel)]="filterParams.validation" name="validation"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"/>
+                                    <app-validation
+                                            [(ngModel)]="filterParams.validation"
+                                            [validationTypes]="['ITT', 'VALIDE', 'VHJ', 'VPO']"
+                                            (typeChange)="onValidationTypeChange($event)">
+                                    </app-validation>
+
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">{{filterParams.mode_date}}</label>

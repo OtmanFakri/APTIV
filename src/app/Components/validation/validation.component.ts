@@ -1,5 +1,5 @@
 import {Component, EventEmitter, forwardRef, Input, Output} from '@angular/core';
-import {FormsModule, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {NgForOf} from "@angular/common";
 
 @Component({
@@ -18,11 +18,10 @@ import {NgForOf} from "@angular/common";
     ],
     templateUrl: './validation.component.html',
 })
-export class ValidationComponent {
+export class ValidationComponent implements ControlValueAccessor {
     @Input() validationTypes: string[] = ['ITT', 'VALID', 'VHJ', 'VPO'];
     @Output() typeChange = new EventEmitter<string>();
-
-    value: string = '';
+    @Input() value: string | null = '';
 
     onChange: (value: string) => void = () => {};
     onTouch: () => void = () => {};
@@ -45,6 +44,7 @@ export class ValidationComponent {
 
     setDisabledState?(isDisabled: boolean): void {
         // Implement if you want to support disabling the component
+        console.log('setDisabledState', isDisabled);
     }
 
     onModelChange(value: string) {

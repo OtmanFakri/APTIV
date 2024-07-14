@@ -72,7 +72,7 @@ export class ListCertificationComponent implements OnInit {
     selectedValues: (number | null)[] = [];
     filteredItems?: CertificationsResponseInterface;
     indexCechkbox: number = -1;
-
+    is_loading: boolean = false;
     visible = false;
     visibleToupdate = false;
 
@@ -173,12 +173,13 @@ export class ListCertificationComponent implements OnInit {
     }
 
     filterCertificates(filterParams: FilterParams, page: number = 1): void {
-        console.log('Filtering certificates with params:', filterParams);
-        console.log('formatFilterParams:', this.formatFilterParams(filterParams));
+        this.is_loading = true; // Set loading state to true when filtering starts
+
         const formattedParams = this.formatFilterParams(filterParams);
         this.certificatesService.FilterCertificates(formattedParams, page).subscribe(
             (response: CertificationsResponseInterface) => {
                 this.filteredItems = response;
+                this.is_loading = false; // Set loading state to false when filtering completes successfully
             },
             (error) => {
                 console.error('Error filtering certificates', error);
@@ -189,8 +190,26 @@ export class ListCertificationComponent implements OnInit {
                     {nzPlacement: "bottomLeft"}
                 );
                 this.filteredItems = undefined;
+                this.is_loading = false; // Set loading state to false when there is an error
             }
         );
+    }
+
+    clearFilter(): void {
+        // Reset filterParams to initial values
+        this.filterParams = {
+            doctor_id: null,
+            manager_id: null,
+            mode_date: 'date',
+            nbr_days: null,
+            validation: null,
+            year: new Date(),
+            exclude_date_planned: false,
+            page: 1
+        };
+
+        // Optionally, re-fetch the data with cleared filters
+        this.filterCertificates(this.filterParams);
     }
 
     formatFilterParams(params: any) {

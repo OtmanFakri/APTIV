@@ -1,11 +1,115 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {UsersServicesService} from "./users-services.service";
+import {ListUsers, User} from "./InterafcesUsers";
+import {NgForOf} from "@angular/common";
+import {NzButtonComponent} from "ng-zorro-antd/button";
+import {NzSwitchComponent} from "ng-zorro-antd/switch";
+import {FormsModule} from "@angular/forms";
+import {NzIconDirective} from "ng-zorro-antd/icon";
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {NzModalComponent, NzModalContentDirective} from "ng-zorro-antd/modal";
+import {NzModalModule} from 'ng-zorro-antd/modal';
+import {ManagerSelectComponent} from "../Components/manager-select/manager-select.component";
 
 @Component({
-  selector: 'app-list-users',
-  standalone: true,
-  imports: [],
-  templateUrl: './list-users.component.html',
+    selector: 'app-list-users',
+    standalone: true,
+    imports: [
+        NgForOf,
+        NzButtonComponent,
+        NzSwitchComponent,
+        FormsModule,
+        NzIconDirective,
+        NzModalComponent,
+        NzModalContentDirective,
+        NzModalModule,
+        ManagerSelectComponent
+    ],
+    templateUrl: './list-users.component.html',
 })
-export class ListUsersComponent {
+export class ListUsersComponent implements OnInit {
+    users!: ListUsers;
+    is_loading: boolean = false
+    isVisible = false;
+    select_user: any;
+
+    constructor(private serviceUsers: UsersServicesService,
+                private notification: NzNotificationService) {
+    }
+
+    createUser(): void {
+        this.isVisible = true;
+    }
+
+    handleOk(): void {
+        this.is_loading = true;
+        this.serviceUsers.createUser(this.select_user.id).subscribe(
+            () => {
+                this.fetchUser();
+                this.notification.success(
+                    'Success',
+                    'User created successfully',
+                    {nzPlacement: 'bottomLeft'}
+                )
+            },
+            (error) => {
+                console.error('Error creating user:', error);
+                this.is_loading = false;
+                this.notification.error(
+                    'Error',
+                    'An error occurred while creating user. Please try again.',
+                    {nzPlacement: 'bottomLeft'}
+                )
+            },
+            () => {
+                this.is_loading = false;
+                this.isVisible = false;
+            }
+        );
+        this.isVisible = false;
+    }
+
+    handleCancel(): void {
+        console.log('Button cancel clicked!');
+        this.isVisible = false;
+    }
+
+    ngOnInit() {
+        this.fetchUser();
+    }
+
+    fetchUser() {
+        this.serviceUsers.getUsers().subscribe((data: ListUsers) => {
+            this.users = data;
+        })
+    }
+
+
+    setChnageUser(user: User, is_active: boolean) {
+        this.is_loading = true;  // Set loading to true when updating starts
+        this.serviceUsers.updateState_User(user.id, is_active).subscribe(
+            () => {
+                this.fetchUser();
+                this.notification.success(
+                    'Success',
+                    'User status updated successfully',
+                    {nzPlacement: 'bottomLeft'}
+                )
+            },
+            (error) => {
+                console.error('Error updating user:', error);
+                this.is_loading = false;
+                this.notification.error(
+                    'Error',
+                    'An error occurred while updating user status. Please try again.',
+                    {nzPlacement: 'bottomLeft'}
+                )// Set loading to false even if there's an error
+            },
+            () => {
+                this.is_loading = false;  // Ensure loading is set to false after the operation completes
+            }
+        );
+    }
+
 
 }

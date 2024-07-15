@@ -2,12 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable, tap} from "rxjs";
 import {ExaminitionGendre} from "../../../interfaces/Analyse/CertificateAnalyseByDepertemt";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ServiceGendreService {
-    private apiUrl = 'http://127.0.0.1:8011/certificate';
+    private apiUrl = `${environment.apiUrl}/certificate`;
     Listdata = new BehaviorSubject<ExaminitionGendre[]>([]);
 
     constructor(private http: HttpClient) {

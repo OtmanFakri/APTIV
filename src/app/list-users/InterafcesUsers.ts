@@ -7,7 +7,12 @@ export interface ListUsers {
 }
 
 export interface User {
-    employee_id: number;
+    employee: EmployeeBases;
     id: number;
     is_active: boolean;
+}
+
+export interface EmployeeBases {
+    id: number;
+    full_name: string;
 }

@@ -7,13 +7,14 @@ import {
     SpecialtyDistributionBygendre
 } from "../interfaces/ListdoctorInterface";
 import {CertificationsResponseInterface} from "../interfaces/ListCertificationInterface";
+import {environment} from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class DoctorService {
 
-    private apiUrl = 'http://127.0.0.1:8011/doctor/';
+    private apiUrl = `${environment.apiUrl}/doctor/`;
 
     constructor(private http: HttpClient) {
     }

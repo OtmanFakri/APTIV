@@ -8,6 +8,7 @@ import {
     ExaminitionGendre,
     ExaminitionMonth, ExaminitionRespence
 } from "./InterfacesExaminitaion";
+import {environment} from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +20,7 @@ export class ExaminitationService {
     }
 
     // URL to the endpoint - adjust this URL to your actual endpoint
-    private apiUrl = 'http://127.0.0.1:8011';
+    private apiUrl = environment.apiUrl;
 
     NewConsulation(PostExamination: POSTExamination): Observable<POSTExamination> {
         return this.http.post<POSTExamination>(`${this.apiUrl}/consultation/`, PostExamination);

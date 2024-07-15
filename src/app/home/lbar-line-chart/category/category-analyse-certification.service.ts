@@ -5,13 +5,14 @@ import {
   CertificateAnalyseByDepertemt
 } from "../../../interfaces/Analyse/CertificateAnalyseByDepertemt";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryAnalyseCertificationService {
 
-  private apiUrl = 'http://127.0.0.1:8011/certificate';
+  private apiUrl = `${environment.apiUrl}/certificate`;
   categoryListData = new BehaviorSubject<CertificateAnalyseByCategory[]>([]);
 
   constructor(private http: HttpClient) {

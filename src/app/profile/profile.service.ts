@@ -5,12 +5,13 @@ import {BehaviorSubject, catchError, Observable, of, tap} from "rxjs";
 import {ProfileEmployee} from "../interfaces/profileEmployee";
 import {NewEmployee} from "../interfaces/ListEmployee";
 import {EmployeeDetails, EmployeeUpdate} from "./Interfaces";
+import {environment} from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProfileService {
-    private baseUrl = 'http://127.0.0.1:8011/employee';
+    private baseUrl = `${environment.apiUrl}/employee`;
 
     private employeeProfileSource = new BehaviorSubject<EmployeeDetails | null>(null);
     employeeProfile$ = this.employeeProfileSource.asObservable();

@@ -10,6 +10,7 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {NzModalComponent, NzModalContentDirective} from "ng-zorro-antd/modal";
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {ManagerSelectComponent} from "../Components/manager-select/manager-select.component";
+import {NzInputDirective, NzInputGroupComponent} from "ng-zorro-antd/input";
 
 @Component({
     selector: 'app-list-users',
@@ -23,7 +24,9 @@ import {ManagerSelectComponent} from "../Components/manager-select/manager-selec
         NzModalComponent,
         NzModalContentDirective,
         NzModalModule,
-        ManagerSelectComponent
+        ManagerSelectComponent,
+        NzInputGroupComponent,
+        NzInputDirective
     ],
     templateUrl: './list-users.component.html',
 })
@@ -32,6 +35,7 @@ export class ListUsersComponent implements OnInit {
     is_loading: boolean = false
     isVisible = false;
     select_user: any;
+    email: any;
 
     constructor(private serviceUsers: UsersServicesService,
                 private notification: NzNotificationService) {

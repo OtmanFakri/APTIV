@@ -3,12 +3,13 @@ import {HttpClient} from "@angular/common/http";
 import {ExaminitionGendre} from "../../../interfaces/Analyse/CertificateAnalyseByDepertemt";
 import {BehaviorSubject, tap} from "rxjs";
 import {CertificationWeekInterface} from "./CertificationWeekInterafce";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class MonthWeeekService {
-    private apiUrl = 'http://127.0.0.1:8011/certificate';
+    private apiUrl = `${environment.apiUrl}/certificate`;
     Listdata = new BehaviorSubject<CertificationWeekInterface[]>([]);
 
     constructor(private http: HttpClient) {

@@ -2,12 +2,13 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, tap} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {CertificateAnalyseByDepertemt} from "../../../interfaces/Analyse/CertificateAnalyseByDepertemt";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class DepartmentTableService {
-    private apiUrl = 'http://127.0.0.1:8011/certificate';
+    private apiUrl = `${environment.apiUrl}/certificate`;
     Listdata = new BehaviorSubject<CertificateAnalyseByDepertemt[]>([]);
 
     constructor(private http: HttpClient) {

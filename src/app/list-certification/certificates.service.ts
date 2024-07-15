@@ -8,13 +8,14 @@ import {
     CertificationsResponseInterface
 } from "../interfaces/ListCertificationInterface";
 import {FilterParams} from "./Interafces/filter";
+import {environment} from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class CertificatesService {
 
-    private baseUrl = 'http://127.0.0.1:8011/employee'; // Base URL for the API
+    private baseUrl = `${environment.apiUrl}/employee`; // Base URL for the API
 
     constructor(private http: HttpClient) {
     }
@@ -62,7 +63,7 @@ export class CertificatesService {
     }
 
     FilterCertificates(filterParams: FilterParams, page: number = 1): Observable<CertificationsResponseInterface> {
-        return this.http.post<CertificationsResponseInterface>(`http://127.0.0.1:8011/certificate/filter?page=${page}`, filterParams);
+        return this.http.post<CertificationsResponseInterface>(`${environment.apiUrl}/certificate/filter?page=${page}`, filterParams);
     }
 
     employeecategorized(employeeId: number, year: number): Observable<any> {
@@ -71,7 +72,7 @@ export class CertificatesService {
     }
 
     exportationKPI(year: number): Observable<any> {
-        const base_url = 'http://127.0.0.1:8011/certificate/collect-certificate-data';
+        const base_url = `${environment.apiUrl}/certificate/collect-certificate-data`;
         return this.http.post<any>(`${base_url}/${year}`, {});
     }
 

@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {autocompleteMedicament, MedicamentCreate, MedicamentDetail, ReadMedicament} from "./InterfacesMedicaments";
 import {Observable} from "rxjs";
+import {environment} from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +10,7 @@ import {Observable} from "rxjs";
 export class MedicamentService {
 
 
-    private apiUrl = 'http://127.0.0.1:8011';
+    private apiUrl = `${environment.apiUrl}`;
     private medicamentapi = 'https://api.medicament.ma/v2'
 
     constructor(private http: HttpClient) {

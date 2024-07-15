@@ -1,6 +1,12 @@
 <div class="container pt-6 mx-auto">
-  <app-medicament-kpi-category
-    [indexTabs]="indexTabs"
-    [selectedDate]="selectedDate"
-    [mode]="mode"/>
+    <app-medicament-kpi-category
+            [indexTabs]="indexTabs"
+            [selectedDate]="selectedDate"
+            [mode]="mode"/>
+
+    <app-raking-medicament
+            [mode]="mode"
+            [selectedDate]="selectedDate"
+    />
 </div>
+

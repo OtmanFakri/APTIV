@@ -1,6 +1,6 @@
 [build]
   command = "npm install --legacy-peer-deps && ng build --configuration production"
-  publish = "dist/your-project-name"
+  publish = "dist/APTIV-Front"
 
 [[redirects]]
   from = "/*"

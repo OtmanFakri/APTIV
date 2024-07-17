@@ -1,0 +1,44 @@
+<div>
+    <div *ngIf="is_loading" class="flex justify-center items-center">
+        <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-500" role="status">
+            <nz-spin nzSimple></nz-spin>
+        </div>
+    </div>
+    <div *ngIf="!is_loading">
+        <nz-collapse>
+            <nz-collapse-panel *ngFor="let pref of notificationPreferences"
+                               [nzHeader]="pref.model"
+                               class="mb-4 bg-white">
+                <div class="space-y-4">
+                    <div *ngIf="is_updating" class="text-center mb-5  px-12">
+                        <nz-spin nzSimple></nz-spin>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Notifications</h3>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-700">Receive Web:</span>
+                            <nz-switch [(ngModel)]="pref.receive_web"
+                                       (ngModelChange)="onPreferenceChange(pref)"></nz-switch>
+                        </div>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="text-gray-700">Receive Email:</span>
+                            <nz-switch [(ngModel)]="pref.receive_email"
+                                       (ngModelChange)="onPreferenceChange(pref)"></nz-switch>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Actions</h3>
+                        <div class="space-y-2">
+                            <div *ngFor="let action of ['CREATE', 'UPDATE', 'DELETE']"
+                                 class="flex items-center justify-between">
+                                <span class="text-gray-700">{{ action }}:</span>
+                                <nz-switch [ngModel]="isActionEnabled(pref, action)"
+                                           (ngModelChange)="toggleAction(pref, action)"></nz-switch>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nz-collapse-panel>
+        </nz-collapse>
+    </div>
+</div>

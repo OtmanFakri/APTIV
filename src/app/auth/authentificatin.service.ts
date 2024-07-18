@@ -32,6 +32,11 @@ export class AuthentificatinService {
         );
     }
 
+
+    UpdateFcmToken(fcmToken: String) {
+        return this.http.put(`${this.apiUrl}/user/${this.getLoggedUser().employee_id}/fcm-token?fcm_token=${fcmToken}`, {});
+    }
+
     async signup(employeeId: number, hashedPassword: string) {
         try {
             // Register the service worker

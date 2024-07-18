@@ -1,0 +1,19 @@
+<form class="space-y-4" [formGroup]="filterForm">
+    <div class="space-y-2">
+        <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+        <app-category-select
+                id="category"
+                formControlName="category"
+                class="mt-1 block w-full"
+        />
+    </div>
+    <div class="space-y-2">
+        <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
+        <app-department-select
+                id="department"
+                formControlName="department"
+                [Category]="this.filterForm.get('category')?.value"
+                class="mt-1 block w-full"
+        />
+    </div>
+</form>

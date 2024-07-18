@@ -1,0 +1,5 @@
+<nz-select
+        class="w-full"
+        [(ngModel)]="selectedCategory" (ngModelChange)="onSelectCategory($event)">
+    <nz-option *ngFor="let category of categories" [nzValue]="category" [nzLabel]="category"></nz-option>
+</nz-select>

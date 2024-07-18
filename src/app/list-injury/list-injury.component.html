@@ -1,0 +1,60 @@
+<div class="overflow-x-auto">
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-2xl font-bold">Injury Records</h1>
+        <div class="space-x-2">
+            <button nz-button nzType="default" (click)="openFilter()">Filter</button>
+            <button nz-button nzType="primary" (click)="createNew()">Create New</button>
+        </div>
+    </div>
+    <nz-drawer
+            [nzClosable]="false"
+            [nzVisible]="visibleFilter"
+            nzPlacement="right"
+            nzTitle="Basic Drawer"
+            [nzFooter]="footerTpl"
+            (nzOnClose)="closeFilter()"
+    >
+        <ng-container *nzDrawerContent>
+            <app-filter-injury/>
+        </ng-container>
+        <ng-template #footerTpl>
+            <div style="float: right">
+                <button nz-button style="margin-right: 8px;" (click)="closeFilter()">Cancel</button>
+                <button nz-button nzType="primary" (click)="OnsubmetFilter()">Submit</button>
+            </div>
+        </ng-template>
+    </nz-drawer>
+    <nz-spin nzSimple *ngIf="isLoading"></nz-spin>
+    <table class="min-w-full bg-white" *ngIf="!isLoading">
+        <thead>
+        <tr>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100">Employee Name</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100">Department</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100">Shift</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100">Incident Date & Time</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100">Location</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100">Work Station</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100">Incident Type</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100">Body Parts Affected</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100">Visited</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100">Transfer to Hospital</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100">Days of Absence</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of injuryItems.items">
+            <td class="py-2 px-4 border-b border-gray-200">{{ item.employee.full_name }}</td>
+            <td class="py-2 px-4 border-b border-gray-200">{{ item.employee.department.name }}</td>
+            <td class="py-2 px-4 border-b border-gray-200">{{ item.shift }}</td>
+            <td class="py-2 px-4 border-b border-gray-200">{{ item.incident_datetime | date:'yyyy-MM-dd HH:mm' }}</td>
+            <td class="py-2 px-4 border-b border-gray-200">{{ item.location_of_incident }}</td>
+            <td class="py-2 px-4 border-b border-gray-200">{{ item.work_station }}</td>
+            <td class="py-2 px-4 border-b border-gray-200">{{ item.type_of_incident }}</td>
+            <td class="py-2 px-4 border-b border-gray-200">{{ item.body_parts_affected }}</td>
+            <td class="py-2 px-4 border-b border-gray-200">{{ item.is_visited ? 'Yes' : 'No' }}</td>
+            <td class="py-2 px-4 border-b border-gray-200">{{ item.transfer_to_hospital ? 'Yes' : 'No' }}</td>
+            <td class="py-2 px-4 border-b border-gray-200">{{ item.number_of_days_of_absence }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

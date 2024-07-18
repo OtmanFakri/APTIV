@@ -21,37 +21,39 @@ import {ListSoinComponent} from "./list-soin/list-soin.component";
 import {AuthGuard} from "./auth/AuthGuard";
 import {SingupComponent} from "./auth/singup/singup.component";
 import {ListUsersComponent} from "./list-users/list-users.component";
+import {ListInjuryComponent} from "./list-injury/list-injury.component";
 
 export const routes: Routes = [
-  {
-    path: '',
-    component: DashboardComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {path: '', component: HomeComponent},
-      {path: 'Employee', component: ListEmployeeComponent},
-      {path: 'Departments', component: ListDepartmentComponent},
-      {path: 'Employee/new', component: AddProfileComponent},
-      {
-        path: 'Employee/:id',
-        component: ProfileComponent,
+    {
+        path: '',
+        component: DashboardComponent,
+        canActivate: [AuthGuard],
         children: [
-          {path: 'profile', component: InfoProfileComponent},
-          {path: 'certification', component: InfoCertificationComponent},
-          {path: 'consultation', component: InfoConsultationComponent},
-          {path: 'accidents', component: InfoAccidentsComponent},
-        ],
-      },
-      {path: 'Doctors', component: ListDoctorComponent},
-      {path: 'Doctors/:id', component: DoctorComponent},
-      {path: 'examination', component: ExaminationComponent},
-      {path: 'examination/:id', component: DetailComponent},
-      {path: 'certifications', component: ListCertificationComponent},
-      {path: 'medicament', component: ListMedicamentComponent},
-      {path: 'soins', component: ListSoinComponent},
-      {path: 'users', component: ListUsersComponent},
-      {path: 'singup', component: SingupComponent}
-    ]
-  },
-  {path: 'login', component: LoginComponent}
+            {path: '', component: HomeComponent},
+            {path: 'Employee', component: ListEmployeeComponent},
+            {path: 'Departments', component: ListDepartmentComponent},
+            {path: 'Employee/new', component: AddProfileComponent},
+            {
+                path: 'Employee/:id',
+                component: ProfileComponent,
+                children: [
+                    {path: 'profile', component: InfoProfileComponent},
+                    {path: 'certification', component: InfoCertificationComponent},
+                    {path: 'consultation', component: InfoConsultationComponent},
+                    {path: 'accidents', component: InfoAccidentsComponent},
+                ],
+            },
+            {path: 'Doctors', component: ListDoctorComponent},
+            {path: 'Doctors/:id', component: DoctorComponent},
+            {path: 'examination', component: ExaminationComponent},
+            {path: 'examination/:id', component: DetailComponent},
+            {path: 'certifications', component: ListCertificationComponent},
+            {path: 'medicament', component: ListMedicamentComponent},
+            {path: 'soins', component: ListSoinComponent},
+            {path: 'users', component: ListUsersComponent},
+            {path: 'injury', component: ListInjuryComponent},
+            {path: 'singup', component: SingupComponent}
+        ]
+    },
+    {path: 'login', component: LoginComponent}
 ];

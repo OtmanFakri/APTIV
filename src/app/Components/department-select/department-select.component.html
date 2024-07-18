@@ -1,0 +1,6 @@
+<nz-select
+        class="w-full"
+        [(ngModel)]="selectedDepartment" (ngModelChange)="onSelectDepartment($event)">
+    <nz-option *ngFor="let department of ListDepartments" [nzValue]="department.id"
+               [nzLabel]="department.name"></nz-option>
+</nz-select>

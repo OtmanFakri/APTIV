@@ -45,18 +45,18 @@ export class ListInjuryComponent implements OnInit {
         this.visibleFilter = false;
     }
 
-    loadInjuryItems(): void {
+    loadInjuryItems(filterParams: InjuryQueryParams = {}): void {
         this.isLoading = true;
-        const queryParams: InjuryQueryParams = {
-            year: 2023,
-        };
-        this.injuryService.getInjuries(queryParams).subscribe(response => {
-            this.injuryItems = response;
-            this.isLoading = false;
-        }, error => {
-            this.isLoading = false;
-            console.error('Error loading injury items:', error);
-        });
+        this.injuryService.getInjuries(filterParams).subscribe(
+            response => {
+                this.injuryItems = response;
+                this.isLoading = false;
+            },
+            error => {
+                this.isLoading = false;
+                console.error('Error loading injury items:', error);
+            }
+        );
     }
 
 
@@ -65,6 +65,15 @@ export class ListInjuryComponent implements OnInit {
     }
 
     OnsubmetFilter() {
-        this.filterInjuryComponent.onSubmit()
+        const filterValues = this.filterInjuryComponent.filterForm.value;
+        const queryParams: InjuryQueryParams = {
+            department_id: filterValues.department_id,
+            shift: filterValues.shift,
+            day: filterValues.date,
+            month: filterValues.month,
+            year: filterValues.year
+        };
+        this.loadInjuryItems(queryParams);
     }
+
 }

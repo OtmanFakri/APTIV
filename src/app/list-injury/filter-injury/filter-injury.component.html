@@ -8,12 +8,28 @@
         />
     </div>
     <div class="space-y-2">
-        <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
+        <label for="department_id" class="block text-sm font-medium text-gray-700">Department</label>
         <app-department-select
-                id="department"
-                formControlName="department"
+                id="department_id"
+                formControlName="department_id"
                 [Category]="this.filterForm.get('category')?.value"
                 class="mt-1 block w-full"
+        />
+    </div>
+    <div class="space-y-2">
+        <label for="shift" class="block text-sm font-medium text-gray-700">shift</label>
+        <app-shift-selector
+                (shiftSelected)="handleShiftSelected($event)"
+                class="w-full"
+                id="shift"
+                formControlName="shift"
+        />
+    </div>
+    <div class="space-y-2">
+        <label for="Date" class="block text-sm font-medium text-gray-700">Date</label>
+        <app-select-date
+                (dateAndModeChange)="handleDateChange($event)"
+                id="Date"
         />
     </div>
 </form>

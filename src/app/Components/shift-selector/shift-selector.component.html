@@ -1,10 +1,10 @@
 <nz-select
-  [(ngModel)]="selectedShift"
-  (ngModelChange)="onShiftChange()"
-  class="w-40"
+        [(ngModel)]="selectedShift"
+        (ngModelChange)="onShiftChange()"
+        class="w-full"
 >
-  <nz-option *ngFor="let shift of shifts"
-             [nzValue]="shift.key"
-             [nzLabel]="shift.value">
-  </nz-option>
+    <nz-option *ngFor="let shift of shifts"
+               [nzValue]="shift.key"
+               [nzLabel]="shift.value">
+    </nz-option>
 </nz-select>

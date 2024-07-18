@@ -1,0 +1,8 @@
+<nz-space>
+    <nz-select *nzSpaceItem [(ngModel)]="mode" (ngModelChange)="onModeChange()">
+        <nz-option nzValue="date" nzLabel="Date"></nz-option>
+        <nz-option nzValue="month" nzLabel="Month"></nz-option>
+        <nz-option nzValue="year" nzLabel="Year"></nz-option>
+    </nz-select>
+    <nz-date-picker *nzSpaceItem [nzMode]="mode" [(ngModel)]="selectedDate" (ngModelChange)="onDateChange($event)"></nz-date-picker>
+</nz-space>

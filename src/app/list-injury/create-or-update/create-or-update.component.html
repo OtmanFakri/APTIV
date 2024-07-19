@@ -1,0 +1,101 @@
+<form nz-form class="space-y-2" [formGroup]="form">
+    <div>
+        <nz-form-label class="font-bold" nzFor="employee_id">Employee ID</nz-form-label>
+        <nz-form-control class="w-full" nzErrorTip="Please input the employee ID!">
+            <app-employee-id-input
+                    formControlName="employee_id"
+                    (employeeSelected)="setEmployee($event)"
+                    [employeeId]="existingData?.employee!.id ?? null"
+                    id="employee_id"
+                    class="w-full"
+                    [disabled]="isUpdateMode"
+            />
+        </nz-form-control>
+    </div>
+    <div class="w-full">
+        <nz-form-label class="font-bold" nzFor="shift">Shift</nz-form-label>
+        <app-shift-selector
+                (shiftSelected)="setShetft($event)"
+                formControlName="shift" id="shift" class="w-full "
+        />
+    </div>
+
+    <div>
+        <nz-form-label class="font-bold" nzFor="incident_datetime">Incident Date/Time</nz-form-label>
+        <nz-form-control class="w-full" nzErrorTip="Please select the incident date/time!">
+            <nz-date-picker formControlName="incident_datetime" id="incident_datetime"
+                            [nzShowTime]="true" class="w-full"></nz-date-picker>
+        </nz-form-control>
+    </div>
+
+    <div>
+        <nz-form-label class="font-bold" nzFor="location_of_incident">Location of Incident</nz-form-label>
+        <nz-form-control class="w-full" nzErrorTip="Please input the location of incident!">
+            <input nz-input formControlName="location_of_incident" id="location_of_incident" class="w-full border p-2"/>
+        </nz-form-control>
+    </div>
+
+    <div>
+        <nz-form-label class="font-bold" nzFor="work_station">Work Station</nz-form-label>
+        <nz-form-control class="w-full" nzErrorTip="Please input the work station!">
+            <input nz-input formControlName="work_station" id="work_station" class="w-full border p-2"/>
+        </nz-form-control>
+    </div>
+
+    <div>
+        <nz-form-label class="font-bold" nzFor="type_of_incident">Type of Incident</nz-form-label>
+        <nz-form-control class="w-full" nzErrorTip="Please input the type of incident!">
+            <input nz-input formControlName="type_of_incident" id="type_of_incident" class="w-full border p-2"/>
+        </nz-form-control>
+    </div>
+
+    <div>
+        <nz-form-label class="font-bold" nzFor="body_parts_affected">Body Parts Affected</nz-form-label>
+        <nz-form-control class="w-full" nzErrorTip="Please input the body parts affected!">
+            <input nz-input formControlName="body_parts_affected" id="body_parts_affected" class="w-full border p-2"/>
+        </nz-form-control>
+    </div>
+
+    <div class="flex items-center justify-between w-full">
+        <nz-form-label class="font-bold" nzFor="is_visited">Is Visited</nz-form-label>
+        <nz-form-control class="flex justify-end w-full">
+            <nz-switch formControlName="is_visited" id="is_visited"></nz-switch>
+        </nz-form-control>
+    </div>
+
+
+    <div>
+        <nz-form-label class="font-bold" nzFor="object_that_caused_injury">Object that Caused Injury
+        </nz-form-label>
+        <nz-form-control class="w-full" nzErrorTip="Please input the object that caused injury!">
+            <input nz-input formControlName="object_that_caused_injury" id="object_that_caused_injury"
+                   class="w-full border p-2"/>
+        </nz-form-control>
+    </div>
+
+    <div>
+        <nz-form-label class="font-bold" nzFor="description_of_incident">Description of Incident
+        </nz-form-label>
+        <nz-form-control class="w-full" nzErrorTip="Please input the description of incident!">
+            <textarea nz-input formControlName="description_of_incident" id="description_of_incident"
+                      [nzAutosize]="{ minRows: 3, maxRows: 5 }" class="w-full border p-2"></textarea>
+        </nz-form-control>
+    </div>
+
+    <div class="flex items-center justify-between w-full">
+        <nz-form-label class="font-bold" nzFor="transfer_to_hospital">Transfer to Hospital</nz-form-label>
+        <nz-form-control class="w-full">
+            <nz-switch formControlName="transfer_to_hospital" id="transfer_to_hospital"></nz-switch>
+        </nz-form-control>
+    </div>
+
+    <div>
+        <nz-form-label class="font-bold" nzFor="number_of_days_of_absence">Number of Days of Absence
+        </nz-form-label>
+        <nz-form-control class="w-full" nzErrorTip="Please input the number of days of absence!">
+            <nz-input-number formControlName="number_of_days_of_absence" id="number_of_days_of_absence"
+                             [nzMin]="0" class="w-full border p-2"></nz-input-number>
+        </nz-form-control>
+    </div>
+
+</form>

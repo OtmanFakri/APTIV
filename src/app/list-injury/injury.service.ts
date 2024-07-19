@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {InjuryQueryParams, listInjury} from "./InterfacesInjury";
+import {CreateOrUpdateRequest, InjuryQueryParams, listInjury} from "./InterfacesInjury";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -46,5 +46,17 @@ export class InjuryService {
         }
 
         return this.http.get<any>(`${this.baseUrl}/injury`, {params: httpParams});
+    }
+
+    CreateInjuries(params: CreateOrUpdateRequest) {
+        return this.http.post(`${this.baseUrl}/injury/create`, params);
+    }
+
+    UpdateInjuries(params: CreateOrUpdateRequest, id: number) {
+        console.log('Updating injury with id:', id)
+        return this.http.put(`${this.baseUrl}/injury/update/${id}`, params);
+    }
+    DeleteInjuries(id: number) {
+        return this.http.delete(`${this.baseUrl}/injury/delete/${id}`);
     }
 }

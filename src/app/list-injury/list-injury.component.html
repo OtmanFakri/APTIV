@@ -6,6 +6,7 @@
             <button nz-button nzType="primary" (click)="createNew()">Create New</button>
         </div>
     </div>
+    <!--Filter-->
     <nz-drawer
             [nzClosable]="false"
             [nzVisible]="visibleFilter"
@@ -24,7 +25,42 @@
             </div>
         </ng-template>
     </nz-drawer>
-    <nz-spin nzSimple *ngIf="isLoading"></nz-spin>
+    <!--Create New-->
+    <nz-drawer
+            [(nzVisible)]="isVisible" nzTitle="The first Modal"
+            [nzFooter]="drawerFooter">
+        <ng-container *nzDrawerContent>
+            <app-create-or-update/>
+        </ng-container>
+        <ng-template #drawerFooter>
+            <div class="space-x-2" style="text-align: right;">
+                <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+                <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="is_CreateOrUpdate">OK</button>
+            </div>
+        </ng-template>
+    </nz-drawer>
+    <!--Update-->
+    <nz-drawer
+            [(nzVisible)]="isUpdateMode"
+            [nzTitle]="selectedInjuryItem ? 'Edit Injury Record' : 'Create Injury Record'"
+            [nzFooter]="nzDrawerFooterUpdate"
+            (nzOnClose)="closeDrawer()">
+        <ng-container *nzDrawerContent>
+            <app-create-or-update [isUpdateMode]="true" [existingData]="selectedInjuryItem"></app-create-or-update>
+        </ng-container>
+        <ng-template #nzDrawerFooterUpdate>
+            <div class="space-x-2" style="text-align: right;">
+                <button nz-button nzType="default" (click)="DeleteInjury()" [nzLoading]="is_CreateOrUpdate" nzDanger>
+                    DELETE
+                </button>
+                <button nz-button nzType="primary" (click)="handleOk_update()" [nzLoading]="is_CreateOrUpdate">OK
+                </button>
+            </div>
+        </ng-template>
+    </nz-drawer>
+    <nz-spin
+            class="flex items-center justify-center"
+            nzSimple *ngIf="isLoading"></nz-spin>
     <div class="h-[70vh] overflow-hidden">
         <div class="overflow-y-auto h-full">
             <table class="min-w-full bg-white" *ngIf="!isLoading">
@@ -44,7 +80,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let item of injuryItems.items">
+                <tr *ngFor="let item of injuryItems.items"
+                    (click)="openDrawerUpdate(item)"
+                >
                     <td class="py-2 px-4 border-b border-gray-200">{{ item.employee.full_name }}</td>
                     <td class="py-2 px-4 border-b border-gray-200">{{ item.employee.department.name }}</td>
                     <td class="py-2 px-4 border-b border-gray-200">{{ item.shift }}</td>

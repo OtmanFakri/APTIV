@@ -1,0 +1,100 @@
+<div class="overflow-x-auto">
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-2xl font-bold">Post Change Records</h1>
+        <div class="space-x-2">
+            <button nz-button nzType="default" (click)="openFilter()">Filter</button>
+            <button nz-button nzType="primary" (click)="createNew()">Create New</button>
+        </div>
+    </div>
+    <!--Filter-->
+    <nz-drawer
+            [nzClosable]="false"
+            [nzVisible]="visibleFilter"
+            nzPlacement="right"
+            nzTitle="Basic Drawer"
+            [nzFooter]="footerTpl"
+            (nzOnClose)="closeFilter()"
+    >
+        <ng-container *nzDrawerContent>
+            <app-filter-post-change
+
+            />
+        </ng-container>
+        <ng-template #footerTpl>
+            <div style="float: right">
+                <button nz-button style="margin-right: 8px;" (click)="closeFilter()">Cancel</button>
+                <button nz-button nzType="primary" (click)="OnsubmetFilter()" [nzLoading]="is_loading">Submit</button>
+            </div>
+        </ng-template>
+    </nz-drawer>
+    <!--Create-->
+    <nz-drawer
+            [nzClosable]="false"
+            [nzVisible]="visibleCreate"
+            nzPlacement="right"
+            nzTitle="Basic Drawer"
+            [nzFooter]="footerTpl1"
+            (nzOnClose)="closeCretae()"
+    >
+        <ng-container *nzDrawerContent>
+            <app-create-or-update-post/>
+        </ng-container>
+        <ng-template #footerTpl1>
+            <div style="float: right">
+                <button nz-button style="margin-right: 8px;">Clear</button>
+                <button nz-button nzType="primary" (click)="OnCreatePost()" [nzLoading]="is_loading">Submit</button>
+            </div>
+        </ng-template>
+    </nz-drawer>
+    <!--Update-->
+    <nz-drawer
+            [nzClosable]="false"
+            [nzVisible]="visibleUpdate"
+            nzPlacement="right"
+            nzTitle="Basic Drawer"
+            [nzFooter]="footerTpl2"
+            (nzOnClose)="closeUpdate()"
+    >
+        <ng-container *nzDrawerContent>
+            <app-create-or-update-post
+                    [isUpdateMode]="true"
+                    [changePost]="changePostResponse"
+            />
+        </ng-container>
+        <ng-template #footerTpl2>
+            <div style="float: right">
+                <button nz-button style="margin-right: 8px;" (click)="OnDeletePost()" nzDanger>DELETE</button>
+                <button nz-button nzType="primary" (click)="OnUpdatePost()" [nzLoading]="is_loading">Submit</button>
+            </div>
+        </ng-template>
+    </nz-drawer>
+
+    <div class="h-[70vh] overflow-hidden">
+        <nz-spin class="flex items-center justify-center h-full"
+                 nzSimple *ngIf="is_loading"></nz-spin>
+        <div class="overflow-y-auto h-full" *ngIf="!is_loading">
+            <table class="min-w-full bg-white">
+                <thead class="sticky top-0 bg-gray-100">
+                <tr>
+                    <th class="py-2 px-4 border-b border-gray-200">Employee Name</th>
+                    <th class="py-2 px-4 border-b border-gray-200">observation</th>
+                    <th class="py-2 px-4 border-b border-gray-200">Post Date</th>
+                    <th class="py-2 px-4 border-b border-gray-200">Status</th>
+                    <!-- Add more headers as needed based on ChangePostResponse structure -->
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let post of changePosts?.items"
+                    (click)="openUpdate(post)"
+                >
+                    <td class="py-2 px-4 border-b border-gray-200">{{ post.employee.full_name }}</td>
+                    <td class="py-2 px-4 border-b border-gray-200">{{ post.observation }}</td>
+                    <td class="py-2 px-4 border-b border-gray-200">{{ post.created_at | date:'yyyy-MM-dd HH:mm' }}</td>
+                    <td class="py-2 px-4 border-b border-gray-200">{{ post.status }}</td>
+                    <!-- Add more cells as needed based on ChangePostResponse structure -->
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

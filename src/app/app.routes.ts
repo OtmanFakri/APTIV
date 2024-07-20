@@ -22,6 +22,7 @@ import {AuthGuard} from "./auth/AuthGuard";
 import {SingupComponent} from "./auth/singup/singup.component";
 import {ListUsersComponent} from "./list-users/list-users.component";
 import {ListInjuryComponent} from "./list-injury/list-injury.component";
+import {ChangePosdahtComponent} from "./change-post/change-post.component";
 
 export const routes: Routes = [
     {
@@ -52,6 +53,7 @@ export const routes: Routes = [
             {path: 'soins', component: ListSoinComponent},
             {path: 'users', component: ListUsersComponent},
             {path: 'injury', component: ListInjuryComponent},
+            {path: 'PostChnage', component: ChangePosdahtComponent},
             {path: 'singup', component: SingupComponent}
         ]
     },

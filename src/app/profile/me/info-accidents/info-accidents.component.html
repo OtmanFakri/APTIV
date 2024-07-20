@@ -1,81 +1,43 @@
-<div class="px-4 sm:px-6 lg:px-8">
-  <div class="sm:flex sm:items-center">
-    <div class="sm:flex-auto">
-      <h1 class="text-base font-semibold leading-6 text-gray-900">Accidents</h1>
+<div class="h-[70vh] overflow-hidden space-y-2">
+    <div class="flex items-end justify-end">
+        <app-select-date
+                (dateAndModeChange)="selectedDate($event)"
+        />
     </div>
-    <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-      <app-shift-selector (shiftSelected)="onShiftSelected($event)"></app-shift-selector>
-    </div>
-  </div>
-  <div class="mt-8 flow-root">
-    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="inline-block min-w-full py-2 align-middle">
-        <table class="min-w-full divide-y divide-gray-300">
-          <thead>
-          <tr>
-            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:pl-8">
-              Name
-            </th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-              Shift
-            </th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-              Incident Date & Time
-            </th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-              Location of Incident
-            </th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-              Work Station
-            </th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-              Type of Incident
-            </th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-              Body Parts Affected
-            </th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-              Visited
-            </th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-              Object That Caused Injury
-            </th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-              Description of Incident
-            </th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-              Transfer to Hospital
-            </th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-              Number of Days of Absence
-            </th>
-            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 lg:pr-8">
-              <span class="sr-only">Edit</span>
-            </th>
-          </tr>
+    <div class="overflow-y-auto h-full">
 
-          </thead>
-          <tbody class="divide-y divide-gray-200 bg-white">
-          <tr *ngFor="let item of injuries.items">
-            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8">
-              <div class="flex flex-col">
-                <span>ID: {{ item.employee.id }}</span>
-                <span>{{ item.employee.full_name }}</span>
-              </div>
-            </td>
-            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.shift }}</td>
-            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.employee.department.name }}</td>
-            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.employee.manager.full_name }}</td>
-            <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 lg:pr-8">
-              <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit<span
-                class="sr-only">, {{ item.employee.full_name }}</span></a>
-            </td>
-          </tr>
-
-          <!-- More people... -->
-          </tbody>
+        <table class="min-w-full bg-white" *ngIf="!isLoading">
+            <thead class="sticky top-0 bg-gray-100">
+            <tr>
+                <th class="py-2 px-4 border-b border-gray-200">Employee Name</th>
+                <th class="py-2 px-4 border-b border-gray-200">Department</th>
+                <th class="py-2 px-4 border-b border-gray-200">Shift</th>
+                <th class="py-2 px-4 border-b border-gray-200">Incident Date & Time</th>
+                <th class="py-2 px-4 border-b border-gray-200">Location</th>
+                <th class="py-2 px-4 border-b border-gray-200">Work Station</th>
+                <th class="py-2 px-4 border-b border-gray-200">Incident Type</th>
+                <th class="py-2 px-4 border-b border-gray-200">Body Parts Affected</th>
+                <th class="py-2 px-4 border-b border-gray-200">Visited</th>
+                <th class="py-2 px-4 border-b border-gray-200">Transfer to Hospital</th>
+                <th class="py-2 px-4 border-b border-gray-200">Days of Absence</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of injuries.items"
+            >
+                <td class="py-2 px-4 border-b border-gray-200">{{ item.employee.full_name }}</td>
+                <td class="py-2 px-4 border-b border-gray-200">{{ item.employee.department.name }}</td>
+                <td class="py-2 px-4 border-b border-gray-200">{{ item.shift }}</td>
+                <td class="py-2 px-4 border-b border-gray-200">{{ item.incident_datetime | date:'yyyy-MM-dd HH:mm' }}</td>
+                <td class="py-2 px-4 border-b border-gray-200">{{ item.location_of_incident }}</td>
+                <td class="py-2 px-4 border-b border-gray-200">{{ item.work_station }}</td>
+                <td class="py-2 px-4 border-b border-gray-200">{{ item.type_of_incident }}</td>
+                <td class="py-2 px-4 border-b border-gray-200">{{ item.body_parts_affected }}</td>
+                <td class="py-2 px-4 border-b border-gray-200">{{ item.is_visited ? 'Yes' : 'No' }}</td>
+                <td class="py-2 px-4 border-b border-gray-200">{{ item.transfer_to_hospital ? 'Yes' : 'No' }}</td>
+                <td class="py-2 px-4 border-b border-gray-200">{{ item.number_of_days_of_absence }}</td>
+            </tr>
+            </tbody>
         </table>
-      </div>
     </div>
-  </div>
 </div>

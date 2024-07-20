@@ -39,6 +39,7 @@ export class ListInjuryComponent implements OnInit {
     isVisible: boolean = false;
     isUpdateMode: boolean = false;
     selectedInjuryItem!: ListInjuryItems;
+    filterParams!: InjuryQueryParams;
 
     handleCancel(): void {
         this.isVisible = false;
@@ -67,6 +68,7 @@ export class ListInjuryComponent implements OnInit {
 
     loadInjuryItems(filterParams: InjuryQueryParams = {}): void {
         this.isLoading = true;
+        this.filterParams = filterParams;
         this.injuryService.getInjuries(filterParams).subscribe(
             response => {
                 this.injuryItems = response;
@@ -82,6 +84,10 @@ export class ListInjuryComponent implements OnInit {
 
     createNew() {
         this.isVisible = true;
+    }
+
+    onFilterValuesChange(values: any) {
+        this.filterParams = values;
     }
 
     OnsubmetFilter() {

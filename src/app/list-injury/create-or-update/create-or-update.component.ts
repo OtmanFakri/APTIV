@@ -42,6 +42,7 @@ export class CreateOrUpdateComponent implements OnInit {
     @Input() isUpdateMode = false;
 
     form!: FormGroup;
+    currentShift: ShiftEnum | null = null;
 
     constructor(private fb: FormBuilder) {
     }
@@ -98,7 +99,8 @@ export class CreateOrUpdateComponent implements OnInit {
     setShetft($event: ShiftEnum) {
         this.form.patchValue({
             shift: $event
-        })
+        });
+        this.currentShift = $event;
     }
 
     setEmployee($event: Item | null) {

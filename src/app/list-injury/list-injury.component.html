@@ -16,7 +16,10 @@
             (nzOnClose)="closeFilter()"
     >
         <ng-container *nzDrawerContent>
-            <app-filter-injury/>
+            <app-filter-injury
+                    [initialValues]="filterParams"
+                    (formValuesChange)="onFilterValuesChange($event)"
+            />
         </ng-container>
         <ng-template #footerTpl>
             <div style="float: right">

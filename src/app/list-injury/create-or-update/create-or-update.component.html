@@ -16,8 +16,11 @@
         <nz-form-label class="font-bold" nzFor="shift">Shift</nz-form-label>
         <app-shift-selector
                 (shiftSelected)="setShetft($event)"
-                formControlName="shift" id="shift" class="w-full "
-        />
+                [value]="currentShift"
+                formControlName="shift"
+                id="shift"
+                class="w-full"
+        ></app-shift-selector>
     </div>
 
     <div>

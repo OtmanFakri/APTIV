@@ -17,7 +17,7 @@ export class DepartmentService {
     }
 
     getDepartmentsIndex(): Observable<CategoryInfo[]> {
-        return this.http.get<CategoryInfo[]>(this.apiUrl + 'index');
+        return this.http.get<CategoryInfo[]>(this.apiUrl + '/index');
     }
 
     getDepartments(): Observable<CategoryItemData[]> {

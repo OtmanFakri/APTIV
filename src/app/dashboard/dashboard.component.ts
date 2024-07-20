@@ -14,13 +14,10 @@ import {NzIconModule} from 'ng-zorro-antd/icon';
 import {NzModalComponent, NzModalContentDirective} from "ng-zorro-antd/modal";
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {SettingComponent} from "../auth/setting/setting.component";
+import { MenuItem } from './InterfacesDashbord';
 
 
-interface MenuItem {
-    routerLink: string;
-    icon: SafeHtml;
-    label: string;
-}
+
 
 @Component({
     selector: 'app-dashboard',
@@ -119,6 +116,7 @@ export class DashboardComponent implements OnInit {
             label: 'injury'
         },
     ];
+
     loggedUser: any; // Replace with the appropriate user interface
 
     constructor(private router: Router,

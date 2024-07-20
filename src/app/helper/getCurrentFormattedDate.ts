@@ -30,7 +30,7 @@ export function dateRangeValidator(startControlName: string, endControlName: str
 }
 
 //
-export function extractDateComponents(date: Date | null, mode: 'date' | 'week' | 'month' | 'year'): {
+export function extractDateComponents (date: Date | null, mode: 'date' | 'week' | 'month' | 'year'): {
   year: number | null,
   month: number | null,
   day: number | null

@@ -19,7 +19,7 @@ import {FormsModule} from "@angular/forms";
 })
 export class SelectDateComponent {
     mode: 'date' | 'month' | 'year' = 'date';
-    selectedDate: Date | null = null;
+    selectedDate: Date = new Date();
 
     @Output() dateAndModeChange = new EventEmitter<{ date: Date | null, mode: 'date' | 'month' | 'year' }>();
 
@@ -27,7 +27,7 @@ export class SelectDateComponent {
         this.emitChange();
     }
 
-    onDateChange(date: Date | null) {
+    onDateChange(date: Date ) {
         this.selectedDate = date;
         this.emitChange();
     }

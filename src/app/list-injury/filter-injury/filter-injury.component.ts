@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CategorySelectComponent} from "../../Components/category-select/category-select.component";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DepartmentSelectComponent} from "../../Components/department-select/department-select.component";
@@ -20,8 +20,10 @@ import {InjuryQueryParams} from "../InterfacesInjury";
     ],
     templateUrl: './filter-injury.component.html',
 })
-export class FilterInjuryComponent {
+export class FilterInjuryComponent implements OnInit {
     filterForm: FormGroup;
+    @Input() initialValues!: InjuryQueryParams;
+    @Output() formValuesChange = new EventEmitter<any>();
 
     constructor(private fb: FormBuilder) {
         const currentDate = new Date();
@@ -32,6 +34,22 @@ export class FilterInjuryComponent {
             date: [currentDate.getDate()],
             month: [currentDate.getMonth() + 1],
             year: [currentDate.getFullYear()]
+        });
+    }
+
+    ngOnInit(): void {
+        if (this.initialValues) {
+            this.filterForm.patchValue(this.initialValues);
+        } else {
+            const currentDate = new Date();
+            this.filterForm.patchValue({
+                date: currentDate.getDate(),
+                month: currentDate.getMonth() + 1,
+                year: currentDate.getFullYear()
+            });
+        }
+        this.filterForm.valueChanges.subscribe(values => {
+            this.formValuesChange.emit(values);
         });
     }
 

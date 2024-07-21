@@ -14,6 +14,7 @@ import {NgForOf, NgIf} from "@angular/common";
         NgIf,
         NgForOf
     ],
+
     templateUrl: './create-or-update-post.component.html',
 })
 export class CreateOrUpdatePostComponent {
@@ -42,14 +43,27 @@ export class CreateOrUpdatePostComponent {
             observation: [this.changePost?.observation || ''],
             employee_id: [{
                 value: this.changePost?.employee.id || null,
-                disabled: this.isUpdateMode
-            }, Validators.required]
+            },]
         });
-
+        if (this.isUpdateMode) {
+            this.changePostForm.patchValue({
+                employee_id: this.changePost?.employee.id
+            })
+        } else {
+            console.log('Creating new post');
+        }
 
     }
 
     setEmployee($event: Item | null) {
+        if (this.isUpdateMode) {
+            this.changePostForm.patchValue(
+                {
+                    employee_id: $event?.id
+                }
+            )
+        }
         this.changePostForm.get('employee_id')?.setValue($event?.id);
+
     }
 }

@@ -20,6 +20,7 @@ import {EmployeeDetails} from "../../profile/Interfaces";
         NgForOf,
         NgIf,
     ],
+
     templateUrl: './employee-id-input.component.html',
 })
 export class EmployeeIdInputComponent implements OnInit, OnChanges {

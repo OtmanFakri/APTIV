@@ -8,6 +8,7 @@ import {FilterInjuryComponent} from "../list-injury/filter-injury/filter-injury.
 import {NzDrawerComponent, NzDrawerContentDirective} from "ng-zorro-antd/drawer";
 import {FilterPostChangeComponent} from "./filter-post-change/filter-post-change.component";
 import {CreateOrUpdatePostComponent} from "./create-or-update-post/create-or-update-post.component";
+import {NzNotificationService} from 'ng-zorro-antd/notification';
 
 @Component({
     selector: 'app-change-post',
@@ -33,12 +34,14 @@ export class ChangePosdahtComponent implements OnInit {
     changePosts!: Page<ChangePostResponse>;
     QueryParams!: QueryParams;
     is_loading = false;
+    is_loading_CreateOrUpdate = false;
     visibleCreate = false;
     visibleUpdate = false;
     visibleFilter: boolean = false;
     changePostResponse!: ChangePostResponse;
 
-    constructor(private postChangeService: PostChangeService) {
+    constructor(private postChangeService: PostChangeService,
+                private notification: NzNotificationService) {
     }
 
 
@@ -94,17 +97,77 @@ export class ChangePosdahtComponent implements OnInit {
     }
 
     OnCreatePost() {
+        this.is_loading_CreateOrUpdate = true;
         if (this.createOrUpdatePostComponent) {
             // Accessing changePostForm safely
-            console.log(this.createOrUpdatePostComponent.changePostForm.value);
+            this.postChangeService.createChangePost(this.createOrUpdatePostComponent.changePostForm.value).subscribe({
+                next: (response: ChangePostResponse) => {
+                    console.log('Post created:', response);
+                    this.is_loading_CreateOrUpdate = false;
+                    this.notification.success('Post created',
+                        'The post was created successfully',
+                        {nzPlacement: 'bottomLeft'});
+                    this.loadChangePosts();
+                },
+                error: (error) => {
+                    console.error('Error creating post:', error);
+                    this.is_loading_CreateOrUpdate = false;
+                    this.notification.error('Error creating post',
+                        'There was an error creating the post',
+                        {nzPlacement: 'bottomLeft'});
+                }
+            }); // Handle response
         }
     }
 
     OnUpdatePost() {
-        this.createOrUpdatePostComponent.changePostForm.value
+        if (this.createOrUpdatePostComponent) {
+            this.is_loading_CreateOrUpdate = true;
+            const id = this.changePostResponse.id;
+            const data = this.createOrUpdatePostComponent.changePostForm.value;
+            console.log('Updating post:', id, data);
+            this.postChangeService.updateChangePost(id, data).subscribe({
+                next: (response: ChangePostResponse) => {
+                    console.log('Post updated:', response);
+                    this.is_loading_CreateOrUpdate = false;
+                    this.notification.success('Post updated',
+                        'The post was updated successfully',
+                        {nzPlacement: 'bottomLeft'});
+                    this.loadChangePosts();
+                },
+                error: (error) => {
+                    console.error('Error updating post:', error);
+                    this.is_loading_CreateOrUpdate = false;
+                    this.notification.error('Error updating post',
+                        'There was an error updating the post',
+                        {nzPlacement: 'bottomLeft'});
+                }
+            });
+
+        }
     }
 
     OnDeletePost() {
+        if (this.changePostResponse) {
+            this.is_loading_CreateOrUpdate = true;
+            this.postChangeService.deleteChangePost(this.changePostResponse.id).subscribe({
+                next: () => {
+                    console.log('Post deleted');
+                    this.is_loading_CreateOrUpdate = false;
+                    this.notification.success('Post deleted',
+                        'The post was deleted successfully',
+                        {nzPlacement: 'bottomLeft'});
+                    this.loadChangePosts();
+                },
+                error: (error) => {
+                    console.error('Error deleting post:', error);
+                    this.is_loading_CreateOrUpdate = false;
+                    this.notification.error('Error deleting post',
+                        'There was an error deleting the post',
+                        {nzPlacement: 'bottomLeft'});
+                }
+            });
+        }
     }
 
     openUpdate(post: ChangePostResponse) {

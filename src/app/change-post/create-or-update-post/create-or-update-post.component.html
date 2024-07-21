@@ -5,7 +5,7 @@
             <app-employee-id-input
                     formControlName="employee_id"
                     (employeeSelected)="setEmployee($event)"
-                    [employeeId]="changePost?.employee!.id ?? null"
+                    [employeeId]="changePostForm.get('employee_id')?.value"
                     id="employee_id"
                     class="w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                     [disabled]="isUpdateMode"

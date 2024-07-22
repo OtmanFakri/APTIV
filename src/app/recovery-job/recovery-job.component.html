@@ -1,0 +1,70 @@
+<div class="overflow-x-auto">
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-2xl font-bold">Recovery Jobs Records</h1>
+        <div class="space-x-2">
+            <button nz-button nzType="default">Filter</button>
+        </div>
+    </div>
+    <nz-drawer
+            [(nzVisible)]="isUpdateMode"
+            [nzTitle]="isUpdateMode ? 'Edit' : 'Create'"
+            [nzFooter]="nzDrawerFooterUpdate"
+            (nzOnClose)="closeDrawer()"
+            [nzWidth]="420">
+        <ng-container *nzDrawerContent>
+            <app-create-or-update-reconvry/>
+            <!-- Child Drawer -->
+            <nz-drawer
+                    [nzClosable]="true"
+                    [nzVisible]="childrenVisible"
+                    nzPlacement="right"
+                    [nzTitle]="'Child Drawer'"
+                    (nzOnClose)="closeChildren()"
+                    [nzWidth]="320"
+                    [nzMask]="false"
+                    [nzMaskClosable]="false"
+                    nzWrapClassName="custom-no-shadow"
+            >
+                <ng-container *nzDrawerContent>
+                    <p>Child drawer content...</p>
+                </ng-container>
+            </nz-drawer>
+
+        </ng-container>
+
+        <ng-template #nzDrawerFooterUpdate>
+            <div class="space-x-2" style="text-align: right;">
+                <button nz-button nzType="default" (click)="DeleteInjury()" [nzLoading]="is_CreateOrUpdate" nzDanger>
+                    DELETE
+                </button>
+                <button nz-button nzType="primary" (click)="handleOk_update()" [nzLoading]="is_CreateOrUpdate">
+                    OK
+                </button>
+            </div>
+        </ng-template>
+    </nz-drawer>
+    <div class="h-[70vh] overflow-hidden">
+        <div class="overflow-y-auto h-full">
+            <table class="min-w-full bg-white" *ngIf="!isLoading">
+                <thead class="sticky top-0 bg-gray-100">
+                <tr>
+                    <th class="py-2 px-4 border-b border-gray-200">Employee Name</th>
+                    <th class="py-2 px-4 border-b border-gray-200">Description</th>
+                    <th class="py-2 px-4 border-b border-gray-200">In Recovery</th>
+                    <th class="py-2 px-4 border-b border-gray-200">Created At</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of recoveryJobs.items"
+                    (click)="onRowClick(item)"
+                >
+                    <td class="py-2 px-4 border-b border-gray-200">{{ item.employee_full_name }}</td>
+                    <td class="py-2 px-4 border-b border-gray-200">{{ item.description }}</td>
+                    <td class="py-2 px-4 border-b border-gray-200">{{ item.is_in_recovery ? 'Yes' : 'No' }}</td>
+                    <td class="py-2 px-4 border-b border-gray-200">{{ item.created_at | date: 'yyyy-MM-dd HH:mm' }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

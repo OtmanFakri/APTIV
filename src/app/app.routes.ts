@@ -23,6 +23,7 @@ import {SingupComponent} from "./auth/singup/singup.component";
 import {ListUsersComponent} from "./list-users/list-users.component";
 import {ListInjuryComponent} from "./list-injury/list-injury.component";
 import {ChangePosdahtComponent} from "./change-post/change-post.component";
+import {RecoveryJobComponent} from "./recovery-job/recovery-job.component";
 
 export const routes: Routes = [
     {
@@ -54,6 +55,9 @@ export const routes: Routes = [
             {path: 'users', component: ListUsersComponent},
             {path: 'injury', component: ListInjuryComponent},
             {path: 'PostChnage', component: ChangePosdahtComponent},
+            //RecoveryJobComponent
+            {path: 'RecoveryJob', component: RecoveryJobComponent},
+
             {path: 'singup', component: SingupComponent}
         ]
     },

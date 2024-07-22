@@ -115,7 +115,7 @@
                            (nzOnClose)="close()">
                     <ng-container *nzDrawerContent>
                         <div class="p-4">
-                            <form  class="space-y-4">
+                            <form class="space-y-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Doctor ID</label>
                                     <input type="number" [(ngModel)]="filterParams.doctor_id" name="doctor_id"
@@ -160,19 +160,15 @@
                                                class="mt-1 block rounded-md border-gray-300 shadow-sm sm:text-sm"/>
                                     </div>
                                 </div>
-                                <div class="flex justify-end">
-                                    <button type="submit"
-                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                        Apply Filter
-                                    </button>
-                                </div>
+
                             </form>
                         </div>
                     </ng-container>
                     <ng-template #footerTpl>
                         <div style="float: right">
                             <button nz-button style="margin-right: 8px;" (click)="clearFilter()">Clear</button>
-                            <button nz-button nzType="primary"  (click)="applyFilter()" [nzLoading]="is_loading">Submit</button>
+                            <button nz-button nzType="primary" (click)="applyFilter()" [nzLoading]="is_loading">Submit
+                            </button>
                         </div>
                     </ng-template>
                 </nz-drawer>

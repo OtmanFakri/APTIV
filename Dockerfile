@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:18 as build
 
 WORKDIR /app
 
@@ -8,4 +8,4 @@ RUN npm install --legacy-peer-deps
 
 COPY . .
 
-CMD ["npm", "run", "build", "--", "--configuration=production"]
+RUN npm run build -- --configuration=production

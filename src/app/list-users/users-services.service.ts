@@ -17,7 +17,7 @@ export class UsersServicesService {
 
 
     getUsers(): Observable<ListUsers> {
-        return this.http.get<ListUsers>(`${this.apiUrl}/user`)
+        return this.http.get<ListUsers>(`${this.apiUrl}/user/`)
     }
 
     createUser(employee_id: number) {

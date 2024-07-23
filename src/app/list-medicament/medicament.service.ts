@@ -17,12 +17,10 @@ export class MedicamentService {
     }
 
     createMedicament(medicament: MedicamentCreate): Observable<MedicamentCreate> {
-        return this.http.post<MedicamentCreate>(`${this.apiUrl}/medicaments`, medicament);
+        return this.http.post<MedicamentCreate>(`${this.apiUrl}/medicaments/`, medicament);
     }
 
-    updateMedicament(id: number, medicament: MedicamentCreate): Observable<MedicamentCreate> {
-        return this.http.put<MedicamentCreate>(`${this.apiUrl}${id}`, medicament);
-    }
+
 
     readMedicament(page: number = 1, name?: string) {
         let params = new HttpParams().set('page', page.toString());
@@ -31,7 +29,7 @@ export class MedicamentService {
             params = params.set('name', name);
         }
 
-        return this.http.get(`${this.apiUrl}/medicaments`, {params});
+        return this.http.get(`${this.apiUrl}/medicaments/`, {params});
     }
 
     autocomplete(keyword: string, comparison: string = 'contains'): Observable<autocompleteMedicament> {

@@ -36,10 +36,7 @@ export class AnalyseCertitifcatesService {
     }
 
 
-    getCertificate_NbExamination(): Observable<NbExaminiation[]> {
-        const url = `http://127.0.0.1:8011/consultation/examination/1/employee`;
-        return this.http.get<NbExaminiation[]>(url);
-    }
+
 
 
     calculateTotals(data: CertificateAnalyseData[]): CertificateAnalyseTotal {

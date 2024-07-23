@@ -45,7 +45,7 @@ export class InjuryService {
             httpParams = httpParams.set('size', '50');
         }
 
-        return this.http.get<any>(`${this.baseUrl}/injury`, {params: httpParams});
+        return this.http.get<any>(`${this.baseUrl}/injury/`, {params: httpParams});
     }
 
     CreateInjuries(params: CreateOrUpdateRequest) {

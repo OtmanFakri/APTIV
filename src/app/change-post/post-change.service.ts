@@ -21,7 +21,7 @@ export class PostChangeService {
     }
 
     createChangePost(changepost: ChangePostCreate): Observable<ChangePostResponse> {
-        return this.http.post<ChangePostResponse>(this.baseUrl, changepost);
+        return this.http.post<ChangePostResponse>(`${this.baseUrl}/`, changepost);
     }
 
     getChangePosts(
@@ -34,7 +34,7 @@ export class PostChangeService {
         if (QueryParams.month) params = params.set('month', QueryParams.month.toString());
         if (QueryParams.day) params = params.set('day', QueryParams.day.toString());
 
-        return this.http.get<Page<ChangePostResponse>>(this.baseUrl, {params});
+        return this.http.get<Page<ChangePostResponse>>(`${this.baseUrl}/`, {params});
     }
 
     updateChangePost(id: number, changepost: ChangePostUpdate): Observable<ChangePostResponse> {

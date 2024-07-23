@@ -17,7 +17,7 @@ export class DepartmentService {
     }
 
     getDepartmentsIndex(): Observable<CategoryInfo[]> {
-        return this.http.get<CategoryInfo[]>(this.apiUrl + '/index');
+        return this.http.get<CategoryInfo[]>(`${this.apiUrl}` + '/index');
     }
 
     getDepartments(): Observable<CategoryItemData[]> {
@@ -26,7 +26,7 @@ export class DepartmentService {
             return this.cachedDepartments;
         }
         // Otherwise, fetch the data from the API
-        this.cachedDepartments = this.http.get<CategoryItemData[]>(this.apiUrl).pipe(
+        this.cachedDepartments = this.http.get<CategoryItemData[]>(`${this.apiUrl}/`).pipe(
             shareReplay(1),
             catchError((error) => {
                 console.error('Error fetching departments:', error);

@@ -23,7 +23,7 @@ export class SoinService {
     }
 
     CreateSoin(soinData: CreateSoin): Observable<any> {
-        return this.http.post(`${this.apiUrl}`, soinData);
+        return this.http.post(`${this.apiUrl}/`, soinData);
     }
 
     ReadSoin(queryParams: ReadSoinParams = {}): Observable<ReadSoinInterface> {

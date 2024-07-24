@@ -42,10 +42,10 @@ export class AddProfileComponent {
         personeInformation: new FormGroup({
             last_name: new FormControl('', Validators.required),
             first_name: new FormControl('', Validators.required),
-            cin: new FormControl('', Validators.required),
-            phone: new FormControl('', Validators.required),
+            cin: new FormControl('', ),
+            phone: new FormControl('',),
             sexe: new FormControl('', Validators.required),
-            date_birth: new FormControl('', Validators.required),
+            date_birth: new FormControl('', ),
             cnss: new FormControl(''),
             city: new FormControl('', Validators.required),
             region: new FormControl('', Validators.required),
@@ -113,7 +113,7 @@ export class AddProfileComponent {
                     city_id: personeInformationValues.city,
                     date_start: professionalInformationValues.date_start,
                     date_hiring: professionalInformationValues.date_hiring,
-                    date_end: '', // You can set this value if needed
+                    date_end: null, // You can set this value if needed
                     date_visit: professionalInformationValues.date_visit || '', // Providing a default value if it's undefined
                     avatar: personeInformationValues.avatar, // Extracting avatar value
                 };

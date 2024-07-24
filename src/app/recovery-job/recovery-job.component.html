@@ -12,7 +12,9 @@
             (nzOnClose)="closeDrawer()"
             [nzWidth]="420">
         <ng-container *nzDrawerContent>
-            <app-create-or-update-reconvry/>
+            <app-create-or-update-reconvry
+                    [recoveryJob]="recoveryJob"
+            />
             <!-- Child Drawer -->
             <nz-drawer
                     [nzClosable]="true"

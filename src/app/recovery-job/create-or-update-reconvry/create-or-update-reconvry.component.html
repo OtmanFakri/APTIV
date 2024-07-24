@@ -1,1 +1,42 @@
-<p>create-or-update-reconvry works!</p>
+<form nz-form [formGroup]="recoveryForm" class="max-w-lg mx-auto">
+    <nz-form-item>
+        <nz-form-label nzFor="certificate_id">Certificate ID</nz-form-label>
+        <nz-form-control>
+            <input
+                    nz-input
+                    id="certificate_id"
+                    formControlName="certificate_id"
+                    placeholder="Enter Certificate ID"
+                    [disabled]="true"
+            />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzFor="description">Description</nz-form-label>
+        <nz-form-control>
+      <textarea
+              nz-input
+              id="description"
+              formControlName="description"
+              [nzAutosize]="{ minRows: 4, maxRows: 255 }"
+      ></textarea>
+        </nz-form-control>
+    </nz-form-item>
+
+    <div class="w-full flex items-center justify-between">
+        <nz-form-label nzFor="is_in_recovery" [nzNoColon]="true">Is in Recovery</nz-form-label>
+        <nz-form-control>
+            <label nz-checkbox formControlName="is_in_recovery">
+                <span>Yes</span>
+            </label>
+        </nz-form-control>
+    </div>
+    <div class="w-full flex items-center justify-between">
+        <nz-form-label nzFor="is_visited" [nzNoColon]="true">Is in Visited</nz-form-label>
+        <nz-form-control>
+            <label nz-checkbox formControlName="is_visited">
+                <span>Yes</span>
+            </label>
+        </nz-form-control>
+    </div>
+</form>

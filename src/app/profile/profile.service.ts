@@ -37,7 +37,6 @@ export class ProfileService {
     }
 
 
-
     deleteEmployee(empId: number): Observable<any> {
         return this.http.delete(`${this.baseUrl}/${empId}`);
     }
@@ -58,13 +57,12 @@ export class ProfileService {
             .set('cin', employee.cin)
             .set('cnss', employee.cnss)
             .set('phone_number', employee.phone_number.toString())
-            .set('birth_date', employee.birth_date)
+            .set('birth_date', employee.birth_date.toISOString())
             .set('Sexe', employee.Sexe)
             .set('city_id', employee.city_id.toString())
-            .set('date_start', employee.date_start)
-            .set('date_hiring', employee.date_hiring)
-            .set('date_visit', employee.date_visit ?? '')
-            .set('date_end', employee.date_end ?? '');
+            .set('date_start', employee.date_start.toISOString())
+            .set('date_hiring', employee.date_hiring.toISOString())
+            .set('date_visit', employee.date_visit ? employee.date_visit.toISOString() : '')
 
         const headers = new HttpHeaders();
         // Note: You don't need to set Content-Type for FormData, browser will set it automatically

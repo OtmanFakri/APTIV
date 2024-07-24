@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UsersServicesService} from "./users-services.service";
 import {ListUsers, User} from "./InterafcesUsers";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzSwitchComponent} from "ng-zorro-antd/switch";
 import {FormsModule} from "@angular/forms";
@@ -11,6 +11,7 @@ import {NzModalComponent, NzModalContentDirective} from "ng-zorro-antd/modal";
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {ManagerSelectComponent} from "../Components/manager-select/manager-select.component";
 import {NzInputDirective, NzInputGroupComponent} from "ng-zorro-antd/input";
+import {NzSpinComponent} from "ng-zorro-antd/spin";
 
 @Component({
     selector: 'app-list-users',
@@ -26,13 +27,16 @@ import {NzInputDirective, NzInputGroupComponent} from "ng-zorro-antd/input";
         NzModalModule,
         ManagerSelectComponent,
         NzInputGroupComponent,
-        NzInputDirective
+        NzInputDirective,
+        NzSpinComponent,
+        NgIf
     ],
     templateUrl: './list-users.component.html',
 })
 export class ListUsersComponent implements OnInit {
     users!: ListUsers;
     is_loading: boolean = false
+    isLoading: boolean = false
     isVisible = false;
     select_user: any;
     email: any;
@@ -83,8 +87,10 @@ export class ListUsersComponent implements OnInit {
     }
 
     fetchUser() {
+        this.isLoading = true;
         this.serviceUsers.getUsers().subscribe((data: ListUsers) => {
             this.users = data;
+            this.isLoading = false
         })
     }
 

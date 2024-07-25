@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {NzTabComponent, NzTabDirective, NzTabSetComponent} from "ng-zorro-antd/tabs";
 import {NotificationPreferencesComponent} from "./notification-preferences/notification-preferences.component";
+import {GeneralComponent} from "./general/general.component";
 
 @Component({
   selector: 'app-setting',
@@ -9,7 +10,8 @@ import {NotificationPreferencesComponent} from "./notification-preferences/notif
     NzTabSetComponent,
     NzTabComponent,
     NzTabDirective,
-    NotificationPreferencesComponent
+    NotificationPreferencesComponent,
+    GeneralComponent
   ],
   templateUrl: './setting.component.html',
 })

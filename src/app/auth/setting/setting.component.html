@@ -1,6 +1,10 @@
 <nz-tabset
         nzTabPosition="left">
-    <nz-tab nzTitle="Password">Content of Tab Pane 1</nz-tab>
+    <nz-tab nzTitle="General">
+        <ng-template nz-tab>
+            <app-general/>
+        </ng-template>
+    </nz-tab>
     <nz-tab nzTitle="Notification">
         <ng-template nz-tab>
             <app-notification-preferences/>

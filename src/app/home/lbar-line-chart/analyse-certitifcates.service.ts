@@ -30,13 +30,10 @@ export class AnalyseCertitifcatesService {
     }
 
 
-    getCertificateAnalyseByHj(year: number, status: string): Observable<ValidationHj[]> {
-        const url = `${this.apiUrl}/by_validation?year=${year}&validation_status=${status}`;
+    getCertificateAnalyseByHj(year: number, status: string, is_duplicated: boolean = false): Observable<ValidationHj[]> {
+        const url = `${this.apiUrl}/by_validation?year=${year}&validation_status=${status}&is_duplicated=${is_duplicated}`;
         return this.http.get<ValidationHj[]>(url);
     }
-
-
-
 
 
     calculateTotals(data: CertificateAnalyseData[]): CertificateAnalyseTotal {

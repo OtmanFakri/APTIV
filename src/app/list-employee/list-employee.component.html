@@ -1,36 +1,37 @@
 <div class="px-4 sm:px-6 lg:px-8">
 
 
-  <div class="flex flex-col md:flex-row p-3 justify-between items-start md:items-stretch w-full">
-    <div class="w-full md:w-1/3 flex flex-col md:flex-row items-start md:items-center">
-      <div class="flex items-center">
-        <button
-          class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 p-2 border-gray-200 text-gray-600 dark:text-gray-400 border rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
-          aria-label="Delete table" role="button">
-          <img class="dark:hidden"
-               src="https://tuk-cdn.s3.amazonaws.com/can-uploader/advance_table_with_filters%2C_actions%2C_search%2C_sort_and_expanded_row-svg1.svg"
-               alt="trash">
-          <img class="dark:block hidden"
-               src="https://tuk-cdn.s3.amazonaws.com/can-uploader/advance_table_with_filters%2C_actions%2C_search%2C_sort_and_expanded_row-svg1dark.svg"
-               alt="trash">
-        </button>
-        <button
-          class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-gray-600 p-2 ml-2 border-gray-200 dark:text-gray-400 border rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
-          aria-label="upload Table" role="button">
-          <img class="dark:hidden"
-               src="https://tuk-cdn.s3.amazonaws.com/can-uploader/advance_table_with_filters%2C_actions%2C_search%2C_sort_and_expanded_row-svg2.svg"
-               alt="upload">
-          <img class="dark:block hidden"
-               src="https://tuk-cdn.s3.amazonaws.com/can-uploader/advance_table_with_filters%2C_actions%2C_search%2C_sort_and_expanded_row-svg2dark.svg"
-               alt="upload">
-        </button>
-      </div>
-    </div>
-    <div class="w-full md:w-2/3 flex flex-col md:flex-row items-start md:items-center justify-end">
-      <div class="flex flex-col w-full sm:w-1/2 md:ml-4 mt-3 md:mt-0">
-        <div class="relative w-full">
-          <div aria-hidden="true"
-               class="absolute cursor-pointer text-gray-600 dark:text-gray-400 flex items-center pr-3 right-0 border-l h-full">
+    <div class="flex flex-col md:flex-row p-3 justify-between items-start md:items-stretch w-full">
+        <div class="w-full md:w-1/3 flex flex-col md:flex-row items-start md:items-center">
+            <div class="flex items-center">
+                <button
+                        [routerLink]="['/Employee/new']"
+                        class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 p-2 border-gray-200 text-gray-600 dark:text-gray-400 border rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
+                        aria-label="Delete table" role="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                    </svg>
+                </button>
+                <button
+                        (click)="openUpload()"
+                        class="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-gray-600 p-2 ml-2 border-gray-200 dark:text-gray-400 border rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray"
+                        aria-label="upload Table" role="button">
+                    <img class="dark:hidden"
+                         src="https://tuk-cdn.s3.amazonaws.com/can-uploader/advance_table_with_filters%2C_actions%2C_search%2C_sort_and_expanded_row-svg2.svg"
+                         alt="upload">
+                    <img class="dark:block hidden"
+                         src="https://tuk-cdn.s3.amazonaws.com/can-uploader/advance_table_with_filters%2C_actions%2C_search%2C_sort_and_expanded_row-svg2dark.svg"
+                         alt="upload">
+                </button>
+            </div>
+        </div>
+        <div class="w-full md:w-2/3 flex flex-col md:flex-row items-start md:items-center justify-end">
+            <div class="flex flex-col w-full sm:w-1/2 md:ml-4 mt-3 md:mt-0">
+
+                <div class="relative w-full">
+                    <div aria-hidden="true"
+                         class="absolute cursor-pointer text-gray-600 dark:text-gray-400 flex items-center pr-3 right-0 border-l h-full">
                                         <span class="ml-2 mr-1">
                                             <img class="dark:hidden"
                                                  src="https://tuk-cdn.s3.amazonaws.com/can-uploader/advance_table_with_filters%2C_actions%2C_search%2C_sort_and_expanded_row-svg6.svg"
@@ -39,152 +40,166 @@
                                                  src="https://tuk-cdn.s3.amazonaws.com/can-uploader/advance_table_with_filters%2C_actions%2C_search%2C_sort_and_expanded_row-svg6dark.svg"
                                                  alt="Filter">
                                         </span>
-            <span
-              (click)="isFilterOpen = !isFilterOpen"
-              class="text-sm leading-tight tracking-normal">Filter</span>
-          </div>
-          <nz-drawer
-            [nzClosable]="false"
-            [nzVisible]="isFilterOpen"
-            nzPlacement="right"
-            nzTitle="Filter Employees"
-            [nzFooter]="footerTpl"
-            (nzOnClose)="toggleFilterOpen()"
-          >
-            <ng-container class="h-screen" *nzDrawerContent>
-              <app-filter-employee/>
-            </ng-container>
-            <ng-template #footerTpl>
-              <div class="lg:flex justify-end mr-1 items-center gap-x-3 mt-12  md:hidden hidden">
-                <button
-                  type="button"
-                  (click)="applyFilters()"
-                  [disabled]="isLoading"
-                  class="text-sm font-medium leading-none text-white text-center px-6 py-4 bg-indigo-700 rounded-md hover:bg-indigo-600 transform duration-300 ease-in-out">
-                  Apply Filters
-                </button>
-                <button
-                  type="button"
-                  (click)="clearFilters()"
-                  [disabled]="isLoading"
-                  class="text-sm font-medium leading-none text-center text-indigo-700 px-6 py-4 border rounded-md border-indigo-700 hover:bg-gray-100 transform duration-300 ease-in-out">
-                  Clear Filters
-                </button>
-
-              </div>
-            </ng-template>
-          </nz-drawer>
-          <div class="absolute text-gray-600 dark:text-gray-400 flex items-center pl-3 h-full">
-            <img class="dark:hidden"
-                 src="https://tuk-cdn.s3.amazonaws.com/can-uploader/advance_table_with_filters%2C_actions%2C_search%2C_sort_and_expanded_row-svg7.svg"
-                 alt="search">
-            <img class="dark:block hidden" src="../svgs/svg7dark.svg" alt="search">
-          </div>
-          <label for="search"
-                 class="hidden text-gray-800 text-sm font-bold leading-tight tracking-normal mb-2"></label>
-          <input id="search"
-                 [(ngModel)]="filterService.filterEmployee.employee_id"
-                 (ngModelChange)="logChange($event)"
-                 class="w-full text-gray-600 bg-transparent dark:bg-gray-800 dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 font-normal pl-8 pr-24 h-10 flex items-center text-sm border-gray-300 dark:border-gray-200 rounded border"
-                 placeholder="Search by project name or owner"/>
-        </div>
-      </div>
-    </div>
-  </div>
-  <nz-modal [(nzVisible)]="isVisibleCreateCertificate" nzTitle="CREATE CERTIFICATE"
-            [nzWidth]="800"
-            (nzOnCancel)="isVisibleCreateCertificate = false"
-            (nzOnOk)="handleOkModalCreateCertificate()">
-    <ng-container *nzModalContent>
-      <app-add-certiication
-      />
-    </ng-container>
-  </nz-modal>
-
-  <div class="mt-8 flow-root">
-
-    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-        <nz-table #headerTable
-                  nzShowPagination="false"
-                  [nzData]="listEmployee?.items ?? []" [nzScroll]="{ y: '400px' }">
-          <thead>
-          <tr>
-            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
-              Nom
-            </th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Titre</th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Category</th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Contre
-              maitre
-            </th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Action</th>
-
-          </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200 bg-white">
-          <tr
-            class="cursor-pointer"
-            [routerLink]="['/Employee', user.id]"
-            *ngFor="let user of listEmployee?.items">
-            <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
-              <div class="flex items-center">
-                <div class="h-11 w-11 flex-shrink-0">
-                  <!-- Check if user avatar exists -->
-                  <ng-container *ngIf="user?.avatar; else noAvatar">
-                    <img [src]="baseUrl + user.avatar" alt="User Avatar" class="h-11 w-11 rounded-full" />
-                  </ng-container>
-                  <!-- Fallback for when user avatar is null -->
-                  <ng-template #noAvatar>
-                    <div class="h-11 w-11 flex-shrink-0" [style.backgroundColor]="getRandomColor(user?.first_name)">
-                      <div class="h-11 w-11 rounded-full flex items-center justify-center text-white">
-                        {{ user?.last_name?.substring(0, 2)?.toUpperCase() }}
-                      </div>
+                        <span
+                                (click)="isFilterOpen = !isFilterOpen"
+                                class="text-sm leading-tight tracking-normal">Filter</span>
                     </div>
-                  </ng-template>
+
+                    <nz-drawer
+                            [nzClosable]="false"
+                            [nzVisible]="isFilterOpen"
+                            nzPlacement="right"
+                            nzTitle="Filter Employees"
+                            [nzFooter]="footerTpl"
+                            (nzOnClose)="toggleFilterOpen()"
+                    >
+                        <ng-container class="h-screen" *nzDrawerContent>
+                            <app-filter-employee/>
+                        </ng-container>
+                        <ng-template #footerTpl>
+                            <div class="lg:flex justify-end mr-1 items-center gap-x-3 mt-12  md:hidden hidden">
+                                <button
+                                        type="button"
+                                        (click)="applyFilters()"
+                                        [disabled]="isLoading"
+                                        class="text-sm font-medium leading-none text-white text-center px-6 py-4 bg-indigo-700 rounded-md hover:bg-indigo-600 transform duration-300 ease-in-out">
+                                    Apply Filters
+                                </button>
+                                <button
+                                        type="button"
+                                        (click)="clearFilters()"
+                                        [disabled]="isLoading"
+                                        class="text-sm font-medium leading-none text-center text-indigo-700 px-6 py-4 border rounded-md border-indigo-700 hover:bg-gray-100 transform duration-300 ease-in-out">
+                                    Clear Filters
+                                </button>
+
+                            </div>
+                        </ng-template>
+                    </nz-drawer>
+                    <div class="absolute text-gray-600 dark:text-gray-400 flex items-center pl-3 h-full">
+                        <img class="dark:hidden"
+                             src="https://tuk-cdn.s3.amazonaws.com/can-uploader/advance_table_with_filters%2C_actions%2C_search%2C_sort_and_expanded_row-svg7.svg"
+                             alt="search">
+                        <img class="dark:block hidden" src="../svgs/svg7dark.svg" alt="search">
+                    </div>
+                    <label for="search"
+                           class="hidden text-gray-800 text-sm font-bold leading-tight tracking-normal mb-2"></label>
+                    <input id="search"
+                           [(ngModel)]="filterService.filterEmployee.employee_id"
+                           (ngModelChange)="logChange($event)"
+                           class="w-full text-gray-600 bg-transparent dark:bg-gray-800 dark:text-gray-400 focus:outline-none focus:border focus:border-indigo-700 font-normal pl-8 pr-24 h-10 flex items-center text-sm border-gray-300 dark:border-gray-200 rounded border"
+                           placeholder="Search by ID Employee"/>
                 </div>
 
-                <div class="ml-4">
-                  <div
-                    class="font-medium text-gray-900">{{ user?.first_name }} {{ user?.last_name }}</div>
-                  <div class="mt-1 text-gray-500">{{ user?.id }}</div>
-                </div>
-              </div>
-            </td>
-            <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-              <div class="text-gray-900">{{user?.job_name}}</div>
-              <div class="mt-1 text-gray-500">{{ user?.department_name }}</div>
-            </td>
-            <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+            </div>
+        </div>
+    </div>
+    <nz-modal [(nzVisible)]="isVisibleCreateCertificate" nzTitle="CREATE CERTIFICATE"
+              [nzWidth]="800"
+              (nzOnCancel)="isVisibleCreateCertificate = false"
+              (nzOnOk)="handleOkModalCreateCertificate()">
+        <ng-container *nzModalContent>
+            <app-add-certiication
+            />
+        </ng-container>
+    </nz-modal>
+    <nz-modal [(nzVisible)]="UploadMpdel" nzTitle="Employees Uploading"
+              [nzWidth]="800"
+              (nzOnCancel)="CloseUpload()"
+              (nzOnOk)="Uploading()">
+        <ng-container *nzModalContent>
+            <app-upload-employees
+            />
+        </ng-container>
+
+    </nz-modal>
+
+    <div class="mt-8 flow-root">
+
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                <nz-table #headerTable
+                          nzShowPagination="false"
+                          [nzData]="listEmployee?.items ?? []" [nzScroll]="{ y: '400px' }">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                            Nom
+                        </th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Titre</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Category</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Contre
+                            maitre
+                        </th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Action</th>
+
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                    <tr
+                            class="cursor-pointer"
+                            [routerLink]="['/Employee', user.id]"
+                            *ngFor="let user of listEmployee?.items">
+                        <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
+                            <div class="flex items-center">
+                                <div class="h-11 w-11 flex-shrink-0">
+                                    <!-- Check if user avatar exists -->
+                                    <ng-container *ngIf="user?.avatar; else noAvatar">
+                                        <img [src]="baseUrl + user.avatar" alt="User Avatar"
+                                             class="h-11 w-11 rounded-full"/>
+                                    </ng-container>
+                                    <!-- Fallback for when user avatar is null -->
+                                    <ng-template #noAvatar>
+                                        <div class="h-11 w-11 flex-shrink-0"
+                                             [style.backgroundColor]="getRandomColor(user?.first_name)">
+                                            <div class="h-11 w-11 rounded-full flex items-center justify-center text-white">
+                                                {{ user?.last_name?.substring(0, 2)?.toUpperCase() }}
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+
+                                <div class="ml-4">
+                                    <div
+                                            class="font-medium text-gray-900">{{ user?.first_name }} {{ user?.last_name }}</div>
+                                    <div class="mt-1 text-gray-500">{{ user?.id }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                            <div class="text-gray-900">{{user?.job_name}}</div>
+                            <div class="mt-1 text-gray-500">{{ user?.department_name }}</div>
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
               <span
-                class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ user?.category }}</span>
-            </td>
-            <td
-              class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ user?.manager_name }}</td>
-            <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-              <button nz-button nz-dropdown [nzDropdownMenu]="menu">Actions</button>
+                      class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ user?.category }}</span>
+                        </td>
+                        <td
+                                class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ user?.manager_name }}</td>
+                        <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                            <button nz-button nz-dropdown [nzDropdownMenu]="menu">Actions</button>
 
-              <nz-dropdown-menu #menu="nzDropdownMenu">
-                <ul nz-menu>
-                  <li
-                    (click)="showModalCreateCertificate(user?.id ?? 0)"
-                    nz-menu-item>Create Certificaten
-                  </li>
-                </ul>
-              </nz-dropdown-menu>
-            </td>
+                            <nz-dropdown-menu #menu="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <li
+                                            (click)="showModalCreateCertificate(user?.id ?? 0)"
+                                            nz-menu-item>Create Certificaten
+                                    </li>
+                                </ul>
+                            </nz-dropdown-menu>
+                        </td>
 
-          </tr>
-          </tbody>
-        </nz-table>
-      </div>
+                    </tr>
+                    </tbody>
+                </nz-table>
+            </div>
 
 
-      <app-pagination [currentPage]="currentPage ?? 1" [totalPages]="listEmployee?.pages ?? 1"
-                      [size]="listEmployee?.size ?? 1" [total]="listEmployee?.total ?? 1"
-                      (pageChange)="onPageChange($event)"></app-pagination>
+            <app-pagination [currentPage]="currentPage ?? 1" [totalPages]="listEmployee?.pages ?? 1"
+                            [size]="listEmployee?.size ?? 1" [total]="listEmployee?.total ?? 1"
+                            (pageChange)="onPageChange($event)"></app-pagination>
+
+        </div>
 
     </div>
-
-  </div>
 </div>

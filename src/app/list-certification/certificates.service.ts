@@ -9,6 +9,7 @@ import {
 } from "../interfaces/ListCertificationInterface";
 import {FilterParams} from "./Interafces/filter";
 import {environment} from "../../environments/environment";
+import {AuthentificatinService} from "../auth/authentificatin.service";
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +18,8 @@ export class CertificatesService {
 
     private baseUrl = `${environment.apiUrl}/employee`; // Base URL for the API
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,
+                private authentificatinService: AuthentificatinService) {
     }
 
     getCertificates(employee_id: number, page: number = 1, size: number = 50, year: number): Observable<any> {
@@ -71,9 +73,24 @@ export class CertificatesService {
         return this.http.get<any>(`${this.baseUrl}/categorize/${employeeId}/${year}`);
     }
 
-    exportationKPI(year: number): Observable<any> {
-        const base_url = `${environment.apiUrl}/certificate/collect-certificate-data`;
-        return this.http.post<any>(`${base_url}/${year}`, {});
+    exportationKPI(year?: number, month?: number, day?: number): Observable<any> {
+        const base_url = `${environment.apiUrl}/certificate/${this.user_id}/collect-certificate-data`;
+
+        const payload: any = {};
+        if (year !== undefined) {
+            payload.year = year;
+        }
+        if (month !== undefined) {
+            payload.month = month;
+        }
+        if (day !== undefined) {
+            payload.day = day;
+        }
+
+        return this.http.post<any>(base_url, payload);
+    }
+    get user_id(): number | null {
+        return this.authentificatinService.getLoggedUser().employee_id;
     }
 
 }

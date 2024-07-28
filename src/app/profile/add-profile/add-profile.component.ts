@@ -42,10 +42,10 @@ export class AddProfileComponent {
         personeInformation: new FormGroup({
             last_name: new FormControl('', Validators.required),
             first_name: new FormControl('', Validators.required),
-            cin: new FormControl('', ),
+            cin: new FormControl('',),
             phone: new FormControl('',),
             sexe: new FormControl('', Validators.required),
-            date_birth: new FormControl('', ),
+            date_birth: new FormControl('',),
             cnss: new FormControl(''),
             city: new FormControl('', Validators.required),
             region: new FormControl('', Validators.required),
@@ -54,6 +54,7 @@ export class AddProfileComponent {
         }),
         professionalInformation: new FormGroup({
             mtc: new FormControl(''),
+            N_Workday: new FormControl(''),
             category: new FormControl(''),
             department: new FormControl('', Validators.required),
             job: new FormControl('', Validators.required),
@@ -97,7 +98,7 @@ export class AddProfileComponent {
             if (personeInformationControl && professionalInformationControl) {
                 const personeInformationValues = personeInformationControl.value;
                 const professionalInformationValues = professionalInformationControl.value;
-                console.log("personeInformationValues : ",personeInformationValues);
+                console.log("personeInformationValues : ", personeInformationValues);
                 const newEmployee: NewEmployee = {
                     id: 0, // Assuming this is generated on the server side
                     department_id: professionalInformationValues.department.key, // Extracting department value
@@ -112,18 +113,19 @@ export class AddProfileComponent {
                     Sexe: personeInformationValues.sexe,
                     city_id: personeInformationValues.city,
                     date_start: professionalInformationValues.date_start,
+                    N_Workday: professionalInformationValues.N_Workday,
                     date_hiring: professionalInformationValues.date_hiring,
                     date_end: null, // You can set this value if needed
                     date_visit: professionalInformationValues.date_visit || '', // Providing a default value if it's undefined
                     avatar: personeInformationValues.avatar, // Extracting avatar value
                 };
-                console.log(newEmployee);
 
                 // You need to pass the newEmployee object, not the NewEmployee interface
                 this.profileService.addProfile(newEmployee).subscribe(() => {
                     this.notification.success(
                         'Success',
                         `Profile added successfully ${newEmployee.id}`);
+                    this.router.navigate(['/Employee']);
                 });
             } else {
                 console.error('Either personeInformation or professionalInformation control is null or undefined');

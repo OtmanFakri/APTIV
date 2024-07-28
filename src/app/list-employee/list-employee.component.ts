@@ -16,6 +16,9 @@ import {NzModalComponent, NzModalContentDirective} from "ng-zorro-antd/modal";
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {AddCertiicationComponent} from "../list-certification/add-certiication/add-certiication.component";
 import {UploadEmployeesComponent} from "./upload-employees/upload-employees.component";
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {NzUploadFile} from "ng-zorro-antd/upload";
+import {NzIconDirective} from "ng-zorro-antd/icon";
 
 @Component({
     selector: 'app-list-employee',
@@ -43,22 +46,29 @@ import {UploadEmployeesComponent} from "./upload-employees/upload-employees.comp
         NzModalContentDirective,
         AddCertiicationComponent,
         UploadEmployeesComponent,
+        NzIconDirective,
     ],
     templateUrl: './list-employee.component.html'
 })
 export class ListEmployeeComponent implements OnInit {
+
     @ViewChild(AddCertiicationComponent) FormSubmet!: AddCertiicationComponent;
+    @ViewChild(UploadEmployeesComponent) uploadEmployeesComponent!: UploadEmployeesComponent;
+
     baseUrl = 'http://127.0.0.1:8011/'
     listEmployee: ListEmployee | null = null;
     selectedEmployee_id: Number | null = null;
     currentPage: number = 1;
     totalPages: number = 10;
     isLoading: boolean = false;
+    IsFilterLoding: boolean = false;
+    IsExportation: boolean = false
     private delayTimer?: number;
 
     UploadMpdel: boolean = false;
 
     constructor(private employeeService: EmployeeService,
+                private notification: NzNotificationService,
                 public filterService: FilterService) {
     }
 
@@ -69,14 +79,17 @@ export class ListEmployeeComponent implements OnInit {
     loadEmployees(): void {
         const page = this.currentPage; // Current page number
         const size = this.totalPages; // Page size
-
+        this.IsFilterLoding = true;
         this.employeeService.filterEmployees(this.filterService.filterEmployee, page, size)
             .subscribe({
                 next: (data) => {
                     this.listEmployee = data;
+                    this.IsFilterLoding = false;
+
                 },
                 error: (error) => {
                     console.error('There was an error!', error);
+                    this.IsFilterLoding = false;
                 }
             });
     }
@@ -123,6 +136,7 @@ export class ListEmployeeComponent implements OnInit {
 
     isFilterOpen: boolean = false;
     isVisibleCreateCertificate: boolean = false;
+    isConfirmLoading: boolean = false;
 
     toggleFilterOpen() {
         this.isFilterOpen = !this.isFilterOpen;
@@ -171,6 +185,52 @@ export class ListEmployeeComponent implements OnInit {
     }
 
     Uploading() {
+        if (this.uploadEmployeesComponent.selectedFile) {
+            this.isConfirmLoading = true;
+            const file = this.uploadEmployeesComponent.selectedFile as any as File;
 
+            this.employeeService.EmployeesImport(file).subscribe(
+                (response) => {
+                    this.notification.success(
+                        "Success",
+                        `${file.name} file uploaded and processed successfully`
+                    );
+                    this.isConfirmLoading = false;
+                },
+                (error) => {
+                    this.notification.error(
+                        "Error",
+                        `${file.name} file upload or processing failed.`
+                    );
+                    this.isConfirmLoading = false;
+                }
+            );
+        } else {
+            this.notification.warning(
+                "Warning",
+                'No file selected for upload.'
+            );
+        }
+    }
+
+
+    export() {
+        this.IsExportation = true
+        this.employeeService.EmployeeExportation().subscribe({
+            next: (data) => {
+                this.IsExportation = false
+                this.notification.success(
+                    "Success",
+                    `Exportation of employees completed successfully.`
+                );
+            },
+            error: (error) => {
+                this.IsExportation = false
+                this.notification.error(
+                    "Error",
+                    `Exportation of employees failed.`
+                );
+            }
+        })
     }
 }

@@ -5,13 +5,17 @@ import {ProfileService} from "../../profile.service";
 import {ProfileEmployee} from "../../../interfaces/profileEmployee";
 import {EmployeeDetails} from "../../Interfaces";
 import {ActivatedRoute, Router} from "@angular/router";
+import {NzSpinComponent} from "ng-zorro-antd/spin";
+import {NgIf} from "@angular/common";
 
 @Component({
     selector: 'app-info-profile',
     standalone: true,
     imports: [
         NzTabSetComponent,
-        NzTabComponent
+        NzTabComponent,
+        NzSpinComponent,
+        NgIf
     ],
     templateUrl: './info-profile.component.html',
 })
@@ -20,6 +24,7 @@ export class InfoProfileComponent implements OnInit, OnDestroy {
     employeeProfile: EmployeeDetails | null = null;
     error: string | null = null;
     userId: any;
+    isLoding: boolean = false;
 
     constructor(private profileService: ProfileService,
                 private route: ActivatedRoute) {
@@ -34,19 +39,24 @@ export class InfoProfileComponent implements OnInit, OnDestroy {
     }
 
     loadEmployeeProfile(): void {
+        this.isLoding = true;
         this.subscription.add(
             this.profileService.employeeProfile$.subscribe({
                 next: (profile) => {
                     if (profile) {
                         this.employeeProfile = profile;
                         this.error = null;
+                        this.isLoding = false;
                     } else {
                         this.error = "No profile data available";
                         console.warn("Received null profile");
+                        this.isLoding = false;
                     }
                 },
                 error: (err) => {
                     this.error = "Error loading profile";
+                    console.error("Error loading profile", err);
+                    this.isLoding = false;
                 }
             })
         );

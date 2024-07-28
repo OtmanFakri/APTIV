@@ -20,11 +20,6 @@
             nzTitle="Données personnelles">
           </nz-step>
 
-          <!-- Step 3: Permissions -->
-          <nz-step
-            [nzStatus]="current === 2 ? 'process' : (current > 2 ? 'finish' : '')"
-            nzTitle="Permissions">
-          </nz-step>
         </nz-steps>
       </div>
     </div>
@@ -42,10 +37,6 @@
         [parentForm]="professionalInformation"
        />
 
-      <div *ngIf="current === 2">
-        <app-roles-information/>
-      </div>
-
       <div class="flex justify-end px-4">
         <div
                 class="bg-indigo-700 lg:max-w-[143px] w-full py-3 px-2 rounded md:mt-12 mt-9 hover:bg-indigo-600 transition duration-300 ease-in-out cursor-pointer"
@@ -55,7 +46,7 @@
                     (click)="onSubmit()"
                     [disabled]="(current === 0 && !personeInformation.valid) ||
                             (current === 1 && !professionalInformation.valid)"
-                    class="text-white">{{ (current < 2) ? 'Next Step' : 'Save' }}</button>
+                    class="text-white">{{ (current < 1) ? 'Next Step' : 'Save' }}</button>
             <svg
                     width="16"
                     height="16"

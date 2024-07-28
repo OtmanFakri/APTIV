@@ -48,25 +48,43 @@ export class ProfileService {
         }
 
         const params = new HttpParams()
-            .set('id', employee.id?.toString() ?? '')
+            //.set('id', employee.id?.toString() ?? '')
             .set('department_id', employee.department_id.toString())
             .set('job_id', employee.job_id.toString())
             .set('manager_id', employee.manager_id?.toString() ?? '')
             .set('first_name', employee.first_name)
             .set('last_name', employee.last_name)
+            .set('N_Workday', employee.N_Workday)
             .set('cin', employee.cin)
             .set('cnss', employee.cnss)
             .set('phone_number', employee.phone_number.toString())
-            .set('birth_date', employee.birth_date.toISOString())
+            .set('birth_date', this.formatDate(employee.birth_date))
             .set('Sexe', employee.Sexe)
             .set('city_id', employee.city_id.toString())
-            .set('date_start', employee.date_start.toISOString())
-            .set('date_hiring', employee.date_hiring.toISOString())
-            .set('date_visit', employee.date_visit ? employee.date_visit.toISOString() : '')
+            .set('date_start', this.formatDate(employee.date_start))
+            .set('date_hiring', this.formatDate(employee.date_hiring))
+            .set('date_visit', employee.date_visit ? this.formatDate(employee.date_visit) : '')
 
-        const headers = new HttpHeaders();
-        // Note: You don't need to set Content-Type for FormData, browser will set it automatically
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json'
+        });
 
         return this.http.post<any>(`${this.baseUrl}/create`, formData, {params, headers});
+    }
+
+    private formatDate(date: Date | string): string {
+        if (date instanceof Date) {
+            return this.toYYYYMMDD(date);
+        } else if (typeof date === 'string') {
+            return this.toYYYYMMDD(new Date(date));
+        }
+        throw new Error('Invalid date format');
+    }
+
+    private toYYYYMMDD(date: Date): string {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
     }
 }

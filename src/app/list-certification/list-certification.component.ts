@@ -310,18 +310,17 @@ export class ListCertificationComponent implements OnInit {
 
     onOkExportation() {
         this.isConfirmLoading = true;
+        const formattedParams = this.formatFilterParams(this.filterParams);
         this.certificatesService.exportationKPI(
-            this.dateExport.getFullYear(),
-            this.dateExport.getMonth() + 1, // getMonth() returns 0-based index, so add 1
-            this.dateExport.getDate()
+            formattedParams
         ).subscribe(
             (data) => {
-                this.notification.create('success', 'Export Successful', data.message, { nzPlacement: "bottomLeft" });
+                this.notification.create('success', 'Export Successful', data.message, {nzPlacement: "bottomLeft"});
                 this.isConfirmLoading = false;
                 this.modelExportation = false;
             },
             (error) => {
-                this.notification.create('error', 'Error', 'Error exporting data', { nzPlacement: "bottomLeft" });
+                this.notification.create('error', 'Error', 'Error exporting data', {nzPlacement: "bottomLeft"});
                 this.isConfirmLoading = false;
                 this.modelExportation = false;
             }

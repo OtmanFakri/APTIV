@@ -19,6 +19,7 @@ export interface Item {
 
 export interface NewEmployee {
     id: number;
+    N_Workday:string,
     department_id: number;
     job_id: number;
     manager_id?: number;

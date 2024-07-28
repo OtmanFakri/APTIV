@@ -15,7 +15,7 @@
         <td class="py-2 px-4 text-sm text-gray-900">{{ export.id }}</td>
         <td class="py-2 px-4 text-sm text-gray-900">{{ export.export_name }}</td>
         <td class="py-2 px-4 text-sm text-gray-900">
-            <a [href]="cleanPath(export.export_path)" download class="text-blue-600 hover:underline">DoWNLOAD</a>
+            <a [href]="getFullApiUrl(export.export_path)" download class="text-blue-600 hover:underline">DoWNLOAD</a>
         </td>
     </tr>
     </tbody>

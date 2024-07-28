@@ -11,6 +11,7 @@ import {
 import {Observable} from "rxjs";
 import {EmployeeUpdate} from "../profile/Interfaces";
 import {environment} from "../../environments/environment";
+import {AuthentificatinService} from "../auth/authentificatin.service";
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +20,8 @@ export class EmployeeService {
 
     private baseUrl = `${environment.apiUrl}/employee/filter`;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,
+                private userService: AuthentificatinService) {
     }
 
     updateEmployeeProfile(profile: EmployeeUpdate, employeeId: number): Observable<any> {
@@ -91,5 +93,22 @@ export class EmployeeService {
         let apiUrl = `${environment.apiUrl}`
         const params = new HttpParams().set('search', query);
         return this.http.post<SearchManger[]>(`${apiUrl}/employee/search?search=${query}`, {params});
+    }
+
+    EmployeesImport(file: File) {
+        const apiUrl = `${environment.apiUrl}`;
+        const formData: FormData = new FormData();
+        formData.append('file', file, file.name);
+
+        return this.http.post(`${apiUrl}/exportations/employees`, formData);
+    }
+
+    EmployeeExportation() {
+        const apiUrl = `${environment.apiUrl}`;
+        return this.http.post(`${apiUrl}/employee/${this.UserId}/exportation`, {});
+    }
+
+    get UserId() {
+        return this.userService.getLoggedUser().employee_id;
     }
 }

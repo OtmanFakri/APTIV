@@ -4,6 +4,7 @@ import {DataExport} from "./InterfaceExportation";
 import {Page} from "../../../change-post/InterfaceChnagePost";
 import {NzSpinComponent} from "ng-zorro-antd/spin";
 import {NgForOf, NgIf} from "@angular/common";
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'app-exportation',
@@ -43,5 +44,10 @@ export class ExportationComponent implements OnInit {
 
     cleanPath(path: string): string {
         return path.startsWith('./') ? path.substring(1) : path;
+    }
+
+    getFullApiUrl(path: string): string {
+        const cleanedPath = this.cleanPath(path);
+        return `${environment.Url}${cleanedPath}`;
     }
 }

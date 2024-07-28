@@ -73,22 +73,12 @@ export class CertificatesService {
         return this.http.get<any>(`${this.baseUrl}/categorize/${employeeId}/${year}`);
     }
 
-    exportationKPI(year?: number, month?: number, day?: number): Observable<any> {
+    exportationKPI(filterParams: FilterParams): Observable<any> {
         const base_url = `${environment.apiUrl}/certificate/${this.user_id}/collect-certificate-data`;
-
-        const payload: any = {};
-        if (year !== undefined) {
-            payload.year = year;
-        }
-        if (month !== undefined) {
-            payload.month = month;
-        }
-        if (day !== undefined) {
-            payload.day = day;
-        }
-
-        return this.http.post<any>(base_url, payload);
+        console.log("filterParams : ", filterParams)
+        return this.http.post<any>(base_url, filterParams);
     }
+
     get user_id(): number | null {
         return this.authentificatinService.getLoggedUser().employee_id;
     }

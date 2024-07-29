@@ -38,11 +38,14 @@ export class EmployeeService {
             manger_ids: filterEmployee.manger_ids,
             job_ids: filterEmployee.job_ids,
             min_seniority_years: filterEmployee.min_seniority_years,
+            year: filterEmployee.year,
+            include_deleted: filterEmployee.include_deleted,
             page,
             size
         };
 
         console.log('Request Body:', requestBody);
+
         let queryParams = new HttpParams()
             .set('page', page.toString())
             .set('size', size.toString());
@@ -58,7 +61,12 @@ export class EmployeeService {
         if (filterEmployee.employee_id) {
             queryParams = queryParams.set('employee_id', filterEmployee.employee_id);
         }
-
+        if (filterEmployee.year) {
+            queryParams = queryParams.set('year', filterEmployee.year);
+        }
+        if (filterEmployee.include_deleted) {
+            queryParams = queryParams.set('include_deleted', filterEmployee.include_deleted);
+        }
 
         const options = {
             headers: {'Content-Type': 'application/json'},

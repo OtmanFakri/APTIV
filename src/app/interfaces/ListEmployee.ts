@@ -19,7 +19,7 @@ export interface Item {
 
 export interface NewEmployee {
     id: number;
-    N_Workday:string,
+    N_Workday: string,
     department_id: number;
     job_id: number;
     manager_id?: number;
@@ -45,6 +45,8 @@ export interface FilterEmployee {
     department_ids?: number[] | null;
     manger_ids?: number[] | null;
     job_ids?: number[] | null;
+    year: number | null,
+    include_deleted?: boolean,
 }
 
 export interface RegionsResponse {

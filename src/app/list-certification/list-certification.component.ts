@@ -311,20 +311,23 @@ export class ListCertificationComponent implements OnInit {
     onOkExportation() {
         this.isConfirmLoading = true;
         const formattedParams = this.formatFilterParams(this.filterParams);
-        this.certificatesService.exportationKPI(
-            formattedParams
-        ).subscribe(
-            (data) => {
+
+        const exportMethod = this.typeExpo === 'SIMPLE'
+            ? this.certificatesService.exportationSimple(formattedParams)
+            : this.certificatesService.exportationKPI(formattedParams);
+
+        exportMethod.subscribe({
+            next: (data) => {
                 this.notification.create('success', 'Export Successful', data.message, {nzPlacement: "bottomLeft"});
                 this.isConfirmLoading = false;
                 this.modelExportation = false;
             },
-            (error) => {
+            error: (error) => {
                 this.notification.create('error', 'Error', 'Error exporting data', {nzPlacement: "bottomLeft"});
                 this.isConfirmLoading = false;
                 this.modelExportation = false;
             }
-        );
+        });
     }
 
     openExportation() {
@@ -332,6 +335,7 @@ export class ListCertificationComponent implements OnInit {
     }
 
     visiblemployeeInfo = false;
+    typeExpo: string = 'SIMPLE';
 
     employeeInfo() {
         this.visiblemployeeInfo = true;
@@ -343,5 +347,15 @@ export class ListCertificationComponent implements OnInit {
 
     onValidationTypeChange($event: string) {
         this.filterParams.validation = $event;
+    }
+
+    changeType(event: string) {
+        this.typeExpo = event;
+        if (event === "KPI") {
+            this.filterParams.mode_date = 'year';
+        } else {
+            // Reset or set to a default value if needed
+            this.filterParams.mode_date = 'date';
+        }
     }
 }

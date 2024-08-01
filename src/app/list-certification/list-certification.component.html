@@ -88,7 +88,18 @@
                             [(nzVisible)]="modelExportation" nzTitle="Exportation" (nzOnCancel)="onCancelExportation()"
                             (nzOnOk)="onOkExportation()">
                         <ng-container *nzModalContent>
-                            <nz-space>
+                            <nz-space
+
+                            >
+                                <nz-select
+                                        *nzSpaceItem
+                                        class="w-28"
+                                        [ngModel]="typeExpo"
+                                        (ngModelChange)="changeType($event)"
+                                >
+                                    <nz-option nzValue="KPI" nzLabel="KPI"></nz-option>
+                                    <nz-option nzValue="SIMPLE" nzLabel="SIMPLE"></nz-option>
+                                </nz-select>
                                 <nz-select *nzSpaceItem [(ngModel)]="filterParams.mode_date" name="mode_date">
                                     <nz-option nzValue="date" nzLabel="Date"></nz-option>
                                     <nz-option nzValue="month" nzLabel="Month"></nz-option>

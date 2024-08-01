@@ -77,7 +77,7 @@
                     </nz-badge>
                 </div>
                 <span class="mx-4">{{ loggedUser.employee_id ?? 'N/A' }}</span>
-                <button nz-button nzType="primary" (click)="logout()">Logout</button>
+                <button nz-button nzType="primary" (click)="logout()" [nzLoading]="IsLogout">Logout</button>
             </div>
         </nz-header>
         <nz-content class="mt-16 p-4">

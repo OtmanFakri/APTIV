@@ -74,8 +74,12 @@ export class CertificatesService {
     }
 
     exportationKPI(filterParams: FilterParams): Observable<any> {
+        const base_url = `${environment.apiUrl}/certificate/${this.user_id}/collect-certificate-data-kpi/${filterParams.year}`;
+        return this.http.post<any>(base_url,{});
+    }
+
+    exportationSimple(filterParams: FilterParams): Observable<any> {
         const base_url = `${environment.apiUrl}/certificate/${this.user_id}/collect-certificate-data`;
-        console.log("filterParams : ", filterParams)
         return this.http.post<any>(base_url, filterParams);
     }
 

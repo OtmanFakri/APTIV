@@ -144,16 +144,20 @@ export class DashboardComponent implements OnInit {
     }
 
     logout() {
+        this.IsLogout = true
         this.authService.logout().subscribe(
             (success) => {
                 if (success) {
-                    this.router.navigate(['/login']); // Redirect to the login page or any other page
+                    this.router.navigate(['/login']);
+                    this.IsLogout = false // Redirect to the login page or any other page
                 } else {
                     console.error('Logout failed');
+                    this.IsLogout = false
                 }
             },
             (error) => {
                 console.error('Logout error', error);
+                this.IsLogout = false
             }
         );
     }
@@ -227,6 +231,7 @@ export class DashboardComponent implements OnInit {
     }
 
     isVisible = false;
+    IsLogout: boolean = false;
 
     handleOk(): void {
         console.log('Button ok clicked!');

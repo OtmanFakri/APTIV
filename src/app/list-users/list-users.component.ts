@@ -39,7 +39,7 @@ export class ListUsersComponent implements OnInit {
     isLoading: boolean = false
     isVisible = false;
     select_user: any;
-    email: any;
+    email!: string;
 
     constructor(private serviceUsers: UsersServicesService,
                 private notification: NzNotificationService) {
@@ -51,7 +51,7 @@ export class ListUsersComponent implements OnInit {
 
     handleOk(): void {
         this.is_loading = true;
-        this.serviceUsers.createUser(this.select_user.id).subscribe(
+        this.serviceUsers.createUser(this.select_user.id,this.email).subscribe(
             () => {
                 this.fetchUser();
                 this.notification.success(

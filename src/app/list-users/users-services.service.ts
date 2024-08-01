@@ -20,9 +20,10 @@ export class UsersServicesService {
         return this.http.get<ListUsers>(`${this.apiUrl}/user/`)
     }
 
-    createUser(employee_id: number) {
+    createUser(employee_id: number, email: string) {
         return this.http.post(`${this.apiUrl}/user/create`, {
             employee_id: employee_id,
+            email: email,
             hashed_password: generatePassword(),
         })
 

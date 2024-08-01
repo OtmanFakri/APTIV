@@ -23,6 +23,7 @@ export interface RespencesNotifcations {
     model: string;
     action: string;
     is_read: boolean;
+    create_at: Date;
 }
 
 export interface User {
@@ -30,6 +31,6 @@ export interface User {
 }
 
 export interface Employee {
-    id:        number;
+    id: number;
     full_name: string;
 }

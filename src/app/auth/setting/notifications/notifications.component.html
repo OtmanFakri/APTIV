@@ -11,6 +11,7 @@
                        [nzColor]="getActionColor(notification.action)">
                 <nz-card [nzTitle]="notification.user.employee.full_name" nzSize="small">
                     {{ notification.message }}
+                    {{notification.create_at | date: 'yyyy-MM-dd HH:mm'}}
                 </nz-card>
             </nz-ribbon>
         </div>

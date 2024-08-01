@@ -52,7 +52,6 @@
                     </tr>
                     </tbody>
                 </table>
-
             </div>
 
         </div>
@@ -67,13 +66,8 @@
                     <!--Label for Email-->
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
                     <!--Input for Email-->
-                    <nz-input-group
-                            id="email"
-                            nzAddOnAfter="@aptiv.com"
-                            class="w-full"
-                    >
-                        <input type="text" nz-input [(ngModel)]="email"/>
-                    </nz-input-group>
+                        <input nz-input id="email" type="text"
+                               [(ngModel)]="email"/>
                 </div>
             </ng-container>
 

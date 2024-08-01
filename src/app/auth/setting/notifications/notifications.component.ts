@@ -3,7 +3,7 @@ import {SettingsService} from "../settings.service";
 import {Page} from "../../../change-post/InterfaceChnagePost";
 import {RespencesNotifcations} from "../InterfacesSetting";
 import {NzSpinComponent} from "ng-zorro-antd/spin";
-import {NgForOf, NgIf} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {NzRibbonComponent} from "ng-zorro-antd/badge";
 import {NzCardComponent} from "ng-zorro-antd/card";
 
@@ -15,7 +15,8 @@ import {NzCardComponent} from "ng-zorro-antd/card";
         NgIf,
         NzRibbonComponent,
         NzCardComponent,
-        NgForOf
+        NgForOf,
+        DatePipe
     ],
     templateUrl: './notifications.component.html',
 })

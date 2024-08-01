@@ -1,0 +1,18 @@
+<div>
+    <div *ngIf="IsLoding"
+         class="flex justify-center items-center">
+        <nz-spin
+                nzSimple></nz-spin>
+    </div>
+
+    <div class="space-y-2">
+        <div *ngFor="let notification of PageNotification.items">
+            <nz-ribbon class="w-full block" [nzText]="notification.action"
+                       [nzColor]="getActionColor(notification.action)">
+                <nz-card [nzTitle]="notification.user.employee.full_name" nzSize="small">
+                    {{ notification.message }}
+                </nz-card>
+            </nz-ribbon>
+        </div>
+    </div>
+</div>

@@ -1,3 +1,14 @@
+<nz-drawer
+        [nzClosable]="false"
+        [nzVisible]="NotificationDrwer"
+        nzPlacement="right"
+        nzTitle="Basic Drawer"
+        (nzOnClose)="closeNotificationDrwer()"
+>
+    <ng-container *nzDrawerContent>
+        <app-notifications/>
+    </ng-container>
+</nz-drawer>
 <nz-layout class="h-screen">
     <nz-sider
             class="bg-white fixed left-0 top-0 bottom-0 overflow-y-auto"
@@ -65,7 +76,9 @@
                 </svg>
             </span>
             <div class="flex items-center">
-                <div class="flex items-center space-x-5 rtl:space-x-reverse rtl:space-x-0">
+                <div
+                        (click)="OpenNotificationDrwer()"
+                        class="flex items-center space-x-5 rtl:space-x-reverse rtl:space-x-0">
                     <nz-badge [nzDot]="dot">
                         <a class="inline-block align-middle flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -79,6 +92,7 @@
                 <span class="mx-4">{{ loggedUser.employee_id ?? 'N/A' }}</span>
                 <button nz-button nzType="primary" (click)="logout()" [nzLoading]="IsLogout">Logout</button>
             </div>
+
         </nz-header>
         <nz-content class="mt-16 p-4">
             <div class="inner-content p-6 bg-white">

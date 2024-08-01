@@ -3,7 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {environment as env_produ} from "../../../environments/environment";
 import {AuthentificatinService} from "../authentificatin.service";
 import {Observable} from "rxjs";
-import {NotificationPreferences, requestUserPreferences} from "./InterfacesSetting";
+import {NotificationPreferences, requestUserPreferences, RespencesNotifcations} from "./InterfacesSetting";
+import {Page} from "../../change-post/InterfaceChnagePost";
 
 @Injectable({
     providedIn: 'root'
@@ -26,5 +27,10 @@ export class SettingsService {
 
     updateNotificationPreference(param: requestUserPreferences) {
         return this.http.put(`${this.apiUrl}/user/${this.user_id}/notification-preferences/${param.id}`, param);
+    }
+
+    GetNotification(): Observable<Page<RespencesNotifcations>> {
+        return this.http.get<Page<RespencesNotifcations>>(`${this.apiUrl}/notifications/${this.user_id}`);
+
     }
 }

@@ -29,6 +29,7 @@ import {NewEmployee} from '../../interfaces/ListEmployee';
 })
 export class AddProfileComponent {
     profile: NewEmployee | null = null;
+    IsCreated: boolean = false;
 
     constructor(
         private router: Router,
@@ -47,14 +48,14 @@ export class AddProfileComponent {
             sexe: new FormControl('', Validators.required),
             date_birth: new FormControl('',),
             cnss: new FormControl(''),
-            city: new FormControl('', Validators.required),
-            region: new FormControl('', Validators.required),
+            city: new FormControl(''),
+            region: new FormControl('',),
             avatar: new FormControl(null,),  // Add this line
 
         }),
         professionalInformation: new FormGroup({
             mtc: new FormControl(''),
-            N_Workday: new FormControl(''),
+            N_Workday: new FormControl('', Validators.required),
             category: new FormControl(''),
             department: new FormControl('', Validators.required),
             job: new FormControl('', Validators.required),
@@ -91,6 +92,7 @@ export class AddProfileComponent {
 
 
     onSubmit(): void {
+        this.IsCreated = true
         if (this.multipleForm.valid) {
             const personeInformationControl = this.multipleForm.get('personeInformation');
             const professionalInformationControl = this.multipleForm.get('professionalInformation');
@@ -106,25 +108,27 @@ export class AddProfileComponent {
                     manager_id: professionalInformationValues.manger || null, // Extracting manager value, providing a default value if it's undefined
                     first_name: personeInformationValues.first_name,
                     last_name: personeInformationValues.last_name,
-                    cin: personeInformationValues.cin,
-                    cnss: personeInformationValues.cnss,
-                    phone_number: personeInformationValues.phone,
-                    birth_date: personeInformationValues.date_birth,
+                    cin: personeInformationValues.cin || null,
+                    cnss: personeInformationValues.cnss || null,
+                    phone_number: personeInformationValues.phone || null,
+                    birth_date: personeInformationValues.date_birth || null,
                     Sexe: personeInformationValues.sexe,
-                    city_id: personeInformationValues.city,
+                    city_id: personeInformationValues.city || null,
                     date_start: professionalInformationValues.date_start,
                     N_Workday: professionalInformationValues.N_Workday,
                     date_hiring: professionalInformationValues.date_hiring,
                     date_end: null, // You can set this value if needed
-                    date_visit: professionalInformationValues.date_visit || '', // Providing a default value if it's undefined
-                    avatar: personeInformationValues.avatar, // Extracting avatar value
+                    date_visit: professionalInformationValues.date_visit || null, // Providing a default value if it's undefined
+                    avatar: personeInformationValues.avatar || null, // Extracting avatar value
                 };
 
                 // You need to pass the newEmployee object, not the NewEmployee interface
                 this.profileService.addProfile(newEmployee).subscribe(() => {
+
                     this.notification.success(
                         'Success',
                         `Profile added successfully ${newEmployee.id}`);
+                    this.IsCreated = false
                     this.router.navigate(['/Employee']);
                 });
             } else {
@@ -133,11 +137,15 @@ export class AddProfileComponent {
                     'Error',
                     'Either personeInformation or professionalInformation control is null or undefined',
                 );
+                this.IsCreated = false
+
                 // Handle the case when either personeInformation or professionalInformation control is null or undefined
             }
         } else {
             this.notification.error('Error',
                 this.multipleForm.value,);
+            this.IsCreated = false
+
         }
     }
 

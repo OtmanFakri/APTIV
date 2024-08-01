@@ -22,19 +22,19 @@ export interface NewEmployee {
     N_Workday: string,
     department_id: number;
     job_id: number;
-    manager_id?: number;
+    manager_id: number;
     first_name: string;
     last_name: string;
-    cin: string;
-    cnss: string;
-    phone_number: number;
+    cin?: string | null;
+    cnss?: string | null;
+    phone_number?: number | null;
     birth_date: Date;
     Sexe: 'male' | 'female';
     city_id: number;
     date_start: Date;
     date_hiring: Date;
     date_end?: Date | null;
-    date_visit?: Date;
+    date_visit?: Date | null;
     avatar?: File;
 }
 

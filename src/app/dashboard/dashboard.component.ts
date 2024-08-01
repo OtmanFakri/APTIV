@@ -15,13 +15,14 @@ import {NzModalComponent, NzModalContentDirective} from "ng-zorro-antd/modal";
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {SettingComponent} from "../auth/setting/setting.component";
 import {MenuItem} from './InterfacesDashbord';
+import {NotificationsComponent} from "../auth/setting/notifications/notifications.component";
 
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
     imports: [RouterOutlet, NzIconModule, NzModalModule,
-        NgIf, DashboardComponent, RouterLink, RouterLinkActive, NzDrawerComponent, NzDrawerContentDirective, NgClass, NzBreadCrumbComponent, NzBreadCrumbItemComponent, NzHeaderComponent, NzLayoutComponent, NzIconDirective, NzMenuItemComponent, NzSiderComponent, NzMenuDirective, NzSubMenuComponent, NzContentComponent, NgForOf, NzButtonComponent, NzBadgeComponent, NzModalComponent, NzModalContentDirective, SettingComponent],
+        NgIf, DashboardComponent, RouterLink, RouterLinkActive, NzDrawerComponent, NzDrawerContentDirective, NgClass, NzBreadCrumbComponent, NzBreadCrumbItemComponent, NzHeaderComponent, NzLayoutComponent, NzIconDirective, NzMenuItemComponent, NzSiderComponent, NzMenuDirective, NzSubMenuComponent, NzContentComponent, NgForOf, NzButtonComponent, NzBadgeComponent, NzModalComponent, NzModalContentDirective, SettingComponent, NotificationsComponent],
     templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
@@ -29,6 +30,7 @@ export class DashboardComponent implements OnInit {
     title = 'APTIV-Front';
     toggle_profile: boolean = false;
     close_side_bar: boolean = false;
+    NotificationDrwer: boolean = false;
     isCollapsed = true;
     menuItems: MenuItem[] = [
         {
@@ -241,5 +243,15 @@ export class DashboardComponent implements OnInit {
     handleCancel(): void {
         console.log('Button cancel clicked!');
         this.isVisible = false;
+    }
+
+    protected readonly console = console;
+
+    closeNotificationDrwer() {
+        this.NotificationDrwer = false
+    }
+
+    OpenNotificationDrwer() {
+        this.NotificationDrwer = true
     }
 }

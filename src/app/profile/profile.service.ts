@@ -46,24 +46,39 @@ export class ProfileService {
         if (employee.avatar) {
             formData.append('uploaded_file', employee.avatar);
         }
+        console.log("employee : ", employee)
 
-        const params = new HttpParams()
-            //.set('id', employee.id?.toString() ?? '')
-            .set('department_id', employee.department_id.toString())
-            .set('job_id', employee.job_id.toString())
-            .set('manager_id', employee.manager_id?.toString() ?? '')
-            .set('first_name', employee.first_name)
-            .set('last_name', employee.last_name)
-            .set('N_Workday', employee.N_Workday)
-            .set('cin', employee.cin)
-            .set('cnss', employee.cnss)
-            .set('phone_number', employee.phone_number.toString())
-            .set('birth_date', this.formatDate(employee.birth_date))
-            .set('Sexe', employee.Sexe)
-            .set('city_id', employee.city_id.toString())
-            .set('date_start', this.formatDate(employee.date_start))
-            .set('date_hiring', this.formatDate(employee.date_hiring))
-            .set('date_visit', employee.date_visit ? this.formatDate(employee.date_visit) : '')
+        let params = new HttpParams();
+
+        // Helper function to add param only if value is not null or undefined
+        const addParam = (key: string, value: any) => {
+            if (value != null) {
+                params = params.set(key, value.toString());
+            }
+        };
+
+        // Add parameters only if they have a value
+        addParam('department_id', employee.department_id);
+        addParam('job_id', employee.job_id);
+        addParam('manager_id', employee.manager_id);
+        addParam('first_name', employee.first_name);
+        addParam('last_name', employee.last_name);
+        addParam('N_Workday', employee.N_Workday);
+        addParam('cin', employee.cin);
+        addParam('cnss', employee.cnss);
+        addParam('phone_number', employee.phone_number);
+        addParam('Sexe', employee.Sexe);
+        addParam('city_id', employee.city_id);
+
+        // Handle date fields
+        if (employee.birth_date) {
+            addParam('birth_date', this.formatDate(employee.birth_date));
+        }
+        addParam('date_start', this.formatDate(employee.date_start));
+        addParam('date_hiring', this.formatDate(employee.date_hiring));
+        if (employee.date_visit) {
+            addParam('date_visit', this.formatDate(employee.date_visit));
+        }
 
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
@@ -71,7 +86,6 @@ export class ProfileService {
 
         return this.http.post<any>(`${this.baseUrl}/create`, formData, {params, headers});
     }
-
     private formatDate(date: Date | string): string {
         if (date instanceof Date) {
             return this.toYYYYMMDD(date);

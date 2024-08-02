@@ -8,6 +8,7 @@ import {NzButtonComponent} from "ng-zorro-antd/button";
 import {getToken} from 'firebase/messaging';
 import {environment} from "../../configuration/environment";
 import {Messaging} from "@angular/fire/messaging";
+import {CarouselLoginComponent} from "./carousel-login/carousel-login.component";
 
 @Component({
     selector: 'app-login',
@@ -17,7 +18,8 @@ import {Messaging} from "@angular/fire/messaging";
         RouterLink,
         ReactiveFormsModule,
         NgClass,
-        NzButtonComponent
+        NzButtonComponent,
+        CarouselLoginComponent
     ],
     templateUrl: './login.component.html',
 })

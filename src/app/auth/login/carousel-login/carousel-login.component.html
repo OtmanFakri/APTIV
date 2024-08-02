@@ -1,0 +1,19 @@
+<div class="h-full flex flex-col justify-between items-center bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500">
+    <div class="flex-grow flex items-center p-4">
+        <div class="w-full max-w-md">
+            <nz-carousel
+                    [nzDots]="false"
+                    nzAutoPlay [nzEffect]="'fade'" class="bg-opacity-90 overflow-hidden">
+                <div nz-carousel-content *ngFor="let value of values" class="p-6">
+                    <div class="flex flex-col items-center justify-center h-64">
+                        <i nz-icon [nzType]="value.icon" nzTheme="outline" class="text-6xl text-blue-600 mb-6"></i>
+                        <p class="text-3xl font-bold text-white">{{ value.text }}</p>
+                    </div>
+                </div>
+            </nz-carousel>
+        </div>
+    </div>
+    <div class="text-center mt-8 mb-4 text-sm text-white font-medium">
+        ALWAYS DO THE RIGHT THING, THE RIGHT WAY
+    </div>
+</div>

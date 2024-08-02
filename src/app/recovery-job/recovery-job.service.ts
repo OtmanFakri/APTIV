@@ -16,7 +16,7 @@ export class RecoveryJobService {
     }
 
     getRecoveryJobs(): Observable<Page<RecoveryJobs>> {
-        return this.http.get<Page<RecoveryJobs>>(`${this.baseUrl}/recoverJob`);
+        return this.http.get<Page<RecoveryJobs>>(`${this.baseUrl}/recoverJob/`);
     }
 
 

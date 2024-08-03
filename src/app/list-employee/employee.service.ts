@@ -12,6 +12,7 @@ import {Observable} from "rxjs";
 import {EmployeeUpdate} from "../profile/Interfaces";
 import {environment} from "../../environments/environment";
 import {AuthentificatinService} from "../auth/authentificatin.service";
+import {NzUploadFile} from "ng-zorro-antd/upload";
 
 @Injectable({
     providedIn: 'root'
@@ -103,10 +104,10 @@ export class EmployeeService {
         return this.http.post<SearchManger[]>(`${apiUrl}/employee/search?search=${query}`, {params});
     }
 
-    EmployeesImport(file: File) {
+    EmployeesImport(file: NzUploadFile) {
         const apiUrl = `${environment.apiUrl}`;
         const formData: FormData = new FormData();
-        formData.append('file', file, file.name);
+        formData.append('file', file as any);
 
         return this.http.post(`${apiUrl}/exportations/employees`, formData);
     }

@@ -185,9 +185,17 @@ export class ListEmployeeComponent implements OnInit {
     }
 
     Uploading() {
-        if (this.uploadEmployeesComponent.selectedFile) {
+        const fileList = this.uploadEmployeesComponent.fileList;
+        if (fileList.length === 0) {
+            this.notification.warning("Warning", 'No file selected for upload.');
+            return;
+        }
+
+        const file = fileList[0] as NzUploadFile;
+        if (file) {
             this.isConfirmLoading = true;
-            const file = this.uploadEmployeesComponent.selectedFile as any as File;
+            const formData = new FormData();
+            formData.append('file', file as any);
 
             this.employeeService.EmployeesImport(file).subscribe(
                 (response) => {
@@ -205,14 +213,8 @@ export class ListEmployeeComponent implements OnInit {
                     this.isConfirmLoading = false;
                 }
             );
-        } else {
-            this.notification.warning(
-                "Warning",
-                'No file selected for upload.'
-            );
         }
     }
-
 
     export() {
         this.IsExportation = true

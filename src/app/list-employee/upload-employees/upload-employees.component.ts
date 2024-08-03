@@ -4,6 +4,8 @@ import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {Observable, Observer} from "rxjs";
 import {NzAlertComponent} from "ng-zorro-antd/alert";
+import {NzButtonComponent} from "ng-zorro-antd/button";
+import {HttpClient} from '@angular/common/http';
 
 @Component({
     selector: 'app-upload-employees',
@@ -11,14 +13,20 @@ import {NzAlertComponent} from "ng-zorro-antd/alert";
     imports: [
         NzUploadComponent,
         NzIconDirective,
-        NzAlertComponent
+        NzAlertComponent,
+        NzButtonComponent
     ],
     templateUrl: './upload-employees.component.html',
 })
 export class UploadEmployeesComponent {
-    selectedFile: NzUploadFile | null = null;
+    uploading = false;
+    fileList: NzUploadFile[] = [];
 
-    constructor(private msg: NzMessageService) {}
+    constructor(
+        private http: HttpClient,
+        private msg: NzMessageService
+    ) {
+    }
 
     beforeUpload = (file: NzUploadFile): boolean => {
         const isExcel = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
@@ -34,19 +42,12 @@ export class UploadEmployeesComponent {
             return false;
         }
 
-        this.selectedFile = file;
-        return true;
+        // Ensure only one file is added to the fileList
+        this.fileList = [file];
+        return false;
     };
 
-    handleChange(info: NzUploadChangeParam): void {
-        if (info.file.status !== 'uploading') {
-            console.log(info.file, info.fileList);
-        }
-        if (info.file.status === 'done') {
-            this.msg.success(`${info.file.name} file uploaded successfully.`);
-        } else if (info.file.status === 'error') {
-            // Instead of showing an error, we'll treat it as a successful local "upload"
-            this.msg.success(`${info.file.name} file processed successfully.`);
-        }
+    doAction() {
+
     }
 }

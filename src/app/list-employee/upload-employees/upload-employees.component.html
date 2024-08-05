@@ -5,7 +5,7 @@
                 [nzAction]="actionTemplate1"
                 nzType="info" nzMessage="Download Example File"></nz-alert>
         <ng-template #actionTemplate1>
-            <button nz-button nzSize="small" nzType="text" (click)="doAction()">DoWNLOAD</button>
+            <a [href]="getFullApiUrl()" download class="text-blue-600 hover:underline">DoWNLOAD</a>
         </ng-template
         >
     </div>
@@ -22,14 +22,5 @@
         <p class="ant-upload-hint">
             Support for a single Excel file upload only. File size should be less than 2MB.
         </p>
-        <button
-                nz-button
-                [nzType]="'primary'"
-                [nzLoading]="uploading"
-                [disabled]="fileList.length === 0"
-                style="margin-top: 16px"
-        >
-            {{ uploading ? 'Uploading' : 'Start Upload' }}
-        </button>
     </div>
 </div>

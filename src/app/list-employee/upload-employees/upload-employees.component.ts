@@ -6,6 +6,7 @@ import {Observable, Observer} from "rxjs";
 import {NzAlertComponent} from "ng-zorro-antd/alert";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {HttpClient} from '@angular/common/http';
+import {environment} from "../../../environments/environment";
 
 @Component({
     selector: 'app-upload-employees',
@@ -47,7 +48,9 @@ export class UploadEmployeesComponent {
         return false;
     };
 
-    doAction() {
 
+    getFullApiUrl(): string {
+        //const cleanedPath = this.cleanPath(path);
+        return `${environment.Url}/avatars/OriginaleFiles/Employee_Active.xlsx`;
     }
 }

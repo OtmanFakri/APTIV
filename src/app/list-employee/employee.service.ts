@@ -2,7 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {
     City,
-    FilterEmployee,
+    FilterEmployee, ImportResult,
     ListEmployee,
     NewEmployee,
     RegionsResponse,
@@ -104,12 +104,12 @@ export class EmployeeService {
         return this.http.post<SearchManger[]>(`${apiUrl}/employee/search?search=${query}`, {params});
     }
 
-    EmployeesImport(file: NzUploadFile) {
+    EmployeesImport(file: NzUploadFile): Observable<ImportResult> {
         const apiUrl = `${environment.apiUrl}`;
         const formData: FormData = new FormData();
         formData.append('file', file as any);
 
-        return this.http.post(`${apiUrl}/exportations/employees`, formData);
+        return this.http.post<ImportResult>(`${apiUrl}/exportations/employees`, formData);
     }
 
     EmployeeExportation() {

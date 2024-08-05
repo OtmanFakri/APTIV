@@ -1,0 +1,72 @@
+<nz-tabset>
+    <nz-tab nzTitle="Success ({{ successResults.length }})">
+        <nz-table #successTable [nzData]="successResults">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of successResults">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </nz-tab>
+
+    <nz-tab nzTitle="Existing ({{ existingResults.length }})">
+        <nz-table #existingTable [nzData]="existingResults">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of existingTable.data">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </nz-tab>
+
+    <nz-tab nzTitle="Deleted ({{ deletedResults.length }})">
+        <nz-table #deletedTable [nzData]="deletedResults">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of deletedTable.data">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </nz-tab>
+
+    <nz-tab nzTitle="Errors ({{ errorResults.length }})">
+        <nz-table #errorTable
+                  [nzData]="errorResults">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Error</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of errorTable.data">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.error }}</td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </nz-tab>
+</nz-tabset>

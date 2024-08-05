@@ -1,3 +1,16 @@
+export interface ImportResult {
+    message: string;
+    results: {
+        success: any[];
+        deleted: any[];
+        existing: {
+            id: number;
+            name: string;
+        }[];
+        errors: any[];
+    };
+}
+
 export interface ListEmployee {
     items: Item[];
     total: number;

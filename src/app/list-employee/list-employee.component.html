@@ -120,7 +120,12 @@
             <button nz-button nzType="default" (click)="CloseUpload()">Cancel</button>
             <button nz-button nzType="primary" (click)="Uploading()" [nzLoading]="isConfirmLoading">Submit</button>
         </ng-template>
-
+    </nz-modal>
+    <nz-modal [(nzVisible)]="modelSucess" nzTitle="The first Modal"
+              (nzOnCancel)="SucesshandleCancel()">
+        <ng-container *nzModalContent>
+            <app-result-import [results]="resultsImport"></app-result-import>
+        </ng-container>
     </nz-modal>
     <div class="mt-8 flow-root">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

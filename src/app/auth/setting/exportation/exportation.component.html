@@ -19,4 +19,7 @@
         </td>
     </tr>
     </tbody>
+    <nz-pagination [nzPageIndex]="exportations?.page"
+                   (nzPageIndexChange)="onPageIndexChange($event)"
+                   [nzTotal]="exportations?.total"></nz-pagination>
 </table>

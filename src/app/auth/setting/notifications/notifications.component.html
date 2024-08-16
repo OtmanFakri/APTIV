@@ -9,7 +9,7 @@
         <div *ngFor="let notification of PageNotification.items">
             <nz-ribbon class="w-full block" [nzText]="notification.action"
                        [nzColor]="getActionColor(notification.action)">
-                <nz-card [nzTitle]="notification.user.employee.full_name" nzSize="small">
+                <nz-card [nzTitle]="notification.created_by.employee.full_name" nzSize="small">
                     {{ notification.message }}
                     {{notification.create_at | date: 'yyyy-MM-dd HH:mm'}}
                 </nz-card>

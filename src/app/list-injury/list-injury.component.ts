@@ -9,6 +9,7 @@ import {FilterInjuryComponent} from "./filter-injury/filter-injury.component";
 import {NzModalComponent, NzModalContentDirective} from "ng-zorro-antd/modal";
 import {CreateOrUpdateComponent} from "./create-or-update/create-or-update.component";
 import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {NzPaginationComponent} from "ng-zorro-antd/pagination";
 
 @Component({
     selector: 'app-list-injury',
@@ -24,7 +25,8 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
         FilterInjuryComponent,
         NzModalComponent,
         NzModalContentDirective,
-        CreateOrUpdateComponent
+        CreateOrUpdateComponent,
+        NzPaginationComponent
     ],
     templateUrl: './list-injury.component.html',
 })
@@ -66,10 +68,10 @@ export class ListInjuryComponent implements OnInit {
         this.visibleFilter = false;
     }
 
-    loadInjuryItems(filterParams: InjuryQueryParams = {}): void {
+    loadInjuryItems(filterParams: InjuryQueryParams = {}, page: number | null = 1): void {
         this.isLoading = true;
         this.filterParams = filterParams;
-        this.injuryService.getInjuries(filterParams).subscribe(
+        this.injuryService.getInjuries(filterParams, page).subscribe(
             response => {
                 this.injuryItems = response;
                 this.isLoading = false;
@@ -253,5 +255,9 @@ export class ListInjuryComponent implements OnInit {
             }
         });
 
+    }
+
+    onPageIndexChange($event: number) {
+        this.loadInjuryItems(this.filterParams, $event);
     }
 }

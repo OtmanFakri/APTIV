@@ -16,8 +16,8 @@ export class ExportationService {
                 private authentificatinService: AuthentificatinService) {
     }
 
-    getExportations(): Observable<Page<DataExport>> {
-        return this.http.get<Page<DataExport>>(`${this.apiUrl}/exportations/${this.user_id}`);
+    getExportations(page: number = 1): Observable<Page<DataExport>> {
+        return this.http.get<Page<DataExport>>(`${this.apiUrl}/exportations/${this.user_id}?size=10&page=${page}`);
     }
 
     get user_id(): number | null {

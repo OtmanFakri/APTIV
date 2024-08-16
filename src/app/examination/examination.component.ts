@@ -23,83 +23,79 @@ import {ExaminitionRespence} from "./InterfacesExaminitaion";
 
 
 @Component({
-  selector: 'app-examination',
-  standalone: true,
-  imports: [
-    NgIf,
-    NgClass,
-    NzListModule,
-    NzInputNumberModule,
-    NzModalModule,
-    FormsModule,
-    NzUploadComponent,
-    NzButtonComponent,
-    NzRadioGroupComponent,
-    NzRadioComponent,
-    NgForOf,
-    NzModalComponent,
-    NgStyle,
-    NzDatePickerComponent,
-    NzOptionComponent,
-    NzSelectComponent,
-    ReactiveFormsModule,
-    NzInputNumberComponent,
-    AddExaminiationComponent,
-    NzListGridDirective,
-    NzRowDirective,
-    NzColDirective,
-    NzListItemComponent,
-    NzCardComponent,
-    NzDrawerModule,
-    NzTagComponent
-  ],
-  templateUrl: './examination.component.html',
+    selector: 'app-examination',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgClass,
+        NzListModule,
+        NzInputNumberModule,
+        NzModalModule,
+        FormsModule,
+        NzUploadComponent,
+        NzButtonComponent,
+        NzRadioGroupComponent,
+        NzRadioComponent,
+        NgForOf,
+        NzModalComponent,
+        NgStyle,
+        NzDatePickerComponent,
+        NzOptionComponent,
+        NzSelectComponent,
+        ReactiveFormsModule,
+        NzInputNumberComponent,
+        AddExaminiationComponent,
+        NzListGridDirective,
+        NzRowDirective,
+        NzColDirective,
+        NzListItemComponent,
+        NzCardComponent,
+        NzDrawerModule,
+        NzTagComponent
+    ],
+    templateUrl: './examination.component.html',
 })
 export class ExaminationComponent implements OnInit {
 
-  @ViewChild(AddExaminiationComponent) addExaminiationComponent!: AddExaminiationComponent;
-  data!: ExaminitionRespence ;
+    @ViewChild(AddExaminiationComponent) addExaminiationComponent!: AddExaminiationComponent;
+    data!: ExaminitionRespence;
 
 
-  constructor(private examinitationService: ExaminitationService,
-              private router: Router) {
-  }
+    constructor(private examinitationService: ExaminitationService,
+                private router: Router) {
+    }
 
-  ngOnInit(): void {
-    this.examinitationService.GetConsulation().subscribe(data => {
-      this.data = data;
-    });
+    ngOnInit(): void {
+        this.examinitationService.GetConsulation().subscribe(data => {
+            this.data = data;
+        });
 
-  }
-
-
-  isCreate = false;
+    }
 
 
-  showCreate()
-    :
-    void {
-    this.isCreate = true;
-  }
+    isCreate = false;
 
-  handleCreateOk()
-    :
-    void {
-    console.log('Button ok clicked!');
-    this.addExaminiationComponent.onSubmit();
-    this.isCreate = false;
-  }
 
-  handleCreateCancel()
-    :
-    void {
-    console.log('Button cancel clicked!');
-    this.isCreate = false;
-  }
+    showCreate()
+        :
+        void {
+        this.isCreate = true;
+    }
 
-  protected readonly console = console;
+    handleCreateOk(): void {
+        console.log('Button ok clicked!');
+        this.addExaminiationComponent.onSubmit();
+        this.isCreate = false;
+    }
 
-  viewProjectDetails(id: any) {
-    this.router.navigate(['/examination', id]);
-  }
+    handleCreateCancel(): void {
+        console.log('Button cancel clicked!');
+        this.isCreate = false;
+    }
+
+    protected readonly console = console;
+
+    viewProjectDetails(id: any) {
+        this.router.navigate(['/examination', id]);
+    }
 }

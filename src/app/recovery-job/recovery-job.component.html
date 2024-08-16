@@ -13,7 +13,8 @@
             [nzWidth]="420">
         <ng-container *nzDrawerContent>
             <app-create-or-update-reconvry
-                    [recoveryJob]="recoveryJob"
+                #createOrUpdateReconvryComponent
+                [recoveryJob]="recoveryJob"
             />
             <!-- Child Drawer -->
             <nz-drawer

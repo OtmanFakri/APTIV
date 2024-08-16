@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, viewChild} from '@angular/core';
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {RecoveryJobService} from "./recovery-job.service";
 import {Page} from "../change-post/InterfaceChnagePost";
@@ -8,6 +8,7 @@ import {CreateOrUpdateComponent} from "../list-injury/create-or-update/create-or
 import {NzDrawerComponent, NzDrawerContentDirective} from "ng-zorro-antd/drawer";
 import {NzListComponent} from "ng-zorro-antd/list";
 import {CreateOrUpdateReconvryComponent} from "./create-or-update-reconvry/create-or-update-reconvry.component";
+import {NzNotificationService} from "ng-zorro-antd/notification";
 
 @Component({
     selector: 'app-recovery-job',
@@ -26,18 +27,21 @@ import {CreateOrUpdateReconvryComponent} from "./create-or-update-reconvry/creat
     templateUrl: './recovery-job.component.html',
 })
 export class RecoveryJobComponent implements OnInit {
+    @ViewChild('createOrUpdateReconvryComponent') createOrUpdateReconvryComponent!: CreateOrUpdateReconvryComponent;
     isLoading = false
     recoveryJobs!: Page<RecoveryJobs>
     recoveryJob!: RecoveryJobs;
     isUpdateMode: boolean = false;
     is_CreateOrUpdate: boolean = false;
-    childrenVisible: boolean=false;
+    childrenVisible: boolean = false;
 
     ngOnInit(): void {
         this.loadingRecovery()
     }
 
-    constructor(private recoveryJobService: RecoveryJobService) {
+    constructor(private recoveryJobService: RecoveryJobService,
+                private notification: NzNotificationService
+    ) {
     }
 
     loadingRecovery(): void {
@@ -68,7 +72,34 @@ export class RecoveryJobComponent implements OnInit {
     }
 
     handleOk_update() {
-
+        if (this.createOrUpdateReconvryComponent) {
+            const form = this.createOrUpdateReconvryComponent.recoveryForm.value;
+            this.is_CreateOrUpdate = false;
+            this.recoveryJobService.updtaeRecoveryJob(form.id, form)
+                .subscribe({
+                    next: (response) => {
+                        // Handle successful response
+                        this.notification.success('Success',
+                            'Recovery job updated successfully',
+                            {nzPlacement: 'bottomLeft'});
+                        //this.loadingRecovery();
+                        this.isUpdateMode = false;
+                    },
+                    error: (err) => {
+                        // Handle error
+                        console.error('Error updating recovery job', err);
+                        this.notification.error('Error', 'Error updating recovery job', {nzPlacement: 'bottomLeft'});
+                        this.isUpdateMode = false;
+                    },
+                    complete: () => {
+                        // Optional: Handle any cleanup or final steps
+                        console.log('Update process completed');
+                        this.loadingRecovery();
+                    }
+                });
+        } else {
+            console.error('Child component not initialized');
+        }
     }
 
     openChildren(): void {

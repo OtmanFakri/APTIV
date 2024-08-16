@@ -103,3 +103,8 @@
         </div>
     </div>
 </div>
+<div class="flex items-end justify-end">
+    <nz-pagination [nzPageIndex]="injuryItems.page"
+                     (nzPageIndexChange)="onPageIndexChange($event)"
+                   [nzTotal]="injuryItems.pages"></nz-pagination>
+</div>

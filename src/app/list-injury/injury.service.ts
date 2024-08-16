@@ -13,7 +13,7 @@ export class InjuryService {
     constructor(private http: HttpClient) {
     }
 
-    getInjuries(params: InjuryQueryParams): Observable<listInjury> {
+    getInjuries(params: InjuryQueryParams, page: number | null = 1): Observable<listInjury> {
         let httpParams = new HttpParams();
 
         if (params.employee_id) {
@@ -45,7 +45,7 @@ export class InjuryService {
             httpParams = httpParams.set('size', '50');
         }
 
-        return this.http.get<any>(`${this.baseUrl}/injury/`, {params: httpParams});
+        return this.http.get<any>(`${this.baseUrl}/injury/?page=${page}`, {params: httpParams});
     }
 
     CreateInjuries(params: CreateOrUpdateRequest) {
@@ -56,6 +56,7 @@ export class InjuryService {
         console.log('Updating injury with id:', id)
         return this.http.put(`${this.baseUrl}/injury/update/${id}`, params);
     }
+
     DeleteInjuries(id: number) {
         return this.http.delete(`${this.baseUrl}/injury/delete/${id}`);
     }

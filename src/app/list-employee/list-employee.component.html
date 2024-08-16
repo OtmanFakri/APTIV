@@ -64,17 +64,21 @@
                         <ng-template #footerTpl>
                             <div class="lg:flex justify-end mr-1 items-center gap-x-3 mt-12  md:hidden hidden">
                                 <button
+                                        nz-button
+                                        nzType="primary"
                                         type="button"
                                         (click)="applyFilters()"
                                         [disabled]="isLoading"
-                                        class="text-sm font-medium leading-none text-white text-center px-6 py-4 bg-indigo-700 rounded-md hover:bg-indigo-600 transform duration-300 ease-in-out">
+                                >
                                     Apply Filters
                                 </button>
                                 <button
                                         type="button"
+                                        nz-button
+                                        nzType="default"
                                         (click)="clearFilters()"
                                         [disabled]="isLoading"
-                                        class="text-sm font-medium leading-none text-center text-indigo-700 px-6 py-4 border rounded-md border-indigo-700 hover:bg-gray-100 transform duration-300 ease-in-out">
+                                >
                                     Clear Filters
                                 </button>
 

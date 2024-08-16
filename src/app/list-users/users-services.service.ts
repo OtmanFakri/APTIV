@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {ListUsers} from "./InterafcesUsers";
+import {ListUsers, PermstionModels} from "./InterafcesUsers";
 import {Observable} from "rxjs";
 import {generatePassword} from "../helper/PasswordGenerator";
+import {AuthentificatinService} from "../auth/authentificatin.service";
 
 @Injectable({
     providedIn: 'root'
@@ -12,9 +13,13 @@ export class UsersServicesService {
 
     private apiUrl = environment.apiUrl;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,
+                private authentificatinService: AuthentificatinService) {
     }
 
+    get_CurrentUser() {
+        return this.authentificatinService.getLoggedUser();
+    }
 
     getUsers(): Observable<ListUsers> {
         return this.http.get<ListUsers>(`${this.apiUrl}/user/`)
@@ -34,4 +39,15 @@ export class UsersServicesService {
             {})
     }
 
+    GetPermstions(): Observable<PermstionModels[]> {
+        //http://127.0.0.1:8011/api/permstions/get_all_model_permissions/{user_id}
+        return this.http.get<PermstionModels[]>(`${this.apiUrl}/permstions/get_all_model_permissions/${this.get_CurrentUser().employee_id}`)
+    }
+
+    setPermissions(modelName: string, permissions: { [key: string]: boolean }) {
+        return this.http.post(
+            `${this.apiUrl}/permstions/set_permissions/${this.get_CurrentUser().employee_id}?model_name=${modelName}`,
+            permissions
+        );
+    }
 }

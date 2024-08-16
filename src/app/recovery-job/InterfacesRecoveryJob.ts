@@ -9,3 +9,7 @@ export interface RecoveryJobs {
     updated_at: Date;
 }
 
+export interface UpdateRecoveryJobs {
+    is_in_recovery: boolean;
+    is_visited: boolean;
+}

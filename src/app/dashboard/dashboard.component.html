@@ -43,6 +43,7 @@
                       nzCentered
                       nzWidth="60%"
                       [nzFooter]="null"
+                      [nzBodyStyle]="{ height: 'calc(80vh - 64px)', overflowY: 'auto' }"
                       nzTitle="Setting" (nzOnCancel)="handleCancel()"
                       (nzOnOk)="handleOk()">
                 <ng-container *nzModalContent>

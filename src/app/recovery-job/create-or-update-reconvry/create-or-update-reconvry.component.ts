@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {RecoveryJobs} from "../InterfacesRecoveryJob";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from "ng-zorro-antd/form";
@@ -20,7 +20,7 @@ import {NzAutosizeDirective, NzInputDirective} from "ng-zorro-antd/input";
     ],
     templateUrl: './create-or-update-reconvry.component.html',
 })
-export class CreateOrUpdateReconvryComponent {
+export class CreateOrUpdateReconvryComponent implements OnInit {
 
 
     @Input() recoveryJob: RecoveryJobs | null = null;
@@ -31,6 +31,7 @@ export class CreateOrUpdateReconvryComponent {
 
     ngOnInit(): void {
         this.recoveryForm = this.fb.group({
+            id: [this.recoveryJob?.id, Validators.required],
             description: [this.recoveryJob?.description || '', Validators.required],
             is_in_recovery: [this.recoveryJob?.is_in_recovery || false, Validators.required],
             is_visited: [this.recoveryJob?.is_visited || false, Validators.required],

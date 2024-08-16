@@ -1,0 +1,33 @@
+<div class="h-[450px]">
+    <nz-spin
+            class="flex justify-center items-center h-full"
+            *ngIf="is_loading"
+            nzSimple></nz-spin>
+    <nz-tabset nzTabPosition="left" class="h-full">
+        <nz-tab *ngFor="let tab of ListPermstionsModels" [nzTitle]="tab.model_name">
+            <div class="h-full overflow-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                    <tr>
+                        <th class="border border-gray-300 bg-gray-100 p-2 text-left">Permission</th>
+                        <th class="border border-gray-300 bg-gray-100 p-2 text-left">Allowed</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let permission of getPermissionKeys()">
+                        <td class="border border-gray-300 p-2">{{ permission | titlecase }}</td>
+                        <td class="border border-gray-300 p-2">
+                            <nz-switch
+                                    [nzLoading]="is_setPermissions"
+                                    *ngIf="isBooleanPermission(permission)"
+                                    [(ngModel)]="tab.permissions[permission]"
+                                    (ngModelChange)="onPermissionChange(tab.model_name, permission, $event)"
+                            ></nz-switch>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </nz-tab>
+    </nz-tabset>
+</div>

@@ -12,6 +12,7 @@ import {NzModalModule} from 'ng-zorro-antd/modal';
 import {ManagerSelectComponent} from "../Components/manager-select/manager-select.component";
 import {NzInputDirective, NzInputGroupComponent} from "ng-zorro-antd/input";
 import {NzSpinComponent} from "ng-zorro-antd/spin";
+import {ListPermstionsComponent} from "./list-permstions/list-permstions.component";
 
 @Component({
     selector: 'app-list-users',
@@ -29,7 +30,8 @@ import {NzSpinComponent} from "ng-zorro-antd/spin";
         NzInputGroupComponent,
         NzInputDirective,
         NzSpinComponent,
-        NgIf
+        NgIf,
+        ListPermstionsComponent
     ],
     templateUrl: './list-users.component.html',
 })
@@ -40,6 +42,7 @@ export class ListUsersComponent implements OnInit {
     isVisible = false;
     select_user: any;
     email!: string;
+    is_permistion: boolean = false;
 
     constructor(private serviceUsers: UsersServicesService,
                 private notification: NzNotificationService) {
@@ -51,7 +54,7 @@ export class ListUsersComponent implements OnInit {
 
     handleOk(): void {
         this.is_loading = true;
-        this.serviceUsers.createUser(this.select_user.id,this.email).subscribe(
+        this.serviceUsers.createUser(this.select_user.id, this.email).subscribe(
             () => {
                 this.fetchUser();
                 this.notification.success(
@@ -122,4 +125,11 @@ export class ListUsersComponent implements OnInit {
     }
 
 
+    OpenPermstion() {
+        this.is_permistion = true;
+    }
+
+    ClosePermstion() {
+        this.is_permistion = false;
+    }
 }

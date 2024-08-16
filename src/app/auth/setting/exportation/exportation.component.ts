@@ -5,6 +5,7 @@ import {Page} from "../../../change-post/InterfaceChnagePost";
 import {NzSpinComponent} from "ng-zorro-antd/spin";
 import {NgForOf, NgIf} from "@angular/common";
 import {environment} from "../../../../environments/environment";
+import {NzPaginationComponent} from "ng-zorro-antd/pagination";
 
 @Component({
     selector: 'app-exportation',
@@ -12,7 +13,8 @@ import {environment} from "../../../../environments/environment";
     imports: [
         NzSpinComponent,
         NgIf,
-        NgForOf
+        NgForOf,
+        NzPaginationComponent
     ],
     templateUrl: './exportation.component.html',
 })
@@ -28,9 +30,9 @@ export class ExportationComponent implements OnInit {
         this.fetchExportations();
     }
 
-    fetchExportations() {
+    fetchExportations(page: number = 1) {
         this.IsLoading = true;
-        this.exportationService.getExportations().subscribe(
+        this.exportationService.getExportations(page).subscribe(
             (data) => {
                 this.exportations = data;
                 this.IsLoading = false;
@@ -49,5 +51,9 @@ export class ExportationComponent implements OnInit {
     getFullApiUrl(path: string): string {
         const cleanedPath = this.cleanPath(path);
         return `${environment.Url}${cleanedPath}`;
+    }
+
+    onPageIndexChange($event: number) {
+        this.fetchExportations($event);
     }
 }

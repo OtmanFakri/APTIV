@@ -16,3 +16,15 @@ export interface EmployeeBases {
     id: number;
     full_name: string;
 }
+
+export interface PermstionModels {
+    model_name:  string;
+    permissions: Permissions;
+}
+
+export interface Permissions {
+    can_create: boolean;
+    can_read:   boolean;
+    can_update: boolean;
+    can_delete: boolean;
+}

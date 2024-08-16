@@ -3,7 +3,7 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Page} from "../change-post/InterfaceChnagePost";
-import {RecoveryJobs} from "./InterfacesRecoveryJob";
+import {RecoveryJobs, UpdateRecoveryJobs} from "./InterfacesRecoveryJob";
 
 @Injectable({
     providedIn: 'root'
@@ -17,6 +17,11 @@ export class RecoveryJobService {
 
     getRecoveryJobs(): Observable<Page<RecoveryJobs>> {
         return this.http.get<Page<RecoveryJobs>>(`${this.baseUrl}/recoverJob/`);
+    }
+
+    updtaeRecoveryJob(id: number, updateRecoveryJobs: UpdateRecoveryJobs): Observable<RecoveryJobs> {
+
+        return this.http.put<RecoveryJobs>(`${this.baseUrl}/recoverJob/updateIsInRecovery?job_id=${id}`, updateRecoveryJobs);
     }
 
 

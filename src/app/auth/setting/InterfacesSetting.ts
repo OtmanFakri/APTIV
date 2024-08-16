@@ -19,6 +19,7 @@ export interface requestUserPreferences {
 export interface RespencesNotifcations {
     id: number;
     user: User;
+    created_by:User;
     message: string;
     model: string;
     action: string;

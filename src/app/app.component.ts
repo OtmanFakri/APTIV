@@ -12,11 +12,12 @@ import {environment} from "./configuration/environment";
 import {getMessaging, getToken} from "firebase/messaging";
 import {Messaging, onMessage} from "@angular/fire/messaging";
 import {NzNotificationService} from 'ng-zorro-antd/notification';
+import {NzAlertComponent} from "ng-zorro-antd/alert";
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [RouterOutlet, NgIf, DashboardComponent, RouterLink, RouterLinkActive],
+    imports: [RouterOutlet, NgIf, DashboardComponent, RouterLink, RouterLinkActive, NzAlertComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
 

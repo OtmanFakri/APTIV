@@ -3,6 +3,7 @@ import {NzTabComponent, NzTabDirective, NzTabSetComponent} from "ng-zorro-antd/t
 import {NotificationPreferencesComponent} from "./notification-preferences/notification-preferences.component";
 import {GeneralComponent} from "./general/general.component";
 import {ExportationComponent} from "./exportation/exportation.component";
+import {OutlookComponent} from "./outlook/outlook.component";
 
 @Component({
   selector: 'app-setting',
@@ -13,7 +14,8 @@ import {ExportationComponent} from "./exportation/exportation.component";
         NzTabDirective,
         NotificationPreferencesComponent,
         GeneralComponent,
-        ExportationComponent
+        ExportationComponent,
+        OutlookComponent
     ],
   templateUrl: './setting.component.html',
 })

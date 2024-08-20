@@ -31,6 +31,13 @@ export class SettingsService {
 
     GetNotification(): Observable<Page<RespencesNotifcations>> {
         return this.http.get<Page<RespencesNotifcations>>(`${this.apiUrl}/notifications/${this.user_id}`);
+    }
 
+    GetTokenOutlook() {
+        return this.http.get(`${this.apiUrl}/user/${this.user_id}/getToken`);
+    }
+
+    SetTokenOutlook(code: string) {
+        return this.http.post(`${this.apiUrl}/user/${this.user_id}/getToken`, {code});
     }
 }

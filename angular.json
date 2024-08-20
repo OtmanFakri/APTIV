@@ -71,7 +71,11 @@
               "buildTarget": "APTIV-Front:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "sslKey": "/home/x2p/APTIV/ssl/server.key",
+            "sslCert": "/home/x2p/APTIV/ssl/server.crt"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

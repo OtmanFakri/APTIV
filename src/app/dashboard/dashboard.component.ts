@@ -16,13 +16,14 @@ import {NzModalModule} from 'ng-zorro-antd/modal';
 import {SettingComponent} from "../auth/setting/setting.component";
 import {MenuItem} from './InterfacesDashbord';
 import {NotificationsComponent} from "../auth/setting/notifications/notifications.component";
+import {NzAlertComponent} from "ng-zorro-antd/alert";
 
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
     imports: [RouterOutlet, NzIconModule, NzModalModule,
-        NgIf, DashboardComponent, RouterLink, RouterLinkActive, NzDrawerComponent, NzDrawerContentDirective, NgClass, NzBreadCrumbComponent, NzBreadCrumbItemComponent, NzHeaderComponent, NzLayoutComponent, NzIconDirective, NzMenuItemComponent, NzSiderComponent, NzMenuDirective, NzSubMenuComponent, NzContentComponent, NgForOf, NzButtonComponent, NzBadgeComponent, NzModalComponent, NzModalContentDirective, SettingComponent, NotificationsComponent],
+        NgIf, DashboardComponent, RouterLink, RouterLinkActive, NzDrawerComponent, NzDrawerContentDirective, NgClass, NzBreadCrumbComponent, NzBreadCrumbItemComponent, NzHeaderComponent, NzLayoutComponent, NzIconDirective, NzMenuItemComponent, NzSiderComponent, NzMenuDirective, NzSubMenuComponent, NzContentComponent, NgForOf, NzButtonComponent, NzBadgeComponent, NzModalComponent, NzModalContentDirective, SettingComponent, NotificationsComponent, NzAlertComponent],
     templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {

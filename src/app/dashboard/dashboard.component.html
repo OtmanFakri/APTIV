@@ -93,10 +93,18 @@
                 <span class="mx-4">{{ loggedUser.employee_id ?? 'N/A' }}</span>
                 <button nz-button nzType="primary" (click)="logout()" [nzLoading]="IsLogout">Logout</button>
             </div>
-
         </nz-header>
         <nz-content class="mt-16 p-4">
             <div class="inner-content p-6 bg-white">
+                <div class="py-2">
+                    <nz-alert
+                            nzShowIcon
+                            nzType="warning"
+                            nzMessage="Authentication Required"
+                            nzDescription="You need to authenticate with Outlook to send the message. Please sign in and try again."
+                    ></nz-alert>
+                    >
+                </div>
                 <router-outlet></router-outlet>
             </div>
         </nz-content>

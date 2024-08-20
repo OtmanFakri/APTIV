@@ -24,6 +24,9 @@ import {ListUsersComponent} from "./list-users/list-users.component";
 import {ListInjuryComponent} from "./list-injury/list-injury.component";
 import {ChangePosdahtComponent} from "./change-post/change-post.component";
 import {RecoveryJobComponent} from "./recovery-job/recovery-job.component";
+import {
+    AuthCallbackComponentComponent
+} from "./auth/setting/outlook/auth-callback-component/auth-callback-component.component";
 
 export const routes: Routes = [
     {
@@ -57,9 +60,9 @@ export const routes: Routes = [
             {path: 'PostChnage', component: ChangePosdahtComponent},
             //RecoveryJobComponent
             {path: 'RecoveryJob', component: RecoveryJobComponent},
-
             {path: 'singup', component: SingupComponent}
         ]
     },
-    {path: 'login', component: LoginComponent}
+    {path: 'login', component: LoginComponent},
+    {path: 'auth-callback', component: AuthCallbackComponentComponent},
 ];

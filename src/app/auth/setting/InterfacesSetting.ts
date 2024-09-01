@@ -19,7 +19,7 @@ export interface requestUserPreferences {
 export interface RespencesNotifcations {
     id: number;
     user: User;
-    created_by:User;
+    created_by: User;
     message: string;
     model: string;
     action: string;
@@ -34,4 +34,15 @@ export interface User {
 export interface Employee {
     id: number;
     full_name: string;
+}
+
+export interface tokeninfo {
+    userPrincipalName: string;
+    id: string;
+    displayName: string;
+    surname: string;
+    givenName: string;
+    preferredLanguage: string;
+    mail: string;
+    businessPhones: any[];
 }

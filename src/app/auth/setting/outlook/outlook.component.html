@@ -1,4 +1,39 @@
-<div>
-    <h2>Login</h2>
-    <button (click)="login()">Log in</button>
+<div class="flex flex-col items-center justify-center">
+    <nz-spin
+            *ngIf="IsLoding"
+            nzSimple
+    ></nz-spin>
+
+    <ng-container *ngIf="!IsLoding">
+        <div *ngIf="TokenInfo === null; else tokenAvailable" class="flex items-center justify-center">
+            <div class="w-full">
+                <button nz-button nzType="default" (click)="login()" class="w-full">
+                    <i nz-icon nzType="mail" nzTheme="outline"></i>
+                    Login with Outlook
+                </button>
+            </div>
+        </div>
+
+        <ng-template #tokenAvailable>
+            <div class="max-w-lg mx-auto space-y-6">
+                <div class="text-center">
+                    <p class="text-green-600 font-semibold text-lg">Login Successful</p>
+                    <p class="text-gray-700 mt-2">Welcome, {{TokenInfo?.displayName || 'User'}}!</p>
+                </div>
+
+                <nz-card class="w-full max-w-md mx-auto">
+                    <div class="space-y-2">
+                        <p><strong>User Principal Name:</strong> {{ TokenInfo?.userPrincipalName || 'N/A' }}</p>
+                        <p><strong>ID:</strong> {{ TokenInfo?.id || 'N/A' }}</p>
+                        <p><strong>Display Name:</strong> {{ TokenInfo?.displayName || 'N/A' }}</p>
+                        <p><strong>Surname:</strong> {{ TokenInfo?.surname || 'N/A' }}</p>
+                        <p><strong>Given Name:</strong> {{ TokenInfo?.givenName || 'N/A' }}</p>
+                        <p><strong>Preferred Language:</strong> {{ TokenInfo?.preferredLanguage || 'N/A' }}</p>
+                        <p><strong>Email:</strong> {{ TokenInfo?.mail || 'N/A' }}</p>
+                        <p><strong>Business Phones:</strong> {{ TokenInfo?.businessPhones?.join(', ') || 'N/A' }}</p>
+                    </div>
+                </nz-card>
+            </div>
+        </ng-template>
+    </ng-container>
 </div>

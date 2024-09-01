@@ -32,6 +32,28 @@ export class AuthentificatinService {
         );
     }
 
+    initiateOutlookAuth(): void {
+        const clientId = 'c10a9afa-2fd2-47d9-9f76-5c9bb407440a';
+        const redirectUri = encodeURIComponent('https://localhost:4200/auth-callback');
+        const scope = encodeURIComponent('User.Read');
+        const authUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${scope}`;
+
+        window.location.href = authUrl;
+    }
+
+    getOutlookToken(code: string): Observable<boolean> {
+        return this.http.post<any>(`${this.apiUrl}/user/44/getToken`, {code}).pipe(
+            tap(response => {
+                this.doLoginUser(response.token.access_token);
+                console.log('Outlook token:', response.token.access_token);
+            }),
+            mapTo(true),
+            catchError(error => {
+                console.error('Error getting Outlook token:', error);
+                return of(false);
+            })
+        );
+    }
 
     UpdateFcmToken(fcmToken: String) {
         return this.http.put(`${this.apiUrl}/user/${this.getLoggedUser().employee_id}/fcm-token?fcm_token=${fcmToken}`, {});
@@ -92,6 +114,11 @@ export class AuthentificatinService {
     }
 
     private doLoginUser(accessToken: string): void {
+        this.storeJwtToken(accessToken);
+        this.decodeAndStoreUserInfo(accessToken);
+    }
+
+    doLoginUser2(accessToken: string): void {
         this.storeJwtToken(accessToken);
         this.decodeAndStoreUserInfo(accessToken);
     }

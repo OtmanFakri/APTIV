@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {catchError, throwError} from "rxjs";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {SettingsService} from "../../settings.service";
+import {AuthentificatinService} from "../../../authentificatin.service";
 
 @Component({
     selector: 'app-auth-callback-component',
@@ -14,21 +15,32 @@ export class AuthCallbackComponentComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private settingsService: SettingsService) {
+        private router: Router,
+        private settingsService: SettingsService,
+        private authService: AuthentificatinService
+    ) {
     }
 
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            if (params['code']) {
-                // Navigate back to the main component with the code
-                //this.router.navigate(['/'], { queryParams: { code: params['code'] } });
-                console.info(params['code'])
-                this.getToken(params['code']);
+            const code = params['code'];
+            if (code) {
+                this.authService.getOutlookToken(code).subscribe(
+                    success => {
+                        if (success) {
+                            this.router.navigate(['/']); // or wherever you want to redirect after successful login
+                        } else {
+                            this.router.navigate(['/login']);
+                        }
+                    },
+                    error => {
+                        console.error('Authentication error:', error);
+                        this.router.navigate(['/login']);
+                    }
+                );
             } else {
-                // Handle error cases
-                console.error('No code received in callback');
-                //this.router.navigate(['/']);
+                this.router.navigate(['/login']);
             }
         });
     }
@@ -38,7 +50,7 @@ export class AuthCallbackComponentComponent implements OnInit {
         this.settingsService.SetTokenOutlook(code).subscribe({
             next: data => {
                 console.log('Received response from FastAPI backend:', data);
-            },
+                },
             error: error => {
                 console.error('An error occurred:', error);
                 this.handleError(error);

@@ -7,75 +7,43 @@
                      alt="Your Company">
                 <h2 class="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
             </div>
-            <div>
-                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
-                    <div>
-                        <label for="employee_id"
-                               class="block text-sm font-medium leading-6 text-gray-900">Employee_id</label>
-                        <div class="mt-2">
-                            <input id="employee_id" name="employee_id" type="text" autocomplete="employee_id"
-                                   formControlName="employee_id" required
-                                   class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
-                                   [ngClass]="{'ring-red-500': loginForm.controls['employee_id'].invalid && (loginForm.controls['employee_id'].dirty || loginForm.controls['employee_id'].touched)}">
-                            <div
-                                    *ngIf="loginForm.controls['employee_id'].invalid && (loginForm.controls['employee_id'].dirty || loginForm.controls['employee_id'].touched)"
-                                    class="text-red-500 text-sm mt-1">
-                                <div *ngIf="loginForm.controls['employee_id'].errors?.['required']">Employee ID is
-                                    required.
-                                </div>
-                                <div *ngIf="loginForm.controls['employee_id'].errors?.['pattern']">Employee ID must be a
-                                    number.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-                        <div class="mt-2 relative">
-                            <input id="password" name="password" [type]="showPassword ? 'text' : 'password'"
-                                   formControlName="hashed_password"
-                                   autocomplete="current-password" required
-                                   class="text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 dark:focus:border-indigo-700 dark:border-gray-700 dark:bg-gray-800 bg-white font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border shadow"
-                                   [ngClass]="{'ring-red-500': loginForm.controls['hashed_password'].invalid && (loginForm.controls['hashed_password'].dirty || loginForm.controls['hashed_password'].touched)}">
-                            <span class="absolute inset-y-0 right-0 flex items-center pr-3">
-          <button type="button"
-                  aria-label="Toggle password visibility"
-                  (click)="togglePasswordVisibility()"
-                  class="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500">
-            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path *ngIf="showPassword" fill-rule="evenodd"
-                    d="M10 3c-2.757 0-5 2.243-5 5s2.243 5 5 5c2.757 0 5-2.243 5-5s-2.243-5-5-5zm0 8c-1.654 0-3-1.346-3-3s1.346-3 3-3c1.654 0 3 1.346 3 3s-1.346 3-3 3zm0-8C6.141 3 3 6.141 3 10s3.141 7 7 7 7-3.141 7-7-3.141-7-7-7zm0 12c-3.859 0-7-3.141-7-7s3.141-7 7-7 7 3.141 7 7-3.141 7-7 7z"
-                    clip-rule="evenodd"/>
-              <path *ngIf="!showPassword" fill-rule="evenodd"
-                    d="M10 3c-2.757 0-5 2.243-5 5s2.243 5 5 5c2.757 0 5-2.243 5-5s-2.243-5-5-5zm0 8c-1.654 0-3-1.346-3-3s1.346-3 3-3c1.654 0 3 1.346 3 3s-1.346 3-3 3zm0-8C6.141 3 3 6.141 3 10s3.141 7 7 7 7-3.141 7-7-3.141-7-7-7zm0 12c-3.859 0-7-3.141-7-7s3.141-7 7-7 7 3.141 7 7-3.141 7-7 7z"
-                    clip-rule="evenodd"/>
-            </svg>
-          </button>
-        </span>
-                            <div
-                                    *ngIf="loginForm.controls['hashed_password'].invalid && (loginForm.controls['hashed_password'].dirty || loginForm.controls['hashed_password'].touched)"
-                                    class="text-red-500 text-sm mt-1">
-                                <div *ngIf="loginForm.controls['hashed_password'].errors?.['required']">Password is
-                                    required.
-                                </div>
-                                <div *ngIf="loginForm.controls['hashed_password'].errors?.['minlength']">Password must
-                                    be at least 6
-                                    characters long.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <button
-                                nz-button nzType="primary"
-                                class="w-full"
-                                [nzLoading]="is_loading"
-                                type="submit" [disabled]="loginForm.invalid"
-                        >
-                            Sign in
-                        </button>
-                    </div>
-                </form>
+            <form nz-form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+                <nz-form-item>
+                    <nz-form-label nzFor="employee_id">Employee ID</nz-form-label>
+                    <nz-form-control nzErrorTip="Please input your Employee ID!">
+                        <nz-input-group nzPrefixIcon="user">
+                            <input nz-input formControlName="employee_id" id="employee_id" placeholder="Employee ID"/>
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label nzFor="password">Password</nz-form-label>
+                    <nz-form-control nzErrorTip="Please input your Password!">
+                        <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate">
+                            <input [type]="passwordVisible ? 'text' : 'password'" nz-input
+                                   formControlName="hashed_password" id="password" placeholder="Password"/>
+                        </nz-input-group>
+                        <ng-template #suffixTemplate>
+                            <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                               (click)="passwordVisible = !passwordVisible"></i>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <div>
+                    <button nz-button nzType="primary" [nzLoading]="is_loading" class="w-full" type="submit"
+                            [disabled]="loginForm.invalid">
+                        Sign in
+                    </button>
+                </div>
+            </form>
+            <nz-divider nzText="OR"></nz-divider>
+            <div class="w-full">
+                <button nz-button nzType="default" (click)="loginWithOutlook()" class="w-full">
+                    <i nz-icon nzType="mail" nzTheme="outline"></i>
+                    Login with Outlook
+                </button>
             </div>
         </div>
     </div>

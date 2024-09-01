@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment as env_produ} from "../../../environments/environment";
 import {AuthentificatinService} from "../authentificatin.service";
 import {Observable} from "rxjs";
-import {NotificationPreferences, requestUserPreferences, RespencesNotifcations} from "./InterfacesSetting";
+import {NotificationPreferences, requestUserPreferences, RespencesNotifcations, tokeninfo} from "./InterfacesSetting";
 import {Page} from "../../change-post/InterfaceChnagePost";
 
 @Injectable({
@@ -33,11 +33,11 @@ export class SettingsService {
         return this.http.get<Page<RespencesNotifcations>>(`${this.apiUrl}/notifications/${this.user_id}`);
     }
 
-    GetTokenOutlook() {
-        return this.http.get(`${this.apiUrl}/user/${this.user_id}/getToken`);
+    GetTokenOutlook(): Observable<tokeninfo> {
+        return this.http.get<tokeninfo>(`${this.apiUrl}/user/${this.user_id}/getToken`);
     }
 
     SetTokenOutlook(code: string) {
-        return this.http.post(`${this.apiUrl}/user/${this.user_id}/getToken`, {code});
+        return this.http.post(`${this.apiUrl}/user/456/getToken`, {code});
     }
 }

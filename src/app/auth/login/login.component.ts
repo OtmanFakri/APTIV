@@ -9,6 +9,11 @@ import {getToken} from 'firebase/messaging';
 import {environment} from "../../configuration/environment";
 import {Messaging} from "@angular/fire/messaging";
 import {CarouselLoginComponent} from "./carousel-login/carousel-login.component";
+import {NzIconDirective} from "ng-zorro-antd/icon";
+import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from "ng-zorro-antd/form";
+import {NzInputDirective, NzInputGroupComponent} from "ng-zorro-antd/input";
+import {OutlookComponent} from "../setting/outlook/outlook.component";
+import {NzDividerComponent} from "ng-zorro-antd/divider";
 
 @Component({
     selector: 'app-login',
@@ -19,12 +24,21 @@ import {CarouselLoginComponent} from "./carousel-login/carousel-login.component"
         ReactiveFormsModule,
         NgClass,
         NzButtonComponent,
-        CarouselLoginComponent
+        CarouselLoginComponent,
+        NzIconDirective,
+        NzFormDirective,
+        NzFormItemComponent,
+        NzFormLabelComponent,
+        NzInputDirective,
+        NzInputGroupComponent,
+        NzFormControlComponent,
+        OutlookComponent,
+        NzDividerComponent
     ],
     templateUrl: './login.component.html',
 })
 export class LoginComponent {
-    public showPassword: boolean = false;
+    public passwordVisible: boolean = false;
     public is_loading: boolean = false;
     public loginForm: FormGroup;
     private readonly _messaging = inject(Messaging);
@@ -41,7 +55,7 @@ export class LoginComponent {
     }
 
     togglePasswordVisibility() {
-        this.showPassword = !this.showPassword;
+        this.passwordVisible = !this.passwordVisible;
     }
 
     onSubmit() {
@@ -105,4 +119,11 @@ export class LoginComponent {
                 return null;
             });
     }
+
+    loginWithOutlook() {
+        this.authService.initiateOutlookAuth();
+
+    }
+
+
 }
